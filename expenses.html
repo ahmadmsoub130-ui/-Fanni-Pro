@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>المصروفات والأرباح | فني برو</title>
+
+  <meta
+    name="description"
+    content="إدارة المصروفات وحساب الإيرادات وصافي الأرباح في فني برو."
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Tahoma, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .topbar {
+      background: #111827;
+      color: white;
+      padding: 15px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .brand {
+      color: white;
+      text-decoration: none;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .back {
+      color: #dbeafe;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .container {
+      width: min(1150px, calc(100% - 30px));
+      margin: 30px auto 60px;
+    }
+
+    .page-title {
+      margin-bottom: 25px;
+    }
+
+    .page-title h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+    }
+
+    .page-title p {
+      margin: 0;
+      color: #667085;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat {
+      background: white;
+      border-radius: 17px;
+      padding: 21px;
+      box-shadow: 0 7px 22px rgba(0,0,0,.05);
+      border: 1px solid #edf0f5;
+    }
+
+    .stat-label {
+      color: #667085;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-size: 27px;
+      font-weight: 900;
+    }
+
+    .income {
+      color: #166534;
+    }
+
+    .expense {
+      color: #b91c1c;
+    }
+
+    .profit {
+      color: #1d4ed8;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 23px;
+      box-shadow: 0 7px 22px rgba(0,0,0,.05);
+      border: 1px solid #edf0f5;
+    }
+
+    .card h2 {
+      margin: 0 0 20px;
+      font-size: 21px;
+    }
+
+    .field {
+      margin-bottom: 15px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid #d8dee9;
+      border-radius: 11px;
+      padding: 12px;
+      background: white;
+      color: #172033;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,.10);
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 11px;
+      padding: 11px 16px;
+      font-weight: 800;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .btn-small {
+      border: 0;
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .search {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 17px;
+    }
+
+    .search input,
+    .search select {
+      border: 1px solid #d8dee9;
+      border-radius: 10px;
+      padding: 11px;
+      background: white;
+      outline: none;
+    }
+
+    .search input {
+      flex: 1;
+    }
+
+    .expense-list {
+      display: grid;
+      gap: 13px;
+    }
+
+    .expense-item {
+      border: 1px solid #e7ebf1;
+      border-radius: 15px;
+      padding: 17px;
+      background: white;
+    }
+
+    .expense-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .expense-title {
+      font-weight: 900;
+      font-size: 17px;
+      margin-bottom: 5px;
+    }
+
+    .expense-date {
+      color: #667085;
+      font-size: 12px;
+    }
+
+    .expense-amount {
+      font-size: 20px;
+      font-weight: 900;
+      color: #b91c1c;
+      white-space: nowrap;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .detail {
+      background: #f8fafc;
+      padding: 9px;
+      border-radius: 9px;
+      font-size: 13px;
+    }
+
+    .detail strong {
+      display: block;
+      color: #667085;
+      font-size: 11px;
+      margin-bottom: 3px;
+    }
+
+    .notes {
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 10px;
+      color: #475467;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 45px 15px;
+      background: #f8fafc;
+      border-radius: 14px;
+      color: #667085;
+    }
+
+    .empty-icon {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .summary {
+      margin-top: 20px;
+      background: #111827;
+      color: white;
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .summary h3 {
+      margin-top: 0;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 10px 0;
+      border-bottom: 1px solid #374151;
+    }
+
+    .summary-row:last-child {
+      border-bottom: 0;
+      font-size: 19px;
+      font-weight: 900;
+    }
+
+    .summary-income {
+      color: #86efac;
+    }
+
+    .summary-expense {
+      color: #fca5a5;
+    }
+
+    .summary-profit {
+      color: #93c5fd;
+    }
+
+    .notice {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      padding: 12px;
+      border-radius: 11px;
+      font-size: 13px;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .details {
+        grid-template-columns: 1fr;
+      }
+
+      .search {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+  <a href="index.html" class="brand">
+    ⚒ فني برو
+  </a>
+
+  <a href="index.html" class="back">
+    العودة للرئيسية ←
+  </a>
+
+</header>
+
+
+<main class="container">
+
+  <div class="page-title">
+
+    <h1>💰 المصروفات والأرباح</h1>
+
+    <p>
+      تابع مصاريف عملك وإيراداتك واحسب صافي الربح.
+    </p>
+
+  </div>
+
+
+  <div class="stats">
+
+    <div class="stat">
+
+      <div class="stat-label">
+        إجمالي الإيرادات
+      </div>
+
+      <div
+        class="stat-value income"
+        id="incomeCount"
+      >
+        0.00 د.أ
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-label">
+        إجمالي المصروفات
+      </div>
+
+      <div
+        class="stat-value expense"
+        id="expenseCount"
+      >
+        0.00 د.أ
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-label">
+        صافي الربح
+      </div>
+
+      <div
+        class="stat-value profit"
+        id="profitCount"
+      >
+        0.00 د.أ
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-label">
+        عدد المصروفات
+      </div>
+
+      <div
+        class="stat-value"
+        id="operationsCount"
+      >
+        0
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="layout">
+
+
+    <!-- نموذج المصروف -->
+
+    <section class="card">
+
+      <h2 id="formTitle">
+        إضافة مصروف جديد
+      </h2>
+
+      <div class="notice">
+        سجّل أي مصروف متعلق بالعمل مثل الوقود،
+        قطع الغيار، الأدوات، المواصلات أو المصاريف الأخرى.
+      </div>
+
+
+      <form id="expenseForm">
+
+        <input
+          type="hidden"
+          id="editId"
+        >
+
+
+        <div class="field">
+
+          <label for="expenseName">
+            اسم المصروف *
+          </label>
+
+          <input
+            id="expenseName"
+            type="text"
+            required
+            placeholder="مثال: شراء قطع غيار"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="amount">
+            المبلغ بالدينار الأردني *
+          </label>
+
+          <input
+            id="amount"
+            type="number"
+            min="0"
+            step="0.01"
+            required
+            placeholder="0.00"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="category">
+            التصنيف
+          </label>
+
+          <select id="category">
+
+            <option value="وقود">وقود</option>
+            <option value="قطع غيار">قطع غيار</option>
+            <option value="أدوات">أدوات</option>
+            <option value="مواصلات">مواصلات</option>
+            <option value="رواتب">رواتب</option>
+            <option value="إيجار">إيجار</option>
+            <option value="اتصالات وإنترنت">
+              اتصالات وإنترنت
+            </option>
+            <option value="تسويق">
+              تسويق
+            </option>
+            <option value="شراء معدات">
+              شراء معدات
+            </option>
+            <option value="مصاريف مكتبية">
+              مصاريف مكتبية
+            </option>
+            <option value="أخرى">
+              أخرى
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="expenseDate">
+            التاريخ *
+          </label>
+
+          <input
+            id="expenseDate"
+            type="date"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="supplier">
+            المورد / الجهة
+          </label>
+
+          <input
+            id="supplier"
+            type="text"
+            placeholder="اسم المحل أو الجهة"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="expenseNotes">
+            ملاحظات
+          </label>
+
+          <textarea
+            id="expenseNotes"
+            placeholder="أي تفاصيل إضافية..."
+          ></textarea>
+
+        </div>
+
+
+        <div class="buttons">
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+          >
+            حفظ المصروف
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            id="cancelEdit"
+            style="display:none"
+          >
+            إلغاء التعديل
+          </button>
+
+        </div>
+
+      </form>
+
+
+      <div class="summary">
+
+        <h3>ملخص مالي</h3>
+
+        <div class="summary-row">
+
+          <span>الإيرادات المحصلة</span>
+
+          <strong
+            class="summary-income"
+            id="summaryIncome"
+          >
+            0.00 د.أ
+          </strong>
+
+        </div>
+
+
+        <div class="summary-row">
+
+          <span>المصروفات</span>
+
+          <strong
+            class="summary-expense"
+            id="summaryExpense"
+          >
+            0.00 د.أ
+          </strong>
+
+        </div>
+
+
+        <div class="summary-row">
+
+          <span>صافي الربح</span>
+
+          <strong
+            class="summary-profit"
+            id="summaryProfit"
+          >
+            0.00 د.أ
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- قائمة المصروفات -->
+
+    <section class="card">
+
+      <h2>
+        المصروفات المسجلة
+      </h2>
+
+
+      <div class="search">
+
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="بحث باسم المصروف أو المورد..."
+        >
+
+
+        <select id="filterCategory">
+
+          <option value="">
+            كل التصنيفات
+          </option>
+
+          <option value="وقود">وقود</option>
+          <option value="قطع غيار">قطع غيار</option>
+          <option value="أدوات">أدوات</option>
+          <option value="مواصلات">مواصلات</option>
+          <option value="رواتب">رواتب</option>
+          <option value="إيجار">إيجار</option>
+          <option value="اتصالات وإنترنت">
+            اتصالات وإنترنت
+          </option>
+          <option value="تسويق">تسويق</option>
+          <option value="شراء معدات">
+            شراء معدات
+          </option>
+          <option value="مصاريف مكتبية">
+            مصاريف مكتبية
+          </option>
+          <option value="أخرى">أخرى</option>
+
+        </select>
+
+      </div>
+
+
+      <div
+        id="expenseList"
+        class="expense-list"
+      ></div>
+
+    </section>
+
+  </div>
+
+</main>
+
+
+<script>
+
+  const EXPENSE_KEY =
+    "fanniProExpenses";
+
+  const INVOICE_KEY =
+    "fanniProInvoices";
+
+
+  let expenses = [];
+
+  let invoices = [];
+
+
+  const form =
+    document.getElementById(
+      "expenseForm"
+    );
+
+  const expenseName =
+    document.getElementById(
+      "expenseName"
+    );
+
+  const amount =
+    document.getElementById(
+      "amount"
+    );
+
+  const category =
+    document.getElementById(
+      "category"
+    );
+
+  const expenseDate =
+    document.getElementById(
+      "expenseDate"
+    );
+
+  const supplier =
+    document.getElementById(
+      "supplier"
+    );
+
+  const expenseNotes =
+    document.getElementById(
+      "expenseNotes"
+    );
+
+  const editId =
+    document.getElementById(
+      "editId"
+    );
+
+  const expenseList =
+    document.getElementById(
+      "expenseList"
+    );
+
+  const searchInput =
+    document.getElementById(
+      "searchInput"
+    );
+
+  const filterCategory =
+    document.getElementById(
+      "filterCategory"
+    );
+
+  const cancelEdit =
+    document.getElementById(
+      "cancelEdit"
+    );
+
+  const formTitle =
+    document.getElementById(
+      "formTitle"
+    );
+
+
+  function loadData() {
+
+    try {
+
+      expenses =
+        JSON.parse(
+          localStorage.getItem(
+            EXPENSE_KEY
+          ) || "[]"
+        );
+
+      if (!Array.isArray(expenses)) {
+        expenses = [];
+      }
+
+    } catch {
+
+      expenses = [];
+
+    }
+
+
+    try {
+
+      invoices =
+        JSON.parse(
+          localStorage.getItem(
+            INVOICE_KEY
+          ) || "[]"
+        );
+
+      if (!Array.isArray(invoices)) {
+        invoices = [];
+      }
+
+    } catch {
+
+      invoices = [];
+
+    }
+
+  }
+
+
+  function saveExpenses() {
+
+    localStorage.setItem(
+      EXPENSE_KEY,
+      JSON.stringify(expenses)
+    );
+
+  }
+
+
+  function escapeHTML(value) {
+
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  function money(value) {
+
+    const number =
+      Number(value) || 0;
+
+    return (
+      number.toFixed(2) +
+      " د.أ"
+    );
+
+  }
+
+
+  function formatDate(value) {
+
+    if (!value) {
+      return "-";
+    }
+
+    const date =
+      new Date(value + "T00:00:00");
+
+    if (isNaN(date.getTime())) {
+      return value;
+    }
+
+    return date.toLocaleDateString(
+      "ar-JO",
+      {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }
+    );
+
+  }
+
+
+  function getInvoiceIncome() {
+
+    return invoices.reduce(
+      (total, invoice) => {
+
+        /*
+          نحتسب فقط المبالغ المدفوعة
+          فعليًا في الفواتير.
+        */
+
+        const paid =
+          Number(
+            invoice.paid ??
+            invoice.paidAmount ??
+            0
+          );
+
+        return total + (
+          isNaN(paid)
+            ? 0
+            : paid
+        );
+
+      },
+      0
+    );
+
+  }
+
+
+  function getExpenseTotal() {
+
+    return expenses.reduce(
+      (total, item) => {
+
+        const value =
+          Number(item.amount) || 0;
+
+        return total + value;
+
+      },
+      0
+    );
+
+  }
+
+
+  function updateStats() {
+
+    const income =
+      getInvoiceIncome();
+
+    const expense =
+      getExpenseTotal();
+
+    const profit =
+      income - expense;
+
+
+    document.getElementById(
+      "incomeCount"
+    ).textContent =
+      money(income);
+
+
+    document.getElementById(
+      "expenseCount"
+    ).textContent =
+      money(expense);
+
+
+    document.getElementById(
+      "profitCount"
+    ).textContent =
+      money(profit);
+
+
+    document.getElementById(
+      "operationsCount"
+    ).textContent =
+      expenses.length;
+
+
+    document.getElementById(
+      "summaryIncome"
+    ).textContent =
+      money(income);
+
+
+    document.getElementById(
+      "summaryExpense"
+    ).textContent =
+      money(expense);
+
+
+    document.getElementById(
+      "summaryProfit"
+    ).textContent =
+      money(profit);
+
+  }
+
+
+  form.addEventListener(
+    "submit",
+    function(event) {
+
+      event.preventDefault();
+
+
+      const name =
+        expenseName.value.trim();
+
+      const value =
+        Number(amount.value);
+
+      const type =
+        category.value;
+
+      const date =
+        expenseDate.value;
+
+
+      if (
+        !name ||
+        !value ||
+        value < 0 ||
+        !type ||
+        !date
+      ) {
+
+        alert(
+          "يرجى تعبئة بيانات المصروف بشكل صحيح."
+        );
+
+        return;
+
+      }
+
+
+      if (editId.value) {
+
+        const index =
+          expenses.findIndex(
+            item =>
+              String(item.id) ===
+              String(editId.value)
+          );
+
+
+        if (index !== -1) {
+
+          expenses[index] = {
+
+            ...expenses[index],
+
+            name: name,
+
+            amount: value,
+
+            category: type,
+
+            date: date,
+
+            supplier:
+              supplier.value.trim(),
+
+            notes:
+              expenseNotes.value.trim(),
+
+            updatedAt:
+              new Date().toISOString()
+
+          };
+
+        }
+
+      } else {
+
+        expenses.unshift({
+
+          id:
+            Date.now().toString(),
+
+          name: name,
+
+          amount: value,
+
+          category: type,
+
+          date: date,
+
+          supplier:
+            supplier.value.trim(),
+
+          notes:
+            expenseNotes.value.trim(),
+
+          createdAt:
+            new Date().toISOString()
+
+        });
+
+      }
+
+
+      saveExpenses();
+
+      resetForm();
+
+      render();
+
+      alert(
+        "تم حفظ المصروف بنجاح."
+      );
+
+    }
+  );
+
+
+  function resetForm() {
+
+    form.reset();
+
+    editId.value = "";
+
+    formTitle.textContent =
+      "إضافة مصروف جديد";
+
+    cancelEdit.style.display =
+      "none";
+
+
+    expenseDate.value =
+      new Date()
+        .toISOString()
+        .slice(0, 10);
+
+  }
+
+
+  cancelEdit.addEventListener(
+    "click",
+    resetForm
+  );
+
+
+  function editExpense(id) {
+
+    const item =
+      expenses.find(
+        expense =>
+          String(expense.id) ===
+          String(id)
+      );
+
+
+    if (!item) return;
+
+
+    editId.value =
+      item.id;
+
+    expenseName.value =
+      item.name || "";
+
+    amount.value =
+      item.amount || "";
+
+    category.value =
+      item.category || "أخرى";
+
+    expenseDate.value =
+      item.date || "";
+
+    supplier.value =
+      item.supplier || "";
+
+    expenseNotes.value =
+      item.notes || "";
+
+
+    formTitle.textContent =
+      "تعديل المصروف";
+
+    cancelEdit.style.display =
+      "inline-block";
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+
+  function deleteExpense(id) {
+
+    const confirmed =
+      confirm(
+        "هل أنت متأكد من حذف هذا المصروف؟"
+      );
+
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    expenses =
+      expenses.filter(
+        item =>
+          String(item.id) !==
+          String(id)
+      );
+
+
+    saveExpenses();
+
+    render();
+
+  }
+
+
+  function render() {
+
+    const search =
+      searchInput.value
+        .trim()
+        .toLowerCase();
+
+    const filter =
+      filterCategory.value;
+
+
+    let filtered =
+      expenses.filter(item => {
+
+        const text =
+          (
+            item.name +
+            " " +
+            item.supplier +
+            " " +
+            item.category
+          )
+          .toLowerCase();
+
+
+        const matchesSearch =
+          !search ||
+          text.includes(search);
+
+
+        const matchesCategory =
+          !filter ||
+          item.category === filter;
+
+
+        return (
+          matchesSearch &&
+          matchesCategory
+        );
+
+      });
+
+
+    filtered.sort(
+      (a, b) =>
+        new Date(b.date) -
+        new Date(a.date)
+    );
+
+
+    if (!filtered.length) {
+
+      expenseList.innerHTML = `
+
+        <div class="empty">
+
+          <div class="empty-icon">
+            💰
+          </div>
+
+          <strong>
+            لا توجد مصروفات
+          </strong>
+
+          <div style="margin-top:7px">
+            أضف أول مصروف من النموذج.
+          </div>
+
+        </div>
+
+      `;
+
+    } else {
+
+      expenseList.innerHTML =
+        filtered.map(item => `
+
+          <div class="expense-item">
+
+            <div class="expense-top">
+
+              <div>
+
+                <div class="expense-title">
+                  ${escapeHTML(item.name)}
+                </div>
+
+                <div class="expense-date">
+                  ${escapeHTML(
+                    formatDate(item.date)
+                  )}
+                </div>
+
+              </div>
+
+              <div class="expense-amount">
+                ${money(item.amount)}
+              </div>
+
+            </div>
+
+
+            <div class="details">
+
+              <div class="detail">
+
+                <strong>
+                  التصنيف
+                </strong>
+
+                ${escapeHTML(
+                  item.category
+                )}
+
+              </div>
+
+
+              <div class="detail">
+
+                <strong>
+                  المورد / الجهة
+                </strong>
+
+                ${escapeHTML(
+                  item.supplier || "-"
+                )}
+
+              </div>
+
+            </div>
+
+
+            ${
+              item.notes
+              ? `
+                <div class="notes">
+                  <strong>ملاحظات:</strong>
+                  ${escapeHTML(item.notes)}
+                </div>
+              `
+              : ""
+            }
+
+
+            <div class="actions">
+
+              <button
+                class="btn-small btn-primary"
+                onclick="editExpense('${item.id}')"
+              >
+                تعديل
+              </button>
+
+
+              <button
+                class="btn-small btn-danger"
+                onclick="deleteExpense('${item.id}')"
+              >
+                حذف
+              </button>
+
+            </div>
+
+          </div>
+
+        `).join("");
+
+    }
+
+
+    updateStats();
+
+  }
+
+
+  searchInput.addEventListener(
+    "input",
+    render
+  );
+
+
+  filterCategory.addEventListener(
+    "change",
+    render
+  );
+
+
+  loadData();
+
+  expenseDate.value =
+    new Date()
+      .toISOString()
+      .slice(0, 10);
+
+  render();
+
+</script>
+
+</body>
+</html>
