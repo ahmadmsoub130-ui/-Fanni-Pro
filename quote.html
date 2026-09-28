@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>عرض سعر | فني برو</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Tahoma,sans-serif;
+    background:#f3f6fa;
+    color:#172033;
+    line-height:1.7;
+}
+
+button,input,select,textarea{
+    font-family:inherit;
+}
+
+.topbar{
+    background:linear-gradient(135deg,#0f172a,#172554);
+    color:#fff;
+    padding:18px 16px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 4px 20px rgba(0,0,0,.12);
+}
+
+.topbar-inner{
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.brand{
+    font-size:21px;
+    font-weight:800;
+}
+
+.back-btn{
+    color:#fff;
+    text-decoration:none;
+    background:rgba(255,255,255,.12);
+    padding:8px 14px;
+    border-radius:10px;
+    font-size:14px;
+}
+
+.container{
+    max-width:1100px;
+    margin:25px auto;
+    padding:0 15px 80px;
+}
+
+.page-title{
+    margin-bottom:20px;
+}
+
+.page-title h1{
+    font-size:28px;
+    margin-bottom:5px;
+}
+
+.page-title p{
+    color:#64748b;
+}
+
+.card{
+    background:#fff;
+    border:1px solid #e7edf4;
+    border-radius:18px;
+    padding:22px;
+    margin-bottom:18px;
+    box-shadow:0 8px 25px rgba(15,23,42,.06);
+}
+
+.card-title{
+    font-size:19px;
+    font-weight:800;
+    margin-bottom:18px;
+    color:#0f172a;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+}
+
+.grid-3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+label{
+    font-size:14px;
+    font-weight:700;
+    color:#334155;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px 13px;
+    border:1px solid #d7dee8;
+    border-radius:11px;
+    background:#fff;
+    font-size:15px;
+    outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,.1);
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.quote-number{
+    background:#eff6ff;
+    color:#1d4ed8;
+    border-color:#bfdbfe;
+    font-weight:800;
+}
+
+.info{
+    background:#f8fafc;
+    border:1px dashed #cbd5e1;
+    border-radius:12px;
+    padding:12px;
+    margin-top:12px;
+    color:#475569;
+    font-size:14px;
+}
+
+.table-wrap{
+    width:100%;
+    overflow-x:auto;
+}
+
+.items-table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+.items-table th,
+.items-table td{
+    border:1px solid #e2e8f0;
+    padding:8px;
+    text-align:right;
+}
+
+.items-table th{
+    background:#f8fafc;
+    font-size:14px;
+}
+
+.items-table input{
+    border:0;
+    padding:8px;
+}
+
+.remove-btn{
+    border:0;
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:8px 11px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.add-btn{
+    border:0;
+    background:#dcfce7;
+    color:#166534;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:800;
+    margin-top:12px;
+}
+
+.summary{
+    max-width:420px;
+    margin:20px 0 0 auto;
+}
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    padding:8px 0;
+    border-bottom:1px solid #e2e8f0;
+}
+
+.summary-row strong{
+    font-size:17px;
+}
+
+.total-row{
+    font-size:21px;
+    font-weight:900;
+    color:#166534;
+}
+
+.discount-input{
+    width:140px;
+    padding:8px;
+}
+
+.actions{
+    position:sticky;
+    bottom:0;
+    z-index:50;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+    padding:14px;
+    background:rgba(255,255,255,.96);
+    backdrop-filter:blur(10px);
+    border-top:1px solid #e2e8f0;
+}
+
+.btn{
+    border:0;
+    border-radius:12px;
+    padding:12px 20px;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+    min-width:130px;
+}
+
+.primary{
+    background:#2563eb;
+    color:#fff;
+}
+
+.success{
+    background:#16a34a;
+    color:#fff;
+}
+
+.dark{
+    background:#0f172a;
+    color:#fff;
+}
+
+.light{
+    background:#e2e8f0;
+    color:#1e293b;
+}
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:90px;
+    transform:translateX(-50%) translateY(20px);
+    background:#0f172a;
+    color:#fff;
+    padding:12px 18px;
+    border-radius:12px;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    z-index:1000;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+@media(max-width:700px){
+
+    .grid,
+    .grid-3{
+        grid-template-columns:1fr;
+    }
+
+    .card{
+        padding:16px;
+    }
+
+    .page-title h1{
+        font-size:23px;
+    }
+
+    .btn{
+        flex:1;
+        min-width:105px;
+    }
+}
+
+@media print{
+
+    body{
+        background:#fff;
+    }
+
+    .topbar,
+    .actions,
+    .no-print,
+    .add-btn,
+    .remove-btn{
+        display:none!important;
+    }
+
+    .container{
+        max-width:none;
+        margin:0;
+        padding:0;
+    }
+
+    .card{
+        box-shadow:none;
+        border:1px solid #ccc;
+        break-inside:avoid;
+    }
+
+    input,
+    select,
+    textarea{
+        border:0;
+        box-shadow:none;
+        padding:4px 0;
+        background:transparent;
+    }
+
+    .page-title{
+        text-align:center;
+    }
+
+    .items-table{
+        min-width:0;
+    }
+
+    .items-table th,
+    .items-table td{
+        border:1px solid #999;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="topbar-inner">
+        <div class="brand">⚒ فني برو</div>
+
+        <a href="index.html" class="back-btn">
+            ← الرئيسية
+        </a>
+    </div>
+</header>
+
+<main class="container">
+
+    <div class="page-title">
+        <h1>عرض سعر</h1>
+        <p>أنشئ عرض سعر احترافي للعميل واحفظه أو اطبعه PDF.</p>
+    </div>
+
+    <!-- معلومات العرض -->
+    <section class="card">
+
+        <div class="card-title">
+            📄 معلومات عرض السعر
+        </div>
+
+        <div class="grid">
+
+            <div class="field">
+                <label>رقم العرض</label>
+                <input id="quoteNumber" class="quote-number" readonly>
+            </div>
+
+            <div class="field">
+                <label>تاريخ العرض</label>
+                <input type="date" id="quoteDate">
+            </div>
+
+            <div class="field">
+                <label>صالح حتى</label>
+                <input type="date" id="validUntil">
+            </div>
+
+            <div class="field">
+                <label>اسم الفني / الشركة</label>
+                <input id="technicianName" placeholder="مثال: أحمد للصيانة">
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- العميل -->
+    <section class="card">
+
+        <div class="card-title">
+            👤 بيانات العميل
+        </div>
+
+        <div class="grid">
+
+            <div class="field full">
+                <label>اختيار عميل محفوظ</label>
+
+                <select id="customerSelect">
+                    <option value="">-- اختر عميلًا --</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>اسم العميل *</label>
+                <input id="customerName" placeholder="اسم العميل">
+            </div>
+
+            <div class="field">
+                <label>رقم الهاتف *</label>
+                <input id="customerPhone" placeholder="07XXXXXXXX">
+            </div>
+
+            <div class="field full">
+                <label>العنوان</label>
+                <input id="customerAddress" placeholder="عنوان العميل">
+            </div>
+
+        </div>
+
+        <div class="no-print" style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
+
+            <button class="add-btn" onclick="loadCustomer()">
+                تحميل بيانات العميل
+            </button>
+
+            <button class="add-btn" onclick="clearCustomer()">
+                مسح البيانات
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- تفاصيل العرض -->
+    <section class="card">
+
+        <div class="card-title">
+            🧾 تفاصيل الأعمال والمواد
+        </div>
+
+        <div class="table-wrap">
+
+            <table class="items-table">
+
+                <thead>
+
+                    <tr>
+                        <th>#</th>
+                        <th>الوصف</th>
+                        <th>الكمية</th>
+                        <th>سعر الوحدة</th>
+                        <th>الإجمالي</th>
+                        <th class="no-print">حذف</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="itemsBody"></tbody>
+
+            </table>
+
+        </div>
+
+        <button class="add-btn no-print" onclick="addItem()">
+            + إضافة بند
+        </button>
+
+        <div class="summary">
+
+            <div class="summary-row">
+                <span>المجموع الفرعي</span>
+                <strong id="subtotal">0.00 د.أ</strong>
+            </div>
+
+            <div class="summary-row">
+                <span>الخصم</span>
+
+                <input
+                    id="discount"
+                    class="discount-input"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value="0"
+                    oninput="calculateTotal()"
+                >
+            </div>
+
+            <div class="summary-row total-row">
+                <span>الإجمالي النهائي</span>
+                <strong id="grandTotal">0.00 د.أ</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ملاحظات -->
+    <section class="card">
+
+        <div class="card-title">
+            📝 شروط وملاحظات العرض
+        </div>
+
+        <textarea id="notes" placeholder="مثال:
+- السعر يشمل أجور التركيب.
+- الضمان لمدة 30 يومًا.
+- العرض صالح لمدة 7 أيام.
+- لا يشمل الأعمال الإضافية غير المذكورة."></textarea>
+
+    </section>
+
+</main>
+
+
+<div class="actions no-print">
+
+    <button class="btn success" onclick="saveQuote()">
+        💾 حفظ العرض
+    </button>
+
+    <button class="btn primary" onclick="printQuote()">
+        🖨️ طباعة / PDF
+    </button>
+
+    <button class="btn dark" onclick="newQuote()">
+        ＋ عرض جديد
+    </button>
+
+    <button class="btn light" onclick="goHome()">
+        الرئيسية
+    </button>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+const CUSTOMER_KEY = "fanniProCustomers";
+const QUOTE_KEY = "fanniProQuotes";
+const QUOTE_COUNTER_KEY = "fanniProQuoteCounter";
+
+let items = [];
+
+
+/* =========================
+   البداية
+========================= */
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    setDates();
+
+    generateQuoteNumber();
+
+    loadCustomers();
+
+    addItem();
+
+});
+
+
+/* =========================
+   التاريخ
+========================= */
+
+function formatDate(date){
+
+    return date.getFullYear() + "-" +
+        String(date.getMonth()+1).padStart(2,"0") + "-" +
+        String(date.getDate()).padStart(2,"0");
+
+}
+
+
+function setDates(){
+
+    const today = new Date();
+
+    document.getElementById("quoteDate").value =
+        formatDate(today);
+
+    const valid = new Date();
+
+    valid.setDate(valid.getDate() + 7);
+
+    document.getElementById("validUntil").value =
+        formatDate(valid);
+
+}
+
+
+/* =========================
+   رقم عرض السعر
+========================= */
+
+function generateQuoteNumber(){
+
+    let counter =
+        Number(
+            localStorage.getItem(QUOTE_COUNTER_KEY) || 0
+        );
+
+    counter++;
+
+    localStorage.setItem(
+        QUOTE_COUNTER_KEY,
+        counter
+    );
+
+    const year =
+        new Date().getFullYear();
+
+    document.getElementById("quoteNumber").value =
+        "Q-" +
+        year +
+        "-" +
+        String(counter).padStart(4,"0");
+
+}
+
+
+/* =========================
+   العملاء
+========================= */
+
+function loadCustomers(){
+
+    const select =
+        document.getElementById("customerSelect");
+
+    select.innerHTML =
+        '<option value="">-- اختر عميلًا --</option>';
+
+    let customers = [];
+
+    try{
+
+        customers =
+            JSON.parse(
+                localStorage.getItem(CUSTOMER_KEY) || "[]"
+            );
+
+    }catch(error){
+
+        customers = [];
+
+    }
+
+    customers.forEach(function(customer,index){
+
+        const option =
+            document.createElement("option");
+
+        option.value = index;
+
+        option.textContent =
+            customer.name +
+            (
+                customer.phone
+                ? " - " + customer.phone
+                : ""
+            );
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+function loadCustomer(){
+
+    const index =
+        document.getElementById("customerSelect").value;
+
+    if(index === ""){
+
+        showToast("اختر عميلًا أولًا");
+
+        return;
+
+    }
+
+    let customers = [];
+
+    try{
+
+        customers =
+            JSON.parse(
+                localStorage.getItem(CUSTOMER_KEY) || "[]"
+            );
+
+    }catch(error){
+
+        showToast("تعذر تحميل العملاء");
+
+        return;
+
+    }
+
+    const customer =
+        customers[index];
+
+    if(!customer){
+
+        showToast("العميل غير موجود");
+
+        return;
+
+    }
+
+    document.getElementById("customerName").value =
+        customer.name || "";
+
+    document.getElementById("customerPhone").value =
+        customer.phone || "";
+
+    document.getElementById("customerAddress").value =
+        customer.address || "";
+
+    showToast("تم تحميل بيانات العميل");
+
+}
+
+
+function clearCustomer(){
+
+    document.getElementById("customerSelect").value = "";
+
+    document.getElementById("customerName").value = "";
+
+    document.getElementById("customerPhone").value = "";
+
+    document.getElementById("customerAddress").value = "";
+
+}
+
+
+/* =========================
+   البنود
+========================= */
+
+function addItem(){
+
+    items.push({
+
+        description:"",
+        quantity:1,
+        price:0
+
+    });
+
+    renderItems();
+
+}
+
+
+function removeItem(index){
+
+    items.splice(index,1);
+
+    renderItems();
+
+}
+
+
+function updateItem(index,field,value){
+
+    if(field === "quantity"){
+
+        items[index].quantity =
+            Number(value) || 0;
+
+    }else if(field === "price"){
+
+        items[index].price =
+            Number(value) || 0;
+
+    }else{
+
+        items[index][field] = value;
+
+    }
+
+    renderItems();
+
+}
+
+
+function renderItems(){
+
+    const body =
+        document.getElementById("itemsBody");
+
+    body.innerHTML = "";
+
+    items.forEach(function(item,index){
+
+        const total =
+            Number(item.quantity || 0) *
+            Number(item.price || 0);
+
+        const row =
+            document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>${index + 1}</td>
+
+            <td>
+                <input
+                    type="text"
+                    placeholder="مثال: تنظيف وصيانة مكيف"
+                    value="${escapeHtml(item.description)}"
+                    oninput="updateItem(${index},'description',this.value)"
+                >
+            </td>
+
+            <td>
+                <input
+                    type="number"
+                    min="1"
+                    value="${item.quantity}"
+                    oninput="updateItem(${index},'quantity',this.value)"
+                >
+            </td>
+
+            <td>
+                <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value="${item.price}"
+                    oninput="updateItem(${index},'price',this.value)"
+                >
+            </td>
+
+            <td>
+                <input
+                    type="text"
+                    value="${total.toFixed(2)}"
+                    readonly
+                >
+            </td>
+
+            <td class="no-print">
+                <button
+                    class="remove-btn"
+                    onclick="removeItem(${index})"
+                >
+                    حذف
+                </button>
+            </td>
+
+        `;
+
+        body.appendChild(row);
+
+    });
+
+    calculateTotal();
+
+}
+
+
+/* =========================
+   الحسابات
+========================= */
+
+function calculateTotal(){
+
+    let subtotal = 0;
+
+    items.forEach(function(item){
+
+        subtotal +=
+            Number(item.quantity || 0) *
+            Number(item.price || 0);
+
+    });
+
+    let discount =
+        Number(
+            document.getElementById("discount").value || 0
+        );
+
+    if(discount < 0){
+
+        discount = 0;
+
+    }
+
+    if(discount > subtotal){
+
+        discount = subtotal;
+
+        document.getElementById("discount").value =
+            discount;
+
+    }
+
+    const total =
+        subtotal - discount;
+
+    document.getElementById("subtotal").textContent =
+        subtotal.toFixed(2) + " د.أ";
+
+    document.getElementById("grandTotal").textContent =
+        total.toFixed(2) + " د.أ";
+
+}
+
+
+/* =========================
+   البيانات
+========================= */
+
+function getQuoteData(){
+
+    const discount =
+        Number(
+            document.getElementById("discount").value || 0
+        );
+
+    let subtotal = 0;
+
+    items.forEach(function(item){
+
+        subtotal +=
+            Number(item.quantity || 0) *
+            Number(item.price || 0);
+
+    });
+
+    return {
+
+        id:Date.now(),
+
+        quoteNumber:
+            document.getElementById("quoteNumber").value,
+
+        date:
+            document.getElementById("quoteDate").value,
+
+        validUntil:
+            document.getElementById("validUntil").value,
+
+        technicianName:
+            document.getElementById("technicianName")
+            .value.trim(),
+
+        customer:{
+
+            name:
+                document.getElementById("customerName")
+                .value.trim(),
+
+            phone:
+                document.getElementById("customerPhone")
+                .value.trim(),
+
+            address:
+                document.getElementById("customerAddress")
+                .value.trim()
+
+        },
+
+        items:
+            JSON.parse(JSON.stringify(items)),
+
+        subtotal:subtotal,
+
+        discount:discount,
+
+        total:
+            Math.max(0,subtotal-discount),
+
+        notes:
+            document.getElementById("notes")
+            .value.trim(),
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+}
+
+
+/* =========================
+   حفظ
+========================= */
+
+function saveQuote(){
+
+    const name =
+        document.getElementById("customerName")
+        .value.trim();
+
+    if(!name){
+
+        showToast("اكتب اسم العميل أولًا");
+
+        document.getElementById("customerName").focus();
+
+        return;
+
+    }
+
+    const validItems =
+        items.some(function(item){
+
+            return (
+                item.description.trim() !== "" &&
+                Number(item.quantity) > 0
+            );
+
+        });
+
+    if(!validItems){
+
+        showToast("أضف بندًا واحدًا على الأقل");
+
+        return;
+
+    }
+
+    const quote =
+        getQuoteData();
+
+    let quotes = [];
+
+    try{
+
+        quotes =
+            JSON.parse(
+                localStorage.getItem(QUOTE_KEY) || "[]"
+            );
+
+    }catch(error){
+
+        quotes = [];
+
+    }
+
+    quotes.push(quote);
+
+    localStorage.setItem(
+        QUOTE_KEY,
+        JSON.stringify(quotes)
+    );
+
+    showToast(
+        "تم حفظ عرض السعر " +
+        quote.quoteNumber
+    );
+
+}
+
+
+/* =========================
+   الطباعة
+========================= */
+
+function printQuote(){
+
+    const name =
+        document.getElementById("customerName")
+        .value.trim();
+
+    if(!name){
+
+        showToast("اكتب اسم العميل قبل الطباعة");
+
+        return;
+
+    }
+
+    window.print();
+
+}
+
+
+/* =========================
+   عرض جديد
+========================= */
+
+function newQuote(){
+
+    const confirmed =
+        confirm(
+            "هل تريد إنشاء عرض سعر جديد؟ سيتم مسح البيانات الحالية."
+        );
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+    document.querySelectorAll(
+        "input, textarea"
+    ).forEach(function(element){
+
+        if(
+            element.id !== "quoteNumber" &&
+            element.type !== "button"
+        ){
+
+            if(
+                element.type !== "radio" &&
+                element.type !== "checkbox"
+            ){
+
+                element.value = "";
+
+            }
+
+        }
+
+    });
+
+    document.querySelectorAll("select")
+        .forEach(function(select){
+
+            select.selectedIndex = 0;
+
+        });
+
+    items = [];
+
+    document.getElementById("discount").value = "0";
+
+    setDates();
+
+    generateQuoteNumber();
+
+    addItem();
+
+    showToast("تم إنشاء عرض سعر جديد");
+
+}
+
+
+/* =========================
+   الرئيسية
+========================= */
+
+function goHome(){
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =========================
+   رسالة
+========================= */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent =
+        message;
+
+    toast.classList.add("show");
+
+    setTimeout(function(){
+
+        toast.classList.remove("show");
+
+    },3000);
+
+}
+
+
+/* =========================
+   حماية HTML
+========================= */
+
+function escapeHtml(value){
+
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
