@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>العملاء | فني برو</title>
+
+  <meta name="description" content="إدارة وحفظ بيانات عملاء فني برو.">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Tahoma, Arial, sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+      line-height: 1.7;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font-family: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* HEADER */
+    header {
+      background: #fff;
+      border-bottom: 1px solid #e5e9f0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1150px;
+      margin: auto;
+      padding: 13px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: #0d6efd;
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .logo-icon {
+      width: 39px;
+      height: 39px;
+      border-radius: 11px;
+      background: #0d6efd;
+      color: white;
+      display: grid;
+      place-items: center;
+    }
+
+    .back-btn {
+      background: #f1f4f8;
+      color: #344054;
+      border: 0;
+      border-radius: 10px;
+      padding: 9px 15px;
+      font-weight: 700;
+    }
+
+    /* PAGE */
+    .page {
+      max-width: 1150px;
+      margin: auto;
+      padding: 35px 20px 60px;
+    }
+
+    .page-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .page-title h1 {
+      font-size: 31px;
+      margin-bottom: 5px;
+    }
+
+    .page-title p {
+      color: #697386;
+      font-size: 14px;
+    }
+
+    .add-btn {
+      background: #0d6efd;
+      color: white;
+      border: 0;
+      border-radius: 11px;
+      padding: 12px 18px;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    /* STATS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      background: #fff;
+      border: 1px solid #e5e9f0;
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .stat-card small {
+      color: #7a8495;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .stat-card strong {
+      font-size: 28px;
+    }
+
+    /* SEARCH */
+    .search-box {
+      background: #fff;
+      border: 1px solid #e5e9f0;
+      border-radius: 15px;
+      padding: 14px;
+      margin-bottom: 18px;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      font-size: 15px;
+      background: transparent;
+    }
+
+    /* CLIENTS */
+    .clients {
+      display: grid;
+      gap: 13px;
+    }
+
+    .client-card {
+      background: #fff;
+      border: 1px solid #e5e9f0;
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .client-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      background: #eaf2ff;
+      color: #0d6efd;
+      display: grid;
+      place-items: center;
+      font-size: 19px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .client-name {
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+
+    .client-meta {
+      color: #737e90;
+      font-size: 13px;
+      word-break: break-word;
+    }
+
+    .client-actions {
+      display: flex;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .action-btn {
+      border: 0;
+      border-radius: 9px;
+      padding: 8px 11px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .edit-btn {
+      background: #edf5ff;
+      color: #0d6efd;
+    }
+
+    .delete-btn {
+      background: #fff0f0;
+      color: #d92d20;
+    }
+
+    /* EMPTY */
+    .empty {
+      background: #fff;
+      border: 1px dashed #cfd6e2;
+      border-radius: 18px;
+      text-align: center;
+      padding: 55px 20px;
+      color: #697386;
+    }
+
+    .empty-icon {
+      font-size: 45px;
+      margin-bottom: 10px;
+    }
+
+    .empty h2 {
+      color: #344054;
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(16, 24, 40, .55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 1000;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #fff;
+      width: 100%;
+      max-width: 600px;
+      max-height: 92vh;
+      overflow-y: auto;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 25px 60px rgba(0,0,0,.18);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h2 {
+      font-size: 22px;
+    }
+
+    .close-btn {
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 10px;
+      background: #f2f4f7;
+      font-size: 18px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      border: 1px solid #d7dde7;
+      border-radius: 10px;
+      padding: 11px 12px;
+      outline: none;
+      background: #fff;
+      font-size: 14px;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: #0d6efd;
+      box-shadow: 0 0 0 3px rgba(13,110,253,.1);
+    }
+
+    .form-group textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .save-btn {
+      flex: 1;
+      background: #0d6efd;
+      color: #fff;
+      border: 0;
+      border-radius: 10px;
+      padding: 12px;
+      font-weight: 800;
+    }
+
+    .cancel-btn {
+      flex: 1;
+      background: #f2f4f7;
+      color: #344054;
+      border: 0;
+      border-radius: 10px;
+      padding: 12px;
+      font-weight: 800;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #101828;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      opacity: 0;
+      transition: .3s;
+      z-index: 2000;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* MOBILE */
+    @media (max-width: 650px) {
+
+      .header-inner {
+        padding: 11px 14px;
+      }
+
+      .page {
+        padding: 25px 14px 45px;
+      }
+
+      .page-top {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .add-btn {
+        width: 100%;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .client-card {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .client-actions {
+        width: 100%;
+      }
+
+      .action-btn {
+        flex: 1;
+      }
+
+      .modal-box {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+
+    <a href="index.html" class="logo">
+      <span class="logo-icon">⚒</span>
+      فني برو
+    </a>
+
+    <button class="back-btn" onclick="location.href='index.html'">
+      الرئيسية
+    </button>
+
+  </div>
+</header>
+
+<main class="page">
+
+  <div class="page-top">
+
+    <div class="page-title">
+      <h1>العملاء</h1>
+      <p>أضف عملاءك واحفظ بياناتهم للوصول إليها بسرعة.</p>
+    </div>
+
+    <button class="add-btn" onclick="openAddModal()">
+      + إضافة عميل
+    </button>
+
+  </div>
+
+  <section class="stats">
+
+    <div class="stat-card">
+      <small>إجمالي العملاء</small>
+      <strong id="totalClients">0</strong>
+    </div>
+
+    <div class="stat-card">
+      <small>عملاء لديهم هاتف</small>
+      <strong id="phoneClients">0</strong>
+    </div>
+
+    <div class="stat-card">
+      <small>الخدمات المسجلة</small>
+      <strong id="serviceClients">0</strong>
+    </div>
+
+  </section>
+
+  <div class="search-box">
+    <input
+      type="search"
+      id="searchInput"
+      placeholder="ابحث باسم العميل أو رقم الهاتف أو الخدمة..."
+      oninput="renderClients()"
+    >
+  </div>
+
+  <section id="clientsContainer" class="clients"></section>
+
+</main>
+
+<!-- MODAL -->
+<div class="modal" id="clientModal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+
+      <h2 id="modalTitle">إضافة عميل</h2>
+
+      <button class="close-btn" onclick="closeModal()">
+        ×
+      </button>
+
+    </div>
+
+    <form id="clientForm">
+
+      <input type="hidden" id="clientId">
+
+      <div class="form-group">
+        <label for="clientName">اسم العميل *</label>
+        <input
+          type="text"
+          id="clientName"
+          placeholder="مثال: أحمد محمد"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="clientPhone">رقم الهاتف *</label>
+        <input
+          type="tel"
+          id="clientPhone"
+          placeholder="مثال: 0790000000"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="clientAddress">العنوان</label>
+        <input
+          type="text"
+          id="clientAddress"
+          placeholder="مثال: الكرك - المرج"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="clientService">نوع الخدمة</label>
+
+        <select id="clientService">
+
+          <option value="">اختر الخدمة</option>
+          <option value="تكييف وتبريد">تكييف وتبريد</option>
+          <option value="كهرباء">كهرباء</option>
+          <option value="سباكة">سباكة</option>
+          <option value="صيانة عامة">صيانة عامة</option>
+          <option value="كاميرات وشبكات">كاميرات وشبكات</option>
+          <option value="أخرى">أخرى</option>
+
+        </select>
+
+      </div>
+
+      <div class="form-group">
+        <label for="clientNotes">ملاحظات</label>
+
+        <textarea
+          id="clientNotes"
+          placeholder="أي ملاحظات مهمة عن العميل..."
+        ></textarea>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button type="submit" class="save-btn">
+          حفظ العميل
+        </button>
+
+        <button
+          type="button"
+          class="cancel-btn"
+          onclick="closeModal()"
+        >
+          إلغاء
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+  const STORAGE_KEY = "fanniProCustomers";
+
+  let customers = [];
+
+  /* تحميل العملاء */
+  function loadCustomers() {
+
+    try {
+
+      const saved = localStorage.getItem(STORAGE_KEY);
+
+      customers = saved ? JSON.parse(saved) : [];
+
+      if (!Array.isArray(customers)) {
+        customers = [];
+      }
+
+    } catch (error) {
+
+      customers = [];
+
+    }
+
+  }
+
+  /* حفظ العملاء */
+  function saveCustomers() {
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(customers)
+    );
+
+  }
+
+  /* فتح إضافة */
+  function openAddModal() {
+
+    document.getElementById("modalTitle").textContent =
+      "إضافة عميل";
+
+    document.getElementById("clientForm").reset();
+
+    document.getElementById("clientId").value = "";
+
+    document
+      .getElementById("clientModal")
+      .classList.add("active");
+
+    setTimeout(() => {
+      document.getElementById("clientName").focus();
+    }, 100);
+
+  }
+
+  /* إغلاق */
+  function closeModal() {
+
+    document
+      .getElementById("clientModal")
+      .classList.remove("active");
+
+  }
+
+  /* إضافة أو تعديل */
+  document
+    .getElementById("clientForm")
+    .addEventListener("submit", function(event) {
+
+      event.preventDefault();
+
+      const id =
+        document.getElementById("clientId").value;
+
+      const name =
+        document.getElementById("clientName").value.trim();
+
+      const phone =
+        document.getElementById("clientPhone").value.trim();
+
+      const address =
+        document.getElementById("clientAddress").value.trim();
+
+      const service =
+        document.getElementById("clientService").value;
+
+      const notes =
+        document.getElementById("clientNotes").value.trim();
+
+      if (!name || !phone) {
+
+        showToast("أدخل اسم العميل ورقم الهاتف.");
+
+        return;
+
+      }
+
+      if (id) {
+
+        const index =
+          customers.findIndex(
+            customer => customer.id === id
+          );
+
+        if (index !== -1) {
+
+          customers[index] = {
+            ...customers[index],
+            name,
+            phone,
+            address,
+            service,
+            notes,
+            updatedAt: new Date().toISOString()
+          };
+
+          showToast("تم تعديل بيانات العميل.");
+
+        }
+
+      } else {
+
+        const customer = {
+
+          id:
+            Date.now().toString() +
+            Math.random().toString(16).slice(2),
+
+          name,
+          phone,
+          address,
+          service,
+          notes,
+
+          createdAt:
+            new Date().toISOString(),
+
+          updatedAt:
+            new Date().toISOString()
+
+        };
+
+        customers.unshift(customer);
+
+        showToast("تمت إضافة العميل بنجاح.");
+
+      }
+
+      saveCustomers();
+
+      renderClients();
+
+      closeModal();
+
+    });
+
+  /* عرض العملاء */
+  function renderClients() {
+
+    const container =
+      document.getElementById("clientsContainer");
+
+    const search =
+      document
+        .getElementById("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const filtered =
+      customers.filter(customer => {
+
+        const text = [
+
+          customer.name,
+          customer.phone,
+          customer.address,
+          customer.service,
+          customer.notes
+
+        ]
+          .join(" ")
+          .toLowerCase();
+
+        return text.includes(search);
+
+      });
+
+    updateStats();
+
+    if (filtered.length === 0) {
+
+      container.innerHTML = `
+
+        <div class="empty">
+
+          <div class="empty-icon">👥</div>
+
+          <h2>
+            ${
+              customers.length === 0
+                ? "لا يوجد عملاء حتى الآن"
+                : "لم نجد نتائج"
+            }
+          </h2>
+
+          <p>
+            ${
+              customers.length === 0
+                ? "اضغط على «إضافة عميل» لبدء تسجيل عملائك."
+                : "جرّب البحث باسم مختلف أو رقم الهاتف."
+            }
+          </p>
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+    container.innerHTML =
+      filtered
+        .map(customer => createClientCard(customer))
+        .join("");
+
+  }
+
+  /* بطاقة العميل */
+  function createClientCard(customer) {
+
+    const firstLetter =
+      customer.name.trim().charAt(0) || "؟";
+
+    const service =
+      customer.service || "لم يتم تحديد الخدمة";
+
+    const address =
+      customer.address || "لم يتم تحديد العنوان";
+
+    return `
+
+      <article class="client-card">
+
+        <div class="client-info">
+
+          <div class="avatar">
+            ${escapeHtml(firstLetter)}
+          </div>
+
+          <div>
+
+            <div class="client-name">
+              ${escapeHtml(customer.name)}
+            </div>
+
+            <div class="client-meta">
+              ${escapeHtml(customer.phone)}
+              ·
+              ${escapeHtml(service)}
+              ·
+              ${escapeHtml(address)}
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="client-actions">
+
+          <button
+            class="action-btn edit-btn"
+            onclick="editClient('${customer.id}')"
+          >
+            تعديل
+          </button>
+
+          <button
+            class="action-btn delete-btn"
+            onclick="deleteClient('${customer.id}')"
+          >
+            حذف
+          </button>
+
+        </div>
+
+      </article>
+
+    `;
+
+  }
+
+  /* تعديل */
+  function editClient(id) {
+
+    const customer =
+      customers.find(
+        item => item.id === id
+      );
+
+    if (!customer) return;
+
+    document.getElementById("modalTitle").textContent =
+      "تعديل بيانات العميل";
+
+    document.getElementById("clientId").value =
+      customer.id;
+
+    document.getElementById("clientName").value =
+      customer.name || "";
+
+    document.getElementById("clientPhone").value =
+      customer.phone || "";
+
+    document.getElementById("clientAddress").value =
+      customer.address || "";
+
+    document.getElementById("clientService").value =
+      customer.service || "";
+
+    document.getElementById("clientNotes").value =
+      customer.notes || "";
+
+    document
+      .getElementById("clientModal")
+      .classList.add("active");
+
+  }
+
+  /* حذف */
+  function deleteClient(id) {
+
+    const customer =
+      customers.find(
+        item => item.id === id
+      );
+
+    if (!customer) return;
+
+    const confirmed =
+      confirm(
+        `هل تريد حذف العميل "${customer.name}"؟`
+      );
+
+    if (!confirmed) return;
+
+    customers =
+      customers.filter(
+        item => item.id !== id
+      );
+
+    saveCustomers();
+
+    renderClients();
+
+    showToast("تم حذف العميل.");
+
+  }
+
+  /* الإحصائيات */
+  function updateStats() {
+
+    document.getElementById("totalClients")
+      .textContent = customers.length;
+
+    document.getElementById("phoneClients")
+      .textContent =
+        customers.filter(
+          customer => customer.phone
+        ).length;
+
+    document.getElementById("serviceClients")
+      .textContent =
+        customers.filter(
+          customer => customer.service
+        ).length;
+
+  }
+
+  /* رسالة */
+  function showToast(message) {
+
+    const toast =
+      document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer =
+      setTimeout(() => {
+
+        toast.classList.remove("show");
+
+      }, 2500);
+
+  }
+
+  /* حماية عرض النص */
+  function escapeHtml(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+  /* إغلاق عند الضغط خارج النافذة */
+  document
+    .getElementById("clientModal")
+    .addEventListener("click", function(event) {
+
+      if (event.target === this) {
+        closeModal();
+      }
+
+    });
+
+  /* تشغيل */
+  loadCustomers();
+  renderClients();
+
+</script>
+
+</body>
+</html>
