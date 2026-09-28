@@ -4,41 +4,36 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>تقرير صيانة | فني برو</title>
+<title>فني برو | تقارير الصيانة</title>
+
+<meta name="description" content="إدارة تقارير الصيانة والخدمات وربطها بالعملاء والمعدات في فني برو.">
 
 <style>
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
+    font-family:Arial,Tahoma,sans-serif;
 }
 
 body{
-    font-family:Arial,Tahoma,sans-serif;
-    background:#f3f6fa;
+    background:#f4f7fb;
     color:#172033;
-    line-height:1.7;
 }
 
-button,
-input,
-select,
-textarea{
-    font-family:inherit;
+a{
+    text-decoration:none;
 }
 
-.topbar{
-    background:linear-gradient(135deg,#0f172a,#172554);
+header{
+    background:linear-gradient(135deg,#0f172a,#1d4ed8);
     color:white;
-    padding:18px 16px;
-    position:sticky;
-    top:0;
-    z-index:100;
-    box-shadow:0 4px 20px rgba(0,0,0,.12);
+    padding:18px 15px;
+    box-shadow:0 4px 18px rgba(0,0,0,.12);
 }
 
-.topbar-inner{
-    max-width:1100px;
+.header-inner{
+    max-width:1200px;
     margin:auto;
     display:flex;
     align-items:center;
@@ -46,68 +41,82 @@ textarea{
     gap:15px;
 }
 
-.brand{
-    font-size:21px;
-    font-weight:800;
+.logo{
+    font-size:25px;
+    font-weight:900;
 }
 
-.back-btn{
-    text-decoration:none;
+.back{
     color:white;
-    background:rgba(255,255,255,.12);
-    padding:8px 14px;
+    background:rgba(255,255,255,.13);
+    padding:10px 15px;
     border-radius:10px;
-    font-size:14px;
 }
 
 .container{
-    max-width:1100px;
+    max-width:1200px;
     margin:25px auto;
     padding:0 15px 50px;
 }
 
-.page-title{
+.hero{
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:20px;
+    box-shadow:0 5px 20px rgba(15,23,42,.06);
+}
+
+.hero h1{
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+.hero p{
+    color:#64748b;
+    line-height:1.7;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
     margin-bottom:20px;
 }
 
-.page-title h1{
-    font-size:28px;
-    margin-bottom:5px;
+.stat{
+    background:white;
+    border-radius:16px;
+    padding:20px;
+    box-shadow:0 5px 20px rgba(15,23,42,.06);
 }
 
-.page-title p{
+.stat span{
+    display:block;
     color:#64748b;
+    margin-bottom:8px;
+}
+
+.stat strong{
+    font-size:28px;
 }
 
 .card{
     background:white;
     border-radius:18px;
     padding:22px;
-    margin-bottom:18px;
-    box-shadow:0 8px 25px rgba(15,23,42,.06);
-    border:1px solid #e7edf4;
+    margin-bottom:20px;
+    box-shadow:0 5px 20px rgba(15,23,42,.06);
 }
 
-.card-title{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-size:19px;
-    font-weight:800;
+.card h2{
     margin-bottom:18px;
-    color:#0f172a;
 }
 
-.grid{
+.form-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:16px;
-}
-
-.grid-3{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:16px;
+    gap:15px;
 }
 
 .field{
@@ -116,1286 +125,758 @@ textarea{
     gap:7px;
 }
 
-.field.full{
+.full{
     grid-column:1/-1;
 }
 
 label{
     font-size:14px;
     font-weight:700;
-    color:#334155;
 }
 
 input,
 select,
 textarea{
     width:100%;
-    border:1px solid #d7dee8;
-    border-radius:11px;
     padding:12px 13px;
-    font-size:15px;
-    background:#fff;
+    border:1px solid #d7dee9;
+    border-radius:10px;
     outline:none;
-    transition:.2s;
+    background:white;
+    font-size:15px;
 }
 
 input:focus,
 select:focus,
 textarea:focus{
     border-color:#2563eb;
-    box-shadow:0 0 0 3px rgba(37,99,235,.10);
+    box-shadow:0 0 0 3px rgba(37,99,235,.1);
 }
 
 textarea{
-    min-height:110px;
+    min-height:105px;
     resize:vertical;
 }
 
-.report-number{
-    background:#eff6ff;
-    border-color:#bfdbfe;
-    color:#1d4ed8;
-    font-weight:800;
-}
-
-.customer-actions{
-    display:flex;
-    gap:10px;
-    margin-top:10px;
-    flex-wrap:wrap;
-}
-
-.small-btn{
-    border:0;
-    background:#e0f2fe;
-    color:#0369a1;
-    padding:8px 12px;
-    border-radius:9px;
-    cursor:pointer;
-    font-weight:700;
-}
-
-.info-box{
+.readonly-box{
     background:#f8fafc;
     border:1px dashed #cbd5e1;
-    padding:13px;
-    border-radius:12px;
+    padding:12px;
+    border-radius:10px;
     color:#475569;
-    font-size:14px;
-    margin-top:12px;
+    line-height:1.7;
 }
 
-.actions{
-    position:sticky;
-    bottom:0;
-    z-index:50;
-    background:rgba(255,255,255,.96);
-    backdrop-filter:blur(10px);
-    border-top:1px solid #e2e8f0;
-    padding:14px;
+.buttons{
     display:flex;
-    justify-content:center;
     gap:10px;
     flex-wrap:wrap;
+    margin-top:18px;
 }
 
-.btn{
+button{
     border:0;
-    border-radius:12px;
-    padding:12px 20px;
+    border-radius:10px;
+    padding:12px 17px;
     cursor:pointer;
+    font-size:14px;
     font-weight:800;
-    font-size:15px;
-    min-width:130px;
 }
 
-.btn-primary{
+.primary{
     background:#2563eb;
     color:white;
 }
 
-.btn-success{
+.secondary{
+    background:#e2e8f0;
+    color:#172033;
+}
+
+.danger{
+    background:#dc2626;
+    color:white;
+}
+
+.success{
     background:#16a34a;
     color:white;
 }
 
-.btn-dark{
-    background:#0f172a;
-    color:white;
-}
-
-.btn-light{
-    background:#e2e8f0;
-    color:#1e293b;
-}
-
-.btn-danger{
-    background:#fee2e2;
-    color:#b91c1c;
-}
-
-.status-options{
+.search-row{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:2fr 1fr;
     gap:10px;
+    margin-bottom:18px;
 }
 
-.status-option{
-    position:relative;
+.table-wrap{
+    overflow-x:auto;
 }
 
-.status-option input{
-    position:absolute;
-    opacity:0;
-    pointer-events:none;
+table{
+    width:100%;
+    min-width:1050px;
+    border-collapse:collapse;
 }
 
-.status-option label{
-    display:block;
-    text-align:center;
-    padding:12px;
-    border:1px solid #d7dee8;
-    border-radius:11px;
-    cursor:pointer;
-    background:#fff;
+th,
+td{
+    padding:13px 10px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:right;
+    vertical-align:middle;
 }
 
-.status-option input:checked + label{
-    border-color:#2563eb;
-    background:#eff6ff;
+th{
+    background:#f8fafc;
+    font-size:13px;
+}
+
+td{
+    font-size:13px;
+}
+
+.badge{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:800;
+}
+
+.badge-new{
+    background:#dbeafe;
     color:#1d4ed8;
 }
 
-.parts-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:10px;
+.badge-progress{
+    background:#fef3c7;
+    color:#92400e;
 }
 
-.parts-table th,
-.parts-table td{
-    border:1px solid #e2e8f0;
-    padding:8px;
-    text-align:right;
-}
-
-.parts-table th{
-    background:#f8fafc;
-}
-
-.parts-table input{
-    border:0;
-    padding:7px;
-}
-
-.remove-part{
-    border:0;
-    background:#fee2e2;
-    color:#b91c1c;
-    padding:7px 10px;
-    border-radius:8px;
-    cursor:pointer;
-}
-
-.add-part{
-    margin-top:12px;
-    border:0;
+.badge-complete{
     background:#dcfce7;
     color:#166534;
-    padding:9px 14px;
-    border-radius:9px;
-    cursor:pointer;
-    font-weight:700;
 }
 
-.total-box{
-    margin-top:18px;
+.badge-cancel{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.actions{
     display:flex;
-    justify-content:flex-end;
-    align-items:center;
-    gap:12px;
-    font-size:19px;
-    font-weight:800;
+    gap:6px;
+    flex-wrap:wrap;
 }
 
-.total-box input{
-    max-width:180px;
-    background:#f0fdf4;
-    border-color:#86efac;
-    font-weight:800;
-    color:#166534;
+.actions button{
+    padding:8px 10px;
+    font-size:12px;
+}
+
+.empty{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+}
+
+.info{
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+    color:#1e40af;
+    padding:12px 14px;
+    border-radius:10px;
+    margin-top:10px;
+    line-height:1.7;
+    display:none;
 }
 
 .toast{
     position:fixed;
-    left:50%;
-    bottom:90px;
-    transform:translateX(-50%) translateY(20px);
+    right:20px;
+    bottom:20px;
     background:#0f172a;
     color:white;
-    padding:12px 18px;
-    border-radius:12px;
-    opacity:0;
-    pointer-events:none;
-    transition:.3s;
-    z-index:1000;
-    box-shadow:0 8px 25px rgba(0,0,0,.2);
-}
-
-.toast.show{
-    opacity:1;
-    transform:translateX(-50%) translateY(0);
-}
-
-.saved-reports{
+    padding:13px 18px;
+    border-radius:10px;
     display:none;
+    z-index:9999;
 }
 
-@media(max-width:700px){
+@media(max-width:800px){
 
-    .grid,
-    .grid-3{
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .form-grid{
         grid-template-columns:1fr;
     }
 
-    .page-title h1{
-        font-size:23px;
+    .full{
+        grid-column:auto;
     }
 
-    .card{
-        padding:16px;
-        border-radius:15px;
-    }
-
-    .status-options{
+    .search-row{
         grid-template-columns:1fr;
     }
 
-    .actions{
-        padding:10px;
+    .header-inner{
+        flex-direction:column;
+        align-items:stretch;
     }
 
-    .btn{
-        flex:1;
-        min-width:110px;
-    }
-
-    .parts-table{
-        display:block;
-        overflow-x:auto;
-        white-space:nowrap;
-    }
-}
-
-/* PRINT */
-@media print{
-
-    body{
-        background:white;
-    }
-
-    .topbar,
-    .actions,
-    .customer-actions,
-    .add-part,
-    .remove-part,
-    .no-print{
-        display:none !important;
-    }
-
-    .container{
-        max-width:none;
-        margin:0;
-        padding:0;
-    }
-
-    .card{
-        box-shadow:none;
-        border:1px solid #ccc;
-        break-inside:avoid;
-    }
-
-    input,
-    select,
-    textarea{
-        border:0;
-        box-shadow:none;
-        padding:4px 0;
-        background:transparent;
-    }
-
-    .page-title{
+    .back{
         text-align:center;
     }
 
-    .parts-table th,
-    .parts-table td{
-        border:1px solid #999;
+}
+
+@media(max-width:500px){
+
+    .stats{
+        gap:10px;
     }
+
+    .stat{
+        padding:15px;
+    }
+
+    .stat strong{
+        font-size:23px;
+    }
+
+    .hero h1{
+        font-size:23px;
+    }
+
 }
 </style>
 </head>
 
 <body>
 
-<header class="topbar">
-    <div class="topbar-inner">
-        <div class="brand">⚒ فني برو</div>
-        <a href="index.html" class="back-btn">← الرئيسية</a>
+<header>
+    <div class="header-inner">
+
+        <div class="logo">
+            ⚒ فني برو
+        </div>
+
+        <a href="index.html" class="back">
+            ← العودة للرئيسية
+        </a>
+
     </div>
 </header>
 
-<main class="container">
+<div class="container">
 
-    <div class="page-title">
-        <h1>تقرير صيانة</h1>
-        <p>أنشئ تقرير صيانة احترافي واحفظه أو اطبعه كملف PDF.</p>
-    </div>
+    <section class="hero">
 
-    <!-- معلومات التقرير -->
-    <section class="card">
+        <h1>تقارير الصيانة</h1>
 
-        <div class="card-title">
-            📄 معلومات التقرير
+        <p>
+            أنشئ تقارير احترافية للخدمات والصيانة واربط كل تقرير
+            بالعميل والجهاز والمعدات المستخدمة.
+        </p>
+
+    </section>
+
+    <section class="stats">
+
+        <div class="stat">
+            <span>إجمالي التقارير</span>
+            <strong id="totalReports">0</strong>
         </div>
 
-        <div class="grid">
+        <div class="stat">
+            <span>جديدة</span>
+            <strong id="newReports">0</strong>
+        </div>
 
-            <div class="field">
-                <label>رقم التقرير</label>
-                <input id="reportNumber" class="report-number" readonly>
-            </div>
+        <div class="stat">
+            <span>قيد التنفيذ</span>
+            <strong id="progressReports">0</strong>
+        </div>
 
-            <div class="field">
-                <label>التاريخ</label>
-                <input type="date" id="reportDate">
-            </div>
-
-            <div class="field">
-                <label>وقت التقرير</label>
-                <input type="time" id="reportTime">
-            </div>
-
-            <div class="field">
-                <label>اسم الفني / الشركة</label>
-                <input id="technicianName" placeholder="مثال: أحمد للصيانة">
-            </div>
-
+        <div class="stat">
+            <span>مكتملة</span>
+            <strong id="completedReports">0</strong>
         </div>
 
     </section>
 
-    <!-- بيانات العميل -->
     <section class="card">
 
-        <div class="card-title">
-            👤 بيانات العميل
-        </div>
+        <h2 id="formTitle">
+            إنشاء تقرير صيانة جديد
+        </h2>
 
-        <div class="grid">
+        <form id="reportForm">
 
-            <div class="field full">
-                <label>اختيار عميل محفوظ</label>
-                <select id="customerSelect">
-                    <option value="">-- اختر عميلًا --</option>
-                </select>
+            <div class="form-grid">
+
+                <div class="field">
+
+                    <label>رقم التقرير</label>
+
+                    <input
+                        type="text"
+                        id="reportNumber"
+                        readonly
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label>التاريخ *</label>
+
+                    <input
+                        type="date"
+                        id="reportDate"
+                        required
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label>العميل *</label>
+
+                    <select id="customerId">
+                        <option value="">اختر العميل</option>
+                    </select>
+
+                </div>
+
+                <div class="field">
+
+                    <label>اسم العميل</label>
+
+                    <input
+                        type="text"
+                        id="customerName"
+                        placeholder="اسم العميل"
+                        required
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label>هاتف العميل</label>
+
+                    <input
+                        type="text"
+                        id="customerPhone"
+                        placeholder="رقم الهاتف"
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label>نوع الخدمة</label>
+
+                    <select id="serviceType">
+
+                        <option value="تكييف وتبريد">
+                            تكييف وتبريد
+                        </option>
+
+                        <option value="كهرباء">
+                            كهرباء
+                        </option>
+
+                        <option value="سباكة">
+                            سباكة
+                        </option>
+
+                        <option value="صيانة عامة">
+                            صيانة عامة
+                        </option>
+
+                        <option value="أجهزة منزلية">
+                            أجهزة منزلية
+                        </option>
+
+                        <option value="كاميرات ومراقبة">
+                            كاميرات ومراقبة
+                        </option>
+
+                        <option value="شبكات وإنترنت">
+                            شبكات وإنترنت
+                        </option>
+
+                        <option value="تدفئة">
+                            تدفئة
+                        </option>
+
+                        <option value="صيانة سيارات">
+                            صيانة سيارات
+                        </option>
+
+                        <option value="نجارة">
+                            نجارة
+                        </option>
+
+                        <option value="دهان وتشطيبات">
+                            دهان وتشطيبات
+                        </option>
+
+                        <option value="تنظيف">
+                            تنظيف
+                        </option>
+
+                        <option value="حدائق ومسابح">
+                            حدائق ومسابح
+                        </option>
+
+                        <option value="خدمات منزلية">
+                            خدمات منزلية
+                        </option>
+
+                        <option value="مقاولات">
+                            مقاولات
+                        </option>
+
+                        <option value="أخرى">
+                            أخرى
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="field">
+
+                    <label>الجهاز</label>
+
+                    <select id="equipmentId">
+                        <option value="">
+                            اختر العميل أولًا
+                        </option>
+                    </select>
+
+                    <div class="info" id="equipmentInfo"></div>
+
+                </div>
+
+                <div class="field">
+
+                    <label>الفني المسؤول</label>
+
+                    <input
+                        type="text"
+                        id="technician"
+                        placeholder="اسم الفني"
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label>حالة التقرير</label>
+
+                    <select id="status">
+
+                        <option value="جديد">
+                            جديد
+                        </option>
+
+                        <option value="قيد التنفيذ">
+                            قيد التنفيذ
+                        </option>
+
+                        <option value="مكتمل">
+                            مكتمل
+                        </option>
+
+                        <option value="ملغي">
+                            ملغي
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="field">
+
+                    <label>قراءة/قياس</label>
+
+                    <input
+                        type="text"
+                        id="measurement"
+                        placeholder="مثال: ضغط 120 PSI / فولت 220V"
+                    >
+
+                </div>
+
+                <div class="field full">
+
+                    <label>وصف المشكلة *</label>
+
+                    <textarea
+                        id="problem"
+                        placeholder="اكتب المشكلة أو طلب العميل..."
+                        required
+                    ></textarea>
+
+                </div>
+
+                <div class="field full">
+
+                    <label>التشخيص</label>
+
+                    <textarea
+                        id="diagnosis"
+                        placeholder="اكتب التشخيص الفني..."
+                    ></textarea>
+
+                </div>
+
+                <div class="field full">
+
+                    <label>الأعمال المنفذة</label>
+
+                    <textarea
+                        id="workDone"
+                        placeholder="اكتب الأعمال التي تم تنفيذها..."
+                    ></textarea>
+
+                </div>
+
+                <div class="field full">
+
+                    <label>قطع الغيار والمواد</label>
+
+                    <textarea
+                        id="parts"
+                        placeholder="اكتب قطع الغيار أو المواد المستخدمة..."
+                    ></textarea>
+
+                </div>
+
+                <div class="field">
+
+                    <label>تكلفة الخدمة</label>
+
+                    <input
+                        type="number"
+                        id="cost"
+                        min="0"
+                        step="0.01"
+                        placeholder="0.00"
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label>المبلغ المدفوع</label>
+
+                    <input
+                        type="number"
+                        id="paid"
+                        min="0"
+                        step="0.01"
+                        placeholder="0.00"
+                    >
+
+                </div>
+
+                <div class="field full">
+
+                    <label>ملاحظات</label>
+
+                    <textarea
+                        id="notes"
+                        placeholder="ملاحظات إضافية..."
+                    ></textarea>
+
+                </div>
+
             </div>
 
-            <div class="field">
-                <label>اسم العميل *</label>
-                <input id="customerName" required placeholder="اسم العميل">
+            <div class="buttons">
+
+                <button
+                    type="submit"
+                    class="primary"
+                    id="saveBtn">
+                    حفظ التقرير
+                </button>
+
+                <button
+                    type="button"
+                    class="secondary"
+                    id="cancelBtn"
+                    style="display:none;">
+                    إلغاء التعديل
+                </button>
+
+                <button
+                    type="button"
+                    class="secondary"
+                    onclick="resetForm()">
+                    مسح الحقول
+                </button>
+
             </div>
 
-            <div class="field">
-                <label>رقم الهاتف *</label>
-                <input id="customerPhone" required placeholder="07XXXXXXXX">
-            </div>
-
-            <div class="field full">
-                <label>العنوان</label>
-                <input id="customerAddress" placeholder="عنوان العميل">
-            </div>
-
-        </div>
-
-        <div class="customer-actions no-print">
-            <button class="small-btn" onclick="loadSelectedCustomer()">
-                تحميل بيانات العميل
-            </button>
-
-            <button class="small-btn" onclick="clearCustomer()">
-                مسح بيانات العميل
-            </button>
-        </div>
+        </form>
 
     </section>
 
-    <!-- بيانات الجهاز -->
     <section class="card">
 
-        <div class="card-title">
-            ❄️ بيانات الجهاز
+        <h2>سجل تقارير الصيانة</h2>
+
+        <div class="search-row">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="ابحث برقم التقرير أو العميل أو الجهاز أو الفني..."
+            >
+
+            <select id="statusFilter">
+
+                <option value="">
+                    كل الحالات
+                </option>
+
+                <option value="جديد">
+                    جديد
+                </option>
+
+                <option value="قيد التنفيذ">
+                    قيد التنفيذ
+                </option>
+
+                <option value="مكتمل">
+                    مكتمل
+                </option>
+
+                <option value="ملغي">
+                    ملغي
+                </option>
+
+            </select>
+
         </div>
 
-        <div class="grid-3">
+        <div class="table-wrap">
 
-            <div class="field">
-                <label>نوع الجهاز</label>
-                <select id="deviceType">
-                    <option value="">اختر النوع</option>
-                    <option>سبليت</option>
-                    <option>شباك</option>
-                    <option>مركزي</option>
-                    <option>باكيج</option>
-                    <option>تبريد تجاري</option>
-                    <option>ثلاجة</option>
-                    <option>فريزر</option>
-                    <option>مكيف متنقل</option>
-                    <option>أخرى</option>
-                </select>
-            </div>
+            <table>
 
-            <div class="field">
-                <label>الشركة / الماركة</label>
-                <input id="deviceBrand" placeholder="مثال: Gree">
-            </div>
+                <thead>
 
-            <div class="field">
-                <label>الموديل</label>
-                <input id="deviceModel" placeholder="رقم الموديل">
-            </div>
+                    <tr>
 
-            <div class="field">
-                <label>القدرة</label>
-                <input id="deviceCapacity" placeholder="مثال: 1.5 طن">
-            </div>
+                        <th>رقم التقرير</th>
+                        <th>التاريخ</th>
+                        <th>العميل</th>
+                        <th>الجهاز</th>
+                        <th>الخدمة</th>
+                        <th>الفني</th>
+                        <th>التكلفة</th>
+                        <th>الحالة</th>
+                        <th>الإجراءات</th>
 
-            <div class="field">
-                <label>نوع غاز التبريد</label>
-                <select id="refrigerant">
-                    <option value="">اختر الغاز</option>
-                    <option>R22</option>
-                    <option>R32</option>
-                    <option>R410A</option>
-                    <option>R407C</option>
-                    <option>R134a</option>
-                    <option>R404A</option>
-                    <option>أخرى</option>
-                </select>
-            </div>
+                    </tr>
 
-            <div class="field">
-                <label>مكان الجهاز</label>
-                <input id="deviceLocation" placeholder="مثال: غرفة المدير">
-            </div>
+                </thead>
+
+                <tbody id="reportsTable"></tbody>
+
+            </table>
 
         </div>
 
     </section>
-
-    <!-- العطل والفحص -->
-    <section class="card">
-
-        <div class="card-title">
-            🔧 الفحص والتشخيص
-        </div>
-
-        <div class="grid">
-
-            <div class="field full">
-                <label>العطل / طلب العميل</label>
-                <textarea id="problem" placeholder="اكتب المشكلة التي أبلغ عنها العميل..."></textarea>
-            </div>
-
-            <div class="field full">
-                <label>نتيجة الفحص والتشخيص</label>
-                <textarea id="diagnosis" placeholder="اكتب نتيجة الفحص والسبب المحتمل للعطل..."></textarea>
-            </div>
-
-            <div class="field full">
-                <label>الأعمال المنفذة</label>
-                <textarea id="workDone" placeholder="مثال: تنظيف الفلاتر، فحص الضغوط، إصلاح تسريب، تعبئة غاز..."></textarea>
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- القراءات -->
-    <section class="card">
-
-        <div class="card-title">
-            📊 قراءات الفحص
-        </div>
-
-        <div class="grid-3">
-
-            <div class="field">
-                <label>ضغط العالي</label>
-                <input id="highPressure" placeholder="مثال: 250 PSI">
-            </div>
-
-            <div class="field">
-                <label>ضغط الواطي</label>
-                <input id="lowPressure" placeholder="مثال: 70 PSI">
-            </div>
-
-            <div class="field">
-                <label>الأمبير</label>
-                <input id="ampere" placeholder="مثال: 6.2 A">
-            </div>
-
-            <div class="field">
-                <label>الفولت</label>
-                <input id="voltage" placeholder="مثال: 220 V">
-            </div>
-
-            <div class="field">
-                <label>حرارة الهواء الداخل</label>
-                <input id="inputTemp" placeholder="مثال: 28°C">
-            </div>
-
-            <div class="field">
-                <label>حرارة الهواء الخارج</label>
-                <input id="outputTemp" placeholder="مثال: 12°C">
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- قطع الغيار -->
-    <section class="card">
-
-        <div class="card-title">
-            🧰 قطع الغيار والمواد
-        </div>
-
-        <table class="parts-table" id="partsTable">
-
-            <thead>
-                <tr>
-                    <th>القطعة / المادة</th>
-                    <th>الكمية</th>
-                    <th>السعر</th>
-                    <th>الإجمالي</th>
-                    <th class="no-print">حذف</th>
-                </tr>
-            </thead>
-
-            <tbody id="partsBody">
-
-            </tbody>
-
-        </table>
-
-        <button class="add-part no-print" onclick="addPart()">
-            + إضافة قطعة
-        </button>
-
-        <div class="total-box">
-            <span>الإجمالي:</span>
-            <input id="totalAmount" value="0.00" readonly>
-            <span>د.أ</span>
-        </div>
-
-    </section>
-
-    <!-- حالة العمل -->
-    <section class="card">
-
-        <div class="card-title">
-            📌 حالة العمل
-        </div>
-
-        <div class="status-options">
-
-            <div class="status-option">
-                <input type="radio" name="status" id="completed" value="تم الإصلاح" checked>
-                <label for="completed">تم الإصلاح</label>
-            </div>
-
-            <div class="status-option">
-                <input type="radio" name="status" id="pending" value="يحتاج متابعة">
-                <label for="pending">يحتاج متابعة</label>
-            </div>
-
-            <div class="status-option">
-                <input type="radio" name="status" id="notRepaired" value="لم يتم الإصلاح">
-                <label for="notRepaired">لم يتم الإصلاح</label>
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ملاحظات -->
-    <section class="card">
-
-        <div class="card-title">
-            📝 ملاحظات إضافية
-        </div>
-
-        <textarea id="notes" placeholder="أي ملاحظات إضافية للعميل أو الفني..."></textarea>
-
-    </section>
-
-</main>
-
-<div class="actions no-print">
-
-    <button class="btn btn-success" onclick="saveReport()">
-        💾 حفظ التقرير
-    </button>
-
-    <button class="btn btn-primary" onclick="printReport()">
-        🖨️ طباعة / PDF
-    </button>
-
-    <button class="btn btn-dark" onclick="newReport()">
-        ＋ تقرير جديد
-    </button>
-
-    <button class="btn btn-light" onclick="goHome()">
-        الرئيسية
-    </button>
 
 </div>
 
-<div id="toast" class="toast"></div>
+<div class="toast" id="toast"></div>
 
 <script>
 
-const CUSTOMER_KEY = "fanniProCustomers";
-const REPORT_KEY = "fanniProReports";
-const REPORT_COUNTER_KEY = "fanniProReportCounter";
+const STORAGE_KEY = "fanniProMaintenanceReports";
+const COUNTER_KEY = "fanniProMaintenanceReportCounter";
 
-let parts = [];
-
-
-/* =========================
-   البداية
-========================= */
-
-document.addEventListener("DOMContentLoaded", function(){
-
-    setCurrentDateTime();
-
-    generateReportNumber();
-
-    loadCustomers();
-
-    addPart();
-
-});
-
-
-/* =========================
-   التاريخ والوقت
-========================= */
-
-function setCurrentDateTime(){
-
-    const now = new Date();
-
-    const date =
-        now.getFullYear() + "-" +
-        String(now.getMonth()+1).padStart(2,"0") + "-" +
-        String(now.getDate()).padStart(2,"0");
-
-    const time =
-        String(now.getHours()).padStart(2,"0") + ":" +
-        String(now.getMinutes()).padStart(2,"0");
-
-    document.getElementById("reportDate").value = date;
-    document.getElementById("reportTime").value = time;
-}
-
-
-/* =========================
-   رقم التقرير
-========================= */
-
-function generateReportNumber(){
-
-    let counter = Number(
-        localStorage.getItem(REPORT_COUNTER_KEY) || 0
+let reports =
+    JSON.parse(
+        localStorage.getItem(STORAGE_KEY) || "[]"
     );
 
-    counter++;
+let editingId = null;
 
-    localStorage.setItem(
-        REPORT_COUNTER_KEY,
-        counter
-    );
+const form =
+    document.getElementById("reportForm");
 
-    const year = new Date().getFullYear();
+const customerId =
+    document.getElementById("customerId");
 
-    const number =
-        "FP-" +
-        year +
-        "-" +
-        String(counter).padStart(4,"0");
+const customerName =
+    document.getElementById("customerName");
 
-    document.getElementById("reportNumber").value = number;
-}
+const customerPhone =
+    document.getElementById("customerPhone");
 
+const equipmentId =
+    document.getElementById("equipmentId");
 
-/* =========================
-   العملاء
-========================= */
+const equipmentInfo =
+    document.getElementById("equipmentInfo");
 
-function loadCustomers(){
+const reportNumber =
+    document.getElementById("reportNumber");
 
-    const select =
-        document.getElementById("customerSelect");
+const reportDate =
+    document.getElementById("reportDate");
 
-    select.innerHTML =
-        '<option value="">-- اختر عميلًا --</option>';
+const serviceType =
+    document.getElementById("serviceType");
 
-    let customers = [];
+const technician =
+    document.getElementById("technician");
 
-    try{
+const status =
+    document.getElementById("status");
 
-        customers =
-            JSON.parse(
-                localStorage.getItem(CUSTOMER_KEY) || "[]"
-            );
+const measurement =
+    document.getElementById("measurement");
 
-    }catch(error){
+const problem =
+    document.getElementById("problem");
 
-        customers = [];
+const diagnosis =
+    document.getElementById("diagnosis");
 
-    }
+const workDone =
+    document.getElementById("workDone");
 
-    customers.forEach(function(customer,index){
+const parts =
+    document.getElementById("parts");
 
-        const option =
-            document.createElement("option");
+const cost =
+    document.getElementById("cost");
 
-        option.value = index;
+const paid =
+    document.getElementById("paid");
 
-        option.textContent =
-            customer.name +
-            (customer.phone ? " - " + customer.phone : "");
+const notes =
+    document.getElementById("notes");
 
-        select.appendChild(option);
 
-    });
+function escapeHTML(value){
 
-}
-
-
-function loadSelectedCustomer(){
-
-    const index =
-        document.getElementById("customerSelect").value;
-
-    if(index === ""){
-
-        showToast("اختر عميلًا أولًا");
-
-        return;
-
-    }
-
-    let customers = [];
-
-    try{
-
-        customers =
-            JSON.parse(
-                localStorage.getItem(CUSTOMER_KEY) || "[]"
-            );
-
-    }catch(error){
-
-        showToast("تعذر تحميل العملاء");
-
-        return;
-
-    }
-
-    const customer = customers[index];
-
-    if(!customer){
-
-        showToast("العميل غير موجود");
-
-        return;
-
-    }
-
-    document.getElementById("customerName").value =
-        customer.name || "";
-
-    document.getElementById("customerPhone").value =
-        customer.phone || "";
-
-    document.getElementById("customerAddress").value =
-        customer.address || "";
-
-    showToast("تم تحميل بيانات العميل");
-
-}
-
-
-function clearCustomer(){
-
-    document.getElementById("customerSelect").value = "";
-
-    document.getElementById("customerName").value = "";
-
-    document.getElementById("customerPhone").value = "";
-
-    document.getElementById("customerAddress").value = "";
-
-}
-
-
-/* =========================
-   قطع الغيار
-========================= */
-
-function addPart(){
-
-    parts.push({
-        name:"",
-        qty:1,
-        price:0
-    });
-
-    renderParts();
-
-}
-
-
-function removePart(index){
-
-    parts.splice(index,1);
-
-    renderParts();
-
-}
-
-
-function renderParts(){
-
-    const body =
-        document.getElementById("partsBody");
-
-    body.innerHTML = "";
-
-    parts.forEach(function(part,index){
-
-        const row =
-            document.createElement("tr");
-
-        row.innerHTML = `
-
-            <td>
-                <input
-                    type="text"
-                    value="${escapeHtml(part.name)}"
-                    placeholder="اسم القطعة"
-                    oninput="updatePart(${index},'name',this.value)"
-                >
-            </td>
-
-            <td>
-                <input
-                    type="number"
-                    min="1"
-                    value="${part.qty}"
-                    oninput="updatePart(${index},'qty',this.value)"
-                >
-            </td>
-
-            <td>
-                <input
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value="${part.price}"
-                    oninput="updatePart(${index},'price',this.value)"
-                >
-            </td>
-
-            <td>
-                <input
-                    type="text"
-                    value="${(
-                        Number(part.qty || 0) *
-                        Number(part.price || 0)
-                    ).toFixed(2)}"
-                    readonly
-                >
-            </td>
-
-            <td class="no-print">
-                <button
-                    class="remove-part"
-                    onclick="removePart(${index})"
-                >
-                    حذف
-                </button>
-            </td>
-
-        `;
-
-        body.appendChild(row);
-
-    });
-
-    calculateTotal();
-
-}
-
-
-function updatePart(index,field,value){
-
-    if(field === "qty"){
-
-        parts[index].qty =
-            Number(value) || 0;
-
-    }else if(field === "price"){
-
-        parts[index].price =
-            Number(value) || 0;
-
-    }else{
-
-        parts[index][field] = value;
-
-    }
-
-    renderParts();
-
-}
-
-
-/* =========================
-   الإجمالي
-========================= */
-
-function calculateTotal(){
-
-    let total = 0;
-
-    parts.forEach(function(part){
-
-        total +=
-            Number(part.qty || 0) *
-            Number(part.price || 0);
-
-    });
-
-    document.getElementById("totalAmount").value =
-        total.toFixed(2);
-
-}
-
-
-/* =========================
-   جمع البيانات
-========================= */
-
-function getReportData(){
-
-    const selectedStatus =
-        document.querySelector(
-            'input[name="status"]:checked'
-        );
-
-    return {
-
-        id:Date.now(),
-
-        reportNumber:
-            document.getElementById("reportNumber").value,
-
-        date:
-            document.getElementById("reportDate").value,
-
-        time:
-            document.getElementById("reportTime").value,
-
-        technicianName:
-            document.getElementById("technicianName").value.trim(),
-
-        customer:{
-            name:
-                document.getElementById("customerName").value.trim(),
-
-            phone:
-                document.getElementById("customerPhone").value.trim(),
-
-            address:
-                document.getElementById("customerAddress").value.trim()
-        },
-
-        device:{
-            type:
-                document.getElementById("deviceType").value,
-
-            brand:
-                document.getElementById("deviceBrand").value.trim(),
-
-            model:
-                document.getElementById("deviceModel").value.trim(),
-
-            capacity:
-                document.getElementById("deviceCapacity").value.trim(),
-
-            refrigerant:
-                document.getElementById("refrigerant").value,
-
-            location:
-                document.getElementById("deviceLocation").value.trim()
-        },
-
-        problem:
-            document.getElementById("problem").value.trim(),
-
-        diagnosis:
-            document.getElementById("diagnosis").value.trim(),
-
-        workDone:
-            document.getElementById("workDone").value.trim(),
-
-        readings:{
-            highPressure:
-                document.getElementById("highPressure").value.trim(),
-
-            lowPressure:
-                document.getElementById("lowPressure").value.trim(),
-
-            ampere:
-                document.getElementById("ampere").value.trim(),
-
-            voltage:
-                document.getElementById("voltage").value.trim(),
-
-            inputTemp:
-                document.getElementById("inputTemp").value.trim(),
-
-            outputTemp:
-                document.getElementById("outputTemp").value.trim()
-        },
-
-        parts:
-            JSON.parse(JSON.stringify(parts)),
-
-        total:
-            Number(
-                document.getElementById("totalAmount").value || 0
-            ),
-
-        status:
-            selectedStatus ? selectedStatus.value : "",
-
-        notes:
-            document.getElementById("notes").value.trim(),
-
-        createdAt:
-            new Date().toISOString()
-
-    };
-
-}
-
-
-/* =========================
-   حفظ التقرير
-========================= */
-
-function saveReport(){
-
-    const customerName =
-        document.getElementById("customerName")
-        .value.trim();
-
-    const customerPhone =
-        document.getElementById("customerPhone")
-        .value.trim();
-
-    if(!customerName){
-
-        showToast("اكتب اسم العميل أولًا");
-
-        document.getElementById("customerName").focus();
-
-        return;
-
-    }
-
-    if(!customerPhone){
-
-        showToast("اكتب رقم هاتف العميل");
-
-        document.getElementById("customerPhone").focus();
-
-        return;
-
-    }
-
-    const report =
-        getReportData();
-
-    let reports = [];
-
-    try{
-
-        reports =
-            JSON.parse(
-                localStorage.getItem(REPORT_KEY) || "[]"
-            );
-
-    }catch(error){
-
-        reports = [];
-
-    }
-
-    reports.push(report);
-
-    localStorage.setItem(
-        REPORT_KEY,
-        JSON.stringify(reports)
-    );
-
-    showToast(
-        "تم حفظ التقرير " +
-        report.reportNumber
-    );
-
-}
-
-
-/* =========================
-   طباعة / PDF
-========================= */
-
-function printReport(){
-
-    const customerName =
-        document.getElementById("customerName")
-        .value.trim();
-
-    if(!customerName){
-
-        showToast("اكتب اسم العميل قبل الطباعة");
-
-        return;
-
-    }
-
-    window.print();
-
-}
-
-
-/* =========================
-   تقرير جديد
-========================= */
-
-function newReport(){
-
-    const confirmed =
-        confirm(
-            "هل تريد إنشاء تقرير جديد؟ سيتم مسح البيانات الحالية."
-        );
-
-    if(!confirmed){
-
-        return;
-
-    }
-
-    document.querySelectorAll(
-        "input:not(#reportNumber), textarea"
-    ).forEach(function(element){
-
-        if(
-            element.type !== "radio" &&
-            element.type !== "checkbox"
-        ){
-
-            element.value = "";
-
-        }
-
-    });
-
-    document.querySelectorAll("select")
-        .forEach(function(select){
-
-            select.selectedIndex = 0;
-
-        });
-
-    document.getElementById("totalAmount").value =
-        "0.00";
-
-    document.getElementById("completed").checked =
-        true;
-
-    parts = [];
-
-    addPart();
-
-    setCurrentDateTime();
-
-    generateReportNumber();
-
-    showToast("تم إنشاء تقرير جديد");
-
-}
-
-
-/* =========================
-   الرئيسية
-========================= */
-
-function goHome(){
-
-    window.location.href =
-        "index.html";
-
-}
-
-
-/* =========================
-   Toast
-========================= */
-
-function showToast(message){
-
-    const toast =
-        document.getElementById("toast");
-
-    toast.textContent =
-        message;
-
-    toast.classList.add("show");
-
-    setTimeout(function(){
-
-        toast.classList.remove("show");
-
-    },3000);
-
-}
-
-
-/* =========================
-   حماية HTML
-========================= */
-
-function escapeHtml(value){
-
-    return String(value || "")
+    return String(value ?? "")
         .replace(/&/g,"&amp;")
         .replace(/</g,"&lt;")
         .replace(/>/g,"&gt;")
@@ -1403,6 +884,1206 @@ function escapeHtml(value){
         .replace(/'/g,"&#039;");
 
 }
+
+
+function saveData(){
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(reports)
+    );
+
+}
+
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.style.display = "block";
+
+    setTimeout(function(){
+
+        toast.style.display = "none";
+
+    },2300);
+
+}
+
+
+function getNextReportNumber(){
+
+    let counter =
+        Number(
+            localStorage.getItem(COUNTER_KEY) || 0
+        );
+
+    counter++;
+
+    localStorage.setItem(
+        COUNTER_KEY,
+        counter
+    );
+
+    const year =
+        new Date().getFullYear();
+
+    return "MR-" +
+        year +
+        "-" +
+        String(counter).padStart(4,"0");
+
+}
+
+
+function loadCustomers(){
+
+    const customers =
+        JSON.parse(
+            localStorage.getItem("fanniProCustomers") || "[]"
+        );
+
+    customerId.innerHTML =
+        '<option value="">اختر العميل</option>';
+
+    customers.forEach(function(customer){
+
+        const option =
+            document.createElement("option");
+
+        option.value =
+            customer.id ||
+            customer.phone ||
+            customer.name;
+
+        option.textContent =
+            (customer.name || "بدون اسم") +
+            (
+                customer.phone
+                ? " - " + customer.phone
+                : ""
+            );
+
+        option.dataset.name =
+            customer.name || "";
+
+        option.dataset.phone =
+            customer.phone || "";
+
+        customerId.appendChild(option);
+
+    });
+
+}
+
+
+function loadEquipment(){
+
+    const selectedCustomer =
+        customerId.value;
+
+    const allEquipment =
+        JSON.parse(
+            localStorage.getItem("fanniProEquipment") || "[]"
+        );
+
+    equipmentId.innerHTML =
+        '<option value="">اختر الجهاز</option>';
+
+    if(!selectedCustomer){
+
+        equipmentId.innerHTML =
+            '<option value="">اختر العميل أولًا</option>';
+
+        equipmentInfo.style.display = "none";
+
+        return;
+
+    }
+
+    const customerOption =
+        customerId.options[
+            customerId.selectedIndex
+        ];
+
+    const selectedName =
+        customerOption?.dataset?.name || "";
+
+    const selectedPhone =
+        customerOption?.dataset?.phone || "";
+
+    const customerEquipment =
+        allEquipment.filter(function(item){
+
+            return (
+                String(item.customerId || "") ===
+                String(selectedCustomer)
+            )
+            ||
+            (
+                item.customerName &&
+                item.customerName === selectedName
+            );
+
+        });
+
+    if(!customerEquipment.length){
+
+        equipmentId.innerHTML =
+            '<option value="">لا توجد معدات مسجلة لهذا العميل</option>';
+
+        equipmentInfo.innerHTML =
+            "لا توجد أجهزة مرتبطة بهذا العميل حاليًا. يمكنك إضافة الجهاز من صفحة المعدات.";
+
+        equipmentInfo.style.display = "block";
+
+        return;
+
+    }
+
+    equipmentInfo.style.display = "none";
+
+    customerEquipment.forEach(function(item){
+
+        const option =
+            document.createElement("option");
+
+        option.value =
+            item.id;
+
+        option.textContent =
+            item.equipmentType +
+            (
+                item.brand
+                ? " - " + item.brand
+                : ""
+            ) +
+            (
+                item.model
+                ? " / " + item.model
+                : ""
+            );
+
+        option.dataset.type =
+            item.equipmentType || "";
+
+        option.dataset.brand =
+            item.brand || "";
+
+        option.dataset.model =
+            item.model || "";
+
+        option.dataset.serial =
+            item.serialNumber || "";
+
+        option.dataset.location =
+            item.location || "";
+
+        option.dataset.service =
+            item.serviceType || "";
+
+        equipmentId.appendChild(option);
+
+    });
+
+}
+
+
+customerId.addEventListener(
+    "change",
+    function(){
+
+        const option =
+            this.options[this.selectedIndex];
+
+        if(option){
+
+            customerName.value =
+                option.dataset.name || "";
+
+            customerPhone.value =
+                option.dataset.phone || "";
+
+        }
+
+        loadEquipment();
+
+    }
+);
+
+
+equipmentId.addEventListener(
+    "change",
+    function(){
+
+        const option =
+            this.options[this.selectedIndex];
+
+        if(
+            !option ||
+            !option.value
+        ){
+
+            equipmentInfo.style.display = "none";
+
+            return;
+
+        }
+
+        const details = [];
+
+        if(option.dataset.type){
+            details.push(
+                "الجهاز: " +
+                escapeHTML(option.dataset.type)
+            );
+        }
+
+        if(option.dataset.brand){
+            details.push(
+                "الماركة: " +
+                escapeHTML(option.dataset.brand)
+            );
+        }
+
+        if(option.dataset.model){
+            details.push(
+                "الموديل: " +
+                escapeHTML(option.dataset.model)
+            );
+        }
+
+        if(option.dataset.serial){
+            details.push(
+                "الرقم التسلسلي: " +
+                escapeHTML(option.dataset.serial)
+            );
+        }
+
+        if(option.dataset.location){
+            details.push(
+                "الموقع: " +
+                escapeHTML(option.dataset.location)
+            );
+        }
+
+        equipmentInfo.innerHTML =
+            details.join("<br>");
+
+        equipmentInfo.style.display = "block";
+
+    }
+);
+
+
+function getStatusBadge(value){
+
+    if(value === "جديد"){
+
+        return `
+            <span class="badge badge-new">
+                جديد
+            </span>
+        `;
+
+    }
+
+    if(value === "قيد التنفيذ"){
+
+        return `
+            <span class="badge badge-progress">
+                قيد التنفيذ
+            </span>
+        `;
+
+    }
+
+    if(value === "مكتمل"){
+
+        return `
+            <span class="badge badge-complete">
+                مكتمل
+            </span>
+        `;
+
+    }
+
+    return `
+        <span class="badge badge-cancel">
+            ملغي
+        </span>
+    `;
+
+}
+
+
+function updateStats(){
+
+    document.getElementById(
+        "totalReports"
+    ).textContent =
+        reports.length;
+
+    document.getElementById(
+        "newReports"
+    ).textContent =
+        reports.filter(
+            item => item.status === "جديد"
+        ).length;
+
+    document.getElementById(
+        "progressReports"
+    ).textContent =
+        reports.filter(
+            item => item.status === "قيد التنفيذ"
+        ).length;
+
+    document.getElementById(
+        "completedReports"
+    ).textContent =
+        reports.filter(
+            item => item.status === "مكتمل"
+        ).length;
+
+}
+
+
+function renderReports(){
+
+    const table =
+        document.getElementById("reportsTable");
+
+    const search =
+        document.getElementById(
+            "searchInput"
+        ).value
+        .trim()
+        .toLowerCase();
+
+    const filter =
+        document.getElementById(
+            "statusFilter"
+        ).value;
+
+    const filtered =
+        reports.filter(function(item){
+
+            const text = [
+
+                item.reportNumber,
+                item.customerName,
+                item.customerPhone,
+                item.equipmentType,
+                item.brand,
+                item.model,
+                item.technician,
+                item.serviceType
+
+            ]
+            .join(" ")
+            .toLowerCase();
+
+            const matchSearch =
+                !search ||
+                text.includes(search);
+
+            const matchStatus =
+                !filter ||
+                item.status === filter;
+
+            return (
+                matchSearch &&
+                matchStatus
+            );
+
+        });
+
+    if(!filtered.length){
+
+        table.innerHTML = `
+            <tr>
+                <td
+                    colspan="9"
+                    class="empty">
+                    لا توجد تقارير صيانة حتى الآن.
+                </td>
+            </tr>
+        `;
+
+        updateStats();
+
+        return;
+
+    }
+
+    table.innerHTML =
+        filtered.map(function(item){
+
+            return `
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            ${escapeHTML(item.reportNumber)}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.reportDate || "-")}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.customerName || "-")}
+                        ${
+                            item.customerPhone
+                            ? `<br><small>${escapeHTML(item.customerPhone)}</small>`
+                            : ""
+                        }
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.equipmentType || "-")}
+                        ${
+                            item.brand
+                            ? `<br><small>${escapeHTML(item.brand)}</small>`
+                            : ""
+                        }
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.serviceType || "-")}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.technician || "-")}
+                    </td>
+
+                    <td>
+                        ${Number(item.cost || 0).toFixed(2)}
+                        د.أ
+                    </td>
+
+                    <td>
+                        ${getStatusBadge(item.status)}
+                    </td>
+
+                    <td>
+
+                        <div class="actions">
+
+                            <button
+                                class="secondary"
+                                onclick="editReport('${item.id}')">
+                                تعديل
+                            </button>
+
+                            <button
+                                class="success"
+                                onclick="printReport('${item.id}')">
+                                طباعة
+                            </button>
+
+                            <button
+                                class="danger"
+                                onclick="deleteReport('${item.id}')">
+                                حذف
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }).join("");
+
+    updateStats();
+
+}
+
+
+form.addEventListener(
+    "submit",
+    function(event){
+
+        event.preventDefault();
+
+        if(!customerName.value.trim()){
+
+            alert("اكتب اسم العميل.");
+
+            customerName.focus();
+
+            return;
+
+        }
+
+        if(!problem.value.trim()){
+
+            alert("اكتب وصف المشكلة.");
+
+            problem.focus();
+
+            return;
+
+        }
+
+        let equipment = null;
+
+        if(equipmentId.value){
+
+            const allEquipment =
+                JSON.parse(
+                    localStorage.getItem("fanniProEquipment") || "[]"
+                );
+
+            equipment =
+                allEquipment.find(
+                    item =>
+                        String(item.id) ===
+                        String(equipmentId.value)
+                );
+
+        }
+
+        const data = {
+
+            id:
+                editingId ||
+                ("REP-" + Date.now()),
+
+            reportNumber:
+                reportNumber.value,
+
+            reportDate:
+                reportDate.value,
+
+            customerId:
+                customerId.value,
+
+            customerName:
+                customerName.value.trim(),
+
+            customerPhone:
+                customerPhone.value.trim(),
+
+            serviceType:
+                serviceType.value,
+
+            equipmentId:
+                equipmentId.value,
+
+            equipmentType:
+                equipment?.equipmentType || "",
+
+            brand:
+                equipment?.brand || "",
+
+            model:
+                equipment?.model || "",
+
+            serialNumber:
+                equipment?.serialNumber || "",
+
+            equipmentLocation:
+                equipment?.location || "",
+
+            technician:
+                technician.value.trim(),
+
+            status:
+                status.value,
+
+            measurement:
+                measurement.value.trim(),
+
+            problem:
+                problem.value.trim(),
+
+            diagnosis:
+                diagnosis.value.trim(),
+
+            workDone:
+                workDone.value.trim(),
+
+            parts:
+                parts.value.trim(),
+
+            cost:
+                Number(cost.value || 0),
+
+            paid:
+                Number(paid.value || 0),
+
+            notes:
+                notes.value.trim(),
+
+            updatedAt:
+                new Date().toISOString()
+
+        };
+
+        if(editingId){
+
+            const index =
+                reports.findIndex(
+                    item =>
+                        item.id === editingId
+                );
+
+            if(index !== -1){
+
+                reports[index] = {
+                    ...reports[index],
+                    ...data
+                };
+
+            }
+
+            showToast(
+                "تم تعديل التقرير بنجاح."
+            );
+
+        }else{
+
+            reports.unshift(data);
+
+            showToast(
+                "تم حفظ تقرير الصيانة."
+            );
+
+        }
+
+        saveData();
+
+        resetForm();
+
+        renderReports();
+
+    }
+);
+
+
+function editReport(id){
+
+    const item =
+        reports.find(
+            report => report.id === id
+        );
+
+    if(!item){
+        return;
+    }
+
+    editingId = id;
+
+    reportNumber.value =
+        item.reportNumber || "";
+
+    reportDate.value =
+        item.reportDate || "";
+
+    customerId.value =
+        item.customerId || "";
+
+    customerName.value =
+        item.customerName || "";
+
+    customerPhone.value =
+        item.customerPhone || "";
+
+    serviceType.value =
+        item.serviceType || "أخرى";
+
+    loadEquipment();
+
+    equipmentId.value =
+        item.equipmentId || "";
+
+    equipmentId.dispatchEvent(
+        new Event("change")
+    );
+
+    technician.value =
+        item.technician || "";
+
+    status.value =
+        item.status || "جديد";
+
+    measurement.value =
+        item.measurement || "";
+
+    problem.value =
+        item.problem || "";
+
+    diagnosis.value =
+        item.diagnosis || "";
+
+    workDone.value =
+        item.workDone || "";
+
+    parts.value =
+        item.parts || "";
+
+    cost.value =
+        item.cost || "";
+
+    paid.value =
+        item.paid || "";
+
+    notes.value =
+        item.notes || "";
+
+    document.getElementById(
+        "formTitle"
+    ).textContent =
+        "تعديل تقرير الصيانة";
+
+    document.getElementById(
+        "saveBtn"
+    ).textContent =
+        "حفظ التعديلات";
+
+    document.getElementById(
+        "cancelBtn"
+    ).style.display =
+        "inline-block";
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+function deleteReport(id){
+
+    const item =
+        reports.find(
+            report => report.id === id
+        );
+
+    if(!item){
+        return;
+    }
+
+    if(
+        !confirm(
+            "هل تريد حذف التقرير " +
+            item.reportNumber +
+            "؟"
+        )
+    ){
+
+        return;
+
+    }
+
+    reports =
+        reports.filter(
+            report => report.id !== id
+        );
+
+    saveData();
+
+    renderReports();
+
+    showToast(
+        "تم حذف التقرير."
+    );
+
+}
+
+
+function printReport(id){
+
+    const item =
+        reports.find(
+            report => report.id === id
+        );
+
+    if(!item){
+        return;
+    }
+
+    const printWindow =
+        window.open(
+            "",
+            "_blank",
+            "width=900,height=800"
+        );
+
+    if(!printWindow){
+
+        alert(
+            "يرجى السماح بفتح النوافذ المنبثقة للطباعة."
+        );
+
+        return;
+
+    }
+
+    const total =
+        Number(item.cost || 0);
+
+    const paidAmount =
+        Number(item.paid || 0);
+
+    const remaining =
+        Math.max(
+            total - paidAmount,
+            0
+        );
+
+    printWindow.document.write(`
+
+        <!DOCTYPE html>
+
+        <html lang="ar" dir="rtl">
+
+        <head>
+
+            <meta charset="UTF-8">
+
+            <title>
+                تقرير صيانة ${escapeHTML(item.reportNumber)}
+            </title>
+
+            <style>
+
+                body{
+                    font-family:Arial,Tahoma,sans-serif;
+                    margin:40px;
+                    color:#111827;
+                }
+
+                .header{
+                    border-bottom:3px solid #2563eb;
+                    padding-bottom:20px;
+                    margin-bottom:25px;
+                }
+
+                h1{
+                    margin:0 0 8px;
+                }
+
+                .number{
+                    color:#2563eb;
+                    font-weight:bold;
+                }
+
+                .grid{
+                    display:grid;
+                    grid-template-columns:1fr 1fr;
+                    gap:12px;
+                    margin-bottom:20px;
+                }
+
+                .box{
+                    border:1px solid #dbe2ea;
+                    padding:14px;
+                    border-radius:8px;
+                }
+
+                .box strong{
+                    display:block;
+                    margin-bottom:6px;
+                }
+
+                .section{
+                    margin-top:20px;
+                }
+
+                .section h3{
+                    background:#f1f5f9;
+                    padding:10px;
+                }
+
+                .content{
+                    white-space:pre-wrap;
+                    line-height:1.8;
+                    padding:10px;
+                }
+
+                .financial{
+                    display:grid;
+                    grid-template-columns:repeat(3,1fr);
+                    gap:10px;
+                    margin-top:20px;
+                }
+
+                .financial div{
+                    border:1px solid #dbe2ea;
+                    padding:15px;
+                    text-align:center;
+                }
+
+                @media print{
+                    body{
+                        margin:20px;
+                    }
+                }
+
+            </style>
+
+        </head>
+
+        <body>
+
+            <div class="header">
+
+                <h1>
+                    تقرير صيانة
+                </h1>
+
+                <div class="number">
+                    ${escapeHTML(item.reportNumber)}
+                </div>
+
+            </div>
+
+            <div class="grid">
+
+                <div class="box">
+                    <strong>التاريخ</strong>
+                    ${escapeHTML(item.reportDate || "-")}
+                </div>
+
+                <div class="box">
+                    <strong>حالة التقرير</strong>
+                    ${escapeHTML(item.status || "-")}
+                </div>
+
+                <div class="box">
+                    <strong>العميل</strong>
+                    ${escapeHTML(item.customerName || "-")}
+                </div>
+
+                <div class="box">
+                    <strong>الهاتف</strong>
+                    ${escapeHTML(item.customerPhone || "-")}
+                </div>
+
+                <div class="box">
+                    <strong>نوع الخدمة</strong>
+                    ${escapeHTML(item.serviceType || "-")}
+                </div>
+
+                <div class="box">
+                    <strong>الفني</strong>
+                    ${escapeHTML(item.technician || "-")}
+                </div>
+
+            </div>
+
+            <div class="section">
+
+                <h3>الجهاز</h3>
+
+                <div class="content">
+
+                    النوع:
+                    ${escapeHTML(item.equipmentType || "-")}
+
+                    \nالماركة:
+                    ${escapeHTML(item.brand || "-")}
+
+                    \nالموديل:
+                    ${escapeHTML(item.model || "-")}
+
+                    \nالرقم التسلسلي:
+                    ${escapeHTML(item.serialNumber || "-")}
+
+                    \nالموقع:
+                    ${escapeHTML(item.equipmentLocation || "-")}
+
+                </div>
+
+            </div>
+
+            <div class="section">
+
+                <h3>وصف المشكلة</h3>
+
+                <div class="content">
+                    ${escapeHTML(item.problem || "-")}
+                </div>
+
+            </div>
+
+            <div class="section">
+
+                <h3>التشخيص</h3>
+
+                <div class="content">
+                    ${escapeHTML(item.diagnosis || "-")}
+                </div>
+
+            </div>
+
+            <div class="section">
+
+                <h3>الأعمال المنفذة</h3>
+
+                <div class="content">
+                    ${escapeHTML(item.workDone || "-")}
+                </div>
+
+            </div>
+
+            <div class="section">
+
+                <h3>قطع الغيار والمواد</h3>
+
+                <div class="content">
+                    ${escapeHTML(item.parts || "-")}
+                </div>
+
+            </div>
+
+            <div class="section">
+
+                <h3>القياسات</h3>
+
+                <div class="content">
+                    ${escapeHTML(item.measurement || "-")}
+                </div>
+
+            </div>
+
+            <div class="financial">
+
+                <div>
+                    <strong>التكلفة</strong>
+                    <br>
+                    ${total.toFixed(2)} د.أ
+                </div>
+
+                <div>
+                    <strong>المدفوع</strong>
+                    <br>
+                    ${paidAmount.toFixed(2)} د.أ
+                </div>
+
+                <div>
+                    <strong>المتبقي</strong>
+                    <br>
+                    ${remaining.toFixed(2)} د.أ
+                </div>
+
+            </div>
+
+            <div class="section">
+
+                <h3>ملاحظات</h3>
+
+                <div class="content">
+                    ${escapeHTML(item.notes || "-")}
+                </div>
+
+            </div>
+
+            <script>
+
+                window.onload = function(){
+
+                    window.print();
+
+                };
+
+            <\/script>
+
+        </body>
+
+        </html>
+
+    `);
+
+    printWindow.document.close();
+
+}
+
+
+function resetForm(){
+
+    editingId = null;
+
+    form.reset();
+
+    reportNumber.value =
+        getNextReportNumber();
+
+    reportDate.value =
+        new Date()
+        .toISOString()
+        .split("T")[0];
+
+    status.value =
+        "جديد";
+
+    serviceType.value =
+        "تكييف وتبريد";
+
+    equipmentId.innerHTML =
+        '<option value="">اختر العميل أولًا</option>';
+
+    equipmentInfo.style.display =
+        "none";
+
+    document.getElementById(
+        "formTitle"
+    ).textContent =
+        "إنشاء تقرير صيانة جديد";
+
+    document.getElementById(
+        "saveBtn"
+    ).textContent =
+        "حفظ التقرير";
+
+    document.getElementById(
+        "cancelBtn"
+    ).style.display =
+        "none";
+
+}
+
+
+document.getElementById(
+    "cancelBtn"
+).addEventListener(
+    "click",
+    resetForm
+);
+
+
+document.getElementById(
+    "searchInput"
+).addEventListener(
+    "input",
+    renderReports
+);
+
+
+document.getElementById(
+    "statusFilter"
+).addEventListener(
+    "change",
+    renderReports
+);
+
+
+loadCustomers();
+
+resetForm();
+
+renderReports();
 
 </script>
 
