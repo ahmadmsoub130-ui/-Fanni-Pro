@@ -1,1373 +1,973 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>فني برو | إدارة أعمال الصيانة والخدمات</title>
-
-<meta name="description" content="فني برو منصة لإدارة أعمال الصيانة والخدمات الميدانية للفنيين والشركات. إدارة العملاء والطلبات والتقارير وعروض الأسعار والفواتير.">
-
-<style>
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    font-family:Arial,Tahoma,sans-serif;
-    background:#f5f7fb;
-    color:#172033;
-    line-height:1.7;
-}
-
-a{
-    text-decoration:none;
-    color:inherit;
-}
-
-button{
-    font-family:inherit;
-}
-
-.container{
-    width:min(1150px,92%);
-    margin:auto;
-}
-
-/* ================= HEADER ================= */
-
-header{
-    background:#0f172a;
-    color:white;
-    position:sticky;
-    top:0;
-    z-index:1000;
-    box-shadow:0 4px 20px rgba(0,0,0,.12);
-}
-
-.nav{
-    min-height:70px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-}
-
-.logo{
-    font-size:22px;
-    font-weight:900;
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
-
-.logo span{
-    color:#38bdf8;
-}
-
-.nav-links{
-    display:flex;
-    gap:8px;
-    align-items:center;
-}
-
-.nav-links a{
-    padding:9px 13px;
-    border-radius:9px;
-    color:#cbd5e1;
-    font-size:14px;
-}
-
-.nav-links a:hover{
-    background:#1e293b;
-    color:white;
-}
-
-.login-btn{
-    background:#2563eb;
-    color:white!important;
-}
-
-/* ================= HERO ================= */
-
-.hero{
-    background:
-    radial-gradient(circle at 85% 20%,rgba(37,99,235,.35),transparent 30%),
-    linear-gradient(135deg,#0f172a,#172554 60%,#1e3a8a);
-    color:white;
-    padding:80px 0 70px;
-    overflow:hidden;
-}
-
-.hero-grid{
-    display:grid;
-    grid-template-columns:1.1fr .9fr;
-    gap:50px;
-    align-items:center;
-}
-
-.badge{
-    display:inline-block;
-    background:rgba(255,255,255,.1);
-    border:1px solid rgba(255,255,255,.16);
-    color:#bfdbfe;
-    padding:7px 13px;
-    border-radius:30px;
-    font-size:13px;
-    margin-bottom:18px;
-}
-
-.hero h1{
-    font-size:48px;
-    line-height:1.2;
-    margin-bottom:18px;
-}
-
-.hero h1 span{
-    color:#38bdf8;
-}
-
-.hero p{
-    color:#cbd5e1;
-    font-size:18px;
-    max-width:650px;
-    margin-bottom:28px;
-}
-
-.hero-buttons{
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-}
-
-.btn{
-    display:inline-flex;
-    justify-content:center;
-    align-items:center;
-    padding:13px 21px;
-    border-radius:12px;
-    font-weight:800;
-    border:0;
-    cursor:pointer;
-    font-size:15px;
-}
-
-.btn-primary{
-    background:#2563eb;
-    color:white;
-}
-
-.btn-primary:hover{
-    background:#1d4ed8;
-}
-
-.btn-white{
-    background:white;
-    color:#0f172a;
-}
-
-.hero-note{
-    margin-top:17px;
-    font-size:13px;
-    color:#94a3b8;
-}
-
-/* ================= DASHBOARD ================= */
-
-.dashboard{
-    background:white;
-    border:1px solid rgba(255,255,255,.2);
-    border-radius:22px;
-    padding:18px;
-    box-shadow:0 25px 60px rgba(0,0,0,.25);
-}
-
-.dashboard-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
-    color:#0f172a;
-}
-
-.dashboard-title{
-    font-weight:900;
-}
-
-.live{
-    font-size:11px;
-    background:#dcfce7;
-    color:#166534;
-    padding:5px 9px;
-    border-radius:20px;
-}
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-}
-
-.stat{
-    background:#f8fafc;
-    border:1px solid #e2e8f0;
-    border-radius:14px;
-    padding:15px;
-}
-
-.stat-icon{
-    font-size:23px;
-}
-
-.stat-number{
-    font-size:25px;
-    font-weight:900;
-    color:#0f172a;
-}
-
-.stat-name{
-    color:#64748b;
-    font-size:12px;
-}
-
-.dashboard-list{
-    margin-top:12px;
-    display:grid;
-    gap:9px;
-}
-
-.task{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    padding:12px;
-    background:#f8fafc;
-    border-radius:11px;
-    font-size:13px;
-}
-
-.task-status{
-    color:#16a34a;
-    font-weight:800;
-}
-
-/* ================= SECTIONS ================= */
-
-section{
-    padding:75px 0;
-}
-
-.section-title{
-    text-align:center;
-    max-width:720px;
-    margin:0 auto 40px;
-}
-
-.section-title h2{
-    font-size:32px;
-    margin-bottom:9px;
-}
-
-.section-title p{
-    color:#64748b;
-}
-
-/* ================= SERVICES ================= */
-
-.services{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-}
-
-.service{
-    background:white;
-    border:1px solid #e5eaf1;
-    border-radius:16px;
-    padding:20px;
-    transition:.2s;
-}
-
-.service:hover{
-    transform:translateY(-4px);
-    box-shadow:0 12px 30px rgba(15,23,42,.08);
-}
-
-.service-icon{
-    font-size:30px;
-    margin-bottom:8px;
-}
-
-.service h3{
-    font-size:16px;
-    margin-bottom:5px;
-}
-
-.service p{
-    color:#64748b;
-    font-size:13px;
-}
-
-/* ================= FEATURES ================= */
-
-.features{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:18px;
-}
-
-.feature{
-    background:white;
-    padding:23px;
-    border-radius:17px;
-    border:1px solid #e5eaf1;
-}
-
-.feature-icon{
-    width:48px;
-    height:48px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#eff6ff;
-    border-radius:13px;
-    font-size:24px;
-    margin-bottom:15px;
-}
-
-.feature h3{
-    margin-bottom:7px;
-}
-
-.feature p{
-    color:#64748b;
-    font-size:14px;
-}
-
-/* ================= WORKFLOW ================= */
-
-.workflow{
-    background:#0f172a;
-    color:white;
-}
-
-.workflow .section-title p{
-    color:#94a3b8;
-}
-
-.steps{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:12px;
-}
-
-.step{
-    text-align:center;
-    position:relative;
-}
-
-.step-number{
-    width:45px;
-    height:45px;
-    margin:0 auto 12px;
-    border-radius:50%;
-    background:#2563eb;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-weight:900;
-}
-
-.step h3{
-    font-size:15px;
-    margin-bottom:5px;
-}
-
-.step p{
-    color:#94a3b8;
-    font-size:12px;
-}
-
-/* ================= TOOLS ================= */
-
-.tools{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-}
-
-.tool{
-    background:white;
-    border:1px solid #e2e8f0;
-    padding:18px;
-    border-radius:15px;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.tool:hover{
-    border-color:#93c5fd;
-    transform:translateY(-3px);
-}
-
-.tool-icon{
-    font-size:25px;
-}
-
-.tool h3{
-    margin-top:7px;
-    font-size:15px;
-}
-
-.tool p{
-    color:#64748b;
-    font-size:12px;
-}
-
-/* ================= CTA ================= */
-
-.cta{
-    background:
-    linear-gradient(135deg,#1d4ed8,#2563eb);
-    color:white;
-    border-radius:25px;
-    padding:50px;
-    text-align:center;
-}
-
-.cta h2{
-    font-size:32px;
-    margin-bottom:10px;
-}
-
-.cta p{
-    color:#dbeafe;
-    margin-bottom:22px;
-}
-
-/* ================= FOOTER ================= */
-
-footer{
-    background:#020617;
-    color:#94a3b8;
-    padding:35px 0;
-}
-
-.footer-grid{
-    display:flex;
-    justify-content:space-between;
-    gap:20px;
-    flex-wrap:wrap;
-}
-
-.footer-brand{
-    color:white;
-    font-weight:900;
-    font-size:20px;
-}
-
-.footer-links{
-    display:flex;
-    gap:15px;
-    flex-wrap:wrap;
-}
-
-.footer-links a:hover{
-    color:white;
-}
-
-.copyright{
-    margin-top:25px;
-    border-top:1px solid #1e293b;
-    padding-top:20px;
-    font-size:12px;
-}
-
-/* ================= MOBILE ================= */
-
-@media(max-width:900px){
-
-    .hero-grid{
-        grid-template-columns:1fr;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>فني برو | إدارة أعمال الصيانة والخدمات</title>
+
+  <meta
+    name="description"
+    content="فني برو منصة لإدارة العملاء وطلبات الخدمة وتقارير الصيانة وعروض الأسعار والفواتير للفنيين والشركات."
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
     }
 
-    .services{
-        grid-template-columns:repeat(2,1fr);
+    body {
+      margin: 0;
+      font-family: Arial, Tahoma, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
     }
 
-    .features{
-        grid-template-columns:repeat(2,1fr);
+    a {
+      text-decoration: none;
+      color: inherit;
     }
 
-    .steps{
-        grid-template-columns:repeat(2,1fr);
-        row-gap:25px;
+    button {
+      font: inherit;
+      cursor: pointer;
     }
 
-    .tools{
-        grid-template-columns:repeat(2,1fr);
+    .topbar {
+      background: #111827;
+      color: white;
+      padding: 15px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-}
-
-@media(max-width:650px){
-
-    .nav-links a:not(.login-btn){
-        display:none;
+    .brand {
+      font-size: 23px;
+      font-weight: 900;
+      white-space: nowrap;
     }
 
-    .hero{
-        padding:55px 0;
+    .nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    .hero h1{
-        font-size:35px;
+    .nav a {
+      padding: 9px 12px;
+      border-radius: 9px;
+      color: #e5e7eb;
+      font-size: 14px;
     }
 
-    .hero p{
-        font-size:16px;
+    .nav a:hover {
+      background: #1f2937;
+      color: white;
     }
 
-    section{
-        padding:55px 0;
+    .hero {
+      background:
+        linear-gradient(
+          135deg,
+          #111827 0%,
+          #1e3a8a 55%,
+          #2563eb 100%
+        );
+
+      color: white;
+      padding: 75px 5%;
     }
 
-    .section-title h2{
-        font-size:26px;
+    .hero-content {
+      max-width: 1150px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 40px;
+      align-items: center;
     }
 
-    .services,
-    .features,
-    .tools{
-        grid-template-columns:1fr;
+    .hero h1 {
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.15;
+      margin: 0 0 20px;
     }
 
-    .steps{
-        grid-template-columns:1fr;
+    .hero p {
+      font-size: 19px;
+      line-height: 1.9;
+      color: #dbeafe;
+      max-width: 720px;
+      margin: 0 0 25px;
     }
 
-    .cta{
-        padding:35px 20px;
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .cta h2{
-        font-size:25px;
+    .hero-btn {
+      display: inline-block;
+      padding: 14px 21px;
+      border-radius: 12px;
+      font-weight: 800;
     }
 
-}
+    .hero-btn.primary {
+      background: white;
+      color: #1d4ed8;
+    }
 
-</style>
+    .hero-btn.secondary {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.25);
+      color: white;
+    }
+
+    .hero-card {
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.18);
+      backdrop-filter: blur(10px);
+      border-radius: 22px;
+      padding: 25px;
+    }
+
+    .hero-card h2 {
+      margin-top: 0;
+    }
+
+    .mini-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 13px 0;
+      border-bottom: 1px solid rgba(255,255,255,.15);
+    }
+
+    .mini-row:last-child {
+      border-bottom: 0;
+    }
+
+    .section {
+      width: min(1150px, calc(100% - 30px));
+      margin: 55px auto;
+    }
+
+    .section-head {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .section-head h2 {
+      font-size: 31px;
+      margin: 0 0 10px;
+    }
+
+    .section-head p {
+      color: #667085;
+      line-height: 1.8;
+      margin: 0 auto;
+      max-width: 700px;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .service {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 7px 22px rgba(0,0,0,.05);
+      border: 1px solid #eef0f4;
+      transition: .2s;
+    }
+
+    .service:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0,0,0,.08);
+    }
+
+    .service-icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .service strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .service span {
+      color: #667085;
+      font-size: 13px;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .stat {
+      background: white;
+      padding: 22px;
+      border-radius: 17px;
+      box-shadow: 0 7px 22px rgba(0,0,0,.05);
+    }
+
+    .stat-label {
+      color: #667085;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-size: 30px;
+      font-weight: 900;
+    }
+
+    .tools {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .tool {
+      background: white;
+      border-radius: 18px;
+      padding: 23px;
+      box-shadow: 0 7px 22px rgba(0,0,0,.05);
+      border: 1px solid #edf0f5;
+    }
+
+    .tool-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .tool h3 {
+      margin: 0 0 8px;
+    }
+
+    .tool p {
+      color: #667085;
+      line-height: 1.7;
+      min-height: 50px;
+    }
+
+    .tool-btn {
+      display: inline-block;
+      margin-top: 8px;
+      background: #2563eb;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .step {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 7px 22px rgba(0,0,0,.05);
+    }
+
+    .step-number {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      background: #2563eb;
+      color: white;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      font-weight: 900;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    .step span {
+      color: #667085;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .cta {
+      background: #111827;
+      color: white;
+      border-radius: 24px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-size: 31px;
+      margin-top: 0;
+    }
+
+    .cta p {
+      color: #cbd5e1;
+      line-height: 1.8;
+      max-width: 700px;
+      margin: 0 auto 22px;
+    }
+
+    footer {
+      background: #0b1120;
+      color: #cbd5e1;
+      padding: 35px 5%;
+      margin-top: 60px;
+    }
+
+    .footer-content {
+      max-width: 1150px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand {
+      color: white;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .copyright {
+      max-width: 1150px;
+      margin: 25px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid #1f2937;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    @media (max-width: 900px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+      }
+
+      .services {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .tools {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .workflow {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav {
+        justify-content: flex-start;
+      }
+
+      .hero {
+        padding: 50px 20px;
+      }
+
+      .hero-content {
+        gap: 25px;
+      }
+
+      .services,
+      .dashboard,
+      .tools,
+      .workflow {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        margin: 40px auto;
+      }
+
+      .cta {
+        padding: 30px 20px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
+<header class="topbar">
 
-    <div class="container nav">
+  <a href="index.html" class="brand">
+    ⚒ فني برو
+  </a>
 
-        <a href="index.html" class="logo">
-            ⚒ <span>فني</span> برو
-        </a>
-
-        <nav class="nav-links">
-
-            <a href="#services">التخصصات</a>
-
-            <a href="#features">المميزات</a>
-
-            <a href="#how">كيف يعمل</a>
-
-            <a href="#tools">الأدوات</a>
-
-            <a href="#" class="login-btn" onclick="startApp(event)">
-                تسجيل الدخول
-            </a>
-
-        </nav>
-
-    </div>
+  <nav class="nav">
+    <a href="customers.html">العملاء</a>
+    <a href="service-request.html">طلبات الخدمة</a>
+    <a href="maintenance-report.html">التقارير</a>
+    <a href="quote.html">عروض الأسعار</a>
+    <a href="invoice.html">الفواتير</a>
+  </nav>
 
 </header>
 
 
-<!-- HERO -->
-
 <section class="hero">
 
-    <div class="container hero-grid">
+  <div class="hero-content">
 
-        <div>
+    <div>
 
-            <div class="badge">
-                منصة واحدة لجميع أعمال الصيانة والخدمات
-            </div>
+      <h1>
+        نظّم شغلك،
+        <br>
+        واكبر بمهنتك
+      </h1>
 
-            <h1>
-                نظّم شغلك،
-                <span>واكبر بمهنتك</span>
-            </h1>
+      <p>
+        فني برو يساعد الفنيين وأصحاب شركات الخدمات والصيانة
+        على إدارة العملاء وطلبات الخدمة والتقارير وعروض الأسعار
+        والفواتير من مكان واحد.
+      </p>
 
-            <p>
-                فني برو يساعد الفنيين وأصحاب شركات الصيانة
-                على إدارة العملاء وطلبات الخدمة والتقارير
-                وعروض الأسعار والفواتير من مكان واحد.
-            </p>
+      <div class="hero-actions">
 
-            <div class="hero-buttons">
+        <a
+          href="customers.html"
+          class="hero-btn primary"
+        >
+          ابدأ إدارة عملائك
+        </a>
 
-                <a href="#tools" class="btn btn-primary">
-                    ابدأ إدارة شغلك
-                </a>
+        <a
+          href="#tools"
+          class="hero-btn secondary"
+        >
+          استكشف الأدوات
+        </a>
 
-                <a href="#services" class="btn btn-white">
-                    اكتشف التخصصات
-                </a>
-
-            </div>
-
-            <div class="hero-note">
-                مناسب للفني المستقل والشركات وفرق الصيانة.
-            </div>
-
-        </div>
-
-
-        <!-- DASHBOARD -->
-
-        <div class="dashboard">
-
-            <div class="dashboard-top">
-
-                <div class="dashboard-title">
-                    لوحة التحكم
-                </div>
-
-                <div class="live">
-                    نظام العمل
-                </div>
-
-            </div>
-
-
-            <div class="stats">
-
-                <div class="stat">
-
-                    <div class="stat-icon">👥</div>
-
-                    <div class="stat-number">
-                        24
-                    </div>
-
-                    <div class="stat-name">
-                        العملاء
-                    </div>
-
-                </div>
-
-
-                <div class="stat">
-
-                    <div class="stat-icon">🔧</div>
-
-                    <div class="stat-number">
-                        8
-                    </div>
-
-                    <div class="stat-name">
-                        طلبات الخدمة
-                    </div>
-
-                </div>
-
-
-                <div class="stat">
-
-                    <div class="stat-icon">📄</div>
-
-                    <div class="stat-number">
-                        31
-                    </div>
-
-                    <div class="stat-name">
-                        التقارير
-                    </div>
-
-                </div>
-
-
-                <div class="stat">
-
-                    <div class="stat-icon">💰</div>
-
-                    <div class="stat-number">
-                        18
-                    </div>
-
-                    <div class="stat-name">
-                        عروض وفواتير
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="dashboard-list">
-
-                <div class="task">
-
-                    <span>
-                        طلب صيانة جديد
-                    </span>
-
-                    <span class="task-status">
-                        جديد
-                    </span>
-
-                </div>
-
-                <div class="task">
-
-                    <span>
-                        تقرير صيانة
-                    </span>
-
-                    <span class="task-status">
-                        مكتمل
-                    </span>
-
-                </div>
-
-                <div class="task">
-
-                    <span>
-                        عرض سعر
-                    </span>
-
-                    <span class="task-status">
-                        بانتظار العميل
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
+      </div>
 
     </div>
+
+
+    <div class="hero-card">
+
+      <h2>لوحة العمل</h2>
+
+      <div class="mini-row">
+        <span>العملاء</span>
+        <strong id="heroCustomers">0</strong>
+      </div>
+
+      <div class="mini-row">
+        <span>طلبات الخدمة</span>
+        <strong id="heroRequests">0</strong>
+      </div>
+
+      <div class="mini-row">
+        <span>عروض الأسعار</span>
+        <strong id="heroQuotes">0</strong>
+      </div>
+
+      <div class="mini-row">
+        <span>الفواتير</span>
+        <strong id="heroInvoices">0</strong>
+      </div>
+
+    </div>
+
+  </div>
 
 </section>
 
 
-<!-- SERVICES -->
+<section class="section">
 
-<section id="services">
+  <div class="section-head">
 
-    <div class="container">
+    <h2>لجميع أنواع الخدمات والصيانة</h2>
 
-        <div class="section-title">
+    <p>
+      فني برو ليس مخصصًا لمهنة واحدة.
+      يمكنك استخدامه لإدارة أعمالك مهما كان تخصصك.
+    </p>
 
-            <h2>
-                مهما كان تخصصك، فني برو معك
-            </h2>
-
-            <p>
-                اختر تخصصك واستخدم نفس النظام لإدارة أعمالك اليومية.
-            </p>
-
-        </div>
+  </div>
 
 
-        <div class="services">
+  <div class="services">
 
-            <div class="service">
-                <div class="service-icon">❄️</div>
-                <h3>تكييف وتبريد</h3>
-                <p>صيانة وتركيب وتشخيص أجهزة التكييف والتبريد.</p>
-            </div>
-
-            <div class="service">
-                <div class="service-icon">⚡</div>
-                <h3>كهرباء</h3>
-                <p>إدارة أعمال الكهرباء والصيانة الكهربائية.</p>
-            </div>
-
-            <div class="service">
-                <div class="service-icon">🚰</div>
-                <h3>سباكة</h3>
-                <p>طلبات التسريب والتركيب والصيانة المنزلية.</p>
-            </div>
-
-            <div class="service">
-                <div class="service-icon">🔧</div>
-                <h3>صيانة عامة</h3>
-                <p>للأعمال المتنوعة والخدمات الفنية.</p>
-            </div>
-
-            <div class="service">
-                <div class="service-icon">🧺</div>
-                <h3>أجهزة منزلية</h3>
-                <p>صيانة الغسالات والثلاجات والأجهزة المنزلية.</p>
-            </div>
-
-            <div class="service">
-                <div class="service-icon">📹</div>
-                <h3>كاميرات ومراقبة</h3>
-                <p>تركيب وصيانة أنظمة المراقبة والحماية.</p>
-            </div>
-
-            <div class="service">
-                <div class="service-icon">🌐</div>
-                <h3>شبكات وإنترنت</h3>
-                <p>الشبكات وأجهزة الاتصال والدعم الفني.</p>
-            </div>
-
-            <div class="service">
-                <div class="service-icon">🏠</div>
-                <h3>خدمات منزلية</h3>
-                <p>خدمات الصيانة والإصلاح داخل المنازل.</p>
-            </div>
-
-            <div class="service">
-                <div class="service-icon">🔥</div>
-                <h3>تدفئة</h3>
-                <p>صيانة أنظمة التدفئة والمعدات المرتبطة بها.</p>
-            </div>
-
-            <div class="service">
-                <div class="service-icon">🚗</div>
-                <h3>صيانة سيارات</h3>
-                <p>تنظيم العملاء وأعمال الصيانة والخدمات.</p>
-            </div>
-
-            <div class="service">
-                <div class="service-icon">🪚</div>
-                <h3>نجارة</h3>
-                <p>إدارة طلبات وأعمال النجارة والتركيب.</p>
-            </div>
-
-            <div class="service">
-                <div class="service-icon">🎨</div>
-                <h3>دهان وتشطيبات</h3>
-                <p>إدارة المشاريع الصغيرة وأعمال التشطيب.</p>
-            </div>
-
-        </div>
-
+    <div class="service">
+      <div class="service-icon">❄️</div>
+      <strong>تكييف وتبريد</strong>
+      <span>صيانة وتركيب أجهزة التكييف والتبريد</span>
     </div>
+
+    <div class="service">
+      <div class="service-icon">⚡</div>
+      <strong>كهرباء</strong>
+      <span>أعمال الكهرباء والصيانة الكهربائية</span>
+    </div>
+
+    <div class="service">
+      <div class="service-icon">🚰</div>
+      <strong>سباكة</strong>
+      <span>تمديدات وإصلاحات السباكة</span>
+    </div>
+
+    <div class="service">
+      <div class="service-icon">🔧</div>
+      <strong>صيانة عامة</strong>
+      <span>أعمال الصيانة والخدمات المتنوعة</span>
+    </div>
+
+    <div class="service">
+      <div class="service-icon">🏠</div>
+      <strong>أجهزة منزلية</strong>
+      <span>صيانة الأجهزة المنزلية</span>
+    </div>
+
+    <div class="service">
+      <div class="service-icon">📹</div>
+      <strong>كاميرات ومراقبة</strong>
+      <span>تركيب وصيانة أنظمة المراقبة</span>
+    </div>
+
+    <div class="service">
+      <div class="service-icon">🌐</div>
+      <strong>شبكات وإنترنت</strong>
+      <span>الشبكات والراوترات والاتصالات</span>
+    </div>
+
+    <div class="service">
+      <div class="service-icon">🔥</div>
+      <strong>تدفئة</strong>
+      <span>أنظمة التدفئة والصيانة</span>
+    </div>
+
+    <div class="service">
+      <div class="service-icon">🚗</div>
+      <strong>صيانة سيارات</strong>
+      <span>خدمات إصلاح وصيانة المركبات</span>
+    </div>
+
+    <div class="service">
+      <div class="service-icon">🪚</div>
+      <strong>نجارة</strong>
+      <span>أعمال النجارة والتركيب</span>
+    </div>
+
+    <div class="service">
+      <div class="service-icon">🎨</div>
+      <strong>دهان وتشطيبات</strong>
+      <span>الدهان والتشطيبات الداخلية والخارجية</span>
+    </div>
+
+    <div class="service">
+      <div class="service-icon">🧹</div>
+      <strong>تنظيف</strong>
+      <span>خدمات التنظيف للمنازل والمنشآت</span>
+    </div>
+
+  </div>
 
 </section>
 
 
-<!-- FEATURES -->
+<section class="section">
 
-<section id="features">
+  <div class="section-head">
 
-    <div class="container">
+    <h2>لوحة أعمالك</h2>
 
-        <div class="section-title">
+    <p>
+      أرقام حقيقية يتم قراءتها من البيانات التي تحفظها داخل المنصة على جهازك.
+    </p>
 
-            <h2>
-                كل أدوات شغلك في مكان واحد
-            </h2>
-
-            <p>
-                بدل الدفاتر والرسائل المتفرقة، اجمع عملياتك اليومية في نظام واحد.
-            </p>
-
-        </div>
+  </div>
 
 
-        <div class="features">
+  <div class="dashboard">
 
-            <div class="feature">
-
-                <div class="feature-icon">
-                    👥
-                </div>
-
-                <h3>
-                    إدارة العملاء
-                </h3>
-
-                <p>
-                    حفظ بيانات العملاء والعناوين وأرقام الهاتف وسجل الخدمات.
-                </p>
-
-            </div>
-
-
-            <div class="feature">
-
-                <div class="feature-icon">
-                    📋
-                </div>
-
-                <h3>
-                    طلبات الخدمة
-                </h3>
-
-                <p>
-                    تسجيل طلب العميل ومتابعة حالته من البداية حتى الإنجاز.
-                </p>
-
-            </div>
-
-
-            <div class="feature">
-
-                <div class="feature-icon">
-                    🧾
-                </div>
-
-                <h3>
-                    التقارير
-                </h3>
-
-                <p>
-                    إنشاء تقارير احترافية لأعمال الصيانة والخدمة.
-                </p>
-
-            </div>
-
-
-            <div class="feature">
-
-                <div class="feature-icon">
-                    💰
-                </div>
-
-                <h3>
-                    عروض الأسعار
-                </h3>
-
-                <p>
-                    إنشاء عرض سعر منظم وإرساله للعميل قبل تنفيذ العمل.
-                </p>
-
-            </div>
-
-
-            <div class="feature">
-
-                <div class="feature-icon">
-                    🧾
-                </div>
-
-                <h3>
-                    الفواتير
-                </h3>
-
-                <p>
-                    إصدار فواتير واضحة وحساب قيمة الأعمال والمواد.
-                </p>
-
-            </div>
-
-
-            <div class="feature">
-
-                <div class="feature-icon">
-                    📱
-                </div>
-
-                <h3>
-                    مناسب للموبايل
-                </h3>
-
-                <p>
-                    إدارة عملك أثناء وجودك عند العميل مباشرة من الهاتف.
-                </p>
-
-            </div>
-
-        </div>
-
+    <div class="stat">
+      <div class="stat-label">العملاء</div>
+      <div class="stat-value" id="customerCount">0</div>
     </div>
+
+    <div class="stat">
+      <div class="stat-label">طلبات الخدمة</div>
+      <div class="stat-value" id="requestCount">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">عروض الأسعار</div>
+      <div class="stat-value" id="quoteCount">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">الفواتير</div>
+      <div class="stat-value" id="invoiceCount">0</div>
+    </div>
+
+  </div>
 
 </section>
 
 
-<!-- WORKFLOW -->
+<section class="section" id="tools">
 
-<section class="workflow" id="how">
+  <div class="section-head">
 
-    <div class="container">
+    <h2>أدوات فني برو</h2>
 
-        <div class="section-title">
+    <p>
+      كل مرحلة من مراحل العمل لها أداة مخصصة.
+    </p>
 
-            <h2>
-                من طلب العميل إلى الفاتورة
-            </h2>
-
-            <p>
-                سير عمل واضح يساعدك على تنظيم الخدمة بدون خطوات معقدة.
-            </p>
-
-        </div>
+  </div>
 
 
-        <div class="steps">
+  <div class="tools">
 
-            <div class="step">
+    <div class="tool">
 
-                <div class="step-number">1</div>
+      <div class="tool-icon">👥</div>
 
-                <h3>
-                    العميل
-                </h3>
+      <h3>إدارة العملاء</h3>
 
-                <p>
-                    أضف بيانات العميل.
-                </p>
+      <p>
+        احفظ بيانات العملاء ومعلومات التواصل والخدمات الخاصة بهم.
+      </p>
 
-            </div>
-
-
-            <div class="step">
-
-                <div class="step-number">2</div>
-
-                <h3>
-                    الطلب
-                </h3>
-
-                <p>
-                    سجل الخدمة المطلوبة.
-                </p>
-
-            </div>
-
-
-            <div class="step">
-
-                <div class="step-number">3</div>
-
-                <h3>
-                    العمل
-                </h3>
-
-                <p>
-                    نفذ وسجل تفاصيل الخدمة.
-                </p>
-
-            </div>
-
-
-            <div class="step">
-
-                <div class="step-number">4</div>
-
-                <h3>
-                    التقرير
-                </h3>
-
-                <p>
-                    أنشئ تقريرًا احترافيًا.
-                </p>
-
-            </div>
-
-
-            <div class="step">
-
-                <div class="step-number">5</div>
-
-                <h3>
-                    الفاتورة
-                </h3>
-
-                <p>
-                    أصدر الفاتورة للعميل.
-                </p>
-
-            </div>
-
-        </div>
+      <a
+        href="customers.html"
+        class="tool-btn"
+      >
+        فتح العملاء
+      </a>
 
     </div>
+
+
+    <div class="tool">
+
+      <div class="tool-icon">📋</div>
+
+      <h3>طلبات الخدمة</h3>
+
+      <p>
+        سجّل طلبات العملاء وحدد الأولوية والموعد والفني المسؤول.
+      </p>
+
+      <a
+        href="service-request.html"
+        class="tool-btn"
+      >
+        فتح الطلبات
+      </a>
+
+    </div>
+
+
+    <div class="tool">
+
+      <div class="tool-icon">📝</div>
+
+      <h3>تقارير الصيانة</h3>
+
+      <p>
+        أنشئ تقريرًا للخدمة والعمل المنفذ والملاحظات والتكاليف.
+      </p>
+
+      <a
+        href="maintenance-report.html"
+        class="tool-btn"
+      >
+        فتح التقارير
+      </a>
+
+    </div>
+
+
+    <div class="tool">
+
+      <div class="tool-icon">💰</div>
+
+      <h3>عروض الأسعار</h3>
+
+      <p>
+        أنشئ عرض سعر واضحًا للعميل مع البنود والخصم والضريبة.
+      </p>
+
+      <a
+        href="quote.html"
+        class="tool-btn"
+      >
+        فتح العروض
+      </a>
+
+    </div>
+
+
+    <div class="tool">
+
+      <div class="tool-icon">🧾</div>
+
+      <h3>الفواتير</h3>
+
+      <p>
+        أنشئ الفواتير وتابع المبالغ المدفوعة والمتبقية.
+      </p>
+
+      <a
+        href="invoice.html"
+        class="tool-btn"
+      >
+        فتح الفواتير
+      </a>
+
+    </div>
+
+
+    <div class="tool">
+
+      <div class="tool-icon">📅</div>
+
+      <h3>المواعيد</h3>
+
+      <p>
+        تنظيم مواعيد الزيارات والخدمات سيكون ضمن المرحلة القادمة.
+      </p>
+
+      <a
+        href="#"
+        class="tool-btn"
+        onclick="comingSoon(event,'المواعيد')"
+      >
+        قريبًا
+      </a>
+
+    </div>
+
+  </div>
 
 </section>
 
 
-<!-- TOOLS -->
+<section class="section">
 
-<section id="tools">
+  <div class="section-head">
 
-    <div class="container">
+    <h2>طريقة العمل</h2>
 
-        <div class="section-title">
+    <p>
+      دورة عمل بسيطة من طلب العميل حتى إصدار الفاتورة.
+    </p>
 
-            <h2>
-                أدوات فني برو
-            </h2>
-
-            <p>
-                الأدوات الأساسية لإدارة أعمالك اليومية.
-            </p>
-
-        </div>
+  </div>
 
 
-        <div class="tools">
+  <div class="workflow">
 
-            <a href="customers.html" class="tool">
-
-                <div class="tool-icon">
-                    👥
-                </div>
-
-                <h3>
-                    العملاء
-                </h3>
-
-                <p>
-                    إدارة العملاء وبياناتهم.
-                </p>
-
-            </a>
-
-
-            <a href="#" class="tool" onclick="comingSoon(event,'طلبات الخدمة')">
-
-                <div class="tool-icon">
-                    📋
-                </div>
-
-                <h3>
-                    طلبات الخدمة
-                </h3>
-
-                <p>
-                    متابعة طلبات العملاء.
-                </p>
-
-            </a>
-
-
-            <a href="maintenance-report.html" class="tool">
-
-                <div class="tool-icon">
-                    🔧
-                </div>
-
-                <h3>
-                    تقرير صيانة
-                </h3>
-
-                <p>
-                    إنشاء تقرير احترافي.
-                </p>
-
-            </a>
-
-
-            <a href="quote.html" class="tool">
-
-                <div class="tool-icon">
-                    💰
-                </div>
-
-                <h3>
-                    عرض سعر
-                </h3>
-
-                <p>
-                    إنشاء عروض أسعار.
-                </p>
-
-            </a>
-
-
-            <a href="#" class="tool" onclick="comingSoon(event,'الفواتير')">
-
-                <div class="tool-icon">
-                    🧾
-                </div>
-
-                <h3>
-                    الفواتير
-                </h3>
-
-                <p>
-                    إنشاء وإدارة الفواتير.
-                </p>
-
-            </a>
-
-
-            <a href="#" class="tool" onclick="comingSoon(event,'واتساب')">
-
-                <div class="tool-icon">
-                    📱
-                </div>
-
-                <h3>
-                    واتساب
-                </h3>
-
-                <p>
-                    مشاركة المستندات مع العميل.
-                </p>
-
-            </a>
-
-
-            <a href="#" class="tool" onclick="comingSoon(event,'المواعيد')">
-
-                <div class="tool-icon">
-                    📅
-                </div>
-
-                <h3>
-                    المواعيد
-                </h3>
-
-                <p>
-                    تنظيم مواعيد الخدمات.
-                </p>
-
-            </a>
-
-
-            <a href="#" class="tool" onclick="comingSoon(event,'المصروفات والأرباح')">
-
-                <div class="tool-icon">
-                    📊
-                </div>
-
-                <h3>
-                    المصروفات والأرباح
-                </h3>
-
-                <p>
-                    متابعة الدخل والمصاريف.
-                </p>
-
-            </a>
-
-        </div>
-
+    <div class="step">
+      <div class="step-number">1</div>
+      <strong>العميل</strong>
+      <span>احفظ بيانات العميل.</span>
     </div>
+
+    <div class="step">
+      <div class="step-number">2</div>
+      <strong>الطلب</strong>
+      <span>سجل طلب الخدمة والموعد.</span>
+    </div>
+
+    <div class="step">
+      <div class="step-number">3</div>
+      <strong>العمل</strong>
+      <span>نفذ الخدمة وسجل التفاصيل.</span>
+    </div>
+
+    <div class="step">
+      <div class="step-number">4</div>
+      <strong>العرض</strong>
+      <span>أنشئ عرض السعر عند الحاجة.</span>
+    </div>
+
+    <div class="step">
+      <div class="step-number">5</div>
+      <strong>الفاتورة</strong>
+      <span>أصدر الفاتورة وتابع الدفع.</span>
+    </div>
+
+  </div>
 
 </section>
 
 
-<!-- CTA -->
+<section class="section">
 
-<section>
+  <div class="cta">
 
-    <div class="container">
+    <h2>كل شغلك في مكان واحد</h2>
 
-        <div class="cta">
+    <p>
+      نبدأ بنظام إدارة الخدمات، ثم نضيف المواعيد والمصروفات
+      والأرباح وحسابات المستخدمين وقاعدة البيانات والاشتراكات.
+    </p>
 
-            <h2>
-                جاهز لتنظيم شغلك؟
-            </h2>
+    <a
+      href="customers.html"
+      class="hero-btn primary"
+    >
+      ابدأ الآن
+    </a>
 
-            <p>
-                ابدأ ببناء ملف عملائك وتقاريرك وعروض أسعارك من مكان واحد.
-            </p>
-
-            <a href="customers.html" class="btn btn-white">
-                ابدأ الآن
-            </a>
-
-        </div>
-
-    </div>
+  </div>
 
 </section>
 
-
-<!-- FOOTER -->
 
 <footer>
 
-    <div class="container">
+  <div class="footer-content">
 
-        <div class="footer-grid">
+    <div class="footer-brand">
+      ⚒ فني برو
+    </div>
 
-            <div>
+    <div class="footer-links">
 
-                <div class="footer-brand">
-                    ⚒ فني برو
-                </div>
-
-                <div>
-                    منصة إدارة أعمال الصيانة والخدمات.
-                </div>
-
-            </div>
-
-
-            <div class="footer-links">
-
-                <a href="#services">
-                    التخصصات
-                </a>
-
-                <a href="#features">
-                    المميزات
-                </a>
-
-                <a href="#how">
-                    كيف يعمل
-                </a>
-
-                <a href="#">
-                    الخصوصية
-                </a>
-
-                <a href="#">
-                    الشروط
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <div class="copyright">
-            © 2026 فني برو — جميع الحقوق محفوظة.
-        </div>
+      <a href="customers.html">العملاء</a>
+      <a href="service-request.html">طلبات الخدمة</a>
+      <a href="maintenance-report.html">التقارير</a>
+      <a href="quote.html">العروض</a>
+      <a href="invoice.html">الفواتير</a>
 
     </div>
+
+  </div>
+
+
+  <div class="copyright">
+    © 2026 فني برو — منصة إدارة الخدمات والصيانة
+  </div>
 
 </footer>
 
 
 <script>
 
-function comingSoon(event,name){
+  function readCount(key) {
+
+    try {
+      const data =
+        JSON.parse(
+          localStorage.getItem(key) || "[]"
+        );
+
+      return Array.isArray(data)
+        ? data.length
+        : 0;
+
+    } catch {
+      return 0;
+    }
+  }
+
+
+  function updateDashboard() {
+
+    const customers =
+      readCount("fanniProCustomers");
+
+    const requests =
+      readCount("fanniProServiceRequests");
+
+    const quotes =
+      readCount("fanniProQuotes");
+
+    const invoices =
+      readCount("fanniProInvoices");
+
+
+    document.getElementById("customerCount")
+      .textContent = customers;
+
+    document.getElementById("requestCount")
+      .textContent = requests;
+
+    document.getElementById("quoteCount")
+      .textContent = quotes;
+
+    document.getElementById("invoiceCount")
+      .textContent = invoices;
+
+
+    document.getElementById("heroCustomers")
+      .textContent = customers;
+
+    document.getElementById("heroRequests")
+      .textContent = requests;
+
+    document.getElementById("heroQuotes")
+      .textContent = quotes;
+
+    document.getElementById("heroInvoices")
+      .textContent = invoices;
+  }
+
+
+  function comingSoon(event, name) {
 
     event.preventDefault();
 
     alert(
-        "قسم " +
-        name +
-        " سيتم ربطه بالنظام في الخطوات القادمة."
+      "قسم " +
+      name +
+      " سيكون في المرحلة القادمة."
     );
+  }
 
-}
 
-
-function startApp(event){
-
-    event.preventDefault();
-
-    window.location.href =
-        "customers.html";
-
-}
+  updateDashboard();
 
 </script>
 
