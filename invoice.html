@@ -1,1977 +1,1140 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الفواتير | فني برو</title>
 
-  <title>الفواتير | فني برو</title>
-  <meta name="description" content="إدارة الفواتير للخدمات والصيانة - فني برو">
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial,Tahoma,sans-serif;
+    background:#f4f7fb;
+    color:#172033
+}
+header{
+    background:#0f172a;
+    color:#fff;
+    padding:18px 20px;
+    position:sticky;
+    top:0;
+    z-index:10
+}
+.header-inner{
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px
+}
+.logo{
+    font-size:23px;
+    font-weight:bold
+}
+nav{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap
+}
+nav a{
+    color:#dbeafe;
+    text-decoration:none;
+    padding:8px 10px;
+    border-radius:8px;
+    font-size:13px
+}
+nav a:hover{background:#1e293b}
 
-  <style>
-    * {
-      box-sizing: border-box;
+.container{
+    max-width:1200px;
+    margin:25px auto;
+    padding:0 15px
+}
+.page-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap
+}
+h1{margin:0 0 7px}
+.subtitle{color:#64748b}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin:20px 0
+}
+.card{
+    background:#fff;
+    border-radius:14px;
+    padding:18px;
+    box-shadow:0 4px 18px #0000000d
+}
+.stat-number{
+    font-size:27px;
+    font-weight:bold;
+    margin-top:7px
+}
+.stat-label{color:#64748b;font-size:14px}
+
+.form-card{margin-bottom:20px}
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px
+}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+label{font-weight:bold;font-size:14px}
+input,select,textarea{
+    width:100%;
+    border:1px solid #d8dee9;
+    border-radius:9px;
+    padding:11px;
+    font-size:14px;
+    background:#fff
+}
+textarea{min-height:90px;resize:vertical}
+
+button{
+    border:0;
+    border-radius:9px;
+    padding:10px 15px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:14px
+}
+.btn-primary{background:#2563eb;color:#fff}
+.btn-dark{background:#0f172a;color:#fff}
+.btn-danger{background:#dc2626;color:#fff}
+.btn-edit{background:#f59e0b;color:#fff}
+.btn-whatsapp{background:#16a34a;color:#fff}
+.btn-light{background:#e2e8f0;color:#0f172a}
+button:hover{opacity:.9}
+
+.actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:15px
+}
+
+.items{
+    margin-top:20px;
+    overflow-x:auto
+}
+.items table,.main-table{
+    width:100%;
+    border-collapse:collapse
+}
+th,td{
+    padding:10px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:right;
+    white-space:nowrap
+}
+th{background:#f8fafc}
+
+.item-input{
+    min-width:120px
+}
+.remove-item{
+    background:#fee2e2;
+    color:#991b1b;
+    padding:7px 10px
+}
+
+.totals{
+    max-width:400px;
+    margin:20px 0 0 auto;
+    background:#f8fafc;
+    padding:15px;
+    border-radius:12px
+}
+.total-row{
+    display:flex;
+    justify-content:space-between;
+    padding:7px 0
+}
+.total-final{
+    font-size:20px;
+    font-weight:bold;
+    border-top:2px solid #cbd5e1;
+    margin-top:7px;
+    padding-top:12px
+}
+
+.toolbar{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:15px
+}
+.toolbar input{max-width:400px}
+
+.table-wrap{overflow-x:auto}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold
+}
+.badge-paid{background:#dcfce7;color:#166534}
+.badge-partial{background:#fef3c7;color:#92400e}
+.badge-unpaid{background:#fee2e2;color:#991b1b}
+.badge-cancelled{background:#e5e7eb;color:#475569}
+
+.empty{
+    text-align:center;
+    padding:30px;
+    color:#64748b
+}
+
+.toast{
+    position:fixed;
+    bottom:20px;
+    left:20px;
+    background:#0f172a;
+    color:#fff;
+    padding:13px 18px;
+    border-radius:10px;
+    display:none;
+    z-index:100
+}
+
+@media(max-width:850px){
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .form-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+    .grid,.form-grid{grid-template-columns:1fr}
+    nav{display:none}
+    .page-title{align-items:flex-start}
+}
+
+@media print{
+    header,.toolbar,.form-card,.no-print,.actions,.stats{
+        display:none!important
     }
-
-    body {
-      margin: 0;
-      font-family: Arial, Tahoma, sans-serif;
-      background: #f4f7fb;
-      color: #172033;
-    }
-
-    button,
-    input,
-    select,
-    textarea {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    .topbar {
-      background: #111827;
-      color: white;
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      position: sticky;
-      top: 0;
-      z-index: 20;
-    }
-
-    .brand {
-      font-size: 21px;
-      font-weight: 800;
-    }
-
-    .back {
-      color: white;
-      text-decoration: none;
-      background: #1f2937;
-      padding: 10px 15px;
-      border-radius: 10px;
-    }
-
-    .container {
-      width: min(1200px, calc(100% - 30px));
-      margin: 25px auto 50px;
-    }
-
-    .hero,
-    .card {
-      background: white;
-      border-radius: 18px;
-      padding: 22px;
-      margin-bottom: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,.06);
-    }
-
-    .hero h1 {
-      margin: 0 0 8px;
-      font-size: 28px;
-    }
-
-    .hero p {
-      margin: 0;
-      color: #667085;
-      line-height: 1.8;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-
-    .stat {
-      background: white;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 8px 25px rgba(0,0,0,.05);
-    }
-
-    .stat span {
-      display: block;
-      color: #667085;
-      font-size: 14px;
-      margin-bottom: 8px;
-    }
-
-    .stat strong {
-      font-size: 26px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-
-    .full {
-      grid-column: 1 / -1;
-    }
-
-    label {
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      border: 1px solid #d7dce5;
-      border-radius: 10px;
-      padding: 12px;
-      outline: none;
-      background: white;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: #2563eb;
-    }
-
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    .section-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .section-title h2 {
-      margin: 0;
-      font-size: 20px;
-    }
-
-    .items-wrap {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 760px;
-    }
-
-    th,
-    td {
-      padding: 10px;
-      border-bottom: 1px solid #e5e7eb;
-      text-align: right;
-      vertical-align: middle;
-    }
-
-    th {
-      background: #f8fafc;
-    }
-
-    td input {
-      min-width: 100px;
-    }
-
-    .item-total {
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    .add-btn,
-    .primary,
-    .success,
-    .danger,
-    .secondary {
-      border: 0;
-      border-radius: 10px;
-      padding: 11px 16px;
-      font-weight: 700;
-    }
-
-    .add-btn,
-    .primary {
-      background: #2563eb;
-      color: white;
-    }
-
-    .success {
-      background: #16a34a;
-      color: white;
-    }
-
-    .danger {
-      background: #dc2626;
-      color: white;
-    }
-
-    .secondary {
-      background: #e5e7eb;
-      color: #172033;
-    }
-
-    .remove {
-      border: 0;
-      background: #fee2e2;
-      color: #b91c1c;
-      padding: 8px 10px;
-      border-radius: 8px;
-      font-weight: 700;
-    }
-
-    .summary {
-      max-width: 430px;
-      margin-right: auto;
-      margin-top: 20px;
-    }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      padding: 9px 0;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    .summary-row input {
-      max-width: 150px;
-    }
-
-    .grand-total {
-      font-size: 21px;
-      font-weight: 800;
-      border-bottom: 0;
-      padding-top: 15px;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .search {
-      margin-bottom: 15px;
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-    }
-
-    .invoice-table {
-      min-width: 950px;
-    }
-
-    .status {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .unpaid {
-      background: #fee2e2;
-      color: #b91c1c;
-    }
-
-    .partial {
-      background: #fef3c7;
-      color: #92400e;
-    }
-
-    .paid {
-      background: #dcfce7;
-      color: #15803d;
-    }
-
-    .cancelled {
-      background: #e5e7eb;
-      color: #374151;
-    }
-
-    .table-actions {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .small-btn {
-      border: 0;
-      border-radius: 8px;
-      padding: 7px 9px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .empty {
-      text-align: center;
-      padding: 30px;
-      color: #667085;
-    }
-
-    .toast {
-      position: fixed;
-      left: 20px;
-      bottom: 20px;
-      background: #111827;
-      color: white;
-      padding: 13px 18px;
-      border-radius: 10px;
-      opacity: 0;
-      transform: translateY(15px);
-      pointer-events: none;
-      transition: .25s;
-      z-index: 100;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media (max-width: 800px) {
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .full {
-        grid-column: auto;
-      }
-
-      .topbar {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-    }
-
-    @media (max-width: 500px) {
-      .container {
-        width: calc(100% - 20px);
-      }
-
-      .hero h1 {
-        font-size: 23px;
-      }
-
-      .hero,
-      .card {
-        padding: 16px;
-      }
-    }
-  </style>
+    body{background:#fff}
+    .container{margin:0;max-width:none}
+    .card{box-shadow:none}
+}
+</style>
 </head>
 
 <body>
 
-<header class="topbar">
-  <div class="brand">⚒ فني برو</div>
-  <a href="index.html" class="back">العودة للرئيسية</a>
+<header>
+<div class="header-inner">
+<div class="logo">⚒ فني برو</div>
+
+<nav>
+<a href="index.html">الرئيسية</a>
+<a href="customers.html">العملاء</a>
+<a href="service-request.html">الطلبات</a>
+<a href="maintenance-report.html">تقارير الصيانة</a>
+<a href="equipment.html">الأجهزة</a>
+<a href="quote.html">العروض</a>
+<a href="invoice.html">الفواتير</a>
+<a href="appointments.html">المواعيد</a>
+<a href="expenses.html">المصاريف</a>
+</nav>
+</div>
 </header>
 
 <main class="container">
 
-  <section class="hero">
-    <h1>الفواتير</h1>
-    <p>
-      إنشاء وإدارة فواتير الخدمات والصيانة ومتابعة المدفوعات والمبالغ المستحقة.
-    </p>
-  </section>
+<div class="page-title">
+<div>
+<h1>الفواتير</h1>
+<div class="subtitle">إنشاء وإدارة الفواتير ومشاركتها مع العملاء</div>
+</div>
 
-  <section class="stats">
+<button class="btn-primary" onclick="resetForm()">+ فاتورة جديدة</button>
+</div>
 
-    <div class="stat">
-      <span>إجمالي الفواتير</span>
-      <strong id="totalInvoices">0</strong>
-    </div>
+<div class="grid stats">
 
-    <div class="stat">
-      <span>إجمالي المبيعات</span>
-      <strong id="totalSales">0.00</strong>
-    </div>
+<div class="card">
+<div class="stat-label">عدد الفواتير</div>
+<div class="stat-number" id="totalInvoices">0</div>
+</div>
 
-    <div class="stat">
-      <span>المدفوع</span>
-      <strong id="totalPaid">0.00</strong>
-    </div>
+<div class="card">
+<div class="stat-label">إجمالي المبيعات</div>
+<div class="stat-number" id="totalSales">0.00 د.أ</div>
+</div>
 
-    <div class="stat">
-      <span>المتبقي</span>
-      <strong id="totalDue">0.00</strong>
-    </div>
+<div class="card">
+<div class="stat-label">المدفوع</div>
+<div class="stat-number" id="totalPaid">0.00 د.أ</div>
+</div>
 
-  </section>
+<div class="card">
+<div class="stat-label">المتبقي</div>
+<div class="stat-number" id="totalDue">0.00 د.أ</div>
+</div>
 
-  <section class="card">
+</div>
 
-    <div class="section-title">
-      <h2 id="formTitle">إنشاء فاتورة جديدة</h2>
-    </div>
+<div class="card form-card">
 
-    <form id="invoiceForm">
+<h2 id="formTitle">إنشاء فاتورة</h2>
 
-      <div class="grid">
+<form id="invoiceForm">
 
-        <div class="field">
-          <label>رقم الفاتورة</label>
-          <input id="invoiceNumber" readonly>
-        </div>
+<input type="hidden" id="editId">
 
-        <div class="field">
-          <label>تاريخ الفاتورة</label>
-          <input id="invoiceDate" type="date" required>
-        </div>
+<div class="form-grid">
 
-        <div class="field">
-          <label>العميل المحفوظ</label>
-          <select id="customerSelect">
-            <option value="">اختر العميل</option>
-          </select>
-        </div>
+<div class="field">
+<label>رقم الفاتورة</label>
+<input id="invoiceNumber" readonly>
+</div>
 
-        <div class="field">
-          <label>اسم العميل</label>
-          <input id="customerName" required placeholder="اسم العميل">
-        </div>
+<div class="field">
+<label>التاريخ</label>
+<input type="date" id="invoiceDate" required>
+</div>
 
-        <div class="field">
-          <label>رقم الهاتف</label>
-          <input id="customerPhone" placeholder="07xxxxxxxx">
-        </div>
+<div class="field">
+<label>العميل المسجل</label>
+<select id="customerSelect">
+<option value="">-- اختر عميلًا --</option>
+</select>
+</div>
 
-        <div class="field">
-          <label>العنوان</label>
-          <input id="customerAddress" placeholder="عنوان العميل">
-        </div>
+<div class="field">
+<label>اسم العميل</label>
+<input id="customerName" required>
+</div>
 
-        <div class="field">
-          <label>نوع الخدمة</label>
-          <select id="serviceType" required>
-            <option value="">اختر نوع الخدمة</option>
-            <option>تكييف وتبريد</option>
-            <option>كهرباء</option>
-            <option>سباكة</option>
-            <option>صيانة عامة</option>
-            <option>أجهزة منزلية</option>
-            <option>كاميرات ومراقبة</option>
-            <option>شبكات وإنترنت</option>
-            <option>تدفئة</option>
-            <option>صيانة سيارات</option>
-            <option>نجارة</option>
-            <option>دهان وتشطيبات</option>
-            <option>تنظيف</option>
-            <option>حدائق ومسابح</option>
-            <option>خدمات منزلية</option>
-            <option>مقاولات</option>
-            <option>أخرى</option>
-          </select>
-        </div>
+<div class="field">
+<label>رقم الهاتف</label>
+<input id="customerPhone">
+</div>
 
-        <div class="field">
-          <label>حالة الدفع</label>
-          <select id="paymentStatus">
-            <option value="غير مدفوعة">غير مدفوعة</option>
-            <option value="مدفوعة جزئيًا">مدفوعة جزئيًا</option>
-            <option value="مدفوعة">مدفوعة</option>
-            <option value="ملغاة">ملغاة</option>
-          </select>
-        </div>
+<div class="field">
+<label>نوع الخدمة</label>
+<select id="serviceType">
+<option>تكييف وتبريد</option>
+<option>كهرباء</option>
+<option>سباكة</option>
+<option>صيانة عامة</option>
+<option>أجهزة منزلية</option>
+<option>كاميرات ومراقبة</option>
+<option>شبكات وإنترنت</option>
+<option>تدفئة</option>
+<option>صيانة سيارات</option>
+<option>نجارة</option>
+<option>دهان وتشطيبات</option>
+<option>تنظيف</option>
+<option>حدائق ومسابح</option>
+<option>خدمات منزلية</option>
+<option>مقاولات</option>
+<option>أخرى</option>
+</select>
+</div>
 
-        <div class="field">
-          <label>المبلغ المدفوع</label>
-          <input
-            id="paidAmount"
-            type="number"
-            min="0"
-            step="0.01"
-            value="0"
-          >
-        </div>
+<div class="field">
+<label>حالة الدفع</label>
+<select id="paymentStatus">
+<option>غير مدفوعة</option>
+<option>مدفوعة جزئيًا</option>
+<option>مدفوعة</option>
+<option>ملغاة</option>
+</select>
+</div>
 
-        <div class="field">
-          <label>الفني / الشركة</label>
-          <input id="technician" placeholder="اسم الفني أو الشركة">
-        </div>
+<div class="field">
+<label>الفني / الشركة</label>
+<input id="technician">
+</div>
 
-        <div class="field full">
-          <label>وصف الخدمة</label>
-          <textarea
-            id="description"
-            placeholder="تفاصيل العمل المنفذ..."
-          ></textarea>
-        </div>
+</div>
 
-      </div>
+<h3>بنود الفاتورة</h3>
 
-      <section class="card" style="margin-top:20px;box-shadow:none;border:1px solid #e5e7eb;">
+<div class="items">
+<table>
+<thead>
+<tr>
+<th>الوصف</th>
+<th>الكمية</th>
+<th>سعر الوحدة</th>
+<th>الإجمالي</th>
+<th></th>
+</tr>
+</thead>
+<tbody id="itemsBody"></tbody>
+</table>
+</div>
 
-        <div class="section-title">
-          <h2>بنود الفاتورة</h2>
-          <button
-            type="button"
-            class="add-btn"
-            onclick="addItem()"
-          >
-            + إضافة بند
-          </button>
-        </div>
+<div class="actions">
+<button type="button" class="btn-light" onclick="addItem()">+ إضافة بند</button>
+</div>
 
-        <div class="items-wrap">
+<div class="totals">
 
-          <table>
+<div class="total-row">
+<span>المجموع الفرعي</span>
+<strong id="subtotal">0.00 د.أ</strong>
+</div>
 
-            <thead>
-              <tr>
-                <th>الوصف</th>
-                <th>الكمية</th>
-                <th>سعر الوحدة</th>
-                <th>الإجمالي</th>
-                <th>حذف</th>
-              </tr>
-            </thead>
+<div class="total-row">
+<span>الخصم</span>
+<input type="number" id="discount" value="0" min="0" step="0.01" style="width:130px">
+</div>
 
-            <tbody id="itemsBody"></tbody>
+<div class="total-row">
+<span>الضريبة %</span>
+<input type="number" id="taxRate" value="0" min="0" step="0.01" style="width:130px">
+</div>
 
-          </table>
+<div class="total-row">
+<span>الضريبة</span>
+<strong id="taxValue">0.00 د.أ</strong>
+</div>
 
-        </div>
+<div class="total-row total-final">
+<span>الإجمالي</span>
+<strong id="grandTotal">0.00 د.أ</strong>
+</div>
 
-        <div class="summary">
+<div class="total-row">
+<span>المدفوع</span>
+<input type="number" id="paid" value="0" min="0" step="0.01" style="width:130px">
+</div>
 
-          <div class="summary-row">
-            <span>المجموع الفرعي</span>
-            <strong id="subtotal">0.00</strong>
-          </div>
+<div class="total-row">
+<span>المتبقي</span>
+<strong id="due">0.00 د.أ</strong>
+</div>
 
-          <div class="summary-row">
-            <span>الخصم</span>
-            <input
-              id="discount"
-              type="number"
-              min="0"
-              step="0.01"
-              value="0"
-            >
-          </div>
+</div>
 
-          <div class="summary-row">
-            <span>الضريبة %</span>
-            <input
-              id="taxRate"
-              type="number"
-              min="0"
-              step="0.01"
-              value="0"
-            >
-          </div>
+<div class="form-grid" style="margin-top:20px">
 
-          <div class="summary-row">
-            <span>قيمة الضريبة</span>
-            <strong id="taxValue">0.00</strong>
-          </div>
+<div class="field full">
+<label>ملاحظات</label>
+<textarea id="notes"></textarea>
+</div>
 
-          <div class="summary-row grand-total">
-            <span>الإجمالي النهائي</span>
-            <strong id="grandTotal">0.00</strong>
-          </div>
+</div>
 
-          <div class="summary-row">
-            <span>المبلغ المدفوع</span>
-            <strong id="paidDisplay">0.00</strong>
-          </div>
+<div class="actions">
+<button class="btn-primary" type="submit">حفظ الفاتورة</button>
+<button class="btn-light" type="button" onclick="resetForm()">إلغاء</button>
+</div>
 
-          <div class="summary-row">
-            <span>المبلغ المتبقي</span>
-            <strong id="dueDisplay">0.00</strong>
-          </div>
+</form>
 
-        </div>
+</div>
 
-      </section>
+<div class="card">
 
-      <div class="grid">
+<div class="toolbar">
+<input id="searchInput" placeholder="ابحث باسم العميل أو رقم الفاتورة أو الهاتف..." oninput="renderInvoices()">
 
-        <div class="field full">
-          <label>ملاحظات</label>
-          <textarea
-            id="notes"
-            placeholder="أي ملاحظات أو شروط إضافية..."
-          ></textarea>
-        </div>
+<select id="statusFilter" onchange="renderInvoices()">
+<option value="">كل الحالات</option>
+<option>غير مدفوعة</option>
+<option>مدفوعة جزئيًا</option>
+<option>مدفوعة</option>
+<option>ملغاة</option>
+</select>
+</div>
 
-      </div>
+<div class="table-wrap">
 
-      <div class="actions">
+<table class="main-table">
+<thead>
+<tr>
+<th>الفاتورة</th>
+<th>التاريخ</th>
+<th>العميل</th>
+<th>الخدمة</th>
+<th>الإجمالي</th>
+<th>المدفوع</th>
+<th>المتبقي</th>
+<th>الحالة</th>
+<th>الإجراءات</th>
+</tr>
+</thead>
 
-        <button class="primary" type="submit">
-          حفظ الفاتورة
-        </button>
+<tbody id="invoiceTable"></tbody>
 
-        <button
-          class="secondary"
-          type="button"
-          onclick="resetForm()"
-        >
-          فاتورة جديدة
-        </button>
+</table>
 
-        <button
-          class="success"
-          type="button"
-          onclick="printCurrentInvoice()"
-        >
-          طباعة / PDF
-        </button>
+</div>
 
-      </div>
-
-    </form>
-
-  </section>
-
-  <section class="card">
-
-    <h2>الفواتير المحفوظة</h2>
-
-    <div class="search">
-      <input
-        id="search"
-        placeholder="ابحث برقم الفاتورة أو اسم العميل أو نوع الخدمة..."
-        oninput="renderInvoices()"
-      >
-    </div>
-
-    <div class="table-wrap">
-
-      <table class="invoice-table">
-
-        <thead>
-          <tr>
-            <th>رقم الفاتورة</th>
-            <th>التاريخ</th>
-            <th>العميل</th>
-            <th>الخدمة</th>
-            <th>الإجمالي</th>
-            <th>المدفوع</th>
-            <th>المتبقي</th>
-            <th>الحالة</th>
-            <th>الإجراءات</th>
-          </tr>
-        </thead>
-
-        <tbody id="invoicesBody"></tbody>
-
-      </table>
-
-    </div>
-
-  </section>
+</div>
 
 </main>
 
-<div id="toast" class="toast"></div>
+<div class="toast" id="toast"></div>
 
 <script>
 
-  const INVOICES_KEY = "fanniProInvoices";
-  const COUNTER_KEY = "fanniProInvoiceCounter";
-  const CUSTOMERS_KEY = "fanniProCustomers";
+const STORAGE_KEY="fanniProInvoices";
+const COUNTER_KEY="fanniProInvoiceCounter";
+const CUSTOMER_KEY="fanniProCustomers";
 
-  let invoices =
-    JSON.parse(localStorage.getItem(INVOICES_KEY) || "[]");
+let invoices=[];
+let customers=[];
 
-  let editingId = null;
+function loadData(){
 
-  const form =
-    document.getElementById("invoiceForm");
+    invoices=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");
+    customers=JSON.parse(localStorage.getItem(CUSTOMER_KEY)||"[]");
 
-  const itemsBody =
-    document.getElementById("itemsBody");
+    renderCustomers();
+    renderInvoices();
+    updateStats();
 
-  function today() {
-    return new Date().toISOString().split("T")[0];
-  }
+}
 
-  function generateInvoiceNumber() {
+function saveData(){
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(invoices));
+}
 
-    let counter =
-      Number(localStorage.getItem(COUNTER_KEY) || "0");
+function getNextInvoiceNumber(){
 
-    counter++;
+    let counter=Number(localStorage.getItem(COUNTER_KEY)||0)+1;
 
-    localStorage.setItem(
-      COUNTER_KEY,
-      counter
-    );
+    localStorage.setItem(COUNTER_KEY,counter);
 
-    return "INV-" +
-      new Date().getFullYear() +
-      "-" +
-      String(counter).padStart(4, "0");
-  }
+    const year=new Date().getFullYear();
 
-  function escapeHTML(value) {
+    return "INV-"+year+"-"+String(counter).padStart(4,"0");
 
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
+}
 
-  function showToast(message) {
+function today(){
 
-    const toast =
-      document.getElementById("toast");
+    const d=new Date();
 
-    toast.textContent = message;
+    return d.toISOString().split("T")[0];
 
-    toast.classList.add("show");
+}
 
-    setTimeout(() => {
-      toast.classList.remove("show");
-    }, 2200);
-  }
+function money(value){
 
-  function loadCustomers() {
+    return Number(value||0).toFixed(2)+" د.أ";
 
-    const select =
-      document.getElementById("customerSelect");
+}
 
-    const customers =
-      JSON.parse(
-        localStorage.getItem(CUSTOMERS_KEY) || "[]"
-      );
+function escapeHTML(value){
 
-    select.innerHTML =
-      '<option value="">اختر العميل</option>';
+    return String(value??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
-    customers.forEach(customer => {
+}
 
-      const option =
-        document.createElement("option");
+function renderCustomers(){
 
-      option.value =
-        customer.id;
+    const select=document.getElementById("customerSelect");
 
-      option.textContent =
-        customer.name +
-        (customer.phone
-          ? " - " + customer.phone
-          : "");
+    select.innerHTML='<option value="">-- اختر عميلًا --</option>';
 
-      option.dataset.name =
-        customer.name || "";
+    customers.forEach(c=>{
 
-      option.dataset.phone =
-        customer.phone || "";
+        const option=document.createElement("option");
 
-      option.dataset.address =
-        customer.address || "";
+        option.value=c.id;
 
-      select.appendChild(option);
-    });
-  }
+        option.textContent=c.name+" - "+(c.phone||"بدون رقم");
 
-  document
-    .getElementById("customerSelect")
-    .addEventListener("change", function() {
+        select.appendChild(option);
 
-      const option =
-        this.options[this.selectedIndex];
-
-      if (!option || !option.value) {
-        return;
-      }
-
-      document.getElementById("customerName").value =
-        option.dataset.name || "";
-
-      document.getElementById("customerPhone").value =
-        option.dataset.phone || "";
-
-      document.getElementById("customerAddress").value =
-        option.dataset.address || "";
     });
 
-  function addItem(data = {}) {
+}
 
-    const row =
-      document.createElement("tr");
+document.getElementById("customerSelect").addEventListener("change",function(){
 
-    row.innerHTML = `
+    const customer=customers.find(c=>String(c.id)===String(this.value));
 
-      <td>
-        <input
-          class="item-description"
-          value="${escapeHTML(data.description || "")}"
-          placeholder="مثال: صيانة أو قطعة غيار"
-        >
-      </td>
+    if(!customer)return;
 
-      <td>
-        <input
-          class="item-qty"
-          type="number"
-          min="0"
-          step="0.01"
-          value="${data.qty ?? 1}"
-        >
-      </td>
+    document.getElementById("customerName").value=customer.name||"";
+    document.getElementById("customerPhone").value=customer.phone||"";
 
-      <td>
-        <input
-          class="item-price"
-          type="number"
-          min="0"
-          step="0.01"
-          value="${data.price ?? 0}"
-        >
-      </td>
+});
 
-      <td class="item-total">
-        0.00
-      </td>
+function addItem(item={}){
 
-      <td>
-        <button
-          type="button"
-          class="remove"
-          onclick="removeItem(this)"
-        >
-          حذف
-        </button>
-      </td>
+    const tbody=document.getElementById("itemsBody");
 
+    const tr=document.createElement("tr");
+
+    tr.innerHTML=`
+        <td>
+            <input class="item-input item-desc" value="${escapeHTML(item.description||"")}" placeholder="وصف الخدمة أو القطعة">
+        </td>
+        <td>
+            <input class="item-input item-qty" type="number" min="0" step="0.01" value="${item.qty??1}">
+        </td>
+        <td>
+            <input class="item-input item-price" type="number" min="0" step="0.01" value="${item.unitPrice??0}">
+        </td>
+        <td class="item-total">0.00 د.أ</td>
+        <td>
+            <button type="button" class="remove-item" onclick="this.closest('tr').remove();calculateTotals()">حذف</button>
+        </td>
     `;
 
-    itemsBody.appendChild(row);
+    tbody.appendChild(tr);
 
-    row
-      .querySelector(".item-qty")
-      .addEventListener("input", calculateTotals);
-
-    row
-      .querySelector(".item-price")
-      .addEventListener("input", calculateTotals);
-
-    calculateTotals();
-  }
-
-  function removeItem(button) {
-
-    button.closest("tr").remove();
-
-    calculateTotals();
-  }
-
-  function getItems() {
-
-    return [
-      ...itemsBody.querySelectorAll("tr")
-    ]
-      .map(row => {
-
-        const description =
-          row
-            .querySelector(".item-description")
-            .value
-            .trim();
-
-        const qty =
-          Number(
-            row.querySelector(".item-qty").value
-          ) || 0;
-
-        const price =
-          Number(
-            row.querySelector(".item-price").value
-          ) || 0;
-
-        return {
-          description,
-          qty,
-          price,
-          total: qty * price
-        };
-
-      })
-      .filter(item =>
-        item.description || item.price > 0
-      );
-  }
-
-  function calculateTotals() {
-
-    let subtotal = 0;
-
-    [
-      ...itemsBody.querySelectorAll("tr")
-    ].forEach(row => {
-
-      const qty =
-        Number(
-          row.querySelector(".item-qty").value
-        ) || 0;
-
-      const price =
-        Number(
-          row.querySelector(".item-price").value
-        ) || 0;
-
-      const total =
-        qty * price;
-
-      row.querySelector(".item-total")
-        .textContent =
-        total.toFixed(2);
-
-      subtotal += total;
+    tr.querySelectorAll("input").forEach(input=>{
+        input.addEventListener("input",calculateTotals);
     });
 
-    const discount =
-      Math.max(
-        0,
-        Number(
-          document.getElementById("discount").value
-        ) || 0
-      );
+    calculateTotals();
 
-    const taxRate =
-      Math.max(
-        0,
-        Number(
-          document.getElementById("taxRate").value
-        ) || 0
-      );
+}
 
-    const paid =
-      Math.max(
-        0,
-        Number(
-          document.getElementById("paidAmount").value
-        ) || 0
-      );
+function getItems(){
 
-    const afterDiscount =
-      Math.max(
-        0,
-        subtotal - discount
-      );
+    return [...document.querySelectorAll("#itemsBody tr")].map(tr=>{
 
-    const tax =
-      afterDiscount *
-      (taxRate / 100);
+        const description=tr.querySelector(".item-desc").value.trim();
+        const qty=Number(tr.querySelector(".item-qty").value)||0;
+        const unitPrice=Number(tr.querySelector(".item-price").value)||0;
 
-    const grandTotal =
-      afterDiscount + tax;
+        return {
+            description,
+            qty,
+            unitPrice,
+            total:qty*unitPrice
+        };
 
-    const actualPaid =
-      Math.min(paid, grandTotal);
+    });
 
-    const due =
-      Math.max(
-        0,
-        grandTotal - actualPaid
-      );
+}
 
-    document.getElementById("subtotal")
-      .textContent =
-      subtotal.toFixed(2);
+function calculateTotals(){
 
-    document.getElementById("taxValue")
-      .textContent =
-      tax.toFixed(2);
+    const rows=[...document.querySelectorAll("#itemsBody tr")];
 
-    document.getElementById("grandTotal")
-      .textContent =
-      grandTotal.toFixed(2);
+    let subtotal=0;
 
-    document.getElementById("paidDisplay")
-      .textContent =
-      actualPaid.toFixed(2);
+    rows.forEach(row=>{
 
-    document.getElementById("dueDisplay")
-      .textContent =
-      due.toFixed(2);
+        const qty=Number(row.querySelector(".item-qty").value)||0;
+        const price=Number(row.querySelector(".item-price").value)||0;
 
-    return {
-      subtotal,
-      discount,
-      taxRate,
-      tax,
-      grandTotal,
-      paid: actualPaid,
-      due
-    };
-  }
+        const total=qty*price;
 
-  document
-    .getElementById("discount")
-    .addEventListener(
-      "input",
-      calculateTotals
+        subtotal+=total;
+
+        row.querySelector(".item-total").textContent=money(total);
+
+    });
+
+    const discount=Number(document.getElementById("discount").value)||0;
+    const taxRate=Number(document.getElementById("taxRate").value)||0;
+
+    const taxable=Math.max(0,subtotal-discount);
+
+    const tax=taxable*(taxRate/100);
+
+    const grandTotal=Math.max(0,taxable+tax);
+
+    const paid=Math.min(
+        Math.max(0,Number(document.getElementById("paid").value)||0),
+        grandTotal
     );
 
-  document
-    .getElementById("taxRate")
-    .addEventListener(
-      "input",
-      calculateTotals
-    );
+    const due=Math.max(0,grandTotal-paid);
 
-  document
-    .getElementById("paidAmount")
-    .addEventListener(
-      "input",
-      calculateTotals
-    );
+    document.getElementById("subtotal").textContent=money(subtotal);
+    document.getElementById("taxValue").textContent=money(tax);
+    document.getElementById("grandTotal").textContent=money(grandTotal);
+    document.getElementById("due").textContent=money(due);
 
-  form.addEventListener("submit", function(event) {
+    return {subtotal,discount,taxRate,tax,grandTotal,paid,due};
 
-    event.preventDefault();
+}
 
-    const customerName =
-      document
-        .getElementById("customerName")
-        .value
-        .trim();
+document.getElementById("discount").addEventListener("input",calculateTotals);
+document.getElementById("taxRate").addEventListener("input",calculateTotals);
+document.getElementById("paid").addEventListener("input",calculateTotals);
 
-    if (!customerName) {
-      showToast("أدخل اسم العميل");
-      return;
+document.getElementById("invoiceForm").addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    const totals=calculateTotals();
+
+    const editId=document.getElementById("editId").value;
+
+    let status=document.getElementById("paymentStatus").value;
+
+    if(status!=="ملغاة"){
+
+        if(totals.grandTotal>0 && totals.paid>=totals.grandTotal){
+            status="مدفوعة";
+        }else if(totals.paid>0){
+            status="مدفوعة جزئيًا";
+        }else{
+            status="غير مدفوعة";
+        }
+
     }
 
-    const items =
-      getItems();
+    const old=editId
+        ? invoices.find(x=>String(x.id)===String(editId))
+        : null;
 
-    if (!items.length) {
-      showToast("أضف بندًا واحدًا على الأقل");
-      return;
-    }
+    const invoice={
 
-    const totals =
-      calculateTotals();
+        id:editId||Date.now().toString(),
 
-    let paymentStatus =
-      document.getElementById("paymentStatus").value;
+        invoiceNumber:document.getElementById("invoiceNumber").value,
 
-    if (
-      paymentStatus !== "ملغاة"
-    ) {
+        date:document.getElementById("invoiceDate").value,
 
-      if (
-        totals.grandTotal > 0 &&
-        totals.paid >= totals.grandTotal
-      ) {
-        paymentStatus = "مدفوعة";
+        customerId:document.getElementById("customerSelect").value,
 
-      } else if (
-        totals.paid > 0
-      ) {
-        paymentStatus = "مدفوعة جزئيًا";
+        customerName:document.getElementById("customerName").value.trim(),
 
-      } else {
-        paymentStatus = "غير مدفوعة";
-      }
-    }
+        customerPhone:document.getElementById("customerPhone").value.trim(),
 
-    const invoice = {
+        serviceType:document.getElementById("serviceType").value,
 
-      id:
-        editingId || Date.now(),
+        paymentStatus:status,
 
-      invoiceNumber:
-        document.getElementById("invoiceNumber").value,
+        paid:totals.paid,
 
-      date:
-        document.getElementById("invoiceDate").value,
+        paidAmount:totals.paid,
 
-      customerId:
-        document.getElementById("customerSelect").value,
+        technician:document.getElementById("technician").value.trim(),
 
-      customerName,
+        items:getItems(),
 
-      customerPhone:
-        document.getElementById("customerPhone").value.trim(),
+        subtotal:totals.subtotal,
 
-      customerAddress:
-        document.getElementById("customerAddress").value.trim(),
+        discount:totals.discount,
 
-      serviceType:
-        document.getElementById("serviceType").value,
+        taxRate:totals.taxRate,
 
-      paymentStatus,
+        tax:totals.tax,
 
-      paidAmount:
-        totals.paid,
+        grandTotal:totals.grandTotal,
 
-      technician:
-        document.getElementById("technician").value.trim(),
+        total:totals.grandTotal,
 
-      description:
-        document.getElementById("description").value.trim(),
+        due:totals.due,
 
-      items,
+        notes:document.getElementById("notes").value.trim(),
 
-      subtotal:
-        totals.subtotal,
+        createdAt:old?.createdAt||new Date().toISOString(),
 
-      discount:
-        totals.discount,
+        updatedAt:new Date().toISOString()
 
-      taxRate:
-        totals.taxRate,
-
-      tax:
-        totals.tax,
-
-      grandTotal:
-        totals.grandTotal,
-
-      dueAmount:
-        totals.due,
-
-      notes:
-        document.getElementById("notes").value.trim(),
-
-      updatedAt:
-        new Date().toISOString()
     };
 
-    if (editingId) {
+    if(editId){
 
-      const index =
-        invoices.findIndex(
-          invoice => invoice.id === editingId
-        );
+        const index=invoices.findIndex(x=>String(x.id)===String(editId));
 
-      if (index !== -1) {
-        invoices[index] = invoice;
-      }
+        if(index!==-1) invoices[index]=invoice;
 
-      showToast("تم تحديث الفاتورة");
+        showToast("تم تعديل الفاتورة");
 
-    } else {
+    }else{
 
-      invoices.unshift(invoice);
+        invoices.unshift(invoice);
 
-      showToast("تم حفظ الفاتورة");
+        showToast("تم حفظ الفاتورة");
+
     }
 
-    localStorage.setItem(
-      INVOICES_KEY,
-      JSON.stringify(invoices)
-    );
-
+    saveData();
     resetForm();
     renderInvoices();
-  });
+    updateStats();
 
-  function resetForm() {
+});
 
-    editingId = null;
+function resetForm(){
 
-    form.reset();
+    document.getElementById("invoiceForm").reset();
 
-    document.getElementById("formTitle")
-      .textContent =
-      "إنشاء فاتورة جديدة";
+    document.getElementById("editId").value="";
 
-    document.getElementById("invoiceNumber")
-      .value =
-      generateInvoiceNumber();
+    document.getElementById("invoiceNumber").value=getNextInvoiceNumber();
 
-    document.getElementById("invoiceDate")
-      .value =
-      today();
+    document.getElementById("invoiceDate").value=today();
 
-    document.getElementById("paymentStatus")
-      .value =
-      "غير مدفوعة";
+    document.getElementById("paymentStatus").value="غير مدفوعة";
 
-    document.getElementById("paidAmount")
-      .value =
-      "0";
+    document.getElementById("itemsBody").innerHTML="";
 
-    document.getElementById("discount")
-      .value =
-      "0";
+    document.getElementById("discount").value=0;
 
-    document.getElementById("taxRate")
-      .value =
-      "0";
+    document.getElementById("taxRate").value=0;
 
-    itemsBody.innerHTML = "";
+    document.getElementById("paid").value=0;
+
+    document.getElementById("formTitle").textContent="إنشاء فاتورة";
 
     addItem();
 
-    calculateTotals();
-  }
+}
 
-  function editInvoice(id) {
+function editInvoice(id){
 
-    const invoice =
-      invoices.find(
-        invoice => invoice.id === id
-      );
+    const item=invoices.find(x=>String(x.id)===String(id));
 
-    if (!invoice) return;
+    if(!item)return;
 
-    editingId = id;
+    document.getElementById("editId").value=item.id;
+    document.getElementById("invoiceNumber").value=item.invoiceNumber;
+    document.getElementById("invoiceDate").value=item.date||"";
+    document.getElementById("customerSelect").value=item.customerId||"";
+    document.getElementById("customerName").value=item.customerName||"";
+    document.getElementById("customerPhone").value=item.customerPhone||"";
+    document.getElementById("serviceType").value=item.serviceType||"تكييف وتبريد";
+    document.getElementById("paymentStatus").value=item.paymentStatus||"غير مدفوعة";
+    document.getElementById("technician").value=item.technician||"";
+    document.getElementById("discount").value=item.discount||0;
+    document.getElementById("taxRate").value=item.taxRate||0;
+    document.getElementById("paid").value=item.paid??item.paidAmount??0;
+    document.getElementById("notes").value=item.notes||"";
 
-    document.getElementById("formTitle")
-      .textContent =
-      "تعديل الفاتورة";
+    document.getElementById("itemsBody").innerHTML="";
 
-    document.getElementById("invoiceNumber")
-      .value =
-      invoice.invoiceNumber;
-
-    document.getElementById("invoiceDate")
-      .value =
-      invoice.date;
-
-    document.getElementById("customerSelect")
-      .value =
-      invoice.customerId || "";
-
-    document.getElementById("customerName")
-      .value =
-      invoice.customerName || "";
-
-    document.getElementById("customerPhone")
-      .value =
-      invoice.customerPhone || "";
-
-    document.getElementById("customerAddress")
-      .value =
-      invoice.customerAddress || "";
-
-    document.getElementById("serviceType")
-      .value =
-      invoice.serviceType || "";
-
-    document.getElementById("paymentStatus")
-      .value =
-      invoice.paymentStatus || "غير مدفوعة";
-
-    document.getElementById("paidAmount")
-      .value =
-      invoice.paidAmount || 0;
-
-    document.getElementById("technician")
-      .value =
-      invoice.technician || "";
-
-    document.getElementById("description")
-      .value =
-      invoice.description || "";
-
-    document.getElementById("discount")
-      .value =
-      invoice.discount || 0;
-
-    document.getElementById("taxRate")
-      .value =
-      invoice.taxRate || 0;
-
-    document.getElementById("notes")
-      .value =
-      invoice.notes || "";
-
-    itemsBody.innerHTML = "";
-
-    if (
-      invoice.items &&
-      invoice.items.length
-    ) {
-
-      invoice.items.forEach(item => {
-        addItem(item);
-      });
-
-    } else {
-
-      addItem();
+    if(item.items&&item.items.length){
+        item.items.forEach(addItem);
+    }else{
+        addItem();
     }
+
+    document.getElementById("formTitle").textContent="تعديل الفاتورة";
 
     calculateTotals();
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }
+    window.scrollTo({top:0,behavior:"smooth"});
 
-  function deleteInvoice(id) {
+}
 
-    const invoice =
-      invoices.find(
-        invoice => invoice.id === id
-      );
+function deleteInvoice(id){
 
-    if (!invoice) return;
+    if(!confirm("هل تريد حذف هذه الفاتورة؟"))return;
 
-    if (
-      !confirm(
-        "هل أنت متأكد من حذف الفاتورة " +
-        invoice.invoiceNumber +
-        "؟"
-      )
-    ) {
-      return;
-    }
+    invoices=invoices.filter(x=>String(x.id)!==String(id));
 
-    invoices =
-      invoices.filter(
-        invoice => invoice.id !== id
-      );
-
-    localStorage.setItem(
-      INVOICES_KEY,
-      JSON.stringify(invoices)
-    );
-
+    saveData();
     renderInvoices();
+    updateStats();
 
     showToast("تم حذف الفاتورة");
-  }
 
-  function statusClass(status) {
+}
 
-    if (status === "مدفوعة") {
-      return "paid";
+function normalizeJordanPhone(phone){
+
+    let p=String(phone||"").trim().replace(/[^\d+]/g,"");
+
+    if(p.startsWith("+962")) return p.substring(1);
+
+    if(p.startsWith("00962")) return p.substring(2);
+
+    if(p.startsWith("962")) return p;
+
+    if(p.startsWith("07")) return "962"+p.substring(1);
+
+    return p.replace(/\D/g,"");
+
+}
+
+function sendInvoiceWhatsApp(id){
+
+    const item=invoices.find(x=>String(x.id)===String(id));
+
+    if(!item)return;
+
+    const phone=normalizeJordanPhone(item.customerPhone);
+
+    if(!phone){
+
+        alert("لا يوجد رقم هاتف صالح للعميل في هذه الفاتورة.");
+
+        return;
+
     }
 
-    if (status === "مدفوعة جزئيًا") {
-      return "partial";
-    }
+    const paid=Number(item.paid??item.paidAmount??0);
+    const total=Number(item.grandTotal??item.total??0);
+    const due=Math.max(0,total-paid);
 
-    if (status === "ملغاة") {
-      return "cancelled";
-    }
+    const message=
+`فاتورة من فني برو
 
-    return "unpaid";
-  }
+رقم الفاتورة: ${item.invoiceNumber||""}
+العميل: ${item.customerName||""}
+التاريخ: ${item.date||""}
+الخدمة: ${item.serviceType||""}
+الفني / الشركة: ${item.technician||""}
 
-  function renderInvoices() {
+الإجمالي: ${money(total)}
+المدفوع: ${money(paid)}
+المتبقي: ${money(due)}
+الحالة: ${item.paymentStatus||""}
 
-    const body =
-      document.getElementById("invoicesBody");
+شكرًا لتعاملكم معنا.
+تم إنشاء الفاتورة بواسطة فني برو.`;
 
-    const search =
-      document
-        .getElementById("search")
-        .value
-        .trim()
-        .toLowerCase();
+    const url="https://wa.me/"+phone+"?text="+encodeURIComponent(message);
 
-    const filtered =
-      invoices.filter(invoice => {
+    window.open(url,"_blank");
 
-        const text =
-          [
-            invoice.invoiceNumber,
-            invoice.customerName,
-            invoice.serviceType,
-            invoice.paymentStatus
-          ]
-          .join(" ")
-          .toLowerCase();
+}
 
-        return text.includes(search);
-      });
+function printInvoice(id){
 
-    if (!filtered.length) {
+    const item=invoices.find(x=>String(x.id)===String(id));
 
-      body.innerHTML = `
+    if(!item)return;
+
+    const total=Number(item.grandTotal??item.total??0);
+    const paid=Number(item.paid??item.paidAmount??0);
+    const due=Math.max(0,total-paid);
+
+    const rows=(item.items||[]).map(x=>`
         <tr>
-          <td colspan="9" class="empty">
-            لا توجد فواتير محفوظة
-          </td>
+            <td>${escapeHTML(x.description)}</td>
+            <td>${x.qty}</td>
+            <td>${money(x.unitPrice)}</td>
+            <td>${money(x.total)}</td>
         </tr>
-      `;
-
-    } else {
-
-      body.innerHTML =
-        filtered.map(invoice => `
-
-          <tr>
-
-            <td>
-              <strong>
-                ${escapeHTML(invoice.invoiceNumber)}
-              </strong>
-            </td>
-
-            <td>
-              ${escapeHTML(invoice.date)}
-            </td>
-
-            <td>
-              ${escapeHTML(invoice.customerName)}
-            </td>
-
-            <td>
-              ${escapeHTML(invoice.serviceType)}
-            </td>
-
-            <td>
-              ${Number(invoice.grandTotal || 0).toFixed(2)}
-            </td>
-
-            <td>
-              ${Number(invoice.paidAmount || 0).toFixed(2)}
-            </td>
-
-            <td>
-              ${Number(invoice.dueAmount || 0).toFixed(2)}
-            </td>
-
-            <td>
-              <span class="status ${statusClass(invoice.paymentStatus)}">
-                ${escapeHTML(invoice.paymentStatus)}
-              </span>
-            </td>
-
-            <td>
-
-              <div class="table-actions">
-
-                <button
-                  class="small-btn primary"
-                  onclick="editInvoice(${invoice.id})"
-                >
-                  تعديل
-                </button>
-
-                <button
-                  class="small-btn success"
-                  onclick="printInvoice(${invoice.id})"
-                >
-                  طباعة
-                </button>
-
-                <button
-                  class="small-btn danger"
-                  onclick="deleteInvoice(${invoice.id})"
-                >
-                  حذف
-                </button>
-
-              </div>
-
-            </td>
-
-          </tr>
-
-        `).join("");
-    }
-
-    updateStats();
-  }
-
-  function updateStats() {
-
-    const totalSales =
-      invoices
-        .filter(invoice =>
-          invoice.paymentStatus !== "ملغاة"
-        )
-        .reduce(
-          (sum, invoice) =>
-            sum + Number(invoice.grandTotal || 0),
-          0
-        );
-
-    const totalPaid =
-      invoices
-        .filter(invoice =>
-          invoice.paymentStatus !== "ملغاة"
-        )
-        .reduce(
-          (sum, invoice) =>
-            sum + Number(invoice.paidAmount || 0),
-          0
-        );
-
-    const totalDue =
-      invoices
-        .filter(invoice =>
-          invoice.paymentStatus !== "ملغاة"
-        )
-        .reduce(
-          (sum, invoice) =>
-            sum + Number(invoice.dueAmount || 0),
-          0
-        );
-
-    document.getElementById("totalInvoices")
-      .textContent =
-      invoices.length;
-
-    document.getElementById("totalSales")
-      .textContent =
-      totalSales.toFixed(2);
-
-    document.getElementById("totalPaid")
-      .textContent =
-      totalPaid.toFixed(2);
-
-    document.getElementById("totalDue")
-      .textContent =
-      totalDue.toFixed(2);
-  }
-
-  function createPrintHTML(invoice) {
-
-    const itemsHTML =
-      (invoice.items || [])
-        .map(item => `
-          <tr>
-            <td>${escapeHTML(item.description)}</td>
-            <td>${item.qty}</td>
-            <td>${Number(item.price).toFixed(2)}</td>
-            <td>${Number(item.total).toFixed(2)}</td>
-          </tr>
-        `)
-        .join("");
-
-    return `
-
-      <div
-        style="
-          font-family:Arial,Tahoma,sans-serif;
-          direction:rtl;
-          max-width:900px;
-          margin:auto;
-          color:#111;
-        "
-      >
-
-        <div
-          style="
-            display:flex;
-            justify-content:space-between;
-            border-bottom:2px solid #111;
-            padding-bottom:18px;
-            margin-bottom:20px;
-          "
-        >
-
-          <div>
-            <h1 style="margin:0 0 8px;">
-              ⚒ فني برو
-            </h1>
-
-            <div>
-              فاتورة خدمات وصيانة
-            </div>
-          </div>
-
-          <div style="text-align:left;line-height:1.8;">
-
-            <strong>رقم الفاتورة:</strong>
-            ${escapeHTML(invoice.invoiceNumber)}
-
-            <br>
-
-            <strong>التاريخ:</strong>
-            ${escapeHTML(invoice.date)}
-
-          </div>
-
-        </div>
-
-        <div
-          style="
-            line-height:1.9;
-            margin-bottom:20px;
-          "
-        >
-
-          <strong>العميل:</strong>
-          ${escapeHTML(invoice.customerName)}
-
-          <br>
-
-          <strong>الهاتف:</strong>
-          ${escapeHTML(invoice.customerPhone || "-")}
-
-          <br>
-
-          <strong>العنوان:</strong>
-          ${escapeHTML(invoice.customerAddress || "-")}
-
-          <br>
-
-          <strong>نوع الخدمة:</strong>
-          ${escapeHTML(invoice.serviceType)}
-
-          <br>
-
-          <strong>الفني / الشركة:</strong>
-          ${escapeHTML(invoice.technician || "-")}
-
-        </div>
-
-        <p style="line-height:1.8;">
-          <strong>وصف الخدمة:</strong><br>
-          ${escapeHTML(invoice.description || "-")}
-        </p>
-
-        <table
-          style="
-            width:100%;
-            border-collapse:collapse;
-            margin-top:20px;
-          "
-        >
-
-          <thead>
-
-            <tr>
-
-              <th style="border:1px solid #999;padding:10px;background:#eee;">
-                الوصف
-              </th>
-
-              <th style="border:1px solid #999;padding:10px;background:#eee;">
-                الكمية
-              </th>
-
-              <th style="border:1px solid #999;padding:10px;background:#eee;">
-                سعر الوحدة
-              </th>
-
-              <th style="border:1px solid #999;padding:10px;background:#eee;">
-                الإجمالي
-              </th>
-
-            </tr>
-
-          </thead>
-
-          <tbody>
-            ${itemsHTML}
-          </tbody>
-
-        </table>
-
-        <div
-          style="
-            width:350px;
-            margin-right:auto;
-            margin-top:25px;
-            line-height:2;
-          "
-        >
-
-          <div style="display:flex;justify-content:space-between;">
-            <span>المجموع الفرعي:</span>
-            <strong>
-              ${Number(invoice.subtotal).toFixed(2)}
-            </strong>
-          </div>
-
-          <div style="display:flex;justify-content:space-between;">
-            <span>الخصم:</span>
-            <strong>
-              ${Number(invoice.discount).toFixed(2)}
-            </strong>
-          </div>
-
-          <div style="display:flex;justify-content:space-between;">
-            <span>الضريبة:</span>
-            <strong>
-              ${Number(invoice.tax).toFixed(2)}
-            </strong>
-          </div>
-
-          <div
-            style="
-              display:flex;
-              justify-content:space-between;
-              font-size:20px;
-              border-top:2px solid #111;
-              padding-top:8px;
-            "
-          >
-            <span>الإجمالي:</span>
-            <strong>
-              ${Number(invoice.grandTotal).toFixed(2)}
-            </strong>
-          </div>
-
-          <div style="display:flex;justify-content:space-between;">
-            <span>المدفوع:</span>
-            <strong>
-              ${Number(invoice.paidAmount).toFixed(2)}
-            </strong>
-          </div>
-
-          <div style="display:flex;justify-content:space-between;">
-            <span>المتبقي:</span>
-            <strong>
-              ${Number(invoice.dueAmount).toFixed(2)}
-            </strong>
-          </div>
-
-        </div>
-
-        <div
-          style="
-            margin-top:25px;
-            line-height:1.9;
-          "
-        >
-
-          <strong>حالة الدفع:</strong>
-          ${escapeHTML(invoice.paymentStatus)}
-
-        </div>
-
-        <div
-          style="
-            margin-top:25px;
-            border-top:1px solid #ccc;
-            padding-top:15px;
-            line-height:1.8;
-          "
-        >
-
-          <strong>الملاحظات:</strong><br>
-          ${escapeHTML(invoice.notes || "-")}
-
-        </div>
-
-      </div>
-    `;
-  }
-
-  function printInvoice(id) {
-
-    const invoice =
-      invoices.find(
-        invoice => invoice.id === id
-      );
-
-    if (!invoice) return;
-
-    const printWindow =
-      window.open("", "_blank");
-
-    printWindow.document.write(`
-
-      <!DOCTYPE html>
-
-      <html lang="ar" dir="rtl">
-
-      <head>
-
-        <meta charset="UTF-8">
-
-        <title>
-          ${escapeHTML(invoice.invoiceNumber)}
-        </title>
-
-        <style>
-
-          body {
-            padding:30px;
-            background:white;
-          }
-
-          @media print {
-            body {
-              padding:0;
-            }
-          }
-
-        </style>
-
-      </head>
-
-      <body>
-
-        ${createPrintHTML(invoice)}
-
-        <script>
-
-          window.onload = function() {
-            window.print();
-          };
-
-        <\/script>
-
-      </body>
-
-      </html>
-
+    `).join("");
+
+    const win=window.open("","_blank");
+
+    win.document.write(`
+    <!DOCTYPE html>
+    <html lang="ar" dir="rtl">
+    <head>
+    <meta charset="UTF-8">
+    <title>${escapeHTML(item.invoiceNumber)}</title>
+    <style>
+    body{font-family:Arial,Tahoma,sans-serif;padding:35px;color:#111}
+    h1{text-align:center}
+    .box{border:1px solid #ddd;padding:15px;margin:15px 0;border-radius:8px}
+    table{width:100%;border-collapse:collapse;margin-top:20px}
+    th,td{border:1px solid #ddd;padding:10px;text-align:right}
+    th{background:#f5f5f5}
+    .total{margin-top:20px;max-width:400px;margin-right:auto}
+    .row{display:flex;justify-content:space-between;padding:7px}
+    .final{font-size:20px;font-weight:bold;border-top:2px solid #111}
+    </style>
+    </head>
+    <body>
+
+    <h1>فني برو</h1>
+    <h2 style="text-align:center">فاتورة</h2>
+
+    <div class="box">
+    <strong>رقم الفاتورة:</strong> ${escapeHTML(item.invoiceNumber)}<br>
+    <strong>التاريخ:</strong> ${escapeHTML(item.date)}<br>
+    <strong>العميل:</strong> ${escapeHTML(item.customerName)}<br>
+    <strong>الهاتف:</strong> ${escapeHTML(item.customerPhone)}<br>
+    <strong>الخدمة:</strong> ${escapeHTML(item.serviceType)}<br>
+    </div>
+
+    <table>
+    <thead>
+    <tr>
+    <th>الوصف</th>
+    <th>الكمية</th>
+    <th>السعر</th>
+    <th>الإجمالي</th>
+    </tr>
+    </thead>
+    <tbody>${rows}</tbody>
+    </table>
+
+    <div class="total">
+    <div class="row"><span>المجموع الفرعي</span><strong>${money(item.subtotal)}</strong></div>
+    <div class="row"><span>الخصم</span><strong>${money(item.discount)}</strong></div>
+    <div class="row"><span>الضريبة</span><strong>${money(item.tax)}</strong></div>
+    <div class="row final"><span>الإجمالي</span><strong>${money(total)}</strong></div>
+    <div class="row"><span>المدفوع</span><strong>${money(paid)}</strong></div>
+    <div class="row"><span>المتبقي</span><strong>${money(due)}</strong></div>
+    </div>
+
+    <div class="box">
+    <strong>ملاحظات:</strong><br>
+    ${escapeHTML(item.notes||"لا يوجد")}
+    </div>
+
+    <script>
+    window.onload=function(){window.print()}
+    <\/script>
+
+    </body>
+    </html>
     `);
 
-    printWindow.document.close();
-  }
+    win.document.close();
 
-  function printCurrentInvoice() {
+}
 
-    const customerName =
-      document
-        .getElementById("customerName")
-        .value
-        .trim();
+function statusBadge(status){
 
-    if (!customerName) {
-      showToast("أدخل اسم العميل أولًا");
-      return;
+    if(status==="مدفوعة")
+        return '<span class="badge badge-paid">مدفوعة</span>';
+
+    if(status==="مدفوعة جزئيًا")
+        return '<span class="badge badge-partial">مدفوعة جزئيًا</span>';
+
+    if(status==="ملغاة")
+        return '<span class="badge badge-cancelled">ملغاة</span>';
+
+    return '<span class="badge badge-unpaid">غير مدفوعة</span>';
+
+}
+
+function renderInvoices(){
+
+    const search=document.getElementById("searchInput").value.toLowerCase().trim();
+    const filter=document.getElementById("statusFilter").value;
+
+    const filtered=invoices.filter(item=>{
+
+        const text=[
+            item.invoiceNumber,
+            item.customerName,
+            item.customerPhone,
+            item.serviceType,
+            item.technician
+        ].join(" ").toLowerCase();
+
+        return (!search||text.includes(search))
+            &&(!filter||item.paymentStatus===filter);
+
+    });
+
+    const tbody=document.getElementById("invoiceTable");
+
+    if(!filtered.length){
+
+        tbody.innerHTML=`
+        <tr>
+        <td colspan="9" class="empty">لا توجد فواتير</td>
+        </tr>`;
+
+        return;
+
     }
 
-    const items =
-      getItems();
+    tbody.innerHTML=filtered.map(item=>{
 
-    if (!items.length) {
-      showToast("أضف بندًا واحدًا على الأقل");
-      return;
-    }
+        const total=Number(item.grandTotal??item.total??0);
+        const paid=Number(item.paid??item.paidAmount??0);
+        const due=Math.max(0,total-paid);
 
-    const totals =
-      calculateTotals();
+        return `
+        <tr>
 
-    const invoice = {
+        <td><strong>${escapeHTML(item.invoiceNumber)}</strong></td>
 
-      invoiceNumber:
-        document.getElementById("invoiceNumber").value,
+        <td>${escapeHTML(item.date)}</td>
 
-      date:
-        document.getElementById("invoiceDate").value,
+        <td>
+        ${escapeHTML(item.customerName)}
+        <br>
+        <small>${escapeHTML(item.customerPhone||"")}</small>
+        </td>
 
-      customerName,
+        <td>${escapeHTML(item.serviceType)}</td>
 
-      customerPhone:
-        document.getElementById("customerPhone").value,
+        <td>${money(total)}</td>
 
-      customerAddress:
-        document.getElementById("customerAddress").value,
+        <td>${money(paid)}</td>
 
-      serviceType:
-        document.getElementById("serviceType").value,
+        <td>${money(due)}</td>
 
-      paymentStatus:
-        document.getElementById("paymentStatus").value,
+        <td>${statusBadge(item.paymentStatus)}</td>
 
-      paidAmount:
-        totals.paid,
+        <td>
+        <div class="actions no-print">
 
-      technician:
-        document.getElementById("technician").value,
+        <button class="btn-edit" onclick="editInvoice('${item.id}')">
+        تعديل
+        </button>
 
-      description:
-        document.getElementById("description").value,
+        <button class="btn-whatsapp" onclick="sendInvoiceWhatsApp('${item.id}')">
+        واتساب
+        </button>
 
-      items,
+        <button class="btn-dark" onclick="printInvoice('${item.id}')">
+        طباعة
+        </button>
 
-      subtotal:
-        totals.subtotal,
+        <button class="btn-danger" onclick="deleteInvoice('${item.id}')">
+        حذف
+        </button>
 
-      discount:
-        totals.discount,
+        </div>
+        </td>
 
-      tax:
-        totals.tax,
+        </tr>
+        `;
 
-      grandTotal:
-        totals.grandTotal,
+    }).join("");
 
-      dueAmount:
-        totals.due,
+}
 
-      notes:
-        document.getElementById("notes").value
+function updateStats(){
 
-    };
+    const total=invoices.reduce((sum,x)=>
+        sum+Number(x.grandTotal??x.total??0),0);
 
-    const printWindow =
-      window.open("", "_blank");
+    const paid=invoices.reduce((sum,x)=>
+        sum+Number(x.paid??x.paidAmount??0),0);
 
-    printWindow.document.write(`
+    const due=Math.max(0,total-paid);
 
-      <!DOCTYPE html>
+    document.getElementById("totalInvoices").textContent=invoices.length;
 
-      <html lang="ar" dir="rtl">
+    document.getElementById("totalSales").textContent=money(total);
 
-      <head>
+    document.getElementById("totalPaid").textContent=money(paid);
 
-        <meta charset="UTF-8">
+    document.getElementById("totalDue").textContent=money(due);
 
-        <title>
-          ${escapeHTML(invoice.invoiceNumber)}
-        </title>
+}
 
-        <style>
+function showToast(message){
 
-          body {
-            padding:30px;
-            background:white;
-          }
+    const toast=document.getElementById("toast");
 
-          @media print {
-            body {
-              padding:0;
-            }
-          }
+    toast.textContent=message;
+    toast.style.display="block";
 
-        </style>
+    setTimeout(()=>{
+        toast.style.display="none";
+    },2500);
 
-      </head>
+}
 
-      <body>
-
-        ${createPrintHTML(invoice)}
-
-        <script>
-
-          window.onload = function() {
-            window.print();
-          };
-
-        <\/script>
-
-      </body>
-
-      </html>
-
-    `);
-
-    printWindow.document.close();
-  }
-
-  loadCustomers();
-  resetForm();
-  renderInvoices();
+loadData();
+resetForm();
 
 </script>
 
