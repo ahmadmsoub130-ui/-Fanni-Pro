@@ -8,7 +8,7 @@
 
   <meta
     name="description"
-    content="فني برو منصة لإدارة العملاء وطلبات الخدمة وتقارير الصيانة وعروض الأسعار والفواتير للفنيين والشركات."
+    content="فني برو منصة لإدارة العملاء وطلبات الخدمة والمواعيد والتقارير وعروض الأسعار والفواتير والمصروفات والأرباح."
   >
 
   <style>
@@ -54,16 +54,16 @@
 
     .nav {
       display: flex;
-      gap: 8px;
+      gap: 7px;
       flex-wrap: wrap;
       justify-content: center;
     }
 
     .nav a {
-      padding: 9px 12px;
+      padding: 9px 11px;
       border-radius: 9px;
       color: #e5e7eb;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .nav a:hover {
@@ -146,7 +146,7 @@
     .mini-row {
       display: flex;
       justify-content: space-between;
-      padding: 13px 0;
+      padding: 11px 0;
       border-bottom: 1px solid rgba(255,255,255,.15);
     }
 
@@ -373,6 +373,7 @@
     }
 
     @media (max-width: 900px) {
+
       .hero-content {
         grid-template-columns: 1fr;
       }
@@ -395,6 +396,7 @@
     }
 
     @media (max-width: 600px) {
+
       .topbar {
         align-items: flex-start;
         flex-direction: column;
@@ -406,10 +408,6 @@
 
       .hero {
         padding: 50px 20px;
-      }
-
-      .hero-content {
-        gap: 25px;
       }
 
       .services,
@@ -439,11 +437,35 @@
   </a>
 
   <nav class="nav">
-    <a href="customers.html">العملاء</a>
-    <a href="service-request.html">طلبات الخدمة</a>
-    <a href="maintenance-report.html">التقارير</a>
-    <a href="quote.html">عروض الأسعار</a>
-    <a href="invoice.html">الفواتير</a>
+
+    <a href="customers.html">
+      العملاء
+    </a>
+
+    <a href="service-request.html">
+      الطلبات
+    </a>
+
+    <a href="maintenance-report.html">
+      التقارير
+    </a>
+
+    <a href="quote.html">
+      العروض
+    </a>
+
+    <a href="invoice.html">
+      الفواتير
+    </a>
+
+    <a href="appointments.html">
+      المواعيد
+    </a>
+
+    <a href="expenses.html">
+      الأرباح
+    </a>
+
   </nav>
 
 </header>
@@ -463,8 +485,8 @@
 
       <p>
         فني برو يساعد الفنيين وأصحاب شركات الخدمات والصيانة
-        على إدارة العملاء وطلبات الخدمة والتقارير وعروض الأسعار
-        والفواتير من مكان واحد.
+        على إدارة العملاء وطلبات الخدمة والمواعيد والتقارير
+        وعروض الأسعار والفواتير والمصروفات من مكان واحد.
       </p>
 
       <div class="hero-actions">
@@ -490,7 +512,9 @@
 
     <div class="hero-card">
 
-      <h2>لوحة العمل</h2>
+      <h2>
+        لوحة العمل
+      </h2>
 
       <div class="mini-row">
         <span>العملاء</span>
@@ -500,6 +524,11 @@
       <div class="mini-row">
         <span>طلبات الخدمة</span>
         <strong id="heroRequests">0</strong>
+      </div>
+
+      <div class="mini-row">
+        <span>المواعيد</span>
+        <strong id="heroAppointments">0</strong>
       </div>
 
       <div class="mini-row">
@@ -523,7 +552,9 @@
 
   <div class="section-head">
 
-    <h2>لجميع أنواع الخدمات والصيانة</h2>
+    <h2>
+      لجميع أنواع الخدمات والصيانة
+    </h2>
 
     <p>
       فني برو ليس مخصصًا لمهنة واحدة.
@@ -616,10 +647,12 @@
 
   <div class="section-head">
 
-    <h2>لوحة أعمالك</h2>
+    <h2>
+      لوحة أعمالك
+    </h2>
 
     <p>
-      أرقام حقيقية يتم قراءتها من البيانات التي تحفظها داخل المنصة على جهازك.
+      الأرقام تتحدث تلقائيًا من البيانات المحفوظة داخل فني برو.
     </p>
 
   </div>
@@ -628,23 +661,66 @@
   <div class="dashboard">
 
     <div class="stat">
-      <div class="stat-label">العملاء</div>
-      <div class="stat-value" id="customerCount">0</div>
+
+      <div class="stat-label">
+        العملاء
+      </div>
+
+      <div
+        class="stat-value"
+        id="customerCount"
+      >
+        0
+      </div>
+
     </div>
 
-    <div class="stat">
-      <div class="stat-label">طلبات الخدمة</div>
-      <div class="stat-value" id="requestCount">0</div>
-    </div>
 
     <div class="stat">
-      <div class="stat-label">عروض الأسعار</div>
-      <div class="stat-value" id="quoteCount">0</div>
+
+      <div class="stat-label">
+        طلبات الخدمة
+      </div>
+
+      <div
+        class="stat-value"
+        id="requestCount"
+      >
+        0
+      </div>
+
     </div>
 
+
     <div class="stat">
-      <div class="stat-label">الفواتير</div>
-      <div class="stat-value" id="invoiceCount">0</div>
+
+      <div class="stat-label">
+        المواعيد
+      </div>
+
+      <div
+        class="stat-value"
+        id="appointmentCount"
+      >
+        0
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-label">
+        الفواتير
+      </div>
+
+      <div
+        class="stat-value"
+        id="invoiceCount"
+      >
+        0
+      </div>
+
     </div>
 
   </div>
@@ -652,11 +728,16 @@
 </section>
 
 
-<section class="section" id="tools">
+<section
+  class="section"
+  id="tools"
+>
 
   <div class="section-head">
 
-    <h2>أدوات فني برو</h2>
+    <h2>
+      أدوات فني برو
+    </h2>
 
     <p>
       كل مرحلة من مراحل العمل لها أداة مخصصة.
@@ -667,11 +748,16 @@
 
   <div class="tools">
 
+
     <div class="tool">
 
-      <div class="tool-icon">👥</div>
+      <div class="tool-icon">
+        👥
+      </div>
 
-      <h3>إدارة العملاء</h3>
+      <h3>
+        إدارة العملاء
+      </h3>
 
       <p>
         احفظ بيانات العملاء ومعلومات التواصل والخدمات الخاصة بهم.
@@ -689,9 +775,13 @@
 
     <div class="tool">
 
-      <div class="tool-icon">📋</div>
+      <div class="tool-icon">
+        📋
+      </div>
 
-      <h3>طلبات الخدمة</h3>
+      <h3>
+        طلبات الخدمة
+      </h3>
 
       <p>
         سجّل طلبات العملاء وحدد الأولوية والموعد والفني المسؤول.
@@ -709,9 +799,13 @@
 
     <div class="tool">
 
-      <div class="tool-icon">📝</div>
+      <div class="tool-icon">
+        📝
+      </div>
 
-      <h3>تقارير الصيانة</h3>
+      <h3>
+        تقارير الصيانة
+      </h3>
 
       <p>
         أنشئ تقريرًا للخدمة والعمل المنفذ والملاحظات والتكاليف.
@@ -729,9 +823,13 @@
 
     <div class="tool">
 
-      <div class="tool-icon">💰</div>
+      <div class="tool-icon">
+        💰
+      </div>
 
-      <h3>عروض الأسعار</h3>
+      <h3>
+        عروض الأسعار
+      </h3>
 
       <p>
         أنشئ عرض سعر واضحًا للعميل مع البنود والخصم والضريبة.
@@ -749,9 +847,13 @@
 
     <div class="tool">
 
-      <div class="tool-icon">🧾</div>
+      <div class="tool-icon">
+        🧾
+      </div>
 
-      <h3>الفواتير</h3>
+      <h3>
+        الفواتير
+      </h3>
 
       <p>
         أنشئ الفواتير وتابع المبالغ المدفوعة والمتبقية.
@@ -769,18 +871,95 @@
 
     <div class="tool">
 
-      <div class="tool-icon">📅</div>
+      <div class="tool-icon">
+        📅
+      </div>
 
-      <h3>المواعيد</h3>
+      <h3>
+        المواعيد
+      </h3>
 
       <p>
-        تنظيم مواعيد الزيارات والخدمات سيكون ضمن المرحلة القادمة.
+        نظّم زيارات العملاء والمواعيد وتابع حالة كل زيارة.
+      </p>
+
+      <a
+        href="appointments.html"
+        class="tool-btn"
+      >
+        فتح المواعيد
+      </a>
+
+    </div>
+
+
+    <div class="tool">
+
+      <div class="tool-icon">
+        💵
+      </div>
+
+      <h3>
+        المصروفات والأرباح
+      </h3>
+
+      <p>
+        تابع مصاريف العمل والإيرادات واحسب صافي الربح.
+      </p>
+
+      <a
+        href="expenses.html"
+        class="tool-btn"
+      >
+        فتح الحسابات
+      </a>
+
+    </div>
+
+
+    <div class="tool">
+
+      <div class="tool-icon">
+        📱
+      </div>
+
+      <h3>
+        واتساب
+      </h3>
+
+      <p>
+        تجهيز مشاركة التقارير والفواتير مع العملاء عبر واتساب سيكون في المرحلة القادمة.
       </p>
 
       <a
         href="#"
         class="tool-btn"
-        onclick="comingSoon(event,'المواعيد')"
+        onclick="comingSoon(event,'واتساب')"
+      >
+        قريبًا
+      </a>
+
+    </div>
+
+
+    <div class="tool">
+
+      <div class="tool-icon">
+        🏢
+      </div>
+
+      <h3>
+        إدارة الشركات والفنيين
+      </h3>
+
+      <p>
+        إضافة المستخدمين والفنيين والصلاحيات والعمل الجماعي ستكون ضمن النسخة المتقدمة.
+      </p>
+
+      <a
+        href="#"
+        class="tool-btn"
+        onclick="comingSoon(event,'إدارة الشركات والفنيين')"
       >
         قريبًا
       </a>
@@ -796,10 +975,12 @@
 
   <div class="section-head">
 
-    <h2>طريقة العمل</h2>
+    <h2>
+      دورة العمل
+    </h2>
 
     <p>
-      دورة عمل بسيطة من طلب العميل حتى إصدار الفاتورة.
+      من أول اتصال بالعميل حتى تحصيل قيمة الخدمة.
     </p>
 
   </div>
@@ -808,33 +989,87 @@
   <div class="workflow">
 
     <div class="step">
-      <div class="step-number">1</div>
-      <strong>العميل</strong>
-      <span>احفظ بيانات العميل.</span>
+
+      <div class="step-number">
+        1
+      </div>
+
+      <strong>
+        العميل
+      </strong>
+
+      <span>
+        احفظ بيانات العميل ومعلومات التواصل.
+      </span>
+
     </div>
 
-    <div class="step">
-      <div class="step-number">2</div>
-      <strong>الطلب</strong>
-      <span>سجل طلب الخدمة والموعد.</span>
-    </div>
 
     <div class="step">
-      <div class="step-number">3</div>
-      <strong>العمل</strong>
-      <span>نفذ الخدمة وسجل التفاصيل.</span>
+
+      <div class="step-number">
+        2
+      </div>
+
+      <strong>
+        الطلب
+      </strong>
+
+      <span>
+        سجل طلب الخدمة وحدد الموعد والأولوية.
+      </span>
+
     </div>
 
-    <div class="step">
-      <div class="step-number">4</div>
-      <strong>العرض</strong>
-      <span>أنشئ عرض السعر عند الحاجة.</span>
-    </div>
 
     <div class="step">
-      <div class="step-number">5</div>
-      <strong>الفاتورة</strong>
-      <span>أصدر الفاتورة وتابع الدفع.</span>
+
+      <div class="step-number">
+        3
+      </div>
+
+      <strong>
+        التنفيذ
+      </strong>
+
+      <span>
+        نفذ الخدمة وسجل تفاصيل العمل.
+      </span>
+
+    </div>
+
+
+    <div class="step">
+
+      <div class="step-number">
+        4
+      </div>
+
+      <strong>
+        العرض والفاتورة
+      </strong>
+
+      <span>
+        أنشئ عرض السعر ثم الفاتورة عند الحاجة.
+      </span>
+
+    </div>
+
+
+    <div class="step">
+
+      <div class="step-number">
+        5
+      </div>
+
+      <strong>
+        الحساب
+      </strong>
+
+      <span>
+        تابع الإيرادات والمصروفات وصافي الربح.
+      </span>
+
     </div>
 
   </div>
@@ -846,11 +1081,13 @@
 
   <div class="cta">
 
-    <h2>كل شغلك في مكان واحد</h2>
+    <h2>
+      كل شغلك في مكان واحد
+    </h2>
 
     <p>
-      نبدأ بنظام إدارة الخدمات، ثم نضيف المواعيد والمصروفات
-      والأرباح وحسابات المستخدمين وقاعدة البيانات والاشتراكات.
+      فني برو يجمع إدارة العملاء والطلبات والمواعيد والتقارير
+      والعروض والفواتير والمصروفات في نظام واحد.
     </p>
 
     <a
@@ -875,11 +1112,33 @@
 
     <div class="footer-links">
 
-      <a href="customers.html">العملاء</a>
-      <a href="service-request.html">طلبات الخدمة</a>
-      <a href="maintenance-report.html">التقارير</a>
-      <a href="quote.html">العروض</a>
-      <a href="invoice.html">الفواتير</a>
+      <a href="customers.html">
+        العملاء
+      </a>
+
+      <a href="service-request.html">
+        الطلبات
+      </a>
+
+      <a href="maintenance-report.html">
+        التقارير
+      </a>
+
+      <a href="quote.html">
+        العروض
+      </a>
+
+      <a href="invoice.html">
+        الفواتير
+      </a>
+
+      <a href="appointments.html">
+        المواعيد
+      </a>
+
+      <a href="expenses.html">
+        الأرباح
+      </a>
 
     </div>
 
@@ -887,7 +1146,9 @@
 
 
   <div class="copyright">
+
     © 2026 فني برو — منصة إدارة الخدمات والصيانة
+
   </div>
 
 </footer>
@@ -898,6 +1159,7 @@
   function readCount(key) {
 
     try {
+
       const data =
         JSON.parse(
           localStorage.getItem(key) || "[]"
@@ -908,50 +1170,86 @@
         : 0;
 
     } catch {
+
       return 0;
+
     }
+
   }
 
 
   function updateDashboard() {
 
     const customers =
-      readCount("fanniProCustomers");
+      readCount(
+        "fanniProCustomers"
+      );
 
     const requests =
-      readCount("fanniProServiceRequests");
+      readCount(
+        "fanniProServiceRequests"
+      );
+
+    const appointments =
+      readCount(
+        "fanniProAppointments"
+      );
 
     const quotes =
-      readCount("fanniProQuotes");
+      readCount(
+        "fanniProQuotes"
+      );
 
     const invoices =
-      readCount("fanniProInvoices");
+      readCount(
+        "fanniProInvoices"
+      );
 
 
-    document.getElementById("customerCount")
-      .textContent = customers;
-
-    document.getElementById("requestCount")
-      .textContent = requests;
-
-    document.getElementById("quoteCount")
-      .textContent = quotes;
-
-    document.getElementById("invoiceCount")
-      .textContent = invoices;
+    document.getElementById(
+      "customerCount"
+    ).textContent = customers;
 
 
-    document.getElementById("heroCustomers")
-      .textContent = customers;
+    document.getElementById(
+      "requestCount"
+    ).textContent = requests;
 
-    document.getElementById("heroRequests")
-      .textContent = requests;
 
-    document.getElementById("heroQuotes")
-      .textContent = quotes;
+    document.getElementById(
+      "appointmentCount"
+    ).textContent = appointments;
 
-    document.getElementById("heroInvoices")
-      .textContent = invoices;
+
+    document.getElementById(
+      "invoiceCount"
+    ).textContent = invoices;
+
+
+    document.getElementById(
+      "heroCustomers"
+    ).textContent = customers;
+
+
+    document.getElementById(
+      "heroRequests"
+    ).textContent = requests;
+
+
+    document.getElementById(
+      "heroAppointments"
+    ).textContent = appointments;
+
+
+    document.getElementById(
+      "heroQuotes"
+    ).textContent = quotes;
+
+
+    document.getElementById(
+      "heroInvoices"
+    ).textContent = invoices;
+
   }
 
 
@@ -962,8 +1260,9 @@
     alert(
       "قسم " +
       name +
-      " سيكون في المرحلة القادمة."
+      " سيتم تطويره في المرحلة القادمة."
     );
+
   }
 
 
