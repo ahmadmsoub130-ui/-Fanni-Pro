@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>فني برو | المعدات والأجهزة</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,Tahoma,sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#172033;
+}
+
+header{
+    background:linear-gradient(135deg,#0f172a,#1d4ed8);
+    color:white;
+    padding:22px 16px;
+    box-shadow:0 4px 18px rgba(0,0,0,.12);
+}
+
+.header-inner{
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:800;
+}
+
+.back{
+    color:white;
+    text-decoration:none;
+    background:rgba(255,255,255,.15);
+    padding:10px 15px;
+    border-radius:10px;
+}
+
+.container{
+    max-width:1200px;
+    margin:25px auto;
+    padding:0 15px;
+}
+
+.hero{
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:20px;
+    box-shadow:0 5px 20px rgba(15,23,42,.06);
+}
+
+.hero h1{
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+.hero p{
+    color:#64748b;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:white;
+    border-radius:16px;
+    padding:20px;
+    box-shadow:0 5px 20px rgba(15,23,42,.06);
+}
+
+.stat span{
+    display:block;
+    color:#64748b;
+    margin-bottom:8px;
+}
+
+.stat strong{
+    font-size:28px;
+}
+
+.form-card,
+.list-card{
+    background:white;
+    border-radius:18px;
+    padding:22px;
+    margin-bottom:20px;
+    box-shadow:0 5px 20px rgba(15,23,42,.06);
+}
+
+.form-card h2,
+.list-card h2{
+    margin-bottom:18px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+label{
+    font-weight:700;
+    font-size:14px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px 13px;
+    border:1px solid #d7dee9;
+    border-radius:10px;
+    outline:none;
+    font-size:15px;
+    background:white;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,.1);
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:18px;
+}
+
+button{
+    border:0;
+    border-radius:10px;
+    padding:12px 18px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:700;
+}
+
+.primary{
+    background:#2563eb;
+    color:white;
+}
+
+.secondary{
+    background:#e2e8f0;
+    color:#172033;
+}
+
+.danger{
+    background:#dc2626;
+    color:white;
+}
+
+.success{
+    background:#16a34a;
+    color:white;
+}
+
+.search-row{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:950px;
+}
+
+th,
+td{
+    padding:13px 10px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:right;
+    vertical-align:middle;
+}
+
+th{
+    background:#f8fafc;
+    font-size:14px;
+}
+
+td{
+    font-size:14px;
+}
+
+.badge{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.badge-good{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.badge-maintenance{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.badge-broken{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.badge-inactive{
+    background:#e2e8f0;
+    color:#475569;
+}
+
+.actions{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+}
+
+.actions button{
+    padding:8px 10px;
+    font-size:12px;
+}
+
+.empty{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+}
+
+.toast{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#0f172a;
+    color:white;
+    padding:13px 18px;
+    border-radius:10px;
+    display:none;
+    z-index:1000;
+}
+
+@media(max-width:800px){
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .search-row{
+        grid-template-columns:1fr;
+    }
+
+    .header-inner{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .back{
+        text-align:center;
+    }
+}
+
+@media(max-width:500px){
+    .stats{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .stat{
+        padding:15px;
+    }
+
+    .stat strong{
+        font-size:23px;
+    }
+
+    .hero h1{
+        font-size:23px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="logo">⚒ فني برو</div>
+        <a href="index.html" class="back">← العودة للرئيسية</a>
+    </div>
+</header>
+
+<div class="container">
+
+    <section class="hero">
+        <h1>المعدات والأجهزة</h1>
+        <p>
+            سجل أجهزة ومعدات العملاء واحتفظ ببياناتها لمتابعة الصيانة والخدمة مستقبلاً.
+        </p>
+    </section>
+
+    <section class="stats">
+        <div class="stat">
+            <span>إجمالي الأجهزة</span>
+            <strong id="totalEquipment">0</strong>
+        </div>
+
+        <div class="stat">
+            <span>تعمل بشكل جيد</span>
+            <strong id="goodEquipment">0</strong>
+        </div>
+
+        <div class="stat">
+            <span>تحتاج صيانة</span>
+            <strong id="maintenanceEquipment">0</strong>
+        </div>
+
+        <div class="stat">
+            <span>معطلة</span>
+            <strong id="brokenEquipment">0</strong>
+        </div>
+    </section>
+
+    <section class="form-card">
+
+        <h2 id="formTitle">إضافة جهاز جديد</h2>
+
+        <form id="equipmentForm">
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>العميل *</label>
+                    <select id="customerId">
+                        <option value="">اختر العميل</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>اسم العميل *</label>
+                    <input type="text" id="customerName" placeholder="اسم العميل">
+                </div>
+
+                <div class="field">
+                    <label>نوع الجهاز *</label>
+                    <input type="text" id="equipmentType" placeholder="مثال: مكيف سبليت">
+                </div>
+
+                <div class="field">
+                    <label>التخصص</label>
+                    <select id="serviceType">
+                        <option value="تكييف وتبريد">تكييف وتبريد</option>
+                        <option value="كهرباء">كهرباء</option>
+                        <option value="سباكة">سباكة</option>
+                        <option value="صيانة عامة">صيانة عامة</option>
+                        <option value="أجهزة منزلية">أجهزة منزلية</option>
+                        <option value="كاميرات ومراقبة">كاميرات ومراقبة</option>
+                        <option value="شبكات وإنترنت">شبكات وإنترنت</option>
+                        <option value="تدفئة">تدفئة</option>
+                        <option value="صيانة سيارات">صيانة سيارات</option>
+                        <option value="نجارة">نجارة</option>
+                        <option value="دهان وتشطيبات">دهان وتشطيبات</option>
+                        <option value="تنظيف">تنظيف</option>
+                        <option value="حدائق ومسابح">حدائق ومسابح</option>
+                        <option value="خدمات منزلية">خدمات منزلية</option>
+                        <option value="مقاولات">مقاولات</option>
+                        <option value="أخرى">أخرى</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>الماركة</label>
+                    <input type="text" id="brand" placeholder="مثال: Samsung">
+                </div>
+
+                <div class="field">
+                    <label>الموديل</label>
+                    <input type="text" id="model" placeholder="رقم أو اسم الموديل">
+                </div>
+
+                <div class="field">
+                    <label>الرقم التسلسلي</label>
+                    <input type="text" id="serialNumber" placeholder="Serial Number">
+                </div>
+
+                <div class="field">
+                    <label>موقع الجهاز</label>
+                    <input type="text" id="location" placeholder="مثال: غرفة النوم">
+                </div>
+
+                <div class="field">
+                    <label>تاريخ التركيب</label>
+                    <input type="date" id="installationDate">
+                </div>
+
+                <div class="field">
+                    <label>حالة الجهاز</label>
+                    <select id="status">
+                        <option value="جيد">يعمل بشكل جيد</option>
+                        <option value="يحتاج صيانة">يحتاج صيانة</option>
+                        <option value="معطل">معطل</option>
+                        <option value="غير مستخدم">غير مستخدم</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>آخر صيانة</label>
+                    <input type="date" id="lastMaintenance">
+                </div>
+
+                <div class="field">
+                    <label>الفني المسؤول</label>
+                    <input type="text" id="technician" placeholder="اسم الفني">
+                </div>
+
+                <div class="field full">
+                    <label>ملاحظات</label>
+                    <textarea id="notes" placeholder="اكتب أي معلومات إضافية عن الجهاز..."></textarea>
+                </div>
+
+            </div>
+
+            <div class="buttons">
+                <button type="submit" class="primary" id="saveBtn">
+                    حفظ الجهاز
+                </button>
+
+                <button type="button" class="secondary" id="cancelBtn" style="display:none;">
+                    إلغاء التعديل
+                </button>
+
+                <button type="button" class="secondary" onclick="resetForm()">
+                    مسح الحقول
+                </button>
+            </div>
+
+        </form>
+    </section>
+
+    <section class="list-card">
+
+        <h2>سجل الأجهزة</h2>
+
+        <div class="search-row">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="ابحث باسم العميل أو الجهاز أو الماركة أو الموديل..."
+            >
+
+            <select id="statusFilter">
+                <option value="">كل الحالات</option>
+                <option value="جيد">جيد</option>
+                <option value="يحتاج صيانة">يحتاج صيانة</option>
+                <option value="معطل">معطل</option>
+                <option value="غير مستخدم">غير مستخدم</option>
+            </select>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>الجهاز</th>
+                        <th>العميل</th>
+                        <th>التخصص</th>
+                        <th>الماركة</th>
+                        <th>الموديل</th>
+                        <th>الموقع</th>
+                        <th>الحالة</th>
+                        <th>آخر صيانة</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+
+                <tbody id="equipmentTable"></tbody>
+            </table>
+        </div>
+
+    </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+const STORAGE_KEY = "fanniProEquipment";
+
+let equipmentList = JSON.parse(
+    localStorage.getItem(STORAGE_KEY) || "[]"
+);
+
+let editingId = null;
+
+const form = document.getElementById("equipmentForm");
+const customerId = document.getElementById("customerId");
+const customerName = document.getElementById("customerName");
+const equipmentType = document.getElementById("equipmentType");
+const serviceType = document.getElementById("serviceType");
+const brand = document.getElementById("brand");
+const model = document.getElementById("model");
+const serialNumber = document.getElementById("serialNumber");
+const locationInput = document.getElementById("location");
+const installationDate = document.getElementById("installationDate");
+const status = document.getElementById("status");
+const lastMaintenance = document.getElementById("lastMaintenance");
+const technician = document.getElementById("technician");
+const notes = document.getElementById("notes");
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+function saveData(){
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(equipmentList)
+    );
+
+}
+
+function showToast(message){
+
+    const toast = document.getElementById("toast");
+
+    toast.textContent = message;
+    toast.style.display = "block";
+
+    setTimeout(() => {
+        toast.style.display = "none";
+    },2200);
+
+}
+
+function loadCustomers(){
+
+    const customers = JSON.parse(
+        localStorage.getItem("fanniProCustomers") || "[]"
+    );
+
+    customerId.innerHTML =
+        '<option value="">اختر العميل</option>';
+
+    customers.forEach(customer => {
+
+        const option = document.createElement("option");
+
+        option.value = customer.id || customer.phone || customer.name;
+
+        option.textContent =
+            `${customer.name || "بدون اسم"}${customer.phone ? " - " + customer.phone : ""}`;
+
+        option.dataset.name = customer.name || "";
+        option.dataset.phone = customer.phone || "";
+
+        customerId.appendChild(option);
+
+    });
+
+}
+
+customerId.addEventListener("change",function(){
+
+    const option =
+        this.options[this.selectedIndex];
+
+    if(!option || !option.dataset.name){
+        return;
+    }
+
+    customerName.value =
+        option.dataset.name;
+
+});
+
+function getStatusBadge(value){
+
+    if(value === "جيد"){
+        return '<span class="badge badge-good">جيد</span>';
+    }
+
+    if(value === "يحتاج صيانة"){
+        return '<span class="badge badge-maintenance">يحتاج صيانة</span>';
+    }
+
+    if(value === "معطل"){
+        return '<span class="badge badge-broken">معطل</span>';
+    }
+
+    return '<span class="badge badge-inactive">غير مستخدم</span>';
+
+}
+
+function formatDate(date){
+
+    if(!date){
+        return "-";
+    }
+
+    return date;
+
+}
+
+function updateStats(){
+
+    document.getElementById("totalEquipment").textContent =
+        equipmentList.length;
+
+    document.getElementById("goodEquipment").textContent =
+        equipmentList.filter(item => item.status === "جيد").length;
+
+    document.getElementById("maintenanceEquipment").textContent =
+        equipmentList.filter(item => item.status === "يحتاج صيانة").length;
+
+    document.getElementById("brokenEquipment").textContent =
+        equipmentList.filter(item => item.status === "معطل").length;
+
+}
+
+function renderEquipment(){
+
+    const table =
+        document.getElementById("equipmentTable");
+
+    const search =
+        document.getElementById("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const filter =
+        document.getElementById("statusFilter")
+        .value;
+
+    const filtered =
+        equipmentList.filter(item => {
+
+            const text = [
+                item.customerName,
+                item.equipmentType,
+                item.brand,
+                item.model,
+                item.serialNumber,
+                item.location,
+                item.serviceType,
+                item.technician
+            ]
+            .join(" ")
+            .toLowerCase();
+
+            const matchesSearch =
+                !search || text.includes(search);
+
+            const matchesStatus =
+                !filter || item.status === filter;
+
+            return matchesSearch && matchesStatus;
+
+        });
+
+    if(!filtered.length){
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="9" class="empty">
+                    لا توجد أجهزة مسجلة حتى الآن.
+                </td>
+            </tr>
+        `;
+
+        updateStats();
+        return;
+
+    }
+
+    table.innerHTML = filtered.map(item => `
+
+        <tr>
+
+            <td>
+                <strong>
+                    ${escapeHTML(item.equipmentType)}
+                </strong>
+                ${
+                    item.serialNumber
+                    ? `<br><small>${escapeHTML(item.serialNumber)}</small>`
+                    : ""
+                }
+            </td>
+
+            <td>
+                ${escapeHTML(item.customerName)}
+            </td>
+
+            <td>
+                ${escapeHTML(item.serviceType)}
+            </td>
+
+            <td>
+                ${escapeHTML(item.brand || "-")}
+            </td>
+
+            <td>
+                ${escapeHTML(item.model || "-")}
+            </td>
+
+            <td>
+                ${escapeHTML(item.location || "-")}
+            </td>
+
+            <td>
+                ${getStatusBadge(item.status)}
+            </td>
+
+            <td>
+                ${escapeHTML(formatDate(item.lastMaintenance))}
+            </td>
+
+            <td>
+
+                <div class="actions">
+
+                    <button
+                        class="secondary"
+                        onclick="editEquipment('${item.id}')">
+                        تعديل
+                    </button>
+
+                    <button
+                        class="danger"
+                        onclick="deleteEquipment('${item.id}')">
+                        حذف
+                    </button>
+
+                </div>
+
+            </td>
+
+        </tr>
+
+    `).join("");
+
+    updateStats();
+
+}
+
+form.addEventListener("submit",function(event){
+
+    event.preventDefault();
+
+    const name =
+        customerName.value.trim();
+
+    const type =
+        equipmentType.value.trim();
+
+    if(!name){
+
+        alert("اكتب اسم العميل.");
+
+        customerName.focus();
+
+        return;
+
+    }
+
+    if(!type){
+
+        alert("اكتب نوع الجهاز.");
+
+        equipmentType.focus();
+
+        return;
+
+    }
+
+    const data = {
+
+        id: editingId || (
+            "EQ-" +
+            Date.now()
+        ),
+
+        customerId:
+            customerId.value,
+
+        customerName:
+            name,
+
+        equipmentType:
+            type,
+
+        serviceType:
+            serviceType.value,
+
+        brand:
+            brand.value.trim(),
+
+        model:
+            model.value.trim(),
+
+        serialNumber:
+            serialNumber.value.trim(),
+
+        location:
+            locationInput.value.trim(),
+
+        installationDate:
+            installationDate.value,
+
+        status:
+            status.value,
+
+        lastMaintenance:
+            lastMaintenance.value,
+
+        technician:
+            technician.value.trim(),
+
+        notes:
+            notes.value.trim(),
+
+        updatedAt:
+            new Date().toISOString()
+
+    };
+
+    if(editingId){
+
+        const index =
+            equipmentList.findIndex(
+                item => item.id === editingId
+            );
+
+        if(index !== -1){
+
+            equipmentList[index] = {
+                ...equipmentList[index],
+                ...data
+            };
+
+        }
+
+        showToast("تم تعديل بيانات الجهاز.");
+
+    }else{
+
+        equipmentList.unshift(data);
+
+        showToast("تم حفظ الجهاز بنجاح.");
+
+    }
+
+    saveData();
+
+    resetForm();
+
+    renderEquipment();
+
+});
+
+function editEquipment(id){
+
+    const item =
+        equipmentList.find(
+            equipment => equipment.id === id
+        );
+
+    if(!item){
+        return;
+    }
+
+    editingId = id;
+
+    customerId.value =
+        item.customerId || "";
+
+    customerName.value =
+        item.customerName || "";
+
+    equipmentType.value =
+        item.equipmentType || "";
+
+    serviceType.value =
+        item.serviceType || "أخرى";
+
+    brand.value =
+        item.brand || "";
+
+    model.value =
+        item.model || "";
+
+    serialNumber.value =
+        item.serialNumber || "";
+
+    locationInput.value =
+        item.location || "";
+
+    installationDate.value =
+        item.installationDate || "";
+
+    status.value =
+        item.status || "جيد";
+
+    lastMaintenance.value =
+        item.lastMaintenance || "";
+
+    technician.value =
+        item.technician || "";
+
+    notes.value =
+        item.notes || "";
+
+    document.getElementById("formTitle").textContent =
+        "تعديل بيانات الجهاز";
+
+    document.getElementById("saveBtn").textContent =
+        "حفظ التعديلات";
+
+    document.getElementById("cancelBtn").style.display =
+        "inline-block";
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+function deleteEquipment(id){
+
+    const item =
+        equipmentList.find(
+            equipment => equipment.id === id
+        );
+
+    if(!item){
+        return;
+    }
+
+    const confirmed =
+        confirm(
+            `هل تريد حذف جهاز "${item.equipmentType}"؟`
+        );
+
+    if(!confirmed){
+        return;
+    }
+
+    equipmentList =
+        equipmentList.filter(
+            equipment => equipment.id !== id
+        );
+
+    saveData();
+
+    renderEquipment();
+
+    showToast("تم حذف الجهاز.");
+
+}
+
+function resetForm(){
+
+    editingId = null;
+
+    form.reset();
+
+    document.getElementById("formTitle").textContent =
+        "إضافة جهاز جديد";
+
+    document.getElementById("saveBtn").textContent =
+        "حفظ الجهاز";
+
+    document.getElementById("cancelBtn").style.display =
+        "none";
+
+    status.value = "جيد";
+
+    serviceType.value = "تكييف وتبريد";
+
+}
+
+document.getElementById("cancelBtn")
+    .addEventListener("click",resetForm);
+
+document.getElementById("searchInput")
+    .addEventListener("input",renderEquipment);
+
+document.getElementById("statusFilter")
+    .addEventListener("change",renderEquipment);
+
+loadCustomers();
+
+updateStats();
+
+renderEquipment();
+
+</script>
+
+</body>
+</html>
