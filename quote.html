@@ -1,1248 +1,1563 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>عرض سعر | فني برو</title>
+  <title>عروض الأسعار | فني برو</title>
+  <meta name="description" content="إدارة عروض الأسعار للخدمات والصيانة - فني برو">
 
-<style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-body{
-    font-family:Arial,Tahoma,sans-serif;
-    background:#f3f6fa;
-    color:#172033;
-    line-height:1.7;
-}
-
-button,input,select,textarea{
-    font-family:inherit;
-}
-
-.topbar{
-    background:linear-gradient(135deg,#0f172a,#172554);
-    color:#fff;
-    padding:18px 16px;
-    position:sticky;
-    top:0;
-    z-index:100;
-    box-shadow:0 4px 20px rgba(0,0,0,.12);
-}
-
-.topbar-inner{
-    max-width:1100px;
-    margin:auto;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-}
-
-.brand{
-    font-size:21px;
-    font-weight:800;
-}
-
-.back-btn{
-    color:#fff;
-    text-decoration:none;
-    background:rgba(255,255,255,.12);
-    padding:8px 14px;
-    border-radius:10px;
-    font-size:14px;
-}
-
-.container{
-    max-width:1100px;
-    margin:25px auto;
-    padding:0 15px 80px;
-}
-
-.page-title{
-    margin-bottom:20px;
-}
-
-.page-title h1{
-    font-size:28px;
-    margin-bottom:5px;
-}
-
-.page-title p{
-    color:#64748b;
-}
-
-.card{
-    background:#fff;
-    border:1px solid #e7edf4;
-    border-radius:18px;
-    padding:22px;
-    margin-bottom:18px;
-    box-shadow:0 8px 25px rgba(15,23,42,.06);
-}
-
-.card-title{
-    font-size:19px;
-    font-weight:800;
-    margin-bottom:18px;
-    color:#0f172a;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:16px;
-}
-
-.grid-3{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:16px;
-}
-
-.field{
-    display:flex;
-    flex-direction:column;
-    gap:7px;
-}
-
-.full{
-    grid-column:1/-1;
-}
-
-label{
-    font-size:14px;
-    font-weight:700;
-    color:#334155;
-}
-
-input,
-select,
-textarea{
-    width:100%;
-    padding:12px 13px;
-    border:1px solid #d7dee8;
-    border-radius:11px;
-    background:#fff;
-    font-size:15px;
-    outline:none;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-    border-color:#2563eb;
-    box-shadow:0 0 0 3px rgba(37,99,235,.1);
-}
-
-textarea{
-    min-height:100px;
-    resize:vertical;
-}
-
-.quote-number{
-    background:#eff6ff;
-    color:#1d4ed8;
-    border-color:#bfdbfe;
-    font-weight:800;
-}
-
-.info{
-    background:#f8fafc;
-    border:1px dashed #cbd5e1;
-    border-radius:12px;
-    padding:12px;
-    margin-top:12px;
-    color:#475569;
-    font-size:14px;
-}
-
-.table-wrap{
-    width:100%;
-    overflow-x:auto;
-}
-
-.items-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:700px;
-}
-
-.items-table th,
-.items-table td{
-    border:1px solid #e2e8f0;
-    padding:8px;
-    text-align:right;
-}
-
-.items-table th{
-    background:#f8fafc;
-    font-size:14px;
-}
-
-.items-table input{
-    border:0;
-    padding:8px;
-}
-
-.remove-btn{
-    border:0;
-    background:#fee2e2;
-    color:#b91c1c;
-    padding:8px 11px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:700;
-}
-
-.add-btn{
-    border:0;
-    background:#dcfce7;
-    color:#166534;
-    padding:10px 15px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:800;
-    margin-top:12px;
-}
-
-.summary{
-    max-width:420px;
-    margin:20px 0 0 auto;
-}
-
-.summary-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    padding:8px 0;
-    border-bottom:1px solid #e2e8f0;
-}
-
-.summary-row strong{
-    font-size:17px;
-}
-
-.total-row{
-    font-size:21px;
-    font-weight:900;
-    color:#166534;
-}
-
-.discount-input{
-    width:140px;
-    padding:8px;
-}
-
-.actions{
-    position:sticky;
-    bottom:0;
-    z-index:50;
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:10px;
-    padding:14px;
-    background:rgba(255,255,255,.96);
-    backdrop-filter:blur(10px);
-    border-top:1px solid #e2e8f0;
-}
-
-.btn{
-    border:0;
-    border-radius:12px;
-    padding:12px 20px;
-    font-size:15px;
-    font-weight:800;
-    cursor:pointer;
-    min-width:130px;
-}
-
-.primary{
-    background:#2563eb;
-    color:#fff;
-}
-
-.success{
-    background:#16a34a;
-    color:#fff;
-}
-
-.dark{
-    background:#0f172a;
-    color:#fff;
-}
-
-.light{
-    background:#e2e8f0;
-    color:#1e293b;
-}
-
-.toast{
-    position:fixed;
-    left:50%;
-    bottom:90px;
-    transform:translateX(-50%) translateY(20px);
-    background:#0f172a;
-    color:#fff;
-    padding:12px 18px;
-    border-radius:12px;
-    opacity:0;
-    pointer-events:none;
-    transition:.3s;
-    z-index:1000;
-}
-
-.toast.show{
-    opacity:1;
-    transform:translateX(-50%) translateY(0);
-}
-
-@media(max-width:700px){
-
-    .grid,
-    .grid-3{
-        grid-template-columns:1fr;
+  <style>
+    * {
+      box-sizing: border-box;
     }
 
-    .card{
-        padding:16px;
+    body {
+      margin: 0;
+      font-family: Arial, Tahoma, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
     }
 
-    .page-title h1{
-        font-size:23px;
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
     }
 
-    .btn{
-        flex:1;
-        min-width:105px;
-    }
-}
-
-@media print{
-
-    body{
-        background:#fff;
+    button {
+      cursor: pointer;
     }
 
-    .topbar,
-    .actions,
-    .no-print,
-    .add-btn,
-    .remove-btn{
-        display:none!important;
+    .topbar {
+      background: #111827;
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
     }
 
-    .container{
-        max-width:none;
-        margin:0;
-        padding:0;
+    .brand {
+      font-size: 21px;
+      font-weight: 800;
     }
 
-    .card{
-        box-shadow:none;
-        border:1px solid #ccc;
-        break-inside:avoid;
+    .back {
+      color: white;
+      text-decoration: none;
+      background: #1f2937;
+      padding: 10px 15px;
+      border-radius: 10px;
+    }
+
+    .container {
+      width: min(1200px, calc(100% - 30px));
+      margin: 25px auto 50px;
+    }
+
+    .hero {
+      background: white;
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,.06);
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .hero p {
+      margin: 0;
+      color: #667085;
+      line-height: 1.8;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,.05);
+    }
+
+    .stat span {
+      display: block;
+      color: #667085;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .stat strong {
+      font-size: 27px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,.06);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: 700;
+      font-size: 14px;
     }
 
     input,
     select,
-    textarea{
-        border:0;
-        box-shadow:none;
-        padding:4px 0;
-        background:transparent;
+    textarea {
+      width: 100%;
+      border: 1px solid #d7dce5;
+      border-radius: 10px;
+      padding: 12px;
+      outline: none;
+      background: white;
     }
 
-    .page-title{
-        text-align:center;
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #2563eb;
     }
 
-    .items-table{
-        min-width:0;
+    textarea {
+      min-height: 100px;
+      resize: vertical;
     }
 
-    .items-table th,
-    .items-table td{
-        border:1px solid #999;
+    .items-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
     }
-}
-</style>
+
+    .items {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 750px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 10px;
+      text-align: right;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #f8fafc;
+    }
+
+    td input {
+      min-width: 100px;
+    }
+
+    .item-total {
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .remove-btn {
+      border: 0;
+      background: #fee2e2;
+      color: #b91c1c;
+      padding: 8px 10px;
+      border-radius: 8px;
+    }
+
+    .add-btn {
+      border: 0;
+      background: #2563eb;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .summary {
+      max-width: 420px;
+      margin-right: auto;
+      margin-top: 20px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 9px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .summary-row.total {
+      font-size: 21px;
+      font-weight: 800;
+      border-bottom: 0;
+      padding-top: 15px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-weight: 700;
+    }
+
+    .primary {
+      background: #2563eb;
+      color: white;
+    }
+
+    .secondary {
+      background: #e5e7eb;
+      color: #172033;
+    }
+
+    .success {
+      background: #16a34a;
+      color: white;
+    }
+
+    .danger {
+      background: #dc2626;
+      color: white;
+    }
+
+    .search-box {
+      margin-bottom: 15px;
+    }
+
+    .quotes-table {
+      overflow-x: auto;
+    }
+
+    .quotes-table table {
+      min-width: 900px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 6px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .draft {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .sent {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .accepted {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .rejected {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .table-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .small-btn {
+      border: 0;
+      padding: 7px 9px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .toast {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      background: #111827;
+      color: white;
+      padding: 13px 18px;
+      border-radius: 10px;
+      opacity: 0;
+      transform: translateY(15px);
+      pointer-events: none;
+      transition: .25s;
+      z-index: 100;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px;
+      color: #667085;
+    }
+
+    @media (max-width: 800px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        width: min(100% - 20px, 1200px);
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .stat {
+        padding: 15px;
+      }
+
+      .hero h1 {
+        font-size: 23px;
+      }
+
+      .card {
+        padding: 16px;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .topbar,
+      .stats,
+      .hero,
+      .form-card,
+      .search-box,
+      .quotes-list,
+      .no-print {
+        display: none !important;
+      }
+
+      .print-area {
+        display: block !important;
+        box-shadow: none;
+        margin: 0;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <header class="topbar">
-    <div class="topbar-inner">
-        <div class="brand">⚒ فني برو</div>
-
-        <a href="index.html" class="back-btn">
-            ← الرئيسية
-        </a>
-    </div>
+  <div class="brand">⚒ فني برو</div>
+  <a class="back" href="index.html">العودة للرئيسية</a>
 </header>
 
 <main class="container">
 
-    <div class="page-title">
-        <h1>عرض سعر</h1>
-        <p>أنشئ عرض سعر احترافي للعميل واحفظه أو اطبعه PDF.</p>
+  <section class="hero">
+    <h1>عروض الأسعار</h1>
+    <p>
+      أنشئ عروض أسعار احترافية للخدمات والصيانة، واحفظها وتابع حالتها من مكان واحد.
+    </p>
+  </section>
+
+  <section class="stats">
+    <div class="stat">
+      <span>إجمالي العروض</span>
+      <strong id="totalQuotes">0</strong>
     </div>
 
-    <!-- معلومات العرض -->
-    <section class="card">
+    <div class="stat">
+      <span>مسودة</span>
+      <strong id="draftQuotes">0</strong>
+    </div>
 
-        <div class="card-title">
-            📄 معلومات عرض السعر
+    <div class="stat">
+      <span>مرسلة</span>
+      <strong id="sentQuotes">0</strong>
+    </div>
+
+    <div class="stat">
+      <span>مقبولة</span>
+      <strong id="acceptedQuotes">0</strong>
+    </div>
+  </section>
+
+  <section class="card form-card">
+    <h2 id="formTitle">إنشاء عرض سعر جديد</h2>
+
+    <form id="quoteForm">
+
+      <div class="grid">
+
+        <div class="field">
+          <label>رقم عرض السعر</label>
+          <input id="quoteNumber" readonly>
         </div>
 
-        <div class="grid">
-
-            <div class="field">
-                <label>رقم العرض</label>
-                <input id="quoteNumber" class="quote-number" readonly>
-            </div>
-
-            <div class="field">
-                <label>تاريخ العرض</label>
-                <input type="date" id="quoteDate">
-            </div>
-
-            <div class="field">
-                <label>صالح حتى</label>
-                <input type="date" id="validUntil">
-            </div>
-
-            <div class="field">
-                <label>اسم الفني / الشركة</label>
-                <input id="technicianName" placeholder="مثال: أحمد للصيانة">
-            </div>
-
+        <div class="field">
+          <label>تاريخ العرض</label>
+          <input id="quoteDate" type="date" required>
         </div>
 
-    </section>
-
-
-    <!-- العميل -->
-    <section class="card">
-
-        <div class="card-title">
-            👤 بيانات العميل
+        <div class="field">
+          <label>العميل المحفوظ</label>
+          <select id="customerSelect">
+            <option value="">اختر العميل</option>
+          </select>
         </div>
 
-        <div class="grid">
-
-            <div class="field full">
-                <label>اختيار عميل محفوظ</label>
-
-                <select id="customerSelect">
-                    <option value="">-- اختر عميلًا --</option>
-                </select>
-            </div>
-
-            <div class="field">
-                <label>اسم العميل *</label>
-                <input id="customerName" placeholder="اسم العميل">
-            </div>
-
-            <div class="field">
-                <label>رقم الهاتف *</label>
-                <input id="customerPhone" placeholder="07XXXXXXXX">
-            </div>
-
-            <div class="field full">
-                <label>العنوان</label>
-                <input id="customerAddress" placeholder="عنوان العميل">
-            </div>
-
+        <div class="field">
+          <label>اسم العميل</label>
+          <input id="customerName" required placeholder="اسم العميل">
         </div>
 
-        <div class="no-print" style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
-
-            <button class="add-btn" onclick="loadCustomer()">
-                تحميل بيانات العميل
-            </button>
-
-            <button class="add-btn" onclick="clearCustomer()">
-                مسح البيانات
-            </button>
-
+        <div class="field">
+          <label>رقم الهاتف</label>
+          <input id="customerPhone" placeholder="07xxxxxxxx">
         </div>
 
-    </section>
-
-
-    <!-- تفاصيل العرض -->
-    <section class="card">
-
-        <div class="card-title">
-            🧾 تفاصيل الأعمال والمواد
+        <div class="field">
+          <label>العنوان</label>
+          <input id="customerAddress" placeholder="عنوان العميل">
         </div>
 
-        <div class="table-wrap">
-
-            <table class="items-table">
-
-                <thead>
-
-                    <tr>
-                        <th>#</th>
-                        <th>الوصف</th>
-                        <th>الكمية</th>
-                        <th>سعر الوحدة</th>
-                        <th>الإجمالي</th>
-                        <th class="no-print">حذف</th>
-                    </tr>
-
-                </thead>
-
-                <tbody id="itemsBody"></tbody>
-
-            </table>
-
+        <div class="field">
+          <label>نوع الخدمة</label>
+          <select id="serviceType" required>
+            <option value="">اختر نوع الخدمة</option>
+            <option>تكييف وتبريد</option>
+            <option>كهرباء</option>
+            <option>سباكة</option>
+            <option>صيانة عامة</option>
+            <option>أجهزة منزلية</option>
+            <option>كاميرات ومراقبة</option>
+            <option>شبكات وإنترنت</option>
+            <option>تدفئة</option>
+            <option>صيانة سيارات</option>
+            <option>نجارة</option>
+            <option>دهان وتشطيبات</option>
+            <option>تنظيف</option>
+            <option>حدائق ومسابح</option>
+            <option>خدمات منزلية</option>
+            <option>مقاولات</option>
+            <option>أخرى</option>
+          </select>
         </div>
 
-        <button class="add-btn no-print" onclick="addItem()">
-            + إضافة بند
-        </button>
+        <div class="field">
+          <label>صلاحية العرض</label>
+          <select id="validity">
+            <option value="7">7 أيام</option>
+            <option value="14">14 يومًا</option>
+            <option value="30" selected>30 يومًا</option>
+            <option value="60">60 يومًا</option>
+            <option value="90">90 يومًا</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>الحالة</label>
+          <select id="status">
+            <option value="مسودة">مسودة</option>
+            <option value="مرسل">مرسل</option>
+            <option value="مقبول">مقبول</option>
+            <option value="مرفوض">مرفوض</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>اسم الفني / الشركة</label>
+          <input id="technician" placeholder="اسم الفني أو الشركة">
+        </div>
+
+        <div class="field full">
+          <label>وصف العمل</label>
+          <textarea id="description" placeholder="اكتب تفاصيل الخدمة أو العمل المطلوب"></textarea>
+        </div>
+
+      </div>
+
+      <div class="card" style="margin-top:20px;box-shadow:none;border:1px solid #e5e7eb;">
+        <div class="items-header">
+          <h2 style="margin:0;">بنود عرض السعر</h2>
+          <button type="button" class="add-btn" onclick="addItem()">+ إضافة بند</button>
+        </div>
+
+        <div class="items">
+          <table>
+            <thead>
+              <tr>
+                <th>الوصف</th>
+                <th>الكمية</th>
+                <th>سعر الوحدة</th>
+                <th>الإجمالي</th>
+                <th>حذف</th>
+              </tr>
+            </thead>
+            <tbody id="itemsBody"></tbody>
+          </table>
+        </div>
 
         <div class="summary">
 
-            <div class="summary-row">
-                <span>المجموع الفرعي</span>
-                <strong id="subtotal">0.00 د.أ</strong>
-            </div>
+          <div class="summary-row">
+            <span>المجموع الفرعي</span>
+            <strong id="subtotal">0.00</strong>
+          </div>
 
-            <div class="summary-row">
-                <span>الخصم</span>
+          <div class="summary-row">
+            <span>الخصم</span>
+            <input
+              id="discount"
+              type="number"
+              min="0"
+              step="0.01"
+              value="0"
+              style="max-width:150px;"
+            >
+          </div>
 
-                <input
-                    id="discount"
-                    class="discount-input"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value="0"
-                    oninput="calculateTotal()"
-                >
-            </div>
+          <div class="summary-row">
+            <span>الضريبة %</span>
+            <input
+              id="taxRate"
+              type="number"
+              min="0"
+              step="0.01"
+              value="0"
+              style="max-width:150px;"
+            >
+          </div>
 
-            <div class="summary-row total-row">
-                <span>الإجمالي النهائي</span>
-                <strong id="grandTotal">0.00 د.أ</strong>
-            </div>
+          <div class="summary-row">
+            <span>قيمة الضريبة</span>
+            <strong id="taxValue">0.00</strong>
+          </div>
+
+          <div class="summary-row total">
+            <span>الإجمالي النهائي</span>
+            <strong id="grandTotal">0.00</strong>
+          </div>
 
         </div>
+      </div>
 
-    </section>
+      <div class="grid">
 
-
-    <!-- ملاحظات -->
-    <section class="card">
-
-        <div class="card-title">
-            📝 شروط وملاحظات العرض
+        <div class="field full">
+          <label>ملاحظات وشروط العرض</label>
+          <textarea
+            id="notes"
+            placeholder="مثال: السعر لا يشمل الأعمال الإضافية غير المذكورة في العرض..."
+          ></textarea>
         </div>
 
-        <textarea id="notes" placeholder="مثال:
-- السعر يشمل أجور التركيب.
-- الضمان لمدة 30 يومًا.
-- العرض صالح لمدة 7 أيام.
-- لا يشمل الأعمال الإضافية غير المذكورة."></textarea>
+      </div>
 
-    </section>
+      <div class="actions">
+        <button class="btn primary" type="submit">
+          حفظ عرض السعر
+        </button>
+
+        <button class="btn secondary" type="button" onclick="resetForm()">
+          عرض جديد
+        </button>
+
+        <button class="btn success" type="button" onclick="printCurrentQuote()">
+          طباعة / PDF
+        </button>
+      </div>
+
+    </form>
+  </section>
+
+  <section class="card quotes-list">
+    <h2>العروض المحفوظة</h2>
+
+    <div class="search-box">
+      <input
+        id="search"
+        placeholder="ابحث برقم العرض أو اسم العميل أو نوع الخدمة..."
+        oninput="renderQuotes()"
+      >
+    </div>
+
+    <div class="quotes-table">
+      <table>
+        <thead>
+          <tr>
+            <th>رقم العرض</th>
+            <th>التاريخ</th>
+            <th>العميل</th>
+            <th>الخدمة</th>
+            <th>الإجمالي</th>
+            <th>الحالة</th>
+            <th>الإجراءات</th>
+          </tr>
+        </thead>
+
+        <tbody id="quotesBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section
+    id="printArea"
+    class="card print-area"
+    style="display:none;"
+  >
+    <div id="printContent"></div>
+  </section>
 
 </main>
 
-
-<div class="actions no-print">
-
-    <button class="btn success" onclick="saveQuote()">
-        💾 حفظ العرض
-    </button>
-
-    <button class="btn primary" onclick="printQuote()">
-        🖨️ طباعة / PDF
-    </button>
-
-    <button class="btn dark" onclick="newQuote()">
-        ＋ عرض جديد
-    </button>
-
-    <button class="btn light" onclick="goHome()">
-        الرئيسية
-    </button>
-
-</div>
-
-
 <div id="toast" class="toast"></div>
 
-
 <script>
+  const QUOTES_KEY = "fanniProQuotes";
+  const COUNTER_KEY = "fanniProQuoteCounter";
+  const CUSTOMERS_KEY = "fanniProCustomers";
 
-const CUSTOMER_KEY = "fanniProCustomers";
-const QUOTE_KEY = "fanniProQuotes";
-const QUOTE_COUNTER_KEY = "fanniProQuoteCounter";
+  let quotes = JSON.parse(localStorage.getItem(QUOTES_KEY) || "[]");
+  let editingId = null;
 
-let items = [];
+  const form = document.getElementById("quoteForm");
+  const itemsBody = document.getElementById("itemsBody");
 
+  function today() {
+    const d = new Date();
+    return d.toISOString().split("T")[0];
+  }
 
-/* =========================
-   البداية
-========================= */
-
-document.addEventListener("DOMContentLoaded", function(){
-
-    setDates();
-
-    generateQuoteNumber();
-
-    loadCustomers();
-
-    addItem();
-
-});
-
-
-/* =========================
-   التاريخ
-========================= */
-
-function formatDate(date){
-
-    return date.getFullYear() + "-" +
-        String(date.getMonth()+1).padStart(2,"0") + "-" +
-        String(date.getDate()).padStart(2,"0");
-
-}
-
-
-function setDates(){
-
-    const today = new Date();
-
-    document.getElementById("quoteDate").value =
-        formatDate(today);
-
-    const valid = new Date();
-
-    valid.setDate(valid.getDate() + 7);
-
-    document.getElementById("validUntil").value =
-        formatDate(valid);
-
-}
-
-
-/* =========================
-   رقم عرض السعر
-========================= */
-
-function generateQuoteNumber(){
-
-    let counter =
-        Number(
-            localStorage.getItem(QUOTE_COUNTER_KEY) || 0
-        );
-
+  function generateQuoteNumber() {
+    let counter = Number(localStorage.getItem(COUNTER_KEY) || "0");
     counter++;
-
-    localStorage.setItem(
-        QUOTE_COUNTER_KEY,
-        counter
-    );
-
-    const year =
-        new Date().getFullYear();
-
-    document.getElementById("quoteNumber").value =
-        "Q-" +
-        year +
-        "-" +
-        String(counter).padStart(4,"0");
-
-}
-
-
-/* =========================
-   العملاء
-========================= */
-
-function loadCustomers(){
-
-    const select =
-        document.getElementById("customerSelect");
-
-    select.innerHTML =
-        '<option value="">-- اختر عميلًا --</option>';
-
-    let customers = [];
-
-    try{
-
-        customers =
-            JSON.parse(
-                localStorage.getItem(CUSTOMER_KEY) || "[]"
-            );
-
-    }catch(error){
-
-        customers = [];
-
-    }
-
-    customers.forEach(function(customer,index){
-
-        const option =
-            document.createElement("option");
-
-        option.value = index;
-
-        option.textContent =
-            customer.name +
-            (
-                customer.phone
-                ? " - " + customer.phone
-                : ""
-            );
-
-        select.appendChild(option);
-
-    });
-
-}
-
-
-function loadCustomer(){
-
-    const index =
-        document.getElementById("customerSelect").value;
-
-    if(index === ""){
-
-        showToast("اختر عميلًا أولًا");
-
-        return;
-
-    }
-
-    let customers = [];
-
-    try{
-
-        customers =
-            JSON.parse(
-                localStorage.getItem(CUSTOMER_KEY) || "[]"
-            );
-
-    }catch(error){
-
-        showToast("تعذر تحميل العملاء");
-
-        return;
-
-    }
-
-    const customer =
-        customers[index];
-
-    if(!customer){
-
-        showToast("العميل غير موجود");
-
-        return;
-
-    }
-
-    document.getElementById("customerName").value =
-        customer.name || "";
-
-    document.getElementById("customerPhone").value =
-        customer.phone || "";
-
-    document.getElementById("customerAddress").value =
-        customer.address || "";
-
-    showToast("تم تحميل بيانات العميل");
-
-}
-
-
-function clearCustomer(){
-
-    document.getElementById("customerSelect").value = "";
-
-    document.getElementById("customerName").value = "";
-
-    document.getElementById("customerPhone").value = "";
-
-    document.getElementById("customerAddress").value = "";
-
-}
-
-
-/* =========================
-   البنود
-========================= */
-
-function addItem(){
-
-    items.push({
-
-        description:"",
-        quantity:1,
-        price:0
-
-    });
-
-    renderItems();
-
-}
-
-
-function removeItem(index){
-
-    items.splice(index,1);
-
-    renderItems();
-
-}
-
-
-function updateItem(index,field,value){
-
-    if(field === "quantity"){
-
-        items[index].quantity =
-            Number(value) || 0;
-
-    }else if(field === "price"){
-
-        items[index].price =
-            Number(value) || 0;
-
-    }else{
-
-        items[index][field] = value;
-
-    }
-
-    renderItems();
-
-}
-
-
-function renderItems(){
-
-    const body =
-        document.getElementById("itemsBody");
-
-    body.innerHTML = "";
-
-    items.forEach(function(item,index){
-
-        const total =
-            Number(item.quantity || 0) *
-            Number(item.price || 0);
-
-        const row =
-            document.createElement("tr");
-
-        row.innerHTML = `
-
-            <td>${index + 1}</td>
-
-            <td>
-                <input
-                    type="text"
-                    placeholder="مثال: تنظيف وصيانة مكيف"
-                    value="${escapeHtml(item.description)}"
-                    oninput="updateItem(${index},'description',this.value)"
-                >
-            </td>
-
-            <td>
-                <input
-                    type="number"
-                    min="1"
-                    value="${item.quantity}"
-                    oninput="updateItem(${index},'quantity',this.value)"
-                >
-            </td>
-
-            <td>
-                <input
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value="${item.price}"
-                    oninput="updateItem(${index},'price',this.value)"
-                >
-            </td>
-
-            <td>
-                <input
-                    type="text"
-                    value="${total.toFixed(2)}"
-                    readonly
-                >
-            </td>
-
-            <td class="no-print">
-                <button
-                    class="remove-btn"
-                    onclick="removeItem(${index})"
-                >
-                    حذف
-                </button>
-            </td>
-
-        `;
-
-        body.appendChild(row);
-
-    });
-
-    calculateTotal();
-
-}
-
-
-/* =========================
-   الحسابات
-========================= */
-
-function calculateTotal(){
-
-    let subtotal = 0;
-
-    items.forEach(function(item){
-
-        subtotal +=
-            Number(item.quantity || 0) *
-            Number(item.price || 0);
-
-    });
-
-    let discount =
-        Number(
-            document.getElementById("discount").value || 0
-        );
-
-    if(discount < 0){
-
-        discount = 0;
-
-    }
-
-    if(discount > subtotal){
-
-        discount = subtotal;
-
-        document.getElementById("discount").value =
-            discount;
-
-    }
-
-    const total =
-        subtotal - discount;
-
-    document.getElementById("subtotal").textContent =
-        subtotal.toFixed(2) + " د.أ";
-
-    document.getElementById("grandTotal").textContent =
-        total.toFixed(2) + " د.أ";
-
-}
-
-
-/* =========================
-   البيانات
-========================= */
-
-function getQuoteData(){
-
-    const discount =
-        Number(
-            document.getElementById("discount").value || 0
-        );
-
-    let subtotal = 0;
-
-    items.forEach(function(item){
-
-        subtotal +=
-            Number(item.quantity || 0) *
-            Number(item.price || 0);
-
-    });
-
-    return {
-
-        id:Date.now(),
-
-        quoteNumber:
-            document.getElementById("quoteNumber").value,
-
-        date:
-            document.getElementById("quoteDate").value,
-
-        validUntil:
-            document.getElementById("validUntil").value,
-
-        technicianName:
-            document.getElementById("technicianName")
-            .value.trim(),
-
-        customer:{
-
-            name:
-                document.getElementById("customerName")
-                .value.trim(),
-
-            phone:
-                document.getElementById("customerPhone")
-                .value.trim(),
-
-            address:
-                document.getElementById("customerAddress")
-                .value.trim()
-
-        },
-
-        items:
-            JSON.parse(JSON.stringify(items)),
-
-        subtotal:subtotal,
-
-        discount:discount,
-
-        total:
-            Math.max(0,subtotal-discount),
-
-        notes:
-            document.getElementById("notes")
-            .value.trim(),
-
-        createdAt:
-            new Date().toISOString()
-
-    };
-
-}
-
-
-/* =========================
-   حفظ
-========================= */
-
-function saveQuote(){
-
-    const name =
-        document.getElementById("customerName")
-        .value.trim();
-
-    if(!name){
-
-        showToast("اكتب اسم العميل أولًا");
-
-        document.getElementById("customerName").focus();
-
-        return;
-
-    }
-
-    const validItems =
-        items.some(function(item){
-
-            return (
-                item.description.trim() !== "" &&
-                Number(item.quantity) > 0
-            );
-
-        });
-
-    if(!validItems){
-
-        showToast("أضف بندًا واحدًا على الأقل");
-
-        return;
-
-    }
-
-    const quote =
-        getQuoteData();
-
-    let quotes = [];
-
-    try{
-
-        quotes =
-            JSON.parse(
-                localStorage.getItem(QUOTE_KEY) || "[]"
-            );
-
-    }catch(error){
-
-        quotes = [];
-
-    }
-
-    quotes.push(quote);
-
-    localStorage.setItem(
-        QUOTE_KEY,
-        JSON.stringify(quotes)
-    );
-
-    showToast(
-        "تم حفظ عرض السعر " +
-        quote.quoteNumber
-    );
-
-}
-
-
-/* =========================
-   الطباعة
-========================= */
-
-function printQuote(){
-
-    const name =
-        document.getElementById("customerName")
-        .value.trim();
-
-    if(!name){
-
-        showToast("اكتب اسم العميل قبل الطباعة");
-
-        return;
-
-    }
-
-    window.print();
-
-}
-
-
-/* =========================
-   عرض جديد
-========================= */
-
-function newQuote(){
-
-    const confirmed =
-        confirm(
-            "هل تريد إنشاء عرض سعر جديد؟ سيتم مسح البيانات الحالية."
-        );
-
-    if(!confirmed){
-
-        return;
-
-    }
-
-    document.querySelectorAll(
-        "input, textarea"
-    ).forEach(function(element){
-
-        if(
-            element.id !== "quoteNumber" &&
-            element.type !== "button"
-        ){
-
-            if(
-                element.type !== "radio" &&
-                element.type !== "checkbox"
-            ){
-
-                element.value = "";
-
-            }
-
-        }
-
-    });
-
-    document.querySelectorAll("select")
-        .forEach(function(select){
-
-            select.selectedIndex = 0;
-
-        });
-
-    items = [];
-
-    document.getElementById("discount").value = "0";
-
-    setDates();
-
-    generateQuoteNumber();
-
-    addItem();
-
-    showToast("تم إنشاء عرض سعر جديد");
-
-}
-
-
-/* =========================
-   الرئيسية
-========================= */
-
-function goHome(){
-
-    window.location.href =
-        "index.html";
-
-}
-
-
-/* =========================
-   رسالة
-========================= */
-
-function showToast(message){
-
-    const toast =
-        document.getElementById("toast");
-
-    toast.textContent =
-        message;
-
+    localStorage.setItem(COUNTER_KEY, counter);
+
+    return "QT-" + new Date().getFullYear() + "-" +
+      String(counter).padStart(4, "0");
+  }
+
+  function escapeHTML(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
     toast.classList.add("show");
 
-    setTimeout(function(){
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2200);
+  }
 
-        toast.classList.remove("show");
+  function loadCustomers() {
+    const select = document.getElementById("customerSelect");
 
-    },3000);
+    const customers =
+      JSON.parse(localStorage.getItem(CUSTOMERS_KEY) || "[]");
 
-}
+    select.innerHTML =
+      '<option value="">اختر العميل</option>';
 
+    customers.forEach(customer => {
+      const option = document.createElement("option");
 
-/* =========================
-   حماية HTML
-========================= */
+      option.value = customer.id;
 
-function escapeHtml(value){
+      option.textContent =
+        customer.name +
+        (customer.phone ? " - " + customer.phone : "");
 
-    return String(value || "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+      option.dataset.name = customer.name || "";
+      option.dataset.phone = customer.phone || "";
+      option.dataset.address = customer.address || "";
 
-}
+      select.appendChild(option);
+    });
+  }
 
+  document.getElementById("customerSelect")
+    .addEventListener("change", function () {
+
+      const option =
+        this.options[this.selectedIndex];
+
+      if (!option || !option.value) return;
+
+      document.getElementById("customerName").value =
+        option.dataset.name || "";
+
+      document.getElementById("customerPhone").value =
+        option.dataset.phone || "";
+
+      document.getElementById("customerAddress").value =
+        option.dataset.address || "";
+    });
+
+  function addItem(data = {}) {
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>
+        <input
+          class="item-description"
+          value="${escapeHTML(data.description || "")}"
+          placeholder="مثال: صيانة جهاز"
+        >
+      </td>
+
+      <td>
+        <input
+          class="item-qty"
+          type="number"
+          min="0"
+          step="0.01"
+          value="${data.qty ?? 1}"
+        >
+      </td>
+
+      <td>
+        <input
+          class="item-price"
+          type="number"
+          min="0"
+          step="0.01"
+          value="${data.price ?? 0}"
+        >
+      </td>
+
+      <td class="item-total">0.00</td>
+
+      <td>
+        <button
+          type="button"
+          class="remove-btn"
+          onclick="removeItem(this)"
+        >
+          حذف
+        </button>
+      </td>
+    `;
+
+    itemsBody.appendChild(row);
+
+    row.querySelector(".item-qty")
+      .addEventListener("input", calculateTotals);
+
+    row.querySelector(".item-price")
+      .addEventListener("input", calculateTotals);
+
+    calculateTotals();
+  }
+
+  function removeItem(button) {
+    button.closest("tr").remove();
+    calculateTotals();
+  }
+
+  function getItems() {
+
+    const rows =
+      [...itemsBody.querySelectorAll("tr")];
+
+    return rows.map(row => {
+
+      const description =
+        row.querySelector(".item-description").value.trim();
+
+      const qty =
+        Number(row.querySelector(".item-qty").value) || 0;
+
+      const price =
+        Number(row.querySelector(".item-price").value) || 0;
+
+      return {
+        description,
+        qty,
+        price,
+        total: qty * price
+      };
+
+    }).filter(item => item.description || item.price > 0);
+  }
+
+  function calculateTotals() {
+
+    let subtotal = 0;
+
+    [...itemsBody.querySelectorAll("tr")]
+      .forEach(row => {
+
+        const qty =
+          Number(row.querySelector(".item-qty").value) || 0;
+
+        const price =
+          Number(row.querySelector(".item-price").value) || 0;
+
+        const total = qty * price;
+
+        row.querySelector(".item-total")
+          .textContent = total.toFixed(2);
+
+        subtotal += total;
+      });
+
+    const discount =
+      Number(document.getElementById("discount").value) || 0;
+
+    const taxRate =
+      Number(document.getElementById("taxRate").value) || 0;
+
+    const afterDiscount =
+      Math.max(0, subtotal - discount);
+
+    const tax =
+      afterDiscount * (taxRate / 100);
+
+    const grand =
+      afterDiscount + tax;
+
+    document.getElementById("subtotal")
+      .textContent = subtotal.toFixed(2);
+
+    document.getElementById("taxValue")
+      .textContent = tax.toFixed(2);
+
+    document.getElementById("grandTotal")
+      .textContent = grand.toFixed(2);
+
+    return {
+      subtotal,
+      discount,
+      taxRate,
+      tax,
+      grandTotal: grand
+    };
+  }
+
+  document.getElementById("discount")
+    .addEventListener("input", calculateTotals);
+
+  document.getElementById("taxRate")
+    .addEventListener("input", calculateTotals);
+
+  form.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const customerName =
+      document.getElementById("customerName").value.trim();
+
+    if (!customerName) {
+      showToast("أدخل اسم العميل");
+      return;
+    }
+
+    const items = getItems();
+
+    if (items.length === 0) {
+      showToast("أضف بندًا واحدًا على الأقل");
+      return;
+    }
+
+    const totals = calculateTotals();
+
+    const quote = {
+      id: editingId || Date.now(),
+
+      quoteNumber:
+        document.getElementById("quoteNumber").value,
+
+      date:
+        document.getElementById("quoteDate").value,
+
+      customerId:
+        document.getElementById("customerSelect").value,
+
+      customerName,
+
+      customerPhone:
+        document.getElementById("customerPhone").value.trim(),
+
+      customerAddress:
+        document.getElementById("customerAddress").value.trim(),
+
+      serviceType:
+        document.getElementById("serviceType").value,
+
+      validity:
+        document.getElementById("validity").value,
+
+      status:
+        document.getElementById("status").value,
+
+      technician:
+        document.getElementById("technician").value.trim(),
+
+      description:
+        document.getElementById("description").value.trim(),
+
+      items,
+
+      subtotal: totals.subtotal,
+      discount: totals.discount,
+      taxRate: totals.taxRate,
+      tax: totals.tax,
+      grandTotal: totals.grandTotal,
+
+      notes:
+        document.getElementById("notes").value.trim(),
+
+      updatedAt:
+        new Date().toISOString()
+    };
+
+    if (editingId) {
+
+      const index =
+        quotes.findIndex(q => q.id === editingId);
+
+      if (index !== -1) {
+        quotes[index] = quote;
+      }
+
+      showToast("تم تحديث عرض السعر");
+
+    } else {
+
+      quotes.unshift(quote);
+
+      showToast("تم حفظ عرض السعر");
+    }
+
+    localStorage.setItem(
+      QUOTES_KEY,
+      JSON.stringify(quotes)
+    );
+
+    resetForm();
+    renderQuotes();
+  });
+
+  function resetForm() {
+
+    editingId = null;
+
+    form.reset();
+
+    document.getElementById("formTitle").textContent =
+      "إنشاء عرض سعر جديد";
+
+    document.getElementById("quoteNumber").value =
+      generateQuoteNumber();
+
+    document.getElementById("quoteDate").value =
+      today();
+
+    document.getElementById("validity").value =
+      "30";
+
+    document.getElementById("status").value =
+      "مسودة";
+
+    document.getElementById("discount").value =
+      "0";
+
+    document.getElementById("taxRate").value =
+      "0";
+
+    itemsBody.innerHTML = "";
+
+    addItem();
+
+    calculateTotals();
+  }
+
+  function editQuote(id) {
+
+    const quote =
+      quotes.find(q => q.id === id);
+
+    if (!quote) return;
+
+    editingId = id;
+
+    document.getElementById("formTitle").textContent =
+      "تعديل عرض السعر";
+
+    document.getElementById("quoteNumber").value =
+      quote.quoteNumber;
+
+    document.getElementById("quoteDate").value =
+      quote.date;
+
+    document.getElementById("customerSelect").value =
+      quote.customerId || "";
+
+    document.getElementById("customerName").value =
+      quote.customerName || "";
+
+    document.getElementById("customerPhone").value =
+      quote.customerPhone || "";
+
+    document.getElementById("customerAddress").value =
+      quote.customerAddress || "";
+
+    document.getElementById("serviceType").value =
+      quote.serviceType || "";
+
+    document.getElementById("validity").value =
+      quote.validity || "30";
+
+    document.getElementById("status").value =
+      quote.status || "مسودة";
+
+    document.getElementById("technician").value =
+      quote.technician || "";
+
+    document.getElementById("description").value =
+      quote.description || "";
+
+    document.getElementById("discount").value =
+      quote.discount || 0;
+
+    document.getElementById("taxRate").value =
+      quote.taxRate || 0;
+
+    document.getElementById("notes").value =
+      quote.notes || "";
+
+    itemsBody.innerHTML = "";
+
+    if (quote.items && quote.items.length) {
+
+      quote.items.forEach(item => {
+        addItem(item);
+      });
+
+    } else {
+
+      addItem();
+    }
+
+    calculateTotals();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+  function deleteQuote(id) {
+
+    const quote =
+      quotes.find(q => q.id === id);
+
+    if (!quote) return;
+
+    if (!confirm(
+      "هل أنت متأكد من حذف عرض السعر " +
+      quote.quoteNumber + "؟"
+    )) {
+      return;
+    }
+
+    quotes =
+      quotes.filter(q => q.id !== id);
+
+    localStorage.setItem(
+      QUOTES_KEY,
+      JSON.stringify(quotes)
+    );
+
+    renderQuotes();
+
+    showToast("تم حذف عرض السعر");
+  }
+
+  function statusClass(status) {
+
+    if (status === "مرسل") return "sent";
+    if (status === "مقبول") return "accepted";
+    if (status === "مرفوض") return "rejected";
+
+    return "draft";
+  }
+
+  function renderQuotes() {
+
+    const body =
+      document.getElementById("quotesBody");
+
+    const search =
+      document.getElementById("search")
+        .value.trim()
+        .toLowerCase();
+
+    const filtered =
+      quotes.filter(q => {
+
+        const text =
+          [
+            q.quoteNumber,
+            q.customerName,
+            q.serviceType,
+            q.status
+          ]
+          .join(" ")
+          .toLowerCase();
+
+        return text.includes(search);
+      });
+
+    if (!filtered.length) {
+
+      body.innerHTML = `
+        <tr>
+          <td colspan="7" class="empty">
+            لا توجد عروض أسعار محفوظة
+          </td>
+        </tr>
+      `;
+
+    } else {
+
+      body.innerHTML =
+        filtered.map(q => `
+
+          <tr>
+
+            <td>
+              <strong>${escapeHTML(q.quoteNumber)}</strong>
+            </td>
+
+            <td>
+              ${escapeHTML(q.date)}
+            </td>
+
+            <td>
+              ${escapeHTML(q.customerName)}
+            </td>
+
+            <td>
+              ${escapeHTML(q.serviceType)}
+            </td>
+
+            <td>
+              <strong>
+                ${Number(q.grandTotal || 0).toFixed(2)}
+              </strong>
+            </td>
+
+            <td>
+              <span class="status ${statusClass(q.status)}">
+                ${escapeHTML(q.status)}
+              </span>
+            </td>
+
+            <td>
+              <div class="table-actions">
+
+                <button
+                  class="small-btn primary"
+                  onclick="editQuote(${q.id})"
+                >
+                  تعديل
+                </button>
+
+                <button
+                  class="small-btn success"
+                  onclick="printQuote(${q.id})"
+                >
+                  طباعة
+                </button>
+
+                <button
+                  class="small-btn danger"
+                  onclick="deleteQuote(${q.id})"
+                >
+                  حذف
+                </button>
+
+              </div>
+            </td>
+
+          </tr>
+
+        `).join("");
+    }
+
+    updateStats();
+  }
+
+  function updateStats() {
+
+    document.getElementById("totalQuotes")
+      .textContent = quotes.length;
+
+    document.getElementById("draftQuotes")
+      .textContent =
+        quotes.filter(q => q.status === "مسودة").length;
+
+    document.getElementById("sentQuotes")
+      .textContent =
+        quotes.filter(q => q.status === "مرسل").length;
+
+    document.getElementById("acceptedQuotes")
+      .textContent =
+        quotes.filter(q => q.status === "مقبول").length;
+  }
+
+  function createPrintHTML(quote) {
+
+    const itemsHTML =
+      (quote.items || []).map(item => `
+        <tr>
+          <td>${escapeHTML(item.description)}</td>
+          <td>${item.qty}</td>
+          <td>${Number(item.price).toFixed(2)}</td>
+          <td>${Number(item.total).toFixed(2)}</td>
+        </tr>
+      `).join("");
+
+    return `
+
+      <div style="font-family:Arial,Tahoma,sans-serif;direction:rtl;max-width:900px;margin:auto;color:#111;">
+
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #111;padding-bottom:18px;margin-bottom:20px;">
+
+          <div>
+            <h1 style="margin:0 0 8px;">⚒ فني برو</h1>
+            <div>عرض سعر</div>
+          </div>
+
+          <div style="text-align:left;">
+            <strong>رقم العرض:</strong>
+            ${escapeHTML(quote.quoteNumber)}
+            <br>
+            <strong>التاريخ:</strong>
+            ${escapeHTML(quote.date)}
+          </div>
+
+        </div>
+
+        <div style="margin-bottom:20px;line-height:1.9;">
+
+          <strong>العميل:</strong>
+          ${escapeHTML(quote.customerName)}
+          <br>
+
+          <strong>الهاتف:</strong>
+          ${escapeHTML(quote.customerPhone || "-")}
+          <br>
+
+          <strong>العنوان:</strong>
+          ${escapeHTML(quote.customerAddress || "-")}
+          <br>
+
+          <strong>نوع الخدمة:</strong>
+          ${escapeHTML(quote.serviceType)}
+
+        </div>
+
+        <p style="line-height:1.8;">
+          <strong>وصف العمل:</strong><br>
+          ${escapeHTML(quote.description || "-")}
+        </p>
+
+        <table style="width:100%;border-collapse:collapse;margin-top:20px;">
+
+          <thead>
+            <tr>
+              <th style="border:1px solid #999;padding:10px;background:#eee;text-align:right;">الوصف</th>
+              <th style="border:1px solid #999;padding:10px;background:#eee;">الكمية</th>
+              <th style="border:1px solid #999;padding:10px;background:#eee;">سعر الوحدة</th>
+              <th style="border:1px solid #999;padding:10px;background:#eee;">الإجمالي</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            ${itemsHTML}
+          </tbody>
+
+        </table>
+
+        <div style="width:350px;margin-right:auto;margin-top:25px;line-height:2;">
+
+          <div style="display:flex;justify-content:space-between;">
+            <span>المجموع الفرعي:</span>
+            <strong>${Number(quote.subtotal).toFixed(2)}</strong>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;">
+            <span>الخصم:</span>
+            <strong>${Number(quote.discount).toFixed(2)}</strong>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;">
+            <span>الضريبة:</span>
+            <strong>${Number(quote.tax).toFixed(2)}</strong>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;font-size:20px;border-top:2px solid #111;padding-top:8px;">
+            <span>الإجمالي:</span>
+            <strong>${Number(quote.grandTotal).toFixed(2)}</strong>
+          </div>
+
+        </div>
+
+        <div style="margin-top:25px;line-height:1.9;">
+
+          <strong>صلاحية العرض:</strong>
+          ${escapeHTML(quote.validity)} يومًا
+          <br>
+
+          <strong>الحالة:</strong>
+          ${escapeHTML(quote.status)}
+          <br>
+
+          <strong>الفني / الشركة:</strong>
+          ${escapeHTML(quote.technician || "-")}
+
+        </div>
+
+        <div style="margin-top:25px;border-top:1px solid #ccc;padding-top:15px;line-height:1.8;">
+          <strong>الملاحظات والشروط:</strong><br>
+          ${escapeHTML(quote.notes || "-")}
+        </div>
+
+      </div>
+    `;
+  }
+
+  function printQuote(id) {
+
+    const quote =
+      quotes.find(q => q.id === id);
+
+    if (!quote) return;
+
+    const printWindow =
+      window.open("", "_blank");
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html lang="ar" dir="rtl">
+      <head>
+        <meta charset="UTF-8">
+        <title>${escapeHTML(quote.quoteNumber)}</title>
+
+        <style>
+          body {
+            padding:30px;
+            background:white;
+          }
+
+          @media print {
+            body {
+              padding:0;
+            }
+          }
+        </style>
+      </head>
+
+      <body>
+        ${createPrintHTML(quote)}
+
+        <script>
+          window.onload = function() {
+            window.print();
+          };
+        <\/script>
+
+      </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+  }
+
+  function printCurrentQuote() {
+
+    const items = getItems();
+
+    if (!document.getElementById("customerName").value.trim()) {
+      showToast("أدخل اسم العميل أولًا");
+      return;
+    }
+
+    const totals = calculateTotals();
+
+    const quote = {
+
+      quoteNumber:
+        document.getElementById("quoteNumber").value,
+
+      date:
+        document.getElementById("quoteDate").value,
+
+      customerName:
+        document.getElementById("customerName").value,
+
+      customerPhone:
+        document.getElementById("customerPhone").value,
+
+      customerAddress:
+        document.getElementById("customerAddress").value,
+
+      serviceType:
+        document.getElementById("serviceType").value,
+
+      validity:
+        document.getElementById("validity").value,
+
+      status:
+        document.getElementById("status").value,
+
+      technician:
+        document.getElementById("technician").value,
+
+      description:
+        document.getElementById("description").value,
+
+      items,
+
+      subtotal: totals.subtotal,
+      discount: totals.discount,
+      taxRate: totals.taxRate,
+      tax: totals.tax,
+      grandTotal: totals.grandTotal,
+
+      notes:
+        document.getElementById("notes").value
+    };
+
+    const printWindow =
+      window.open("", "_blank");
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html lang="ar" dir="rtl">
+      <head>
+        <meta charset="UTF-8">
+        <title>${escapeHTML(quote.quoteNumber)}</title>
+
+        <style>
+          body {
+            padding:30px;
+            background:white;
+          }
+
+          @media print {
+            body {
+              padding:0;
+            }
+          }
+        </style>
+      </head>
+
+      <body>
+
+        ${createPrintHTML(quote)}
+
+        <script>
+          window.onload = function() {
+            window.print();
+          };
+        <\/script>
+
+      </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+  }
+
+  loadCustomers();
+  resetForm();
+  renderQuotes();
 </script>
 
 </body>
