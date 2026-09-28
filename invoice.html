@@ -1,0 +1,1979 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>الفواتير | فني برو</title>
+  <meta name="description" content="إدارة الفواتير للخدمات والصيانة - فني برو">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Tahoma, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .topbar {
+      background: #111827;
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .brand {
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .back {
+      color: white;
+      text-decoration: none;
+      background: #1f2937;
+      padding: 10px 15px;
+      border-radius: 10px;
+    }
+
+    .container {
+      width: min(1200px, calc(100% - 30px));
+      margin: 25px auto 50px;
+    }
+
+    .hero,
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,.06);
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .hero p {
+      margin: 0;
+      color: #667085;
+      line-height: 1.8;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,.05);
+    }
+
+    .stat span {
+      display: block;
+      color: #667085;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .stat strong {
+      font-size: 26px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #d7dce5;
+      border-radius: 10px;
+      padding: 12px;
+      outline: none;
+      background: white;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #2563eb;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .items-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: right;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #f8fafc;
+    }
+
+    td input {
+      min-width: 100px;
+    }
+
+    .item-total {
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .add-btn,
+    .primary,
+    .success,
+    .danger,
+    .secondary {
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 16px;
+      font-weight: 700;
+    }
+
+    .add-btn,
+    .primary {
+      background: #2563eb;
+      color: white;
+    }
+
+    .success {
+      background: #16a34a;
+      color: white;
+    }
+
+    .danger {
+      background: #dc2626;
+      color: white;
+    }
+
+    .secondary {
+      background: #e5e7eb;
+      color: #172033;
+    }
+
+    .remove {
+      border: 0;
+      background: #fee2e2;
+      color: #b91c1c;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    .summary {
+      max-width: 430px;
+      margin-right: auto;
+      margin-top: 20px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      padding: 9px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .summary-row input {
+      max-width: 150px;
+    }
+
+    .grand-total {
+      font-size: 21px;
+      font-weight: 800;
+      border-bottom: 0;
+      padding-top: 15px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .search {
+      margin-bottom: 15px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    .invoice-table {
+      min-width: 950px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .unpaid {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .partial {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .paid {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .cancelled {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .table-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .small-btn {
+      border: 0;
+      border-radius: 8px;
+      padding: 7px 9px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px;
+      color: #667085;
+    }
+
+    .toast {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      background: #111827;
+      color: white;
+      padding: 13px 18px;
+      border-radius: 10px;
+      opacity: 0;
+      transform: translateY(15px);
+      pointer-events: none;
+      transition: .25s;
+      z-index: 100;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 800px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        width: calc(100% - 20px);
+      }
+
+      .hero h1 {
+        font-size: 23px;
+      }
+
+      .hero,
+      .card {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="brand">⚒ فني برو</div>
+  <a href="index.html" class="back">العودة للرئيسية</a>
+</header>
+
+<main class="container">
+
+  <section class="hero">
+    <h1>الفواتير</h1>
+    <p>
+      إنشاء وإدارة فواتير الخدمات والصيانة ومتابعة المدفوعات والمبالغ المستحقة.
+    </p>
+  </section>
+
+  <section class="stats">
+
+    <div class="stat">
+      <span>إجمالي الفواتير</span>
+      <strong id="totalInvoices">0</strong>
+    </div>
+
+    <div class="stat">
+      <span>إجمالي المبيعات</span>
+      <strong id="totalSales">0.00</strong>
+    </div>
+
+    <div class="stat">
+      <span>المدفوع</span>
+      <strong id="totalPaid">0.00</strong>
+    </div>
+
+    <div class="stat">
+      <span>المتبقي</span>
+      <strong id="totalDue">0.00</strong>
+    </div>
+
+  </section>
+
+  <section class="card">
+
+    <div class="section-title">
+      <h2 id="formTitle">إنشاء فاتورة جديدة</h2>
+    </div>
+
+    <form id="invoiceForm">
+
+      <div class="grid">
+
+        <div class="field">
+          <label>رقم الفاتورة</label>
+          <input id="invoiceNumber" readonly>
+        </div>
+
+        <div class="field">
+          <label>تاريخ الفاتورة</label>
+          <input id="invoiceDate" type="date" required>
+        </div>
+
+        <div class="field">
+          <label>العميل المحفوظ</label>
+          <select id="customerSelect">
+            <option value="">اختر العميل</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>اسم العميل</label>
+          <input id="customerName" required placeholder="اسم العميل">
+        </div>
+
+        <div class="field">
+          <label>رقم الهاتف</label>
+          <input id="customerPhone" placeholder="07xxxxxxxx">
+        </div>
+
+        <div class="field">
+          <label>العنوان</label>
+          <input id="customerAddress" placeholder="عنوان العميل">
+        </div>
+
+        <div class="field">
+          <label>نوع الخدمة</label>
+          <select id="serviceType" required>
+            <option value="">اختر نوع الخدمة</option>
+            <option>تكييف وتبريد</option>
+            <option>كهرباء</option>
+            <option>سباكة</option>
+            <option>صيانة عامة</option>
+            <option>أجهزة منزلية</option>
+            <option>كاميرات ومراقبة</option>
+            <option>شبكات وإنترنت</option>
+            <option>تدفئة</option>
+            <option>صيانة سيارات</option>
+            <option>نجارة</option>
+            <option>دهان وتشطيبات</option>
+            <option>تنظيف</option>
+            <option>حدائق ومسابح</option>
+            <option>خدمات منزلية</option>
+            <option>مقاولات</option>
+            <option>أخرى</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>حالة الدفع</label>
+          <select id="paymentStatus">
+            <option value="غير مدفوعة">غير مدفوعة</option>
+            <option value="مدفوعة جزئيًا">مدفوعة جزئيًا</option>
+            <option value="مدفوعة">مدفوعة</option>
+            <option value="ملغاة">ملغاة</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>المبلغ المدفوع</label>
+          <input
+            id="paidAmount"
+            type="number"
+            min="0"
+            step="0.01"
+            value="0"
+          >
+        </div>
+
+        <div class="field">
+          <label>الفني / الشركة</label>
+          <input id="technician" placeholder="اسم الفني أو الشركة">
+        </div>
+
+        <div class="field full">
+          <label>وصف الخدمة</label>
+          <textarea
+            id="description"
+            placeholder="تفاصيل العمل المنفذ..."
+          ></textarea>
+        </div>
+
+      </div>
+
+      <section class="card" style="margin-top:20px;box-shadow:none;border:1px solid #e5e7eb;">
+
+        <div class="section-title">
+          <h2>بنود الفاتورة</h2>
+          <button
+            type="button"
+            class="add-btn"
+            onclick="addItem()"
+          >
+            + إضافة بند
+          </button>
+        </div>
+
+        <div class="items-wrap">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>الوصف</th>
+                <th>الكمية</th>
+                <th>سعر الوحدة</th>
+                <th>الإجمالي</th>
+                <th>حذف</th>
+              </tr>
+            </thead>
+
+            <tbody id="itemsBody"></tbody>
+
+          </table>
+
+        </div>
+
+        <div class="summary">
+
+          <div class="summary-row">
+            <span>المجموع الفرعي</span>
+            <strong id="subtotal">0.00</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>الخصم</span>
+            <input
+              id="discount"
+              type="number"
+              min="0"
+              step="0.01"
+              value="0"
+            >
+          </div>
+
+          <div class="summary-row">
+            <span>الضريبة %</span>
+            <input
+              id="taxRate"
+              type="number"
+              min="0"
+              step="0.01"
+              value="0"
+            >
+          </div>
+
+          <div class="summary-row">
+            <span>قيمة الضريبة</span>
+            <strong id="taxValue">0.00</strong>
+          </div>
+
+          <div class="summary-row grand-total">
+            <span>الإجمالي النهائي</span>
+            <strong id="grandTotal">0.00</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>المبلغ المدفوع</span>
+            <strong id="paidDisplay">0.00</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>المبلغ المتبقي</span>
+            <strong id="dueDisplay">0.00</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+      <div class="grid">
+
+        <div class="field full">
+          <label>ملاحظات</label>
+          <textarea
+            id="notes"
+            placeholder="أي ملاحظات أو شروط إضافية..."
+          ></textarea>
+        </div>
+
+      </div>
+
+      <div class="actions">
+
+        <button class="primary" type="submit">
+          حفظ الفاتورة
+        </button>
+
+        <button
+          class="secondary"
+          type="button"
+          onclick="resetForm()"
+        >
+          فاتورة جديدة
+        </button>
+
+        <button
+          class="success"
+          type="button"
+          onclick="printCurrentInvoice()"
+        >
+          طباعة / PDF
+        </button>
+
+      </div>
+
+    </form>
+
+  </section>
+
+  <section class="card">
+
+    <h2>الفواتير المحفوظة</h2>
+
+    <div class="search">
+      <input
+        id="search"
+        placeholder="ابحث برقم الفاتورة أو اسم العميل أو نوع الخدمة..."
+        oninput="renderInvoices()"
+      >
+    </div>
+
+    <div class="table-wrap">
+
+      <table class="invoice-table">
+
+        <thead>
+          <tr>
+            <th>رقم الفاتورة</th>
+            <th>التاريخ</th>
+            <th>العميل</th>
+            <th>الخدمة</th>
+            <th>الإجمالي</th>
+            <th>المدفوع</th>
+            <th>المتبقي</th>
+            <th>الحالة</th>
+            <th>الإجراءات</th>
+          </tr>
+        </thead>
+
+        <tbody id="invoicesBody"></tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script>
+
+  const INVOICES_KEY = "fanniProInvoices";
+  const COUNTER_KEY = "fanniProInvoiceCounter";
+  const CUSTOMERS_KEY = "fanniProCustomers";
+
+  let invoices =
+    JSON.parse(localStorage.getItem(INVOICES_KEY) || "[]");
+
+  let editingId = null;
+
+  const form =
+    document.getElementById("invoiceForm");
+
+  const itemsBody =
+    document.getElementById("itemsBody");
+
+  function today() {
+    return new Date().toISOString().split("T")[0];
+  }
+
+  function generateInvoiceNumber() {
+
+    let counter =
+      Number(localStorage.getItem(COUNTER_KEY) || "0");
+
+    counter++;
+
+    localStorage.setItem(
+      COUNTER_KEY,
+      counter
+    );
+
+    return "INV-" +
+      new Date().getFullYear() +
+      "-" +
+      String(counter).padStart(4, "0");
+  }
+
+  function escapeHTML(value) {
+
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function showToast(message) {
+
+    const toast =
+      document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2200);
+  }
+
+  function loadCustomers() {
+
+    const select =
+      document.getElementById("customerSelect");
+
+    const customers =
+      JSON.parse(
+        localStorage.getItem(CUSTOMERS_KEY) || "[]"
+      );
+
+    select.innerHTML =
+      '<option value="">اختر العميل</option>';
+
+    customers.forEach(customer => {
+
+      const option =
+        document.createElement("option");
+
+      option.value =
+        customer.id;
+
+      option.textContent =
+        customer.name +
+        (customer.phone
+          ? " - " + customer.phone
+          : "");
+
+      option.dataset.name =
+        customer.name || "";
+
+      option.dataset.phone =
+        customer.phone || "";
+
+      option.dataset.address =
+        customer.address || "";
+
+      select.appendChild(option);
+    });
+  }
+
+  document
+    .getElementById("customerSelect")
+    .addEventListener("change", function() {
+
+      const option =
+        this.options[this.selectedIndex];
+
+      if (!option || !option.value) {
+        return;
+      }
+
+      document.getElementById("customerName").value =
+        option.dataset.name || "";
+
+      document.getElementById("customerPhone").value =
+        option.dataset.phone || "";
+
+      document.getElementById("customerAddress").value =
+        option.dataset.address || "";
+    });
+
+  function addItem(data = {}) {
+
+    const row =
+      document.createElement("tr");
+
+    row.innerHTML = `
+
+      <td>
+        <input
+          class="item-description"
+          value="${escapeHTML(data.description || "")}"
+          placeholder="مثال: صيانة أو قطعة غيار"
+        >
+      </td>
+
+      <td>
+        <input
+          class="item-qty"
+          type="number"
+          min="0"
+          step="0.01"
+          value="${data.qty ?? 1}"
+        >
+      </td>
+
+      <td>
+        <input
+          class="item-price"
+          type="number"
+          min="0"
+          step="0.01"
+          value="${data.price ?? 0}"
+        >
+      </td>
+
+      <td class="item-total">
+        0.00
+      </td>
+
+      <td>
+        <button
+          type="button"
+          class="remove"
+          onclick="removeItem(this)"
+        >
+          حذف
+        </button>
+      </td>
+
+    `;
+
+    itemsBody.appendChild(row);
+
+    row
+      .querySelector(".item-qty")
+      .addEventListener("input", calculateTotals);
+
+    row
+      .querySelector(".item-price")
+      .addEventListener("input", calculateTotals);
+
+    calculateTotals();
+  }
+
+  function removeItem(button) {
+
+    button.closest("tr").remove();
+
+    calculateTotals();
+  }
+
+  function getItems() {
+
+    return [
+      ...itemsBody.querySelectorAll("tr")
+    ]
+      .map(row => {
+
+        const description =
+          row
+            .querySelector(".item-description")
+            .value
+            .trim();
+
+        const qty =
+          Number(
+            row.querySelector(".item-qty").value
+          ) || 0;
+
+        const price =
+          Number(
+            row.querySelector(".item-price").value
+          ) || 0;
+
+        return {
+          description,
+          qty,
+          price,
+          total: qty * price
+        };
+
+      })
+      .filter(item =>
+        item.description || item.price > 0
+      );
+  }
+
+  function calculateTotals() {
+
+    let subtotal = 0;
+
+    [
+      ...itemsBody.querySelectorAll("tr")
+    ].forEach(row => {
+
+      const qty =
+        Number(
+          row.querySelector(".item-qty").value
+        ) || 0;
+
+      const price =
+        Number(
+          row.querySelector(".item-price").value
+        ) || 0;
+
+      const total =
+        qty * price;
+
+      row.querySelector(".item-total")
+        .textContent =
+        total.toFixed(2);
+
+      subtotal += total;
+    });
+
+    const discount =
+      Math.max(
+        0,
+        Number(
+          document.getElementById("discount").value
+        ) || 0
+      );
+
+    const taxRate =
+      Math.max(
+        0,
+        Number(
+          document.getElementById("taxRate").value
+        ) || 0
+      );
+
+    const paid =
+      Math.max(
+        0,
+        Number(
+          document.getElementById("paidAmount").value
+        ) || 0
+      );
+
+    const afterDiscount =
+      Math.max(
+        0,
+        subtotal - discount
+      );
+
+    const tax =
+      afterDiscount *
+      (taxRate / 100);
+
+    const grandTotal =
+      afterDiscount + tax;
+
+    const actualPaid =
+      Math.min(paid, grandTotal);
+
+    const due =
+      Math.max(
+        0,
+        grandTotal - actualPaid
+      );
+
+    document.getElementById("subtotal")
+      .textContent =
+      subtotal.toFixed(2);
+
+    document.getElementById("taxValue")
+      .textContent =
+      tax.toFixed(2);
+
+    document.getElementById("grandTotal")
+      .textContent =
+      grandTotal.toFixed(2);
+
+    document.getElementById("paidDisplay")
+      .textContent =
+      actualPaid.toFixed(2);
+
+    document.getElementById("dueDisplay")
+      .textContent =
+      due.toFixed(2);
+
+    return {
+      subtotal,
+      discount,
+      taxRate,
+      tax,
+      grandTotal,
+      paid: actualPaid,
+      due
+    };
+  }
+
+  document
+    .getElementById("discount")
+    .addEventListener(
+      "input",
+      calculateTotals
+    );
+
+  document
+    .getElementById("taxRate")
+    .addEventListener(
+      "input",
+      calculateTotals
+    );
+
+  document
+    .getElementById("paidAmount")
+    .addEventListener(
+      "input",
+      calculateTotals
+    );
+
+  form.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const customerName =
+      document
+        .getElementById("customerName")
+        .value
+        .trim();
+
+    if (!customerName) {
+      showToast("أدخل اسم العميل");
+      return;
+    }
+
+    const items =
+      getItems();
+
+    if (!items.length) {
+      showToast("أضف بندًا واحدًا على الأقل");
+      return;
+    }
+
+    const totals =
+      calculateTotals();
+
+    let paymentStatus =
+      document.getElementById("paymentStatus").value;
+
+    if (
+      paymentStatus !== "ملغاة"
+    ) {
+
+      if (
+        totals.grandTotal > 0 &&
+        totals.paid >= totals.grandTotal
+      ) {
+        paymentStatus = "مدفوعة";
+
+      } else if (
+        totals.paid > 0
+      ) {
+        paymentStatus = "مدفوعة جزئيًا";
+
+      } else {
+        paymentStatus = "غير مدفوعة";
+      }
+    }
+
+    const invoice = {
+
+      id:
+        editingId || Date.now(),
+
+      invoiceNumber:
+        document.getElementById("invoiceNumber").value,
+
+      date:
+        document.getElementById("invoiceDate").value,
+
+      customerId:
+        document.getElementById("customerSelect").value,
+
+      customerName,
+
+      customerPhone:
+        document.getElementById("customerPhone").value.trim(),
+
+      customerAddress:
+        document.getElementById("customerAddress").value.trim(),
+
+      serviceType:
+        document.getElementById("serviceType").value,
+
+      paymentStatus,
+
+      paidAmount:
+        totals.paid,
+
+      technician:
+        document.getElementById("technician").value.trim(),
+
+      description:
+        document.getElementById("description").value.trim(),
+
+      items,
+
+      subtotal:
+        totals.subtotal,
+
+      discount:
+        totals.discount,
+
+      taxRate:
+        totals.taxRate,
+
+      tax:
+        totals.tax,
+
+      grandTotal:
+        totals.grandTotal,
+
+      dueAmount:
+        totals.due,
+
+      notes:
+        document.getElementById("notes").value.trim(),
+
+      updatedAt:
+        new Date().toISOString()
+    };
+
+    if (editingId) {
+
+      const index =
+        invoices.findIndex(
+          invoice => invoice.id === editingId
+        );
+
+      if (index !== -1) {
+        invoices[index] = invoice;
+      }
+
+      showToast("تم تحديث الفاتورة");
+
+    } else {
+
+      invoices.unshift(invoice);
+
+      showToast("تم حفظ الفاتورة");
+    }
+
+    localStorage.setItem(
+      INVOICES_KEY,
+      JSON.stringify(invoices)
+    );
+
+    resetForm();
+    renderInvoices();
+  });
+
+  function resetForm() {
+
+    editingId = null;
+
+    form.reset();
+
+    document.getElementById("formTitle")
+      .textContent =
+      "إنشاء فاتورة جديدة";
+
+    document.getElementById("invoiceNumber")
+      .value =
+      generateInvoiceNumber();
+
+    document.getElementById("invoiceDate")
+      .value =
+      today();
+
+    document.getElementById("paymentStatus")
+      .value =
+      "غير مدفوعة";
+
+    document.getElementById("paidAmount")
+      .value =
+      "0";
+
+    document.getElementById("discount")
+      .value =
+      "0";
+
+    document.getElementById("taxRate")
+      .value =
+      "0";
+
+    itemsBody.innerHTML = "";
+
+    addItem();
+
+    calculateTotals();
+  }
+
+  function editInvoice(id) {
+
+    const invoice =
+      invoices.find(
+        invoice => invoice.id === id
+      );
+
+    if (!invoice) return;
+
+    editingId = id;
+
+    document.getElementById("formTitle")
+      .textContent =
+      "تعديل الفاتورة";
+
+    document.getElementById("invoiceNumber")
+      .value =
+      invoice.invoiceNumber;
+
+    document.getElementById("invoiceDate")
+      .value =
+      invoice.date;
+
+    document.getElementById("customerSelect")
+      .value =
+      invoice.customerId || "";
+
+    document.getElementById("customerName")
+      .value =
+      invoice.customerName || "";
+
+    document.getElementById("customerPhone")
+      .value =
+      invoice.customerPhone || "";
+
+    document.getElementById("customerAddress")
+      .value =
+      invoice.customerAddress || "";
+
+    document.getElementById("serviceType")
+      .value =
+      invoice.serviceType || "";
+
+    document.getElementById("paymentStatus")
+      .value =
+      invoice.paymentStatus || "غير مدفوعة";
+
+    document.getElementById("paidAmount")
+      .value =
+      invoice.paidAmount || 0;
+
+    document.getElementById("technician")
+      .value =
+      invoice.technician || "";
+
+    document.getElementById("description")
+      .value =
+      invoice.description || "";
+
+    document.getElementById("discount")
+      .value =
+      invoice.discount || 0;
+
+    document.getElementById("taxRate")
+      .value =
+      invoice.taxRate || 0;
+
+    document.getElementById("notes")
+      .value =
+      invoice.notes || "";
+
+    itemsBody.innerHTML = "";
+
+    if (
+      invoice.items &&
+      invoice.items.length
+    ) {
+
+      invoice.items.forEach(item => {
+        addItem(item);
+      });
+
+    } else {
+
+      addItem();
+    }
+
+    calculateTotals();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+  function deleteInvoice(id) {
+
+    const invoice =
+      invoices.find(
+        invoice => invoice.id === id
+      );
+
+    if (!invoice) return;
+
+    if (
+      !confirm(
+        "هل أنت متأكد من حذف الفاتورة " +
+        invoice.invoiceNumber +
+        "؟"
+      )
+    ) {
+      return;
+    }
+
+    invoices =
+      invoices.filter(
+        invoice => invoice.id !== id
+      );
+
+    localStorage.setItem(
+      INVOICES_KEY,
+      JSON.stringify(invoices)
+    );
+
+    renderInvoices();
+
+    showToast("تم حذف الفاتورة");
+  }
+
+  function statusClass(status) {
+
+    if (status === "مدفوعة") {
+      return "paid";
+    }
+
+    if (status === "مدفوعة جزئيًا") {
+      return "partial";
+    }
+
+    if (status === "ملغاة") {
+      return "cancelled";
+    }
+
+    return "unpaid";
+  }
+
+  function renderInvoices() {
+
+    const body =
+      document.getElementById("invoicesBody");
+
+    const search =
+      document
+        .getElementById("search")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const filtered =
+      invoices.filter(invoice => {
+
+        const text =
+          [
+            invoice.invoiceNumber,
+            invoice.customerName,
+            invoice.serviceType,
+            invoice.paymentStatus
+          ]
+          .join(" ")
+          .toLowerCase();
+
+        return text.includes(search);
+      });
+
+    if (!filtered.length) {
+
+      body.innerHTML = `
+        <tr>
+          <td colspan="9" class="empty">
+            لا توجد فواتير محفوظة
+          </td>
+        </tr>
+      `;
+
+    } else {
+
+      body.innerHTML =
+        filtered.map(invoice => `
+
+          <tr>
+
+            <td>
+              <strong>
+                ${escapeHTML(invoice.invoiceNumber)}
+              </strong>
+            </td>
+
+            <td>
+              ${escapeHTML(invoice.date)}
+            </td>
+
+            <td>
+              ${escapeHTML(invoice.customerName)}
+            </td>
+
+            <td>
+              ${escapeHTML(invoice.serviceType)}
+            </td>
+
+            <td>
+              ${Number(invoice.grandTotal || 0).toFixed(2)}
+            </td>
+
+            <td>
+              ${Number(invoice.paidAmount || 0).toFixed(2)}
+            </td>
+
+            <td>
+              ${Number(invoice.dueAmount || 0).toFixed(2)}
+            </td>
+
+            <td>
+              <span class="status ${statusClass(invoice.paymentStatus)}">
+                ${escapeHTML(invoice.paymentStatus)}
+              </span>
+            </td>
+
+            <td>
+
+              <div class="table-actions">
+
+                <button
+                  class="small-btn primary"
+                  onclick="editInvoice(${invoice.id})"
+                >
+                  تعديل
+                </button>
+
+                <button
+                  class="small-btn success"
+                  onclick="printInvoice(${invoice.id})"
+                >
+                  طباعة
+                </button>
+
+                <button
+                  class="small-btn danger"
+                  onclick="deleteInvoice(${invoice.id})"
+                >
+                  حذف
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        `).join("");
+    }
+
+    updateStats();
+  }
+
+  function updateStats() {
+
+    const totalSales =
+      invoices
+        .filter(invoice =>
+          invoice.paymentStatus !== "ملغاة"
+        )
+        .reduce(
+          (sum, invoice) =>
+            sum + Number(invoice.grandTotal || 0),
+          0
+        );
+
+    const totalPaid =
+      invoices
+        .filter(invoice =>
+          invoice.paymentStatus !== "ملغاة"
+        )
+        .reduce(
+          (sum, invoice) =>
+            sum + Number(invoice.paidAmount || 0),
+          0
+        );
+
+    const totalDue =
+      invoices
+        .filter(invoice =>
+          invoice.paymentStatus !== "ملغاة"
+        )
+        .reduce(
+          (sum, invoice) =>
+            sum + Number(invoice.dueAmount || 0),
+          0
+        );
+
+    document.getElementById("totalInvoices")
+      .textContent =
+      invoices.length;
+
+    document.getElementById("totalSales")
+      .textContent =
+      totalSales.toFixed(2);
+
+    document.getElementById("totalPaid")
+      .textContent =
+      totalPaid.toFixed(2);
+
+    document.getElementById("totalDue")
+      .textContent =
+      totalDue.toFixed(2);
+  }
+
+  function createPrintHTML(invoice) {
+
+    const itemsHTML =
+      (invoice.items || [])
+        .map(item => `
+          <tr>
+            <td>${escapeHTML(item.description)}</td>
+            <td>${item.qty}</td>
+            <td>${Number(item.price).toFixed(2)}</td>
+            <td>${Number(item.total).toFixed(2)}</td>
+          </tr>
+        `)
+        .join("");
+
+    return `
+
+      <div
+        style="
+          font-family:Arial,Tahoma,sans-serif;
+          direction:rtl;
+          max-width:900px;
+          margin:auto;
+          color:#111;
+        "
+      >
+
+        <div
+          style="
+            display:flex;
+            justify-content:space-between;
+            border-bottom:2px solid #111;
+            padding-bottom:18px;
+            margin-bottom:20px;
+          "
+        >
+
+          <div>
+            <h1 style="margin:0 0 8px;">
+              ⚒ فني برو
+            </h1>
+
+            <div>
+              فاتورة خدمات وصيانة
+            </div>
+          </div>
+
+          <div style="text-align:left;line-height:1.8;">
+
+            <strong>رقم الفاتورة:</strong>
+            ${escapeHTML(invoice.invoiceNumber)}
+
+            <br>
+
+            <strong>التاريخ:</strong>
+            ${escapeHTML(invoice.date)}
+
+          </div>
+
+        </div>
+
+        <div
+          style="
+            line-height:1.9;
+            margin-bottom:20px;
+          "
+        >
+
+          <strong>العميل:</strong>
+          ${escapeHTML(invoice.customerName)}
+
+          <br>
+
+          <strong>الهاتف:</strong>
+          ${escapeHTML(invoice.customerPhone || "-")}
+
+          <br>
+
+          <strong>العنوان:</strong>
+          ${escapeHTML(invoice.customerAddress || "-")}
+
+          <br>
+
+          <strong>نوع الخدمة:</strong>
+          ${escapeHTML(invoice.serviceType)}
+
+          <br>
+
+          <strong>الفني / الشركة:</strong>
+          ${escapeHTML(invoice.technician || "-")}
+
+        </div>
+
+        <p style="line-height:1.8;">
+          <strong>وصف الخدمة:</strong><br>
+          ${escapeHTML(invoice.description || "-")}
+        </p>
+
+        <table
+          style="
+            width:100%;
+            border-collapse:collapse;
+            margin-top:20px;
+          "
+        >
+
+          <thead>
+
+            <tr>
+
+              <th style="border:1px solid #999;padding:10px;background:#eee;">
+                الوصف
+              </th>
+
+              <th style="border:1px solid #999;padding:10px;background:#eee;">
+                الكمية
+              </th>
+
+              <th style="border:1px solid #999;padding:10px;background:#eee;">
+                سعر الوحدة
+              </th>
+
+              <th style="border:1px solid #999;padding:10px;background:#eee;">
+                الإجمالي
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+            ${itemsHTML}
+          </tbody>
+
+        </table>
+
+        <div
+          style="
+            width:350px;
+            margin-right:auto;
+            margin-top:25px;
+            line-height:2;
+          "
+        >
+
+          <div style="display:flex;justify-content:space-between;">
+            <span>المجموع الفرعي:</span>
+            <strong>
+              ${Number(invoice.subtotal).toFixed(2)}
+            </strong>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;">
+            <span>الخصم:</span>
+            <strong>
+              ${Number(invoice.discount).toFixed(2)}
+            </strong>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;">
+            <span>الضريبة:</span>
+            <strong>
+              ${Number(invoice.tax).toFixed(2)}
+            </strong>
+          </div>
+
+          <div
+            style="
+              display:flex;
+              justify-content:space-between;
+              font-size:20px;
+              border-top:2px solid #111;
+              padding-top:8px;
+            "
+          >
+            <span>الإجمالي:</span>
+            <strong>
+              ${Number(invoice.grandTotal).toFixed(2)}
+            </strong>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;">
+            <span>المدفوع:</span>
+            <strong>
+              ${Number(invoice.paidAmount).toFixed(2)}
+            </strong>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;">
+            <span>المتبقي:</span>
+            <strong>
+              ${Number(invoice.dueAmount).toFixed(2)}
+            </strong>
+          </div>
+
+        </div>
+
+        <div
+          style="
+            margin-top:25px;
+            line-height:1.9;
+          "
+        >
+
+          <strong>حالة الدفع:</strong>
+          ${escapeHTML(invoice.paymentStatus)}
+
+        </div>
+
+        <div
+          style="
+            margin-top:25px;
+            border-top:1px solid #ccc;
+            padding-top:15px;
+            line-height:1.8;
+          "
+        >
+
+          <strong>الملاحظات:</strong><br>
+          ${escapeHTML(invoice.notes || "-")}
+
+        </div>
+
+      </div>
+    `;
+  }
+
+  function printInvoice(id) {
+
+    const invoice =
+      invoices.find(
+        invoice => invoice.id === id
+      );
+
+    if (!invoice) return;
+
+    const printWindow =
+      window.open("", "_blank");
+
+    printWindow.document.write(`
+
+      <!DOCTYPE html>
+
+      <html lang="ar" dir="rtl">
+
+      <head>
+
+        <meta charset="UTF-8">
+
+        <title>
+          ${escapeHTML(invoice.invoiceNumber)}
+        </title>
+
+        <style>
+
+          body {
+            padding:30px;
+            background:white;
+          }
+
+          @media print {
+            body {
+              padding:0;
+            }
+          }
+
+        </style>
+
+      </head>
+
+      <body>
+
+        ${createPrintHTML(invoice)}
+
+        <script>
+
+          window.onload = function() {
+            window.print();
+          };
+
+        <\/script>
+
+      </body>
+
+      </html>
+
+    `);
+
+    printWindow.document.close();
+  }
+
+  function printCurrentInvoice() {
+
+    const customerName =
+      document
+        .getElementById("customerName")
+        .value
+        .trim();
+
+    if (!customerName) {
+      showToast("أدخل اسم العميل أولًا");
+      return;
+    }
+
+    const items =
+      getItems();
+
+    if (!items.length) {
+      showToast("أضف بندًا واحدًا على الأقل");
+      return;
+    }
+
+    const totals =
+      calculateTotals();
+
+    const invoice = {
+
+      invoiceNumber:
+        document.getElementById("invoiceNumber").value,
+
+      date:
+        document.getElementById("invoiceDate").value,
+
+      customerName,
+
+      customerPhone:
+        document.getElementById("customerPhone").value,
+
+      customerAddress:
+        document.getElementById("customerAddress").value,
+
+      serviceType:
+        document.getElementById("serviceType").value,
+
+      paymentStatus:
+        document.getElementById("paymentStatus").value,
+
+      paidAmount:
+        totals.paid,
+
+      technician:
+        document.getElementById("technician").value,
+
+      description:
+        document.getElementById("description").value,
+
+      items,
+
+      subtotal:
+        totals.subtotal,
+
+      discount:
+        totals.discount,
+
+      tax:
+        totals.tax,
+
+      grandTotal:
+        totals.grandTotal,
+
+      dueAmount:
+        totals.due,
+
+      notes:
+        document.getElementById("notes").value
+
+    };
+
+    const printWindow =
+      window.open("", "_blank");
+
+    printWindow.document.write(`
+
+      <!DOCTYPE html>
+
+      <html lang="ar" dir="rtl">
+
+      <head>
+
+        <meta charset="UTF-8">
+
+        <title>
+          ${escapeHTML(invoice.invoiceNumber)}
+        </title>
+
+        <style>
+
+          body {
+            padding:30px;
+            background:white;
+          }
+
+          @media print {
+            body {
+              padding:0;
+            }
+          }
+
+        </style>
+
+      </head>
+
+      <body>
+
+        ${createPrintHTML(invoice)}
+
+        <script>
+
+          window.onload = function() {
+            window.print();
+          };
+
+        <\/script>
+
+      </body>
+
+      </html>
+
+    `);
+
+    printWindow.document.close();
+  }
+
+  loadCustomers();
+  resetForm();
+  renderInvoices();
+
+</script>
+
+</body>
+</html>
