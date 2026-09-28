@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>المواعيد | فني برو</title>
+
+  <meta
+    name="description"
+    content="إدارة مواعيد زيارات العملاء والخدمات في منصة فني برو."
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Tahoma, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .topbar {
+      background: #111827;
+      color: white;
+      padding: 15px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .brand {
+      color: white;
+      text-decoration: none;
+      font-size: 22px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .back {
+      color: #dbeafe;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .container {
+      width: min(1150px, calc(100% - 30px));
+      margin: 30px auto 60px;
+    }
+
+    .page-title {
+      margin-bottom: 25px;
+    }
+
+    .page-title h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+    }
+
+    .page-title p {
+      margin: 0;
+      color: #667085;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat {
+      background: white;
+      border-radius: 17px;
+      padding: 20px;
+      box-shadow: 0 7px 22px rgba(0,0,0,.05);
+    }
+
+    .stat-label {
+      color: #667085;
+      font-size: 14px;
+      margin-bottom: 9px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 23px;
+      box-shadow: 0 7px 22px rgba(0,0,0,.05);
+      border: 1px solid #edf0f5;
+    }
+
+    .card h2 {
+      margin: 0 0 20px;
+      font-size: 21px;
+    }
+
+    .field {
+      margin-bottom: 15px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid #d8dee9;
+      border-radius: 11px;
+      padding: 12px;
+      background: white;
+      color: #172033;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,.10);
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 11px;
+      padding: 11px 16px;
+      font-weight: 800;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .btn-small {
+      padding: 7px 10px;
+      font-size: 12px;
+      border-radius: 8px;
+      border: 0;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .search {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 17px;
+    }
+
+    .search input,
+    .search select {
+      border: 1px solid #d8dee9;
+      border-radius: 10px;
+      padding: 11px;
+      background: white;
+      outline: none;
+    }
+
+    .search input {
+      flex: 1;
+    }
+
+    .appointment-list {
+      display: grid;
+      gap: 13px;
+    }
+
+    .appointment {
+      border: 1px solid #e7ebf1;
+      border-radius: 15px;
+      padding: 17px;
+      background: #fff;
+    }
+
+    .appointment-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .appointment-title {
+      font-size: 17px;
+      font-weight: 900;
+      margin-bottom: 5px;
+    }
+
+    .appointment-number {
+      color: #667085;
+      font-size: 12px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .badge-new {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .badge-confirmed {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .badge-done {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .badge-cancelled {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .detail {
+      background: #f8fafc;
+      padding: 9px;
+      border-radius: 9px;
+      font-size: 13px;
+    }
+
+    .detail strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 11px;
+      color: #667085;
+    }
+
+    .appointment-notes {
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 10px;
+      color: #475467;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 45px 15px;
+      color: #667085;
+      background: #f8fafc;
+      border-radius: 14px;
+    }
+
+    .empty-icon {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .notice {
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+      padding: 12px;
+      border-radius: 11px;
+      font-size: 13px;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .details {
+        grid-template-columns: 1fr;
+      }
+
+      .search {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+  <a href="index.html" class="brand">
+    ⚒ فني برو
+  </a>
+
+  <a href="index.html" class="back">
+    العودة للرئيسية ←
+  </a>
+
+</header>
+
+
+<main class="container">
+
+  <div class="page-title">
+
+    <h1>📅 المواعيد</h1>
+
+    <p>
+      نظّم زيارات العملاء ومواعيد الخدمات وتابع حالة كل موعد.
+    </p>
+
+  </div>
+
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-label">إجمالي المواعيد</div>
+      <div class="stat-value" id="totalCount">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">مواعيد اليوم</div>
+      <div class="stat-value" id="todayCount">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">المواعيد القادمة</div>
+      <div class="stat-value" id="upcomingCount">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">المكتملة</div>
+      <div class="stat-value" id="doneCount">0</div>
+    </div>
+
+  </div>
+
+
+  <div class="layout">
+
+
+    <!-- إضافة موعد -->
+
+    <section class="card">
+
+      <h2 id="formTitle">إضافة موعد جديد</h2>
+
+      <div class="notice">
+        يمكنك اختيار عميل محفوظ مسبقًا أو إدخال بيانات العميل يدويًا.
+      </div>
+
+
+      <form id="appointmentForm">
+
+        <input
+          type="hidden"
+          id="editId"
+        >
+
+
+        <div class="field">
+
+          <label for="customerSelect">
+            العميل المحفوظ
+          </label>
+
+          <select id="customerSelect">
+
+            <option value="">
+              اختر عميلًا
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="customerName">
+            اسم العميل *
+          </label>
+
+          <input
+            id="customerName"
+            type="text"
+            required
+            placeholder="مثال: أحمد محمد"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="customerPhone">
+            رقم الهاتف
+          </label>
+
+          <input
+            id="customerPhone"
+            type="tel"
+            placeholder="07xxxxxxxx"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="serviceType">
+            نوع الخدمة *
+          </label>
+
+          <select id="serviceType" required>
+
+            <option value="">اختر نوع الخدمة</option>
+            <option>تكييف وتبريد</option>
+            <option>كهرباء</option>
+            <option>سباكة</option>
+            <option>صيانة عامة</option>
+            <option>أجهزة منزلية</option>
+            <option>كاميرات ومراقبة</option>
+            <option>شبكات وإنترنت</option>
+            <option>تدفئة</option>
+            <option>صيانة سيارات</option>
+            <option>نجارة</option>
+            <option>دهان وتشطيبات</option>
+            <option>تنظيف</option>
+            <option>حدائق ومسابح</option>
+            <option>خدمات منزلية</option>
+            <option>مقاولات</option>
+            <option>أخرى</option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="appointmentDate">
+            التاريخ والوقت *
+          </label>
+
+          <input
+            id="appointmentDate"
+            type="datetime-local"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="technician">
+            الفني المسؤول
+          </label>
+
+          <input
+            id="technician"
+            type="text"
+            placeholder="اسم الفني"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="status">
+            حالة الموعد
+          </label>
+
+          <select id="status">
+
+            <option value="جديد">جديد</option>
+            <option value="مؤكد">مؤكد</option>
+            <option value="مكتمل">مكتمل</option>
+            <option value="ملغي">ملغي</option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="address">
+            عنوان الزيارة
+          </label>
+
+          <input
+            id="address"
+            type="text"
+            placeholder="عنوان العميل أو موقع العمل"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="notes">
+            ملاحظات
+          </label>
+
+          <textarea
+            id="notes"
+            placeholder="تفاصيل الموعد أو ملاحظات خاصة..."
+          ></textarea>
+
+        </div>
+
+
+        <div class="buttons">
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+          >
+            حفظ الموعد
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            id="cancelEdit"
+            style="display:none"
+          >
+            إلغاء التعديل
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+
+    <!-- قائمة المواعيد -->
+
+    <section class="card">
+
+      <h2>المواعيد المسجلة</h2>
+
+
+      <div class="search">
+
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="بحث باسم العميل أو الهاتف أو الخدمة..."
+        >
+
+        <select id="filterStatus">
+
+          <option value="">كل الحالات</option>
+          <option value="جديد">جديد</option>
+          <option value="مؤكد">مؤكد</option>
+          <option value="مكتمل">مكتمل</option>
+          <option value="ملغي">ملغي</option>
+
+        </select>
+
+      </div>
+
+
+      <div
+        id="appointmentList"
+        class="appointment-list"
+      ></div>
+
+    </section>
+
+  </div>
+
+</main>
+
+
+<script>
+
+  const STORAGE_KEY = "fanniProAppointments";
+
+  const CUSTOMER_KEY = "fanniProCustomers";
+
+
+  let appointments = [];
+
+  let customers = [];
+
+
+  const form =
+    document.getElementById("appointmentForm");
+
+  const customerSelect =
+    document.getElementById("customerSelect");
+
+  const customerName =
+    document.getElementById("customerName");
+
+  const customerPhone =
+    document.getElementById("customerPhone");
+
+  const serviceType =
+    document.getElementById("serviceType");
+
+  const appointmentDate =
+    document.getElementById("appointmentDate");
+
+  const technician =
+    document.getElementById("technician");
+
+  const status =
+    document.getElementById("status");
+
+  const address =
+    document.getElementById("address");
+
+  const notes =
+    document.getElementById("notes");
+
+  const editId =
+    document.getElementById("editId");
+
+  const appointmentList =
+    document.getElementById("appointmentList");
+
+  const searchInput =
+    document.getElementById("searchInput");
+
+  const filterStatus =
+    document.getElementById("filterStatus");
+
+  const cancelEdit =
+    document.getElementById("cancelEdit");
+
+  const formTitle =
+    document.getElementById("formTitle");
+
+
+  function loadData() {
+
+    try {
+
+      appointments =
+        JSON.parse(
+          localStorage.getItem(STORAGE_KEY) || "[]"
+        );
+
+      if (!Array.isArray(appointments)) {
+        appointments = [];
+      }
+
+    } catch {
+      appointments = [];
+    }
+
+
+    try {
+
+      customers =
+        JSON.parse(
+          localStorage.getItem(CUSTOMER_KEY) || "[]"
+        );
+
+      if (!Array.isArray(customers)) {
+        customers = [];
+      }
+
+    } catch {
+      customers = [];
+    }
+
+  }
+
+
+  function saveData() {
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(appointments)
+    );
+
+  }
+
+
+  function escapeHTML(value) {
+
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  function formatDate(value) {
+
+    if (!value) return "-";
+
+    const date = new Date(value);
+
+    if (isNaN(date.getTime())) {
+      return value;
+    }
+
+    return date.toLocaleString(
+      "ar-JO",
+      {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      }
+    );
+
+  }
+
+
+  function getAppointmentNumber() {
+
+    let counter =
+      Number(
+        localStorage.getItem(
+          "fanniProAppointmentCounter"
+        ) || 0
+      );
+
+    counter++;
+
+    localStorage.setItem(
+      "fanniProAppointmentCounter",
+      counter
+    );
+
+    const year =
+      new Date().getFullYear();
+
+    return (
+      "APT-" +
+      year +
+      "-" +
+      String(counter).padStart(4, "0")
+    );
+
+  }
+
+
+  function loadCustomers() {
+
+    customerSelect.innerHTML =
+      `<option value="">اختر عميلًا</option>`;
+
+
+    customers.forEach(customer => {
+
+      const option =
+        document.createElement("option");
+
+      option.value =
+        customer.id || "";
+
+      option.textContent =
+        customer.name +
+        (customer.phone
+          ? " — " + customer.phone
+          : "");
+
+      customerSelect.appendChild(option);
+
+    });
+
+  }
+
+
+  customerSelect.addEventListener(
+    "change",
+    function () {
+
+      const id = this.value;
+
+      if (!id) return;
+
+      const customer =
+        customers.find(
+          item => String(item.id) === String(id)
+        );
+
+      if (!customer) return;
+
+      customerName.value =
+        customer.name || "";
+
+      customerPhone.value =
+        customer.phone || "";
+
+      address.value =
+        customer.address || "";
+
+      if (customer.serviceType) {
+
+        const exists =
+          [...serviceType.options]
+            .some(
+              option =>
+                option.value === customer.serviceType
+            );
+
+        if (exists) {
+          serviceType.value =
+            customer.serviceType;
+        }
+
+      }
+
+    }
+  );
+
+
+  form.addEventListener(
+    "submit",
+    function (event) {
+
+      event.preventDefault();
+
+
+      const name =
+        customerName.value.trim();
+
+      const phone =
+        customerPhone.value.trim();
+
+      const service =
+        serviceType.value;
+
+      const date =
+        appointmentDate.value;
+
+
+      if (!name || !service || !date) {
+
+        alert(
+          "يرجى تعبئة اسم العميل ونوع الخدمة والتاريخ."
+        );
+
+        return;
+      }
+
+
+      const existingId =
+        editId.value;
+
+
+      if (existingId) {
+
+        const index =
+          appointments.findIndex(
+            item =>
+              String(item.id) ===
+              String(existingId)
+          );
+
+
+        if (index !== -1) {
+
+          appointments[index] = {
+
+            ...appointments[index],
+
+            customerName: name,
+
+            customerPhone: phone,
+
+            serviceType: service,
+
+            appointmentDate: date,
+
+            technician:
+              technician.value.trim(),
+
+            status: status.value,
+
+            address:
+              address.value.trim(),
+
+            notes:
+              notes.value.trim(),
+
+            updatedAt:
+              new Date().toISOString()
+
+          };
+
+        }
+
+      } else {
+
+        appointments.unshift({
+
+          id:
+            Date.now().toString(),
+
+          number:
+            getAppointmentNumber(),
+
+          customerName: name,
+
+          customerPhone: phone,
+
+          serviceType: service,
+
+          appointmentDate: date,
+
+          technician:
+            technician.value.trim(),
+
+          status:
+            status.value,
+
+          address:
+            address.value.trim(),
+
+          notes:
+            notes.value.trim(),
+
+          createdAt:
+            new Date().toISOString()
+
+        });
+
+      }
+
+
+      saveData();
+
+      resetForm();
+
+      render();
+
+      alert("تم حفظ الموعد بنجاح.");
+
+    }
+  );
+
+
+  function resetForm() {
+
+    form.reset();
+
+    editId.value = "";
+
+    formTitle.textContent =
+      "إضافة موعد جديد";
+
+    cancelEdit.style.display =
+      "none";
+
+  }
+
+
+  cancelEdit.addEventListener(
+    "click",
+    resetForm
+  );
+
+
+  function editAppointment(id) {
+
+    const appointment =
+      appointments.find(
+        item =>
+          String(item.id) === String(id)
+      );
+
+    if (!appointment) return;
+
+
+    editId.value =
+      appointment.id;
+
+    customerName.value =
+      appointment.customerName || "";
+
+    customerPhone.value =
+      appointment.customerPhone || "";
+
+    serviceType.value =
+      appointment.serviceType || "";
+
+    appointmentDate.value =
+      appointment.appointmentDate || "";
+
+    technician.value =
+      appointment.technician || "";
+
+    status.value =
+      appointment.status || "جديد";
+
+    address.value =
+      appointment.address || "";
+
+    notes.value =
+      appointment.notes || "";
+
+
+    formTitle.textContent =
+      "تعديل الموعد";
+
+    cancelEdit.style.display =
+      "inline-block";
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+
+  function deleteAppointment(id) {
+
+    const appointment =
+      appointments.find(
+        item =>
+          String(item.id) === String(id)
+      );
+
+    if (!appointment) return;
+
+
+    const confirmed =
+      confirm(
+        "هل أنت متأكد من حذف هذا الموعد؟"
+      );
+
+
+    if (!confirmed) return;
+
+
+    appointments =
+      appointments.filter(
+        item =>
+          String(item.id) !== String(id)
+      );
+
+
+    saveData();
+
+    render();
+
+  }
+
+
+  function changeStatus(id) {
+
+    const appointment =
+      appointments.find(
+        item =>
+          String(item.id) === String(id)
+      );
+
+    if (!appointment) return;
+
+
+    const statuses = [
+      "جديد",
+      "مؤكد",
+      "مكتمل",
+      "ملغي"
+    ];
+
+
+    const current =
+      statuses.indexOf(
+        appointment.status
+      );
+
+
+    const next =
+      (current + 1) % statuses.length;
+
+
+    appointment.status =
+      statuses[next];
+
+
+    saveData();
+
+    render();
+
+  }
+
+
+  function badgeClass(status) {
+
+    if (status === "مؤكد") {
+      return "badge-confirmed";
+    }
+
+    if (status === "مكتمل") {
+      return "badge-done";
+    }
+
+    if (status === "ملغي") {
+      return "badge-cancelled";
+    }
+
+    return "badge-new";
+
+  }
+
+
+  function render() {
+
+    const search =
+      searchInput.value
+        .trim()
+        .toLowerCase();
+
+    const statusFilter =
+      filterStatus.value;
+
+
+    let filtered =
+      appointments.filter(item => {
+
+        const text =
+          (
+            item.customerName +
+            " " +
+            item.customerPhone +
+            " " +
+            item.serviceType +
+            " " +
+            item.technician +
+            " " +
+            item.address
+          )
+          .toLowerCase();
+
+
+        const matchesSearch =
+          !search ||
+          text.includes(search);
+
+
+        const matchesStatus =
+          !statusFilter ||
+          item.status === statusFilter;
+
+
+        return (
+          matchesSearch &&
+          matchesStatus
+        );
+
+      });
+
+
+    filtered.sort(
+      (a, b) =>
+        new Date(a.appointmentDate) -
+        new Date(b.appointmentDate)
+    );
+
+
+    if (!filtered.length) {
+
+      appointmentList.innerHTML = `
+
+        <div class="empty">
+
+          <div class="empty-icon">📅</div>
+
+          <strong>لا توجد مواعيد</strong>
+
+          <div style="margin-top:7px">
+            أضف أول موعد من النموذج.
+          </div>
+
+        </div>
+
+      `;
+
+    } else {
+
+      appointmentList.innerHTML =
+        filtered.map(item => `
+
+          <div class="appointment">
+
+            <div class="appointment-top">
+
+              <div>
+
+                <div class="appointment-title">
+                  ${escapeHTML(item.customerName)}
+                </div>
+
+                <div class="appointment-number">
+                  ${escapeHTML(item.number || "")}
+                </div>
+
+              </div>
+
+              <span class="badge ${badgeClass(item.status)}">
+                ${escapeHTML(item.status)}
+              </span>
+
+            </div>
+
+
+            <div class="details">
+
+              <div class="detail">
+
+                <strong>الموعد</strong>
+
+                ${escapeHTML(
+                  formatDate(
+                    item.appointmentDate
+                  )
+                )}
+
+              </div>
+
+
+              <div class="detail">
+
+                <strong>الخدمة</strong>
+
+                ${escapeHTML(
+                  item.serviceType
+                )}
+
+              </div>
+
+
+              <div class="detail">
+
+                <strong>الهاتف</strong>
+
+                ${escapeHTML(
+                  item.customerPhone || "-"
+                )}
+
+              </div>
+
+
+              <div class="detail">
+
+                <strong>الفني</strong>
+
+                ${escapeHTML(
+                  item.technician || "-"
+                )}
+
+              </div>
+
+
+              <div class="detail">
+
+                <strong>العنوان</strong>
+
+                ${escapeHTML(
+                  item.address || "-"
+                )}
+
+              </div>
+
+            </div>
+
+
+            ${
+              item.notes
+                ? `
+                  <div class="appointment-notes">
+                    <strong>ملاحظات:</strong>
+                    ${escapeHTML(item.notes)}
+                  </div>
+                `
+                : ""
+            }
+
+
+            <div class="actions">
+
+              <button
+                class="btn-small btn-primary"
+                onclick="editAppointment('${item.id}')"
+              >
+                تعديل
+              </button>
+
+              <button
+                class="btn-small btn-secondary"
+                onclick="changeStatus('${item.id}')"
+              >
+                تغيير الحالة
+              </button>
+
+              <button
+                class="btn-small btn-danger"
+                onclick="deleteAppointment('${item.id}')"
+              >
+                حذف
+              </button>
+
+            </div>
+
+          </div>
+
+        `).join("");
+
+    }
+
+
+    updateStats();
+
+  }
+
+
+  function updateStats() {
+
+    const total =
+      appointments.length;
+
+
+    const today =
+      new Date();
+
+
+    const todayString =
+      today.toISOString()
+        .slice(0, 10);
+
+
+    const todayCount =
+      appointments.filter(item => {
+
+        return (
+          item.appointmentDate &&
+          item.appointmentDate.slice(0, 10) ===
+          todayString
+        );
+
+      }).length;
+
+
+    const upcomingCount =
+      appointments.filter(item => {
+
+        return (
+          item.appointmentDate &&
+          new Date(item.appointmentDate) >= today &&
+          item.status !== "ملغي" &&
+          item.status !== "مكتمل"
+        );
+
+      }).length;
+
+
+    const doneCount =
+      appointments.filter(
+        item =>
+          item.status === "مكتمل"
+      ).length;
+
+
+    document.getElementById(
+      "totalCount"
+    ).textContent = total;
+
+
+    document.getElementById(
+      "todayCount"
+    ).textContent = todayCount;
+
+
+    document.getElementById(
+      "upcomingCount"
+    ).textContent = upcomingCount;
+
+
+    document.getElementById(
+      "doneCount"
+    ).textContent = doneCount;
+
+  }
+
+
+  searchInput.addEventListener(
+    "input",
+    render
+  );
+
+
+  filterStatus.addEventListener(
+    "change",
+    render
+  );
+
+
+  loadData();
+
+  loadCustomers();
+
+  render();
+
+</script>
+
+</body>
+</html>
