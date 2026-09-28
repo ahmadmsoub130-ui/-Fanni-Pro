@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>فني برو | إدارة أعمال الفنيين</title>
+
+  <meta name="description"
+        content="فني برو - منصة بسيطة لإدارة العملاء وطلبات الصيانة والتقارير وعروض الأسعار والفواتير من الهاتف.">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Tahoma, Arial, sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+      line-height: 1.7;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button,
+    input {
+      font-family: inherit;
+    }
+
+    /* HEADER */
+    .header {
+      background: #ffffff;
+      border-bottom: 1px solid #e7eaf0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1150px;
+      margin: auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 22px;
+      font-weight: 800;
+      color: #0d6efd;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #0d6efd;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 21px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: #596579;
+      font-size: 14px;
+    }
+
+    .nav a:hover {
+      color: #0d6efd;
+    }
+
+    .login-btn {
+      background: #0d6efd;
+      color: white;
+      border: 0;
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    /* HERO */
+    .hero {
+      background:
+        radial-gradient(circle at top right, rgba(13,110,253,.12), transparent 35%),
+        linear-gradient(180deg, #ffffff 0%, #f5f7fb 100%);
+      padding: 75px 20px 65px;
+    }
+
+    .hero-inner {
+      max-width: 1150px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      align-items: center;
+      gap: 55px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #eaf2ff;
+      color: #0d6efd;
+      padding: 7px 13px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(35px, 5vw, 58px);
+      line-height: 1.15;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+
+    .hero h1 span {
+      color: #0d6efd;
+    }
+
+    .hero p {
+      max-width: 650px;
+      color: #667085;
+      font-size: 18px;
+      margin-bottom: 28px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 14px 22px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .primary-btn {
+      background: #0d6efd;
+      color: #fff;
+    }
+
+    .secondary-btn {
+      background: #fff;
+      color: #172033;
+      border: 1px solid #dfe4ec;
+    }
+
+    /* DASHBOARD PREVIEW */
+    .preview {
+      background: #ffffff;
+      border: 1px solid #e4e8ef;
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 20px 50px rgba(17, 24, 39, .09);
+    }
+
+    .preview-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .preview-title {
+      font-weight: 800;
+    }
+
+    .status {
+      font-size: 12px;
+      color: #14804a;
+      background: #e8f7ef;
+      padding: 6px 9px;
+      border-radius: 8px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      background: #f7f9fc;
+      border-radius: 15px;
+      padding: 17px;
+    }
+
+    .stat small {
+      color: #7a8495;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .stat strong {
+      font-size: 25px;
+    }
+
+    .mini-list {
+      margin-top: 15px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .mini-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    /* FEATURES */
+    .section {
+      max-width: 1150px;
+      margin: auto;
+      padding: 70px 20px;
+    }
+
+    .section-heading {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 35px;
+    }
+
+    .section-heading h2 {
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
+
+    .section-heading p {
+      color: #697386;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .feature {
+      background: #fff;
+      border: 1px solid #e6eaf0;
+      border-radius: 18px;
+      padding: 24px;
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: #eaf2ff;
+      display: grid;
+      place-items: center;
+      font-size: 23px;
+      margin-bottom: 15px;
+    }
+
+    .feature h3 {
+      margin-bottom: 7px;
+      font-size: 18px;
+    }
+
+    .feature p {
+      color: #707b8e;
+      font-size: 14px;
+    }
+
+    /* TOOLS */
+    .tools {
+      background: #ffffff;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .tool-card {
+      background: #f8fafc;
+      border: 1px solid #e6eaf0;
+      border-radius: 18px;
+      padding: 24px;
+      transition: .2s;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,.07);
+    }
+
+    .tool-icon {
+      font-size: 27px;
+      margin-bottom: 12px;
+    }
+
+    .tool-card h3 {
+      margin-bottom: 6px;
+    }
+
+    .tool-card p {
+      color: #6d7788;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .tool-link {
+      color: #0d6efd;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    /* CTA */
+    .cta {
+      max-width: 1100px;
+      margin: 30px auto 70px;
+      padding: 45px 30px;
+      border-radius: 24px;
+      background: #0d6efd;
+      color: #fff;
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .cta p {
+      opacity: .9;
+      margin-bottom: 22px;
+    }
+
+    .cta button {
+      background: #fff;
+      color: #0d6efd;
+      border: 0;
+      padding: 13px 22px;
+      border-radius: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #101828;
+      color: #fff;
+      padding: 45px 20px 25px;
+    }
+
+    .footer-inner {
+      max-width: 1150px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 35px;
+    }
+
+    footer h3 {
+      margin-bottom: 10px;
+    }
+
+    footer p,
+    footer a {
+      color: #aeb8c7;
+      font-size: 14px;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 7px;
+    }
+
+    .copyright {
+      max-width: 1150px;
+      margin: 35px auto 0;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,.1);
+      color: #8f9bad;
+      font-size: 13px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .features,
+      .tool-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nav {
+        display: none;
+      }
+
+      .header-inner {
+        padding: 11px 15px;
+      }
+
+      .hero {
+        padding: 50px 15px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .primary-btn,
+      .secondary-btn {
+        width: 100%;
+      }
+
+      .section {
+        padding: 50px 15px;
+      }
+
+      .features,
+      .tool-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .cta {
+        margin: 10px 15px 50px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="header-inner">
+
+    <a href="index.html" class="logo">
+      <span class="logo-icon">⚒</span>
+      فني برو
+    </a>
+
+    <nav class="nav">
+      <a href="#features">المميزات</a>
+      <a href="#tools">الأدوات</a>
+      <a href="#about">عن المنصة</a>
+    </nav>
+
+    <button class="login-btn" onclick="startApp()">
+      ابدأ الآن
+    </button>
+
+  </div>
+</header>
+
+<section class="hero">
+
+  <div class="hero-inner">
+
+    <div>
+
+      <span class="badge">منصة إدارة أعمال الفنيين</span>
+
+      <h1>
+        خلّي شغلك
+        <span>منظم واحترافي</span>
+      </h1>
+
+      <p>
+        إدارة العملاء، طلبات الصيانة، التقارير، عروض الأسعار والفواتير
+        من مكان واحد وبطريقة سهلة من هاتفك.
+      </p>
+
+      <div class="hero-buttons">
+
+        <button class="primary-btn" onclick="startApp()">
+          ابدأ مجانًا
+        </button>
+
+        <button class="secondary-btn"
+                onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">
+          استكشف الأدوات
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="preview">
+
+      <div class="preview-top">
+        <div class="preview-title">لوحة العمل</div>
+        <span class="status">● النظام يعمل</span>
+      </div>
+
+      <div class="stat-grid">
+
+        <div class="stat">
+          <small>العملاء</small>
+          <strong>24</strong>
+        </div>
+
+        <div class="stat">
+          <small>طلبات اليوم</small>
+          <strong>8</strong>
+        </div>
+
+        <div class="stat">
+          <small>التقارير</small>
+          <strong>31</strong>
+        </div>
+
+        <div class="stat">
+          <small>الفواتير</small>
+          <strong>18</strong>
+        </div>
+
+      </div>
+
+      <div class="mini-list">
+
+        <div class="mini-item">
+          <span>صيانة مكيف — أحمد</span>
+          <strong>مكتمل</strong>
+        </div>
+
+        <div class="mini-item">
+          <span>تركيب مكيف — محمد</span>
+          <strong>جديد</strong>
+        </div>
+
+        <div class="mini-item">
+          <span>تقرير صيانة — شركة النور</span>
+          <strong>جاهز</strong>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="section" id="features">
+
+  <div class="section-heading">
+    <h2>كل ما يحتاجه الفني</h2>
+    <p>
+      أدوات عملية مصممة لتقليل الوقت الذي تقضيه في الأعمال الإدارية.
+    </p>
+  </div>
+
+  <div class="features">
+
+    <div class="feature">
+      <div class="feature-icon">👥</div>
+      <h3>إدارة العملاء</h3>
+      <p>
+        احفظ بيانات العملاء ومواقعهم وأعمالهم السابقة.
+      </p>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">📝</div>
+      <h3>تقارير احترافية</h3>
+      <p>
+        أنشئ تقرير صيانة مرتبًا وجاهزًا للإرسال.
+      </p>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">💰</div>
+      <h3>عروض الأسعار</h3>
+      <p>
+        أنشئ عرض سعر واضح للعميل خلال دقائق.
+      </p>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">🧾</div>
+      <h3>الفواتير</h3>
+      <p>
+        أنشئ فاتورة احترافية واحفظها بصيغة مناسبة.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="tools" id="tools">
+
+  <div class="section">
+
+    <div class="section-heading">
+      <h2>أدوات الفني</h2>
+      <p>
+        مجموعة أدوات سنطورها لتناسب العمل الميداني.
+      </p>
+    </div>
+
+    <div class="tool-grid">
+
+      <div class="tool-card">
+        <div class="tool-icon">👤</div>
+        <h3>العملاء</h3>
+        <p>إضافة وإدارة العملاء وبياناتهم.</p>
+        <a href="#" class="tool-link" onclick="comingSoon(event)">
+          فتح الأداة →
+        </a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-icon">🔧</div>
+        <h3>طلب صيانة</h3>
+        <p>تسجيل أعمال الصيانة والأعطال.</p>
+        <a href="#" class="tool-link" onclick="comingSoon(event)">
+          فتح الأداة →
+        </a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-icon">📋</div>
+        <h3>تقرير صيانة</h3>
+        <p>إنشاء تقرير صيانة احترافي.</p>
+        <a href="#" class="tool-link" onclick="comingSoon(event)">
+          فتح الأداة →
+        </a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-icon">💵</div>
+        <h3>عرض سعر</h3>
+        <p>إنشاء عرض سعر مرتب للعميل.</p>
+        <a href="#" class="tool-link" onclick="comingSoon(event)">
+          فتح الأداة →
+        </a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-icon">🧾</div>
+        <h3>فاتورة</h3>
+        <p>إنشاء فاتورة للخدمة أو القطع.</p>
+        <a href="#" class="tool-link" onclick="comingSoon(event)">
+          فتح الأداة →
+        </a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-icon">📱</div>
+        <h3>واتساب</h3>
+        <p>إرسال التقارير والفواتير للعميل.</p>
+        <a href="#" class="tool-link" onclick="comingSoon(event)">
+          فتح الأداة →
+        </a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-icon">🛠️</div>
+        <h3>سجل الأجهزة</h3>
+        <p>حفظ الأجهزة وأعمال الصيانة السابقة.</p>
+        <a href="#" class="tool-link" onclick="comingSoon(event)">
+          فتح الأداة →
+        </a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-icon">📅</div>
+        <h3>مواعيد الصيانة</h3>
+        <p>تنظيم مواعيد الزيارات القادمة.</p>
+        <a href="#" class="tool-link" onclick="comingSoon(event)">
+          فتح الأداة →
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="cta" id="about">
+
+  <h2>ابدأ بتنظيم شغلك</h2>
+
+  <p>
+    فني برو مصمم ليكون بسيطًا وسريعًا ويعمل بشكل ممتاز من الهاتف.
+  </p>
+
+  <button onclick="startApp()">
+    إنشاء حساب مجاني
+  </button>
+
+</section>
+
+<footer>
+
+  <div class="footer-inner">
+
+    <div>
+      <h3>⚒ فني برو</h3>
+      <p>
+        منصة لإدارة أعمال الفنيين وأصحاب خدمات الصيانة.
+      </p>
+    </div>
+
+    <div>
+      <h3>المنصة</h3>
+
+      <div class="footer-links">
+        <a href="#features">المميزات</a>
+        <a href="#tools">الأدوات</a>
+        <a href="#about">عن المنصة</a>
+      </div>
+    </div>
+
+    <div>
+      <h3>قريبًا</h3>
+
+      <div class="footer-links">
+        <a href="#">تسجيل الدخول</a>
+        <a href="#">الأسعار</a>
+        <a href="#">مركز المساعدة</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="copyright">
+    © 2026 فني برو — جميع الحقوق محفوظة
+  </div>
+
+</footer>
+
+<script>
+
+  function startApp() {
+    alert("سيتم تجهيز إنشاء الحساب في الخطوة التالية.");
+  }
+
+  function comingSoon(event) {
+    event.preventDefault();
+    alert("هذه الأداة سنقوم بتفعيلها في الخطوة التالية.");
+  }
+
+</script>
+
+</body>
+</html>
