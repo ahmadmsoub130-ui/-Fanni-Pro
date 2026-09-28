@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>طلبات الخدمة | فني برو</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Tahoma,sans-serif;
+    background:#f3f6fa;
+    color:#172033;
+    line-height:1.7;
+}
+
+button,input,select,textarea{
+    font-family:inherit;
+}
+
+.topbar{
+    background:linear-gradient(135deg,#0f172a,#172554);
+    color:#fff;
+    padding:17px 15px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 4px 20px rgba(0,0,0,.12);
+}
+
+.topbar-inner{
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.brand{
+    font-size:21px;
+    font-weight:900;
+}
+
+.back{
+    color:#fff;
+    text-decoration:none;
+    background:rgba(255,255,255,.12);
+    padding:8px 14px;
+    border-radius:10px;
+    font-size:14px;
+}
+
+.container{
+    max-width:1100px;
+    margin:25px auto;
+    padding:0 15px 90px;
+}
+
+.title{
+    margin-bottom:20px;
+}
+
+.title h1{
+    font-size:28px;
+    margin-bottom:5px;
+}
+
+.title p{
+    color:#64748b;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:18px;
+}
+
+.stat{
+    background:#fff;
+    border:1px solid #e2e8f0;
+    border-radius:15px;
+    padding:16px;
+}
+
+.stat-icon{
+    font-size:23px;
+}
+
+.stat-number{
+    font-size:25px;
+    font-weight:900;
+}
+
+.stat-label{
+    color:#64748b;
+    font-size:13px;
+}
+
+.card{
+    background:#fff;
+    border:1px solid #e2e8f0;
+    border-radius:18px;
+    padding:21px;
+    margin-bottom:18px;
+    box-shadow:0 7px 25px rgba(15,23,42,.05);
+}
+
+.card-title{
+    font-size:19px;
+    font-weight:900;
+    margin-bottom:17px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+label{
+    font-size:14px;
+    font-weight:700;
+    color:#334155;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:12px 13px;
+    border:1px solid #d7dee8;
+    border-radius:11px;
+    background:#fff;
+    outline:none;
+    font-size:15px;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,.1);
+}
+
+textarea{
+    min-height:105px;
+    resize:vertical;
+}
+
+.request-number{
+    background:#eff6ff;
+    color:#1d4ed8;
+    font-weight:900;
+    border-color:#bfdbfe;
+}
+
+.client-box{
+    background:#f8fafc;
+    border:1px dashed #cbd5e1;
+    padding:12px;
+    border-radius:11px;
+    color:#475569;
+    font-size:13px;
+    margin-top:10px;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:18px;
+}
+
+.btn{
+    border:0;
+    border-radius:11px;
+    padding:11px 17px;
+    cursor:pointer;
+    font-weight:800;
+}
+
+.primary{
+    background:#2563eb;
+    color:#fff;
+}
+
+.success{
+    background:#16a34a;
+    color:#fff;
+}
+
+.dark{
+    background:#0f172a;
+    color:#fff;
+}
+
+.light{
+    background:#e2e8f0;
+    color:#1e293b;
+}
+
+.danger{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+.requests{
+    display:grid;
+    gap:12px;
+}
+
+.request{
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    padding:16px;
+    background:#fff;
+}
+
+.request-top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:flex-start;
+}
+
+.request-number-small{
+    color:#2563eb;
+    font-size:13px;
+    font-weight:900;
+}
+
+.request-name{
+    font-size:18px;
+    font-weight:900;
+    margin:4px 0;
+}
+
+.request-meta{
+    color:#64748b;
+    font-size:13px;
+}
+
+.badge{
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:900;
+    white-space:nowrap;
+}
+
+.new{
+    background:#dbeafe;
+    color:#1d4ed8;
+}
+
+.progress{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.done{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.cancelled{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+.request-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:12px;
+}
+
+.request-actions button{
+    border:0;
+    padding:8px 11px;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:800;
+}
+
+.empty{
+    text-align:center;
+    padding:35px 15px;
+    color:#64748b;
+    background:#f8fafc;
+    border-radius:14px;
+}
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    transform:translateX(-50%) translateY(20px);
+    background:#0f172a;
+    color:#fff;
+    padding:12px 18px;
+    border-radius:12px;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    z-index:1000;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+@media(max-width:800px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:650px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .title h1{
+        font-size:23px;
+    }
+
+    .card{
+        padding:16px;
+    }
+
+    .request-top{
+        flex-direction:column;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="topbar-inner">
+
+        <div class="brand">
+            ⚒ فني برو
+        </div>
+
+        <a href="index.html" class="back">
+            ← الرئيسية
+        </a>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <div class="title">
+
+        <h1>
+            طلبات الخدمة
+        </h1>
+
+        <p>
+            سجّل طلب العميل وتابع حالته حتى إتمام الخدمة.
+        </p>
+
+    </div>
+
+
+    <!-- الإحصائيات -->
+
+    <div class="stats">
+
+        <div class="stat">
+            <div class="stat-icon">📋</div>
+            <div class="stat-number" id="totalRequests">0</div>
+            <div class="stat-label">إجمالي الطلبات</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">🆕</div>
+            <div class="stat-number" id="newRequests">0</div>
+            <div class="stat-label">طلبات جديدة</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">🔧</div>
+            <div class="stat-number" id="progressRequests">0</div>
+            <div class="stat-label">قيد التنفيذ</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">✅</div>
+            <div class="stat-number" id="doneRequests">0</div>
+            <div class="stat-label">مكتملة</div>
+        </div>
+
+    </div>
+
+
+    <!-- إضافة طلب -->
+
+    <section class="card">
+
+        <div class="card-title">
+            ➕ طلب خدمة جديد
+        </div>
+
+        <div class="grid">
+
+            <div class="field">
+
+                <label>
+                    رقم الطلب
+                </label>
+
+                <input
+                    id="requestNumber"
+                    class="request-number"
+                    readonly
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    تاريخ الطلب
+                </label>
+
+                <input
+                    type="date"
+                    id="requestDate"
+                >
+
+            </div>
+
+
+            <div class="field full">
+
+                <label>
+                    اختيار عميل محفوظ
+                </label>
+
+                <select id="customerSelect">
+
+                    <option value="">
+                        -- اختر عميلًا --
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    اسم العميل *
+                </label>
+
+                <input
+                    id="customerName"
+                    placeholder="اسم العميل"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    رقم الهاتف *
+                </label>
+
+                <input
+                    id="customerPhone"
+                    placeholder="07XXXXXXXX"
+                >
+
+            </div>
+
+
+            <div class="field full">
+
+                <label>
+                    عنوان الخدمة
+                </label>
+
+                <input
+                    id="customerAddress"
+                    placeholder="مكان تنفيذ الخدمة"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    نوع الخدمة
+                </label>
+
+                <select id="serviceType">
+
+                    <option value="">
+                        اختر التخصص
+                    </option>
+
+                    <option>تكييف وتبريد</option>
+                    <option>كهرباء</option>
+                    <option>سباكة</option>
+                    <option>صيانة عامة</option>
+                    <option>أجهزة منزلية</option>
+                    <option>كاميرات ومراقبة</option>
+                    <option>شبكات وإنترنت</option>
+                    <option>تدفئة</option>
+                    <option>صيانة سيارات</option>
+                    <option>نجارة</option>
+                    <option>دهان وتشطيبات</option>
+                    <option>تنظيف</option>
+                    <option>حدائق ومسابح</option>
+                    <option>خدمات منزلية</option>
+                    <option>مقاولات</option>
+                    <option>أخرى</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    أولوية الطلب
+                </label>
+
+                <select id="priority">
+
+                    <option>عادية</option>
+                    <option>متوسطة</option>
+                    <option>عاجلة</option>
+                    <option>طوارئ</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    الموعد المطلوب
+                </label>
+
+                <input
+                    type="datetime-local"
+                    id="appointment"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    الفني المسؤول
+                </label>
+
+                <input
+                    id="technician"
+                    placeholder="اسم الفني"
+                >
+
+            </div>
+
+
+            <div class="field full">
+
+                <label>
+                    تفاصيل طلب العميل *
+                </label>
+
+                <textarea
+                    id="description"
+                    placeholder="اكتب المشكلة أو الخدمة المطلوبة بالتفصيل..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="field full">
+
+                <label>
+                    ملاحظات
+                </label>
+
+                <textarea
+                    id="notes"
+                    placeholder="أي معلومات إضافية..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                class="btn primary"
+                onclick="saveRequest()"
+            >
+                💾 حفظ الطلب
+            </button>
+
+            <button
+                class="btn light"
+                onclick="clearForm()"
+            >
+                مسح
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- الطلبات -->
+
+    <section class="card">
+
+        <div class="card-title">
+            📋 الطلبات المسجلة
+        </div>
+
+        <div id="requestsList" class="requests"></div>
+
+    </section>
+
+</main>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+const REQUEST_KEY = "fanniProServiceRequests";
+const CUSTOMER_KEY = "fanniProCustomers";
+const COUNTER_KEY = "fanniProRequestCounter";
+
+
+let editingId = null;
+
+
+/* =========================
+   البداية
+========================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        setDate();
+
+        generateRequestNumber();
+
+        loadCustomers();
+
+        renderRequests();
+
+    }
+);
+
+
+/* =========================
+   التاريخ
+========================= */
+
+function setDate(){
+
+    const now = new Date();
+
+    const date =
+        now.getFullYear() +
+        "-" +
+        String(now.getMonth()+1).padStart(2,"0") +
+        "-" +
+        String(now.getDate()).padStart(2,"0");
+
+    document.getElementById(
+        "requestDate"
+    ).value = date;
+
+}
+
+
+/* =========================
+   رقم الطلب
+========================= */
+
+function generateRequestNumber(){
+
+    let counter =
+        Number(
+            localStorage.getItem(COUNTER_KEY) || 0
+        );
+
+    counter++;
+
+    localStorage.setItem(
+        COUNTER_KEY,
+        counter
+    );
+
+    const year =
+        new Date().getFullYear();
+
+    document.getElementById(
+        "requestNumber"
+    ).value =
+        "SR-" +
+        year +
+        "-" +
+        String(counter).padStart(4,"0");
+
+}
+
+
+/* =========================
+   العملاء
+========================= */
+
+function loadCustomers(){
+
+    const select =
+        document.getElementById(
+            "customerSelect"
+        );
+
+    select.innerHTML =
+        '<option value="">-- اختر عميلًا --</option>';
+
+    let customers = [];
+
+    try{
+
+        customers =
+            JSON.parse(
+                localStorage.getItem(
+                    CUSTOMER_KEY
+                ) || "[]"
+            );
+
+    }catch(error){
+
+        customers = [];
+
+    }
+
+
+    customers.forEach(
+        function(customer,index){
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value = index;
+
+            option.textContent =
+                customer.name +
+                (
+                    customer.phone
+                    ? " - " + customer.phone
+                    : ""
+                );
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+document.getElementById(
+    "customerSelect"
+).addEventListener(
+    "change",
+    function(){
+
+        const index = this.value;
+
+        if(index === ""){
+            return;
+        }
+
+        let customers = [];
+
+        try{
+
+            customers =
+                JSON.parse(
+                    localStorage.getItem(
+                        CUSTOMER_KEY
+                    ) || "[]"
+                );
+
+        }catch(error){
+
+            return;
+
+        }
+
+        const customer =
+            customers[index];
+
+        if(!customer){
+            return;
+        }
+
+        document.getElementById(
+            "customerName"
+        ).value =
+            customer.name || "";
+
+        document.getElementById(
+            "customerPhone"
+        ).value =
+            customer.phone || "";
+
+        document.getElementById(
+            "customerAddress"
+        ).value =
+            customer.address || "";
+
+        if(customer.service){
+
+            document.getElementById(
+                "serviceType"
+            ).value =
+                customer.service;
+
+        }
+
+    }
+);
+
+
+/* =========================
+   حفظ الطلب
+========================= */
+
+function saveRequest(){
+
+    const name =
+        document.getElementById(
+            "customerName"
+        ).value.trim();
+
+    const phone =
+        document.getElementById(
+            "customerPhone"
+        ).value.trim();
+
+    const description =
+        document.getElementById(
+            "description"
+        ).value.trim();
+
+    if(!name){
+
+        showToast(
+            "اكتب اسم العميل أولًا"
+        );
+
+        return;
+
+    }
+
+    if(!phone){
+
+        showToast(
+            "اكتب رقم هاتف العميل"
+        );
+
+        return;
+
+    }
+
+    if(!description){
+
+        showToast(
+            "اكتب تفاصيل طلب العميل"
+        );
+
+        return;
+
+    }
+
+
+    let requests = [];
+
+    try{
+
+        requests =
+            JSON.parse(
+                localStorage.getItem(
+                    REQUEST_KEY
+                ) || "[]"
+            );
+
+    }catch(error){
+
+        requests = [];
+
+    }
+
+
+    if(editingId){
+
+        const index =
+            requests.findIndex(
+                function(item){
+                    return item.id === editingId;
+                }
+            );
+
+        if(index !== -1){
+
+            requests[index] =
+                getFormData(
+                    requests[index]
+                );
+
+            localStorage.setItem(
+                REQUEST_KEY,
+                JSON.stringify(requests)
+            );
+
+            showToast(
+                "تم تعديل الطلب"
+            );
+
+        }
+
+        editingId = null;
+
+    }else{
+
+        const request =
+            getFormData();
+
+        requests.unshift(
+            request
+        );
+
+        localStorage.setItem(
+            REQUEST_KEY,
+            JSON.stringify(requests)
+        );
+
+        showToast(
+            "تم حفظ طلب الخدمة"
+        );
+
+    }
+
+
+    clearForm(false);
+
+    renderRequests();
+
+}
+
+
+/* =========================
+   بيانات الطلب
+========================= */
+
+function getFormData(oldData=null){
+
+    return {
+
+        id:
+            oldData
+            ? oldData.id
+            : Date.now(),
+
+        requestNumber:
+            oldData
+            ? oldData.requestNumber
+            : document.getElementById(
+                "requestNumber"
+              ).value,
+
+        date:
+            document.getElementById(
+                "requestDate"
+            ).value,
+
+        customerName:
+            document.getElementById(
+                "customerName"
+            ).value.trim(),
+
+        customerPhone:
+            document.getElementById(
+                "customerPhone"
+            ).value.trim(),
+
+        address:
+            document.getElementById(
+                "customerAddress"
+            ).value.trim(),
+
+        serviceType:
+            document.getElementById(
+                "serviceType"
+            ).value,
+
+        priority:
+            document.getElementById(
+                "priority"
+            ).value,
+
+        appointment:
+            document.getElementById(
+                "appointment"
+            ).value,
+
+        technician:
+            document.getElementById(
+                "technician"
+            ).value.trim(),
+
+        description:
+            document.getElementById(
+                "description"
+            ).value.trim(),
+
+        notes:
+            document.getElementById(
+                "notes"
+            ).value.trim(),
+
+        status:
+            oldData
+            ? oldData.status
+            : "جديد",
+
+        createdAt:
+            oldData
+            ? oldData.createdAt
+            : new Date().toISOString()
+
+    };
+
+}
+
+
+/* =========================
+   عرض الطلبات
+========================= */
+
+function renderRequests(){
+
+    const list =
+        document.getElementById(
+            "requestsList"
+        );
+
+    let requests = [];
+
+    try{
+
+        requests =
+            JSON.parse(
+                localStorage.getItem(
+                    REQUEST_KEY
+                ) || "[]"
+            );
+
+    }catch(error){
+
+        requests = [];
+
+    }
+
+
+    document.getElementById(
+        "totalRequests"
+    ).textContent =
+        requests.length;
+
+    document.getElementById(
+        "newRequests"
+    ).textContent =
+        requests.filter(
+            r => r.status === "جديد"
+        ).length;
+
+    document.getElementById(
+        "progressRequests"
+    ).textContent =
+        requests.filter(
+            r => r.status === "قيد التنفيذ"
+        ).length;
+
+    document.getElementById(
+        "doneRequests"
+    ).textContent =
+        requests.filter(
+            r => r.status === "مكتمل"
+        ).length;
+
+
+    if(requests.length === 0){
+
+        list.innerHTML = `
+            <div class="empty">
+                لا توجد طلبات خدمة حتى الآن.
+                <br>
+                أضف أول طلب من النموذج أعلاه.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML = requests
+        .map(
+            function(request){
+
+                return `
+
+                <div class="request">
+
+                    <div class="request-top">
+
+                        <div>
+
+                            <div class="request-number-small">
+                                ${escapeHtml(
+                                    request.requestNumber
+                                )}
+                            </div>
+
+                            <div class="request-name">
+                                ${escapeHtml(
+                                    request.customerName
+                                )}
+                            </div>
+
+                            <div class="request-meta">
+
+                                ${escapeHtml(
+                                    request.serviceType ||
+                                    "خدمة عامة"
+                                )}
+
+                                •
+                                
+                                ${escapeHtml(
+                                    request.customerPhone
+                                )}
+
+                                ${
+                                    request.address
+                                    ? " • " +
+                                      escapeHtml(
+                                        request.address
+                                      )
+                                    : ""
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <span class="badge ${statusClass(
+                            request.status
+                        )}">
+
+                            ${escapeHtml(
+                                request.status
+                            )}
+
+                        </span>
+
+                    </div>
+
+
+                    <div style="margin-top:10px;color:#334155;font-size:14px;">
+
+                        ${escapeHtml(
+                            request.description
+                        )}
+
+                    </div>
+
+
+                    <div class="request-meta" style="margin-top:8px;">
+
+                        الأولوية:
+                        ${escapeHtml(
+                            request.priority
+                        )}
+
+                        ${
+                            request.appointment
+                            ? " • الموعد: " +
+                              escapeHtml(
+                                formatDateTime(
+                                    request.appointment
+                                )
+                              )
+                            : ""
+                        }
+
+                    </div>
+
+
+                    <div class="request-actions">
+
+                        <button
+                            style="background:#fef3c7;color:#92400e;"
+                            onclick="changeStatus(${request.id})"
+                        >
+                            تغيير الحالة
+                        </button>
+
+                        <button
+                            style="background:#dbeafe;color:#1d4ed8;"
+                            onclick="editRequest(${request.id})"
+                        >
+                            تعديل
+                        </button>
+
+                        <button
+                            style="background:#fee2e2;color:#b91c1c;"
+                            onclick="deleteRequest(${request.id})"
+                        >
+                            حذف
+                        </button>
+
+                    </div>
+
+                </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =========================
+   حالة الطلب
+========================= */
+
+function changeStatus(id){
+
+    let requests =
+        getRequests();
+
+    const index =
+        requests.findIndex(
+            r => r.id === id
+        );
+
+    if(index === -1){
+        return;
+    }
+
+    const current =
+        requests[index].status;
+
+    const statuses = [
+        "جديد",
+        "قيد التنفيذ",
+        "مكتمل",
+        "ملغي"
+    ];
+
+    const currentIndex =
+        statuses.indexOf(current);
+
+    const next =
+        statuses[
+            (currentIndex + 1) %
+            statuses.length
+        ];
+
+    requests[index].status =
+        next;
+
+    saveRequests(
+        requests
+    );
+
+    renderRequests();
+
+    showToast(
+        "الحالة أصبحت: " + next
+    );
+
+}
+
+
+/* =========================
+   تعديل
+========================= */
+
+function editRequest(id){
+
+    const requests =
+        getRequests();
+
+    const request =
+        requests.find(
+            r => r.id === id
+        );
+
+    if(!request){
+        return;
+    }
+
+    editingId = id;
+
+    document.getElementById(
+        "requestNumber"
+    ).value =
+        request.requestNumber;
+
+    document.getElementById(
+        "requestDate"
+    ).value =
+        request.date || "";
+
+    document.getElementById(
+        "customerName"
+    ).value =
+        request.customerName || "";
+
+    document.getElementById(
+        "customerPhone"
+    ).value =
+        request.customerPhone || "";
+
+    document.getElementById(
+        "customerAddress"
+    ).value =
+        request.address || "";
+
+    document.getElementById(
+        "serviceType"
+    ).value =
+        request.serviceType || "";
+
+    document.getElementById(
+        "priority"
+    ).value =
+        request.priority || "عادية";
+
+    document.getElementById(
+        "appointment"
+    ).value =
+        request.appointment || "";
+
+    document.getElementById(
+        "technician"
+    ).value =
+        request.technician || "";
+
+    document.getElementById(
+        "description"
+    ).value =
+        request.description || "";
+
+    document.getElementById(
+        "notes"
+    ).value =
+        request.notes || "";
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+    showToast(
+        "تم تحميل الطلب للتعديل"
+    );
+
+}
+
+
+/* =========================
+   حذف
+========================= */
+
+function deleteRequest(id){
+
+    const confirmed =
+        confirm(
+            "هل تريد حذف طلب الخدمة؟"
+        );
+
+    if(!confirmed){
+        return;
+    }
+
+    let requests =
+        getRequests();
+
+    requests =
+        requests.filter(
+            r => r.id !== id
+        );
+
+    saveRequests(
+        requests
+    );
+
+    renderRequests();
+
+    showToast(
+        "تم حذف الطلب"
+    );
+
+}
+
+
+/* =========================
+   مسح النموذج
+========================= */
+
+function clearForm(showMessage=true){
+
+    document.getElementById(
+        "customerSelect"
+    ).value = "";
+
+    document.getElementById(
+        "customerName"
+    ).value = "";
+
+    document.getElementById(
+        "customerPhone"
+    ).value = "";
+
+    document.getElementById(
+        "customerAddress"
+    ).value = "";
+
+    document.getElementById(
+        "serviceType"
+    ).value = "";
+
+    document.getElementById(
+        "priority"
+    ).value = "عادية";
+
+    document.getElementById(
+        "appointment"
+    ).value = "";
+
+    document.getElementById(
+        "technician"
+    ).value = "";
+
+    document.getElementById(
+        "description"
+    ).value = "";
+
+    document.getElementById(
+        "notes"
+    ).value = "";
+
+    setDate();
+
+    if(!editingId){
+
+        generateRequestNumber();
+
+    }
+
+    if(showMessage){
+
+        showToast(
+            "تم مسح النموذج"
+        );
+
+    }
+
+}
+
+
+/* =========================
+   LocalStorage
+========================= */
+
+function getRequests(){
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(
+                REQUEST_KEY
+            ) || "[]"
+        );
+
+    }catch(error){
+
+        return [];
+
+    }
+
+}
+
+
+function saveRequests(requests){
+
+    localStorage.setItem(
+        REQUEST_KEY,
+        JSON.stringify(requests)
+    );
+
+}
+
+
+/* =========================
+   تنسيق التاريخ
+========================= */
+
+function formatDateTime(value){
+
+    if(!value){
+        return "";
+    }
+
+    const date =
+        new Date(value);
+
+    if(isNaN(date.getTime())){
+        return value;
+    }
+
+    return date.toLocaleString(
+        "ar-JO",
+        {
+            dateStyle:"short",
+            timeStyle:"short"
+        }
+    );
+
+}
+
+
+/* =========================
+   الحالة CSS
+========================= */
+
+function statusClass(status){
+
+    if(status === "جديد"){
+        return "new";
+    }
+
+    if(status === "قيد التنفيذ"){
+        return "progress";
+    }
+
+    if(status === "مكتمل"){
+        return "done";
+    }
+
+    return "cancelled";
+
+}
+
+
+/* =========================
+   Toast
+========================= */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+    toast.textContent =
+        message;
+
+    toast.classList.add(
+        "show"
+    );
+
+    setTimeout(
+        function(){
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },
+        3000
+    );
+
+}
+
+
+/* =========================
+   حماية النص
+========================= */
+
+function escapeHtml(value){
+
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
