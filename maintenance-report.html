@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>تقرير صيانة | فني برو</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Tahoma,sans-serif;
+    background:#f3f6fa;
+    color:#172033;
+    line-height:1.7;
+}
+
+button,
+input,
+select,
+textarea{
+    font-family:inherit;
+}
+
+.topbar{
+    background:linear-gradient(135deg,#0f172a,#172554);
+    color:white;
+    padding:18px 16px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 4px 20px rgba(0,0,0,.12);
+}
+
+.topbar-inner{
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.brand{
+    font-size:21px;
+    font-weight:800;
+}
+
+.back-btn{
+    text-decoration:none;
+    color:white;
+    background:rgba(255,255,255,.12);
+    padding:8px 14px;
+    border-radius:10px;
+    font-size:14px;
+}
+
+.container{
+    max-width:1100px;
+    margin:25px auto;
+    padding:0 15px 50px;
+}
+
+.page-title{
+    margin-bottom:20px;
+}
+
+.page-title h1{
+    font-size:28px;
+    margin-bottom:5px;
+}
+
+.page-title p{
+    color:#64748b;
+}
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:22px;
+    margin-bottom:18px;
+    box-shadow:0 8px 25px rgba(15,23,42,.06);
+    border:1px solid #e7edf4;
+}
+
+.card-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:19px;
+    font-weight:800;
+    margin-bottom:18px;
+    color:#0f172a;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+}
+
+.grid-3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+label{
+    font-size:14px;
+    font-weight:700;
+    color:#334155;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    border:1px solid #d7dee8;
+    border-radius:11px;
+    padding:12px 13px;
+    font-size:15px;
+    background:#fff;
+    outline:none;
+    transition:.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,.10);
+}
+
+textarea{
+    min-height:110px;
+    resize:vertical;
+}
+
+.report-number{
+    background:#eff6ff;
+    border-color:#bfdbfe;
+    color:#1d4ed8;
+    font-weight:800;
+}
+
+.customer-actions{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+    flex-wrap:wrap;
+}
+
+.small-btn{
+    border:0;
+    background:#e0f2fe;
+    color:#0369a1;
+    padding:8px 12px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.info-box{
+    background:#f8fafc;
+    border:1px dashed #cbd5e1;
+    padding:13px;
+    border-radius:12px;
+    color:#475569;
+    font-size:14px;
+    margin-top:12px;
+}
+
+.actions{
+    position:sticky;
+    bottom:0;
+    z-index:50;
+    background:rgba(255,255,255,.96);
+    backdrop-filter:blur(10px);
+    border-top:1px solid #e2e8f0;
+    padding:14px;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    border:0;
+    border-radius:12px;
+    padding:12px 20px;
+    cursor:pointer;
+    font-weight:800;
+    font-size:15px;
+    min-width:130px;
+}
+
+.btn-primary{
+    background:#2563eb;
+    color:white;
+}
+
+.btn-success{
+    background:#16a34a;
+    color:white;
+}
+
+.btn-dark{
+    background:#0f172a;
+    color:white;
+}
+
+.btn-light{
+    background:#e2e8f0;
+    color:#1e293b;
+}
+
+.btn-danger{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+.status-options{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.status-option{
+    position:relative;
+}
+
+.status-option input{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+}
+
+.status-option label{
+    display:block;
+    text-align:center;
+    padding:12px;
+    border:1px solid #d7dee8;
+    border-radius:11px;
+    cursor:pointer;
+    background:#fff;
+}
+
+.status-option input:checked + label{
+    border-color:#2563eb;
+    background:#eff6ff;
+    color:#1d4ed8;
+}
+
+.parts-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+.parts-table th,
+.parts-table td{
+    border:1px solid #e2e8f0;
+    padding:8px;
+    text-align:right;
+}
+
+.parts-table th{
+    background:#f8fafc;
+}
+
+.parts-table input{
+    border:0;
+    padding:7px;
+}
+
+.remove-part{
+    border:0;
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:7px 10px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.add-part{
+    margin-top:12px;
+    border:0;
+    background:#dcfce7;
+    color:#166534;
+    padding:9px 14px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.total-box{
+    margin-top:18px;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    gap:12px;
+    font-size:19px;
+    font-weight:800;
+}
+
+.total-box input{
+    max-width:180px;
+    background:#f0fdf4;
+    border-color:#86efac;
+    font-weight:800;
+    color:#166534;
+}
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:90px;
+    transform:translateX(-50%) translateY(20px);
+    background:#0f172a;
+    color:white;
+    padding:12px 18px;
+    border-radius:12px;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    z-index:1000;
+    box-shadow:0 8px 25px rgba(0,0,0,.2);
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+.saved-reports{
+    display:none;
+}
+
+@media(max-width:700px){
+
+    .grid,
+    .grid-3{
+        grid-template-columns:1fr;
+    }
+
+    .page-title h1{
+        font-size:23px;
+    }
+
+    .card{
+        padding:16px;
+        border-radius:15px;
+    }
+
+    .status-options{
+        grid-template-columns:1fr;
+    }
+
+    .actions{
+        padding:10px;
+    }
+
+    .btn{
+        flex:1;
+        min-width:110px;
+    }
+
+    .parts-table{
+        display:block;
+        overflow-x:auto;
+        white-space:nowrap;
+    }
+}
+
+/* PRINT */
+@media print{
+
+    body{
+        background:white;
+    }
+
+    .topbar,
+    .actions,
+    .customer-actions,
+    .add-part,
+    .remove-part,
+    .no-print{
+        display:none !important;
+    }
+
+    .container{
+        max-width:none;
+        margin:0;
+        padding:0;
+    }
+
+    .card{
+        box-shadow:none;
+        border:1px solid #ccc;
+        break-inside:avoid;
+    }
+
+    input,
+    select,
+    textarea{
+        border:0;
+        box-shadow:none;
+        padding:4px 0;
+        background:transparent;
+    }
+
+    .page-title{
+        text-align:center;
+    }
+
+    .parts-table th,
+    .parts-table td{
+        border:1px solid #999;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="topbar-inner">
+        <div class="brand">⚒ فني برو</div>
+        <a href="index.html" class="back-btn">← الرئيسية</a>
+    </div>
+</header>
+
+<main class="container">
+
+    <div class="page-title">
+        <h1>تقرير صيانة</h1>
+        <p>أنشئ تقرير صيانة احترافي واحفظه أو اطبعه كملف PDF.</p>
+    </div>
+
+    <!-- معلومات التقرير -->
+    <section class="card">
+
+        <div class="card-title">
+            📄 معلومات التقرير
+        </div>
+
+        <div class="grid">
+
+            <div class="field">
+                <label>رقم التقرير</label>
+                <input id="reportNumber" class="report-number" readonly>
+            </div>
+
+            <div class="field">
+                <label>التاريخ</label>
+                <input type="date" id="reportDate">
+            </div>
+
+            <div class="field">
+                <label>وقت التقرير</label>
+                <input type="time" id="reportTime">
+            </div>
+
+            <div class="field">
+                <label>اسم الفني / الشركة</label>
+                <input id="technicianName" placeholder="مثال: أحمد للصيانة">
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- بيانات العميل -->
+    <section class="card">
+
+        <div class="card-title">
+            👤 بيانات العميل
+        </div>
+
+        <div class="grid">
+
+            <div class="field full">
+                <label>اختيار عميل محفوظ</label>
+                <select id="customerSelect">
+                    <option value="">-- اختر عميلًا --</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>اسم العميل *</label>
+                <input id="customerName" required placeholder="اسم العميل">
+            </div>
+
+            <div class="field">
+                <label>رقم الهاتف *</label>
+                <input id="customerPhone" required placeholder="07XXXXXXXX">
+            </div>
+
+            <div class="field full">
+                <label>العنوان</label>
+                <input id="customerAddress" placeholder="عنوان العميل">
+            </div>
+
+        </div>
+
+        <div class="customer-actions no-print">
+            <button class="small-btn" onclick="loadSelectedCustomer()">
+                تحميل بيانات العميل
+            </button>
+
+            <button class="small-btn" onclick="clearCustomer()">
+                مسح بيانات العميل
+            </button>
+        </div>
+
+    </section>
+
+    <!-- بيانات الجهاز -->
+    <section class="card">
+
+        <div class="card-title">
+            ❄️ بيانات الجهاز
+        </div>
+
+        <div class="grid-3">
+
+            <div class="field">
+                <label>نوع الجهاز</label>
+                <select id="deviceType">
+                    <option value="">اختر النوع</option>
+                    <option>سبليت</option>
+                    <option>شباك</option>
+                    <option>مركزي</option>
+                    <option>باكيج</option>
+                    <option>تبريد تجاري</option>
+                    <option>ثلاجة</option>
+                    <option>فريزر</option>
+                    <option>مكيف متنقل</option>
+                    <option>أخرى</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>الشركة / الماركة</label>
+                <input id="deviceBrand" placeholder="مثال: Gree">
+            </div>
+
+            <div class="field">
+                <label>الموديل</label>
+                <input id="deviceModel" placeholder="رقم الموديل">
+            </div>
+
+            <div class="field">
+                <label>القدرة</label>
+                <input id="deviceCapacity" placeholder="مثال: 1.5 طن">
+            </div>
+
+            <div class="field">
+                <label>نوع غاز التبريد</label>
+                <select id="refrigerant">
+                    <option value="">اختر الغاز</option>
+                    <option>R22</option>
+                    <option>R32</option>
+                    <option>R410A</option>
+                    <option>R407C</option>
+                    <option>R134a</option>
+                    <option>R404A</option>
+                    <option>أخرى</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>مكان الجهاز</label>
+                <input id="deviceLocation" placeholder="مثال: غرفة المدير">
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- العطل والفحص -->
+    <section class="card">
+
+        <div class="card-title">
+            🔧 الفحص والتشخيص
+        </div>
+
+        <div class="grid">
+
+            <div class="field full">
+                <label>العطل / طلب العميل</label>
+                <textarea id="problem" placeholder="اكتب المشكلة التي أبلغ عنها العميل..."></textarea>
+            </div>
+
+            <div class="field full">
+                <label>نتيجة الفحص والتشخيص</label>
+                <textarea id="diagnosis" placeholder="اكتب نتيجة الفحص والسبب المحتمل للعطل..."></textarea>
+            </div>
+
+            <div class="field full">
+                <label>الأعمال المنفذة</label>
+                <textarea id="workDone" placeholder="مثال: تنظيف الفلاتر، فحص الضغوط، إصلاح تسريب، تعبئة غاز..."></textarea>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- القراءات -->
+    <section class="card">
+
+        <div class="card-title">
+            📊 قراءات الفحص
+        </div>
+
+        <div class="grid-3">
+
+            <div class="field">
+                <label>ضغط العالي</label>
+                <input id="highPressure" placeholder="مثال: 250 PSI">
+            </div>
+
+            <div class="field">
+                <label>ضغط الواطي</label>
+                <input id="lowPressure" placeholder="مثال: 70 PSI">
+            </div>
+
+            <div class="field">
+                <label>الأمبير</label>
+                <input id="ampere" placeholder="مثال: 6.2 A">
+            </div>
+
+            <div class="field">
+                <label>الفولت</label>
+                <input id="voltage" placeholder="مثال: 220 V">
+            </div>
+
+            <div class="field">
+                <label>حرارة الهواء الداخل</label>
+                <input id="inputTemp" placeholder="مثال: 28°C">
+            </div>
+
+            <div class="field">
+                <label>حرارة الهواء الخارج</label>
+                <input id="outputTemp" placeholder="مثال: 12°C">
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- قطع الغيار -->
+    <section class="card">
+
+        <div class="card-title">
+            🧰 قطع الغيار والمواد
+        </div>
+
+        <table class="parts-table" id="partsTable">
+
+            <thead>
+                <tr>
+                    <th>القطعة / المادة</th>
+                    <th>الكمية</th>
+                    <th>السعر</th>
+                    <th>الإجمالي</th>
+                    <th class="no-print">حذف</th>
+                </tr>
+            </thead>
+
+            <tbody id="partsBody">
+
+            </tbody>
+
+        </table>
+
+        <button class="add-part no-print" onclick="addPart()">
+            + إضافة قطعة
+        </button>
+
+        <div class="total-box">
+            <span>الإجمالي:</span>
+            <input id="totalAmount" value="0.00" readonly>
+            <span>د.أ</span>
+        </div>
+
+    </section>
+
+    <!-- حالة العمل -->
+    <section class="card">
+
+        <div class="card-title">
+            📌 حالة العمل
+        </div>
+
+        <div class="status-options">
+
+            <div class="status-option">
+                <input type="radio" name="status" id="completed" value="تم الإصلاح" checked>
+                <label for="completed">تم الإصلاح</label>
+            </div>
+
+            <div class="status-option">
+                <input type="radio" name="status" id="pending" value="يحتاج متابعة">
+                <label for="pending">يحتاج متابعة</label>
+            </div>
+
+            <div class="status-option">
+                <input type="radio" name="status" id="notRepaired" value="لم يتم الإصلاح">
+                <label for="notRepaired">لم يتم الإصلاح</label>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ملاحظات -->
+    <section class="card">
+
+        <div class="card-title">
+            📝 ملاحظات إضافية
+        </div>
+
+        <textarea id="notes" placeholder="أي ملاحظات إضافية للعميل أو الفني..."></textarea>
+
+    </section>
+
+</main>
+
+<div class="actions no-print">
+
+    <button class="btn btn-success" onclick="saveReport()">
+        💾 حفظ التقرير
+    </button>
+
+    <button class="btn btn-primary" onclick="printReport()">
+        🖨️ طباعة / PDF
+    </button>
+
+    <button class="btn btn-dark" onclick="newReport()">
+        ＋ تقرير جديد
+    </button>
+
+    <button class="btn btn-light" onclick="goHome()">
+        الرئيسية
+    </button>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+
+const CUSTOMER_KEY = "fanniProCustomers";
+const REPORT_KEY = "fanniProReports";
+const REPORT_COUNTER_KEY = "fanniProReportCounter";
+
+let parts = [];
+
+
+/* =========================
+   البداية
+========================= */
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    setCurrentDateTime();
+
+    generateReportNumber();
+
+    loadCustomers();
+
+    addPart();
+
+});
+
+
+/* =========================
+   التاريخ والوقت
+========================= */
+
+function setCurrentDateTime(){
+
+    const now = new Date();
+
+    const date =
+        now.getFullYear() + "-" +
+        String(now.getMonth()+1).padStart(2,"0") + "-" +
+        String(now.getDate()).padStart(2,"0");
+
+    const time =
+        String(now.getHours()).padStart(2,"0") + ":" +
+        String(now.getMinutes()).padStart(2,"0");
+
+    document.getElementById("reportDate").value = date;
+    document.getElementById("reportTime").value = time;
+}
+
+
+/* =========================
+   رقم التقرير
+========================= */
+
+function generateReportNumber(){
+
+    let counter = Number(
+        localStorage.getItem(REPORT_COUNTER_KEY) || 0
+    );
+
+    counter++;
+
+    localStorage.setItem(
+        REPORT_COUNTER_KEY,
+        counter
+    );
+
+    const year = new Date().getFullYear();
+
+    const number =
+        "FP-" +
+        year +
+        "-" +
+        String(counter).padStart(4,"0");
+
+    document.getElementById("reportNumber").value = number;
+}
+
+
+/* =========================
+   العملاء
+========================= */
+
+function loadCustomers(){
+
+    const select =
+        document.getElementById("customerSelect");
+
+    select.innerHTML =
+        '<option value="">-- اختر عميلًا --</option>';
+
+    let customers = [];
+
+    try{
+
+        customers =
+            JSON.parse(
+                localStorage.getItem(CUSTOMER_KEY) || "[]"
+            );
+
+    }catch(error){
+
+        customers = [];
+
+    }
+
+    customers.forEach(function(customer,index){
+
+        const option =
+            document.createElement("option");
+
+        option.value = index;
+
+        option.textContent =
+            customer.name +
+            (customer.phone ? " - " + customer.phone : "");
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+function loadSelectedCustomer(){
+
+    const index =
+        document.getElementById("customerSelect").value;
+
+    if(index === ""){
+
+        showToast("اختر عميلًا أولًا");
+
+        return;
+
+    }
+
+    let customers = [];
+
+    try{
+
+        customers =
+            JSON.parse(
+                localStorage.getItem(CUSTOMER_KEY) || "[]"
+            );
+
+    }catch(error){
+
+        showToast("تعذر تحميل العملاء");
+
+        return;
+
+    }
+
+    const customer = customers[index];
+
+    if(!customer){
+
+        showToast("العميل غير موجود");
+
+        return;
+
+    }
+
+    document.getElementById("customerName").value =
+        customer.name || "";
+
+    document.getElementById("customerPhone").value =
+        customer.phone || "";
+
+    document.getElementById("customerAddress").value =
+        customer.address || "";
+
+    showToast("تم تحميل بيانات العميل");
+
+}
+
+
+function clearCustomer(){
+
+    document.getElementById("customerSelect").value = "";
+
+    document.getElementById("customerName").value = "";
+
+    document.getElementById("customerPhone").value = "";
+
+    document.getElementById("customerAddress").value = "";
+
+}
+
+
+/* =========================
+   قطع الغيار
+========================= */
+
+function addPart(){
+
+    parts.push({
+        name:"",
+        qty:1,
+        price:0
+    });
+
+    renderParts();
+
+}
+
+
+function removePart(index){
+
+    parts.splice(index,1);
+
+    renderParts();
+
+}
+
+
+function renderParts(){
+
+    const body =
+        document.getElementById("partsBody");
+
+    body.innerHTML = "";
+
+    parts.forEach(function(part,index){
+
+        const row =
+            document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>
+                <input
+                    type="text"
+                    value="${escapeHtml(part.name)}"
+                    placeholder="اسم القطعة"
+                    oninput="updatePart(${index},'name',this.value)"
+                >
+            </td>
+
+            <td>
+                <input
+                    type="number"
+                    min="1"
+                    value="${part.qty}"
+                    oninput="updatePart(${index},'qty',this.value)"
+                >
+            </td>
+
+            <td>
+                <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value="${part.price}"
+                    oninput="updatePart(${index},'price',this.value)"
+                >
+            </td>
+
+            <td>
+                <input
+                    type="text"
+                    value="${(
+                        Number(part.qty || 0) *
+                        Number(part.price || 0)
+                    ).toFixed(2)}"
+                    readonly
+                >
+            </td>
+
+            <td class="no-print">
+                <button
+                    class="remove-part"
+                    onclick="removePart(${index})"
+                >
+                    حذف
+                </button>
+            </td>
+
+        `;
+
+        body.appendChild(row);
+
+    });
+
+    calculateTotal();
+
+}
+
+
+function updatePart(index,field,value){
+
+    if(field === "qty"){
+
+        parts[index].qty =
+            Number(value) || 0;
+
+    }else if(field === "price"){
+
+        parts[index].price =
+            Number(value) || 0;
+
+    }else{
+
+        parts[index][field] = value;
+
+    }
+
+    renderParts();
+
+}
+
+
+/* =========================
+   الإجمالي
+========================= */
+
+function calculateTotal(){
+
+    let total = 0;
+
+    parts.forEach(function(part){
+
+        total +=
+            Number(part.qty || 0) *
+            Number(part.price || 0);
+
+    });
+
+    document.getElementById("totalAmount").value =
+        total.toFixed(2);
+
+}
+
+
+/* =========================
+   جمع البيانات
+========================= */
+
+function getReportData(){
+
+    const selectedStatus =
+        document.querySelector(
+            'input[name="status"]:checked'
+        );
+
+    return {
+
+        id:Date.now(),
+
+        reportNumber:
+            document.getElementById("reportNumber").value,
+
+        date:
+            document.getElementById("reportDate").value,
+
+        time:
+            document.getElementById("reportTime").value,
+
+        technicianName:
+            document.getElementById("technicianName").value.trim(),
+
+        customer:{
+            name:
+                document.getElementById("customerName").value.trim(),
+
+            phone:
+                document.getElementById("customerPhone").value.trim(),
+
+            address:
+                document.getElementById("customerAddress").value.trim()
+        },
+
+        device:{
+            type:
+                document.getElementById("deviceType").value,
+
+            brand:
+                document.getElementById("deviceBrand").value.trim(),
+
+            model:
+                document.getElementById("deviceModel").value.trim(),
+
+            capacity:
+                document.getElementById("deviceCapacity").value.trim(),
+
+            refrigerant:
+                document.getElementById("refrigerant").value,
+
+            location:
+                document.getElementById("deviceLocation").value.trim()
+        },
+
+        problem:
+            document.getElementById("problem").value.trim(),
+
+        diagnosis:
+            document.getElementById("diagnosis").value.trim(),
+
+        workDone:
+            document.getElementById("workDone").value.trim(),
+
+        readings:{
+            highPressure:
+                document.getElementById("highPressure").value.trim(),
+
+            lowPressure:
+                document.getElementById("lowPressure").value.trim(),
+
+            ampere:
+                document.getElementById("ampere").value.trim(),
+
+            voltage:
+                document.getElementById("voltage").value.trim(),
+
+            inputTemp:
+                document.getElementById("inputTemp").value.trim(),
+
+            outputTemp:
+                document.getElementById("outputTemp").value.trim()
+        },
+
+        parts:
+            JSON.parse(JSON.stringify(parts)),
+
+        total:
+            Number(
+                document.getElementById("totalAmount").value || 0
+            ),
+
+        status:
+            selectedStatus ? selectedStatus.value : "",
+
+        notes:
+            document.getElementById("notes").value.trim(),
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+}
+
+
+/* =========================
+   حفظ التقرير
+========================= */
+
+function saveReport(){
+
+    const customerName =
+        document.getElementById("customerName")
+        .value.trim();
+
+    const customerPhone =
+        document.getElementById("customerPhone")
+        .value.trim();
+
+    if(!customerName){
+
+        showToast("اكتب اسم العميل أولًا");
+
+        document.getElementById("customerName").focus();
+
+        return;
+
+    }
+
+    if(!customerPhone){
+
+        showToast("اكتب رقم هاتف العميل");
+
+        document.getElementById("customerPhone").focus();
+
+        return;
+
+    }
+
+    const report =
+        getReportData();
+
+    let reports = [];
+
+    try{
+
+        reports =
+            JSON.parse(
+                localStorage.getItem(REPORT_KEY) || "[]"
+            );
+
+    }catch(error){
+
+        reports = [];
+
+    }
+
+    reports.push(report);
+
+    localStorage.setItem(
+        REPORT_KEY,
+        JSON.stringify(reports)
+    );
+
+    showToast(
+        "تم حفظ التقرير " +
+        report.reportNumber
+    );
+
+}
+
+
+/* =========================
+   طباعة / PDF
+========================= */
+
+function printReport(){
+
+    const customerName =
+        document.getElementById("customerName")
+        .value.trim();
+
+    if(!customerName){
+
+        showToast("اكتب اسم العميل قبل الطباعة");
+
+        return;
+
+    }
+
+    window.print();
+
+}
+
+
+/* =========================
+   تقرير جديد
+========================= */
+
+function newReport(){
+
+    const confirmed =
+        confirm(
+            "هل تريد إنشاء تقرير جديد؟ سيتم مسح البيانات الحالية."
+        );
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+    document.querySelectorAll(
+        "input:not(#reportNumber), textarea"
+    ).forEach(function(element){
+
+        if(
+            element.type !== "radio" &&
+            element.type !== "checkbox"
+        ){
+
+            element.value = "";
+
+        }
+
+    });
+
+    document.querySelectorAll("select")
+        .forEach(function(select){
+
+            select.selectedIndex = 0;
+
+        });
+
+    document.getElementById("totalAmount").value =
+        "0.00";
+
+    document.getElementById("completed").checked =
+        true;
+
+    parts = [];
+
+    addPart();
+
+    setCurrentDateTime();
+
+    generateReportNumber();
+
+    showToast("تم إنشاء تقرير جديد");
+
+}
+
+
+/* =========================
+   الرئيسية
+========================= */
+
+function goHome(){
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =========================
+   Toast
+========================= */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent =
+        message;
+
+    toast.classList.add("show");
+
+    setTimeout(function(){
+
+        toast.classList.remove("show");
+
+    },3000);
+
+}
+
+
+/* =========================
+   حماية HTML
+========================= */
+
+function escapeHtml(value){
+
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
