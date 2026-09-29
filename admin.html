@@ -81,6 +81,10 @@ text-decoration:none;
 font-size:13px
 }
 
+.header-btn:hover{
+background:#162943
+}
+
 main{
 max-width:1400px;
 margin:auto;
@@ -400,25 +404,279 @@ border-radius:10px;
 text-decoration:none
 }
 
+
+/* =====================================================
+   TECHNICIAN APPLICATIONS
+===================================================== */
+
+.applications-section{
+margin-top:35px
+}
+
+.section-box{
+background:#0f1d30;
+border:1px solid #1e334d;
+border-radius:18px;
+padding:20px
+}
+
+.section-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+margin-bottom:18px
+}
+
+.section-header h3{
+font-size:20px
+}
+
+.application-count{
+font-size:12px;
+color:#94a3b8
+}
+
+.application-card{
+background:#0b192b;
+border:1px solid #1e334d;
+border-radius:16px;
+padding:18px;
+margin-bottom:14px
+}
+
+.application-card:last-child{
+margin-bottom:0
+}
+
+.application-top{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:15px;
+margin-bottom:15px
+}
+
+.application-number{
+color:#60a5fa;
+font-weight:bold;
+font-size:16px
+}
+
+.application-date{
+color:#64748b;
+font-size:11px;
+margin-top:5px
+}
+
+.application-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+margin-bottom:15px
+}
+
+.application-info{
+background:#07111f;
+border:1px solid #172a40;
+border-radius:10px;
+padding:11px
+}
+
+.application-info .label{
+color:#64748b;
+font-size:10px;
+margin-bottom:5px
+}
+
+.application-info .value{
+font-size:13px;
+color:#e2e8f0;
+word-break:break-word
+}
+
+.application-description{
+background:#07111f;
+border-radius:10px;
+padding:13px;
+color:#cbd5e1;
+font-size:13px;
+line-height:1.8;
+margin-bottom:14px
+}
+
+.application-actions{
+display:grid;
+grid-template-columns:1fr 1fr 2fr auto;
+gap:9px;
+align-items:end
+}
+
+.application-actions label{
+display:block;
+font-size:11px;
+color:#94a3b8;
+margin-bottom:6px
+}
+
+.application-actions select,
+.application-actions textarea{
+width:100%;
+padding:10px;
+border-radius:9px;
+border:1px solid #263b54;
+background:#07111f;
+color:#fff;
+outline:none
+}
+
+.application-actions textarea{
+min-height:43px;
+resize:vertical
+}
+
+.application-save{
+border:none;
+background:#2563eb;
+color:#fff;
+border-radius:9px;
+padding:11px 16px;
+cursor:pointer;
+font-weight:bold
+}
+
+.application-save:disabled{
+opacity:.5;
+cursor:not-allowed
+}
+
+.status-new{
+background:rgba(59,130,246,.15);
+color:#93c5fd
+}
+
+.status-review{
+background:rgba(245,158,11,.15);
+color:#fcd34d
+}
+
+.status-accepted{
+background:rgba(34,197,94,.15);
+color:#86efac
+}
+
+.status-rejected{
+background:rgba(239,68,68,.15);
+color:#fca5a5
+}
+
+.application-status{
+display:inline-block;
+padding:6px 10px;
+border-radius:999px;
+font-size:11px;
+font-weight:bold
+}
+
+
 @media(max-width:1000px){
-.stats{grid-template-columns:repeat(3,1fr)}
-.filters-grid{grid-template-columns:1fr 1fr}
-.controls{grid-template-columns:1fr 1fr}
+
+.stats{
+grid-template-columns:repeat(3,1fr)
+}
+
+.filters-grid{
+grid-template-columns:1fr 1fr
+}
+
+.controls{
+grid-template-columns:1fr 1fr
+}
+
+.application-grid{
+grid-template-columns:1fr 1fr
+}
+
+.application-actions{
+grid-template-columns:1fr 1fr
+}
+
 }
 
 @media(max-width:650px){
-.header-inner{padding:12px}
-.brand h1{font-size:16px}
-.brand span{display:none}
-main{padding:20px 12px 40px}
-.stats{grid-template-columns:repeat(2,1fr)}
-.filters-grid{grid-template-columns:1fr}
-.request-top{flex-direction:column}
-.request-info{grid-template-columns:1fr}
-.controls{grid-template-columns:1fr}
-.save-row{flex-direction:column;align-items:stretch}
-.save-btn,.image-link{text-align:center;width:100%}
-.welcome h2{font-size:22px}
+
+.header-inner{
+padding:12px
+}
+
+.brand h1{
+font-size:16px
+}
+
+.brand span{
+display:none
+}
+
+main{
+padding:20px 12px 40px
+}
+
+.stats{
+grid-template-columns:repeat(2,1fr)
+}
+
+.filters-grid{
+grid-template-columns:1fr
+}
+
+.request-top{
+flex-direction:column
+}
+
+.request-info{
+grid-template-columns:1fr
+}
+
+.controls{
+grid-template-columns:1fr
+}
+
+.save-row{
+flex-direction:column;
+align-items:stretch
+}
+
+.save-btn,
+.image-link{
+text-align:center;
+width:100%
+}
+
+.welcome h2{
+font-size:22px
+}
+
+.application-grid{
+grid-template-columns:1fr
+}
+
+.application-top{
+flex-direction:column
+}
+
+.application-actions{
+grid-template-columns:1fr
+}
+
+.header-actions{
+width:100%
+}
+
+.header-btn{
+flex:1;
+text-align:center
+}
+
 }
 </style>
 </head>
@@ -426,15 +684,20 @@ main{padding:20px 12px 40px}
 <body>
 
 <header>
+
 <div class="header-inner">
 
 <div class="brand">
-<div class="brand-icon">ف</div>
+
+<div class="brand-icon">
+ف
+</div>
 
 <div>
 <h1>فني برو</h1>
 <span>لوحة إدارة طلبات الصيانة</span>
 </div>
+
 </div>
 
 <div class="header-actions">
@@ -443,12 +706,19 @@ main{padding:20px 12px 40px}
 إدارة الفنيين
 </a>
 
+<a href="join-technician.html"
+class="header-btn">
+صفحة انضمام الفني
+</a>
+
 <button class="header-btn" id="logoutBtn">
 تسجيل الخروج
 </button>
 
 </div>
+
 </div>
+
 </header>
 
 
@@ -456,7 +726,9 @@ main{padding:20px 12px 40px}
 
 <div class="welcome">
 
-<h2>لوحة التحكم</h2>
+<h2>
+لوحة التحكم
+</h2>
 
 <p id="adminEmail">
 جاري التحقق من صلاحيات الحساب...
@@ -464,6 +736,10 @@ main{padding:20px 12px 40px}
 
 </div>
 
+
+<!-- =====================================================
+     STATS
+===================================================== -->
 
 <div class="stats">
 
@@ -494,6 +770,10 @@ main{padding:20px 12px 40px}
 
 </div>
 
+
+<!-- =====================================================
+     FILTERS
+===================================================== -->
 
 <div class="filters">
 
@@ -614,12 +894,19 @@ placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
 </button>
 
 </div>
+
 </div>
 
 
+<!-- =====================================================
+     CUSTOMER REQUESTS
+===================================================== -->
+
 <div class="requests-title">
 
-<h3>طلبات العملاء</h3>
+<h3>
+طلبات العملاء
+</h3>
 
 <span class="request-count" id="requestCount">
 0 طلب
@@ -636,10 +923,51 @@ placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
 
 </div>
 
+
+<!-- =====================================================
+     TECHNICIAN APPLICATIONS
+===================================================== -->
+
+<section class="applications-section">
+
+<div class="section-box">
+
+<div class="section-header">
+
+<h3>
+طلبات انضمام الفنيين
+</h3>
+
+<span class="application-count"
+id="applicationCount">
+0 طلب
+</span>
+
+</div>
+
+
+<div id="applicationsContainer">
+
+<div class="loading">
+جاري تحميل طلبات الفنيين...
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
 </main>
 
 
-<div id="accessDenied" class="access-denied hidden">
+<!-- =====================================================
+     ACCESS DENIED
+===================================================== -->
+
+<div id="accessDenied"
+class="access-denied hidden">
 
 <h2>
 غير مصرح بالدخول
@@ -686,6 +1014,8 @@ let allRequests = [];
 
 let technicians = [];
 
+let technicianApplications = [];
+
 
 /* =====================================================
    ELEMENTS
@@ -699,6 +1029,9 @@ document.getElementById("accessDenied");
 
 const requestsContainer =
 document.getElementById("requestsContainer");
+
+const applicationsContainer =
+document.getElementById("applicationsContainer");
 
 const searchInput =
 document.getElementById("searchInput");
@@ -747,9 +1080,7 @@ error
 
 
 if(error){
-
 throw error;
-
 }
 
 
@@ -777,11 +1108,6 @@ document.getElementById(
 user.email ||
 "حساب الإدارة";
 
-
-/*
-   التحقق من الدور من user_roles
-   وليس admin_users
-*/
 
 const {
 data:roleData,
@@ -830,13 +1156,16 @@ return;
 }
 
 
-/*
-   تم التحقق من المدير
-*/
+/* المدير مصرح له */
 
 await Promise.all([
+
 loadTechnicians(),
-loadRequests()
+
+loadRequests(),
+
+loadTechnicianApplications()
+
 ]);
 
 
@@ -1009,6 +1338,609 @@ renderRequests();
 
 
 /* =====================================================
+   LOAD TECHNICIAN APPLICATIONS
+===================================================== */
+
+async function loadTechnicianApplications(){
+
+applicationsContainer.innerHTML = `
+
+<div class="loading">
+جاري تحميل طلبات الفنيين...
+</div>
+
+`;
+
+
+try{
+
+const {
+data,
+error
+} = await client
+
+.from("technician_applications")
+
+.select("*")
+
+.order(
+"created_at",
+{
+ascending:false
+}
+);
+
+
+if(error){
+
+console.error(
+"Technician applications:",
+error
+);
+
+
+applicationsContainer.innerHTML = `
+
+<div class="empty">
+
+<h3>
+تعذر تحميل طلبات الفنيين
+</h3>
+
+<p style="margin-top:10px">
+${escapeHtml(error.message)}
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+technicianApplications =
+data || [];
+
+
+document.getElementById(
+"applicationCount"
+).textContent =
+technicianApplications.length +
+" طلب";
+
+
+renderTechnicianApplications();
+
+
+}catch(error){
+
+console.error(
+"Applications error:",
+error
+);
+
+applicationsContainer.innerHTML = `
+
+<div class="empty">
+تعذر تحميل طلبات الفنيين.
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =====================================================
+   RENDER TECHNICIAN APPLICATIONS
+===================================================== */
+
+function renderTechnicianApplications(){
+
+if(!technicianApplications.length){
+
+applicationsContainer.innerHTML = `
+
+<div class="empty">
+
+لا توجد طلبات انضمام فنيين حاليًا.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+applicationsContainer.innerHTML = `
+
+${technicianApplications
+.map(technicianApplicationCard)
+.join("")}
+
+`;
+
+}
+
+
+/* =====================================================
+   TECHNICIAN APPLICATION CARD
+===================================================== */
+
+function technicianApplicationCard(application){
+
+return `
+
+<article
+class="application-card"
+data-application-id="${escapeAttribute(application.id)}"
+>
+
+<div class="application-top">
+
+<div>
+
+<div class="application-number">
+
+${escapeHtml(
+application.request_number ||
+"بدون رقم"
+)}
+
+</div>
+
+<div class="application-date">
+
+${formatDate(
+application.created_at
+)}
+
+</div>
+
+</div>
+
+
+<span class="application-status ${getApplicationStatusClass(application.status)}">
+
+${escapeHtml(
+application.status ||
+"جديد"
+)}
+
+</span>
+
+</div>
+
+
+<div class="application-grid">
+
+
+<div class="application-info">
+
+<div class="label">
+الاسم
+</div>
+
+<div class="value">
+
+${escapeHtml(
+application.full_name ||
+"-"
+)}
+
+</div>
+
+</div>
+
+
+<div class="application-info">
+
+<div class="label">
+الهاتف
+</div>
+
+<div class="value">
+
+${escapeHtml(
+application.phone ||
+"-"
+)}
+
+</div>
+
+</div>
+
+
+<div class="application-info">
+
+<div class="label">
+التخصص
+</div>
+
+<div class="value">
+
+${escapeHtml(
+application.service_type ||
+"-"
+)}
+
+</div>
+
+</div>
+
+
+<div class="application-info">
+
+<div class="label">
+المنطقة
+</div>
+
+<div class="value">
+
+${escapeHtml(
+application.city ||
+"-"
+)}
+
+</div>
+
+</div>
+
+
+<div class="application-info">
+
+<div class="label">
+سنوات الخبرة
+</div>
+
+<div class="value">
+
+${escapeHtml(
+String(
+application.experience_years ??
+0
+)
+)}
+
+ سنة
+
+</div>
+
+</div>
+
+
+<div class="application-info">
+
+<div class="label">
+نوع العمل
+</div>
+
+<div class="value">
+
+${escapeHtml(
+application.work_type ||
+"-"
+)}
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<div class="application-description">
+
+<strong>
+الخبرة والمهارات:
+</strong>
+
+<br>
+
+${escapeHtml(
+application.description ||
+"لا يوجد وصف"
+)}
+
+${
+application.notes
+?
+`
+
+<br><br>
+
+<strong>
+ملاحظات المتقدم:
+</strong>
+
+<br>
+
+${escapeHtml(
+application.notes
+)}
+
+`
+:
+""
+}
+
+</div>
+
+
+<div class="application-actions">
+
+
+<div>
+
+<label>
+الحالة
+</label>
+
+<select
+class="application-status-select"
+>
+
+${applicationStatusOptions(
+application.status
+)}
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>
+ملاحظة الإدارة
+</label>
+
+<textarea
+class="application-admin-notes"
+placeholder="اكتب ملاحظتك..."
+>${escapeHtml(
+application.admin_notes ||
+""
+)}</textarea>
+
+</div>
+
+
+<div>
+
+<label>
+معلومات التواصل / قرار الإدارة
+</label>
+
+<textarea
+class="application-contact-notes"
+placeholder="مثال: تم التواصل مع الفني..."
+>${escapeHtml(
+application.contact_notes ||
+""
+)}</textarea>
+
+</div>
+
+
+<button
+class="application-save"
+onclick="saveTechnicianApplication(
+'${escapeAttribute(application.id)}',
+this
+)"
+>
+
+حفظ
+
+</button>
+
+
+</div>
+
+</article>
+
+`;
+
+}
+
+
+/* =====================================================
+   APPLICATION STATUS OPTIONS
+===================================================== */
+
+function applicationStatusOptions(current){
+
+const options = [
+
+"جديد",
+
+"قيد المراجعة",
+
+"مقبول",
+
+"مرفوض"
+
+];
+
+
+return options.map(
+option => `
+
+<option
+value="${escapeAttribute(option)}"
+${
+(current || "جديد") === option
+?
+"selected"
+:
+""
+}
+>
+
+${escapeHtml(option)}
+
+</option>
+
+`
+).join("");
+
+}
+
+
+/* =====================================================
+   APPLICATION STATUS CLASS
+===================================================== */
+
+function getApplicationStatusClass(status){
+
+if(status === "مقبول"){
+return "status-accepted";
+}
+
+if(status === "مرفوض"){
+return "status-rejected";
+}
+
+if(status === "قيد المراجعة"){
+return "status-review";
+}
+
+return "status-new";
+
+}
+
+
+/* =====================================================
+   SAVE TECHNICIAN APPLICATION
+===================================================== */
+
+window.saveTechnicianApplication =
+async function(id,button){
+
+try{
+
+const card =
+document.querySelector(
+`.application-card[data-application-id="${CSS.escape(id)}"]`
+);
+
+
+if(!card){
+return;
+}
+
+
+const status =
+card.querySelector(
+".application-status-select"
+).value;
+
+
+const adminNotes =
+card.querySelector(
+".application-admin-notes"
+).value.trim();
+
+
+const contactNotes =
+card.querySelector(
+".application-contact-notes"
+).value.trim();
+
+
+button.disabled = true;
+
+button.textContent =
+"جاري الحفظ...";
+
+
+const {
+data:userData
+} = await client.auth.getUser();
+
+
+const updateData = {
+
+status:
+status,
+
+admin_notes:
+adminNotes || null,
+
+contact_notes:
+contactNotes || null,
+
+reviewed_by:
+userData?.user?.id || null,
+
+reviewed_at:
+new Date().toISOString(),
+
+updated_at:
+new Date().toISOString()
+
+};
+
+
+const {
+error
+} = await client
+
+.from("technician_applications")
+
+.update(updateData)
+
+.eq(
+"id",
+id
+);
+
+
+if(error){
+throw error;
+}
+
+
+showToast(
+"تم تحديث طلب الفني"
+);
+
+
+await loadTechnicianApplications();
+
+
+}catch(error){
+
+console.error(
+"Save application error:",
+error
+);
+
+showToast(
+"فشل الحفظ: " +
+(error.message || "خطأ غير معروف"),
+true
+);
+
+
+button.disabled = false;
+
+button.textContent =
+"حفظ";
+
+}
+
+};
+
+
+/* =====================================================
    STATISTICS
 ===================================================== */
 
@@ -1083,6 +2015,10 @@ renderRequests
 );
 
 
+/* =====================================================
+   REFRESH
+===================================================== */
+
 refreshBtn.addEventListener(
 "click",
 async function(){
@@ -1096,6 +2032,8 @@ refreshBtn.textContent =
 await loadTechnicians();
 
 await loadRequests();
+
+await loadTechnicianApplications();
 
 
 refreshBtn.disabled = false;
@@ -1113,7 +2051,7 @@ showToast(
 
 
 /* =====================================================
-   FILTER
+   FILTER REQUESTS
 ===================================================== */
 
 function getFilteredRequests(){
@@ -1647,9 +2585,7 @@ technicians.filter(
 technician => {
 
 if(!service){
-
 return true;
-
 }
 
 
@@ -1828,7 +2764,6 @@ async function(id,button){
 
 try{
 
-
 const card =
 document.querySelector(
 `.request-card[data-id="${CSS.escape(id)}"]`
@@ -1836,9 +2771,7 @@ document.querySelector(
 
 
 if(!card){
-
 return;
-
 }
 
 
@@ -1872,13 +2805,6 @@ card.querySelector(
 ).value.trim();
 
 
-const technician =
-technicians.find(
-item =>
-item.id === technicianId
-);
-
-
 button.disabled = true;
 
 button.textContent =
@@ -1909,20 +2835,11 @@ new Date().toISOString()
 
 
 /*
-   عند تعيين فني
+   ملاحظة:
+   لا نرسل assigned_at هنا حتى لا يفشل الحفظ
+   إذا لم يكن العمود موجودًا في قاعدة البيانات.
 */
 
-if(technicianId){
-
-updateData.assigned_at =
-new Date().toISOString();
-
-}
-
-
-/*
-   عند اكتمال الطلب
-*/
 
 if(status === "مكتمل"){
 
@@ -1948,10 +2865,6 @@ null;
 }
 
 
-/*
-   حفظ التعديلات
-*/
-
 const {
 error
 } = await client
@@ -1967,9 +2880,7 @@ id
 
 
 if(error){
-
 throw error;
-
 }
 
 
@@ -2051,9 +2962,7 @@ window.location.href =
 function formatDate(value){
 
 if(!value){
-
 return "-";
-
 }
 
 
@@ -2089,9 +2998,7 @@ minute:"2-digit"
 function formatDateOnly(value){
 
 if(!value){
-
 return "-";
-
 }
 
 
