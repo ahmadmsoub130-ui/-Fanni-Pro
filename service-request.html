@@ -4,14 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>طلب خدمة صيانة | فني برو</title>
+  <title>طلب خدمة | فني برو</title>
 
-  <meta name="description" content="أرسل طلب صيانة إلى فني برو وتابع حالة طلبك باستخدام رقم الطلب.">
-  <meta name="theme-color" content="#07152f">
+  <meta
+    name="description"
+    content="تقديم طلب صيانة عبر منصة فني برو"
+  >
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -20,286 +23,626 @@
 
     body {
       font-family: Arial, Tahoma, sans-serif;
-      background:
-        radial-gradient(circle at top right, rgba(102,92,255,.18), transparent 35%),
-        radial-gradient(circle at bottom left, rgba(0,174,234,.12), transparent 30%),
-        #050b1b;
-      color: #fff;
       min-height: 100vh;
-    }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+      background:
+        radial-gradient(
+          circle at top right,
+          rgba(99,102,241,.20),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at bottom left,
+          rgba(139,92,246,.13),
+          transparent 35%
+        ),
+        #07111f;
+
+      color: #fff;
+      padding: 20px;
     }
 
     .container {
-      width: min(900px, 92%);
-      margin: auto;
+      width: 100%;
+      max-width: 760px;
+      margin: 30px auto;
     }
 
-    header {
-      background: rgba(5,11,27,.9);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    /* HEADER */
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
     }
 
-    .navbar {
-      min-height: 72px;
+    .brand {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 15px;
+      gap: 10px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
     }
 
-    .logo {
-      font-size: 25px;
-      font-weight: 900;
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #6366f1,
+          #8b5cf6
+        );
+
+      box-shadow:
+        0 10px 25px rgba(99,102,241,.30);
     }
 
-    .logo span {
-      color: #756dff;
+    .home-link {
+      color: #aab7ca;
+      text-decoration: none;
+      font-size: 14px;
     }
 
-    .back {
-      color: #aeb9ce;
-      padding: 10px 14px;
-      border-radius: 10px;
+    .home-link:hover {
+      color: white;
     }
 
-    .back:hover {
-      background: rgba(255,255,255,.06);
-      color: #fff;
-    }
+    /* CARD */
 
-    main {
-      padding: 55px 0 80px;
+    .card {
+      background: rgba(15,27,46,.94);
+
+      border:
+        1px solid rgba(255,255,255,.08);
+
+      border-radius: 25px;
+
+      padding: 30px;
+
+      box-shadow:
+        0 30px 80px rgba(0,0,0,.35);
+
+      backdrop-filter: blur(15px);
     }
 
     .title {
       text-align: center;
-      margin-bottom: 35px;
+      margin-bottom: 28px;
     }
 
-    .title .badge {
-      display: inline-block;
-      color: #aaa4ff;
-      background: rgba(102,92,255,.12);
-      border: 1px solid rgba(102,92,255,.3);
-      padding: 8px 15px;
-      border-radius: 30px;
-      margin-bottom: 15px;
-      font-size: 14px;
+    .title-icon {
+      width: 65px;
+      height: 65px;
+
+      margin: 0 auto 15px;
+
+      border-radius: 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        rgba(99,102,241,.13);
+
+      font-size: 30px;
     }
 
     .title h1 {
-      font-size: 40px;
-      margin-bottom: 12px;
+      font-size: 27px;
+      margin-bottom: 7px;
     }
 
     .title p {
-      color: #96a3b8;
-      line-height: 1.8;
+      color: #91a0b4;
+      font-size: 14px;
     }
 
-    .form-card {
-      background: rgba(12,22,48,.9);
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 26px;
-      padding: 30px;
-      box-shadow: 0 25px 70px rgba(0,0,0,.3);
+    /* USER */
+
+    .user-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 13px 15px;
+
+      margin-bottom: 22px;
+
+      border-radius: 13px;
+
+      background:
+        rgba(99,102,241,.07);
+
+      border:
+        1px solid rgba(99,102,241,.15);
+
+      color: #b9c5d6;
+
+      font-size: 13px;
     }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
+    .user-icon {
+      width: 34px;
+      height: 34px;
+
+      border-radius: 10px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        rgba(99,102,241,.15);
     }
+
+    /* FORM */
 
     .field {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .field.full {
-      grid-column: 1 / -1;
+      margin-bottom: 18px;
     }
 
     label {
-      color: #dce4f1;
-      font-weight: bold;
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: #dbe3ef;
+
       font-size: 14px;
+
+      font-weight: bold;
+    }
+
+    .required {
+      color: #f87171;
     }
 
     input,
     select,
     textarea {
       width: 100%;
-      border: 1px solid rgba(255,255,255,.1);
-      background: #09142d;
-      color: #fff;
+
+      border:
+        1px solid #273951;
+
+      background:
+        #091525;
+
+      color: white;
+
       border-radius: 13px;
+
       padding: 14px;
-      font-family: inherit;
-      font-size: 15px;
+
       outline: none;
+
+      font-family: inherit;
+
+      font-size: 15px;
+
       transition: .2s;
     }
 
     input:focus,
     select:focus,
     textarea:focus {
-      border-color: #7168ff;
-      box-shadow: 0 0 0 3px rgba(102,92,255,.1);
-    }
+      border-color: #6366f1;
 
-    textarea {
-      min-height: 140px;
-      resize: vertical;
+      box-shadow:
+        0 0 0 3px rgba(99,102,241,.12);
     }
 
     input::placeholder,
     textarea::placeholder {
-      color: #65738b;
+      color: #65748a;
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+      line-height: 1.7;
     }
 
     .hint {
-      color: #738198;
+      color: #748399;
       font-size: 12px;
+      margin-top: 6px;
     }
+
+    /* TWO COLUMNS */
+
+    .grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 15px;
+    }
+
+    /* FILE */
+
+    .file-box {
+      border:
+        1px dashed #344863;
+
+      border-radius: 13px;
+
+      padding: 18px;
+
+      text-align: center;
+
+      background:
+        rgba(255,255,255,.02);
+    }
+
+    .file-box input {
+      border: none;
+      padding: 8px;
+      background: transparent;
+    }
+
+    /* BUTTON */
 
     .submit-btn {
       width: 100%;
-      border: 0;
-      margin-top: 25px;
-      min-height: 55px;
+
+      border: none;
+
       border-radius: 14px;
-      background: linear-gradient(135deg,#665cff,#8d5cff);
-      color: #fff;
-      font-size: 17px;
+
+      padding: 16px;
+
+      margin-top: 8px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #6366f1,
+          #8b5cf6
+        );
+
+      color: white;
+
+      font-size: 16px;
+
       font-weight: bold;
+
       cursor: pointer;
-      transition: .25s;
-      font-family: inherit;
+
+      box-shadow:
+        0 15px 35px rgba(99,102,241,.25);
+
+      transition: .2s;
     }
 
     .submit-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(102,92,255,.25);
+      transform: translateY(-1px);
     }
 
     .submit-btn:disabled {
-      opacity: .6;
-      cursor: wait;
+      opacity: .55;
+      cursor: not-allowed;
       transform: none;
     }
 
+    /* MESSAGE */
+
     .message {
       display: none;
-      margin-top: 22px;
-      border-radius: 16px;
-      padding: 20px;
-      line-height: 1.8;
-    }
 
-    .message.success {
-      display: block;
-      background: rgba(20,160,100,.12);
-      border: 1px solid rgba(20,200,120,.25);
-      color: #8ff0bd;
+      padding: 14px;
+
+      border-radius: 13px;
+
+      margin-bottom: 18px;
+
+      font-size: 14px;
+
+      line-height: 1.7;
     }
 
     .message.error {
       display: block;
-      background: rgba(220,50,70,.1);
-      border: 1px solid rgba(220,70,90,.25);
-      color: #ff9da9;
+
+      background:
+        rgba(239,68,68,.10);
+
+      border:
+        1px solid rgba(239,68,68,.25);
+
+      color: #fca5a5;
+    }
+
+    .message.success {
+      display: block;
+
+      background:
+        rgba(34,197,94,.10);
+
+      border:
+        1px solid rgba(34,197,94,.25);
+
+      color: #86efac;
+    }
+
+    .message.info {
+      display: block;
+
+      background:
+        rgba(59,130,246,.10);
+
+      border:
+        1px solid rgba(59,130,246,.25);
+
+      color: #93c5fd;
+    }
+
+    /* SUCCESS */
+
+    .success-box {
+      display: none;
+
+      text-align: center;
+
+      padding: 20px 5px;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+
+      margin: 0 auto 18px;
+
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        rgba(34,197,94,.12);
+
+      border:
+        1px solid rgba(34,197,94,.25);
+
+      font-size: 38px;
+    }
+
+    .success-box h2 {
+      margin-bottom: 10px;
+    }
+
+    .success-box p {
+      color: #96a5b8;
+      margin-bottom: 20px;
     }
 
     .request-number {
       display: inline-block;
-      margin: 10px 0;
-      padding: 10px 15px;
-      border-radius: 10px;
-      background: rgba(255,255,255,.07);
+
+      padding: 13px 20px;
+
+      border-radius: 12px;
+
+      background:
+        rgba(99,102,241,.10);
+
+      border:
+        1px solid rgba(99,102,241,.22);
+
+      color: #bdbaff;
+
       font-size: 20px;
+
       font-weight: bold;
-      letter-spacing: 1px;
+
       direction: ltr;
     }
 
-    .result-buttons {
+    .track-btn {
+      display: block;
+
+      width: 100%;
+
+      margin-top: 20px;
+
+      padding: 14px;
+
+      border-radius: 13px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #6366f1,
+          #8b5cf6
+        );
+
+      color: white;
+
+      text-decoration: none;
+
+      font-weight: bold;
+    }
+
+    .back-btn {
+      display: block;
+
+      margin-top: 10px;
+
+      padding: 13px;
+
+      border-radius: 13px;
+
+      background:
+        rgba(255,255,255,.05);
+
+      color: #c5cfdd;
+
+      text-decoration: none;
+    }
+
+    /* LOADING */
+
+    .loading-screen {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 9999;
+
+      background: #07111f;
+
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 15px;
-    }
 
-    .result-buttons a {
-      display: inline-flex;
-      justify-content: center;
       align-items: center;
-      padding: 11px 17px;
-      border-radius: 10px;
-      background: rgba(255,255,255,.08);
+
+      justify-content: center;
+
+      flex-direction: column;
+
+      gap: 15px;
     }
 
-    footer {
-      border-top: 1px solid rgba(255,255,255,.08);
-      padding: 30px 0;
-      color: #718097;
-      text-align: center;
+    .spinner {
+      width: 42px;
+      height: 42px;
+
+      border-radius: 50%;
+
+      border:
+        4px solid rgba(255,255,255,.12);
+
+      border-top-color:
+        #6366f1;
+
+      animation:
+        spin .8s linear infinite;
     }
 
-    @media (max-width: 650px) {
-      .form-grid {
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-screen p {
+      color: #8998ac;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        margin: 10px auto;
+      }
+
+      .card {
+        padding: 21px 17px;
+        border-radius: 20px;
+      }
+
+      .grid {
         grid-template-columns: 1fr;
-      }
-
-      .field.full {
-        grid-column: auto;
-      }
-
-      .form-card {
-        padding: 20px;
+        gap: 0;
       }
 
       .title h1 {
-        font-size: 32px;
+        font-size: 23px;
       }
+
+      .top {
+        padding: 0 4px;
+      }
+
     }
+
   </style>
 </head>
 
 <body>
 
-<header>
-  <div class="container navbar">
 
-    <a href="index.html" class="logo">
-      فني <span>برو</span>
+<!-- LOADING -->
+
+<div
+  id="loadingScreen"
+  class="loading-screen"
+>
+
+  <div class="spinner"></div>
+
+  <p>
+    جارٍ التحقق من تسجيل الدخول...
+  </p>
+
+</div>
+
+
+<div class="container">
+
+
+  <!-- TOP -->
+
+  <div class="top">
+
+    <a
+      href="index.html"
+      class="brand"
+    >
+
+      <div class="brand-icon">
+        🔧
+      </div>
+
+      <span>
+        فني برو
+      </span>
+
     </a>
 
-    <a href="index.html" class="back">
+
+    <a
+      href="index.html"
+      class="home-link"
+    >
       ← الرئيسية
     </a>
 
   </div>
-</header>
 
 
-<main>
+  <!-- MAIN CARD -->
 
-  <div class="container">
+  <div class="card">
+
+
+    <!-- TITLE -->
 
     <div class="title">
 
-      <div class="badge">
-        فني برو
+      <div class="title-icon">
+        🛠️
       </div>
 
       <h1>
@@ -307,226 +650,338 @@
       </h1>
 
       <p>
-        أدخل بياناتك ووصف المشكلة وسنقوم بتسجيل طلبك.
+        أدخل تفاصيل الخدمة التي تحتاجها وسنتابع طلبك.
       </p>
 
     </div>
 
 
-    <div class="form-card">
+    <!-- MESSAGE -->
 
-      <form id="serviceForm">
-
-        <div class="form-grid">
-
-          <!-- الاسم -->
-
-          <div class="field">
-
-            <label for="customerName">
-              الاسم الكامل *
-            </label>
-
-            <input
-              type="text"
-              id="customerName"
-              placeholder="أدخل اسمك الكامل"
-              required
-              autocomplete="name"
-            >
-
-          </div>
+    <div
+      id="message"
+      class="message"
+    ></div>
 
 
-          <!-- الهاتف -->
+    <!-- USER -->
 
-          <div class="field">
+    <div
+      id="userBox"
+      class="user-box"
+    >
 
-            <label for="phone">
-              رقم الهاتف *
-            </label>
+      <div class="user-icon">
+        👤
+      </div>
 
-            <input
-              type="tel"
-              id="phone"
-              placeholder="07XXXXXXXX"
-              required
-              inputmode="numeric"
-              maxlength="10"
-              autocomplete="tel"
-            >
+      <div>
 
-            <div class="hint">
-              مثال: 0791234567
-            </div>
+        <div>
+          مسجل الدخول بواسطة
+        </div>
 
-          </div>
+        <strong id="userEmail">
+          ...
+        </strong>
 
+      </div>
 
-          <!-- نوع الخدمة -->
-
-          <div class="field">
-
-            <label for="serviceType">
-              نوع الخدمة *
-            </label>
-
-            <select id="serviceType" required>
-
-              <option value="">
-                اختر نوع الخدمة
-              </option>
-
-              <option value="تكييف وتبريد">
-                تكييف وتبريد
-              </option>
-
-              <option value="كهرباء">
-                كهرباء
-              </option>
-
-              <option value="سباكة">
-                سباكة
-              </option>
-
-              <option value="صيانة أجهزة منزلية">
-                أجهزة منزلية
-              </option>
-
-              <option value="نجارة">
-                نجارة
-              </option>
-
-              <option value="دهان">
-                دهان
-              </option>
-
-              <option value="صيانة عامة">
-                صيانة عامة
-              </option>
-
-              <option value="أخرى">
-                خدمات أخرى
-              </option>
-
-            </select>
-
-          </div>
+    </div>
 
 
-          <!-- التاريخ -->
+    <!-- FORM -->
 
-          <div class="field">
-
-            <label for="preferredDate">
-              التاريخ المفضل
-            </label>
-
-            <input
-              type="date"
-              id="preferredDate"
-            >
-
-          </div>
+    <form
+      id="serviceForm"
+    >
 
 
-          <!-- الموقع -->
+      <!-- NAME -->
 
-          <div class="field full">
+      <div class="field">
 
-            <label for="location">
-              الموقع / العنوان *
-            </label>
+        <label for="customerName">
 
-            <input
-              type="text"
-              id="location"
-              placeholder="أدخل المنطقة والعنوان بالتفصيل"
-              required
-              autocomplete="street-address"
-            >
+          الاسم الكامل
 
-          </div>
+          <span class="required">
+            *
+          </span>
 
+        </label>
 
-          <!-- الوصف -->
+        <input
+          type="text"
+          id="customerName"
+          placeholder="أدخل اسمك الكامل"
+          required
+        >
 
-          <div class="field full">
-
-            <label for="description">
-              وصف المشكلة *
-            </label>
-
-            <textarea
-              id="description"
-              placeholder="اشرح المشكلة أو العطل بالتفصيل..."
-              required
-            ></textarea>
-
-          </div>
+      </div>
 
 
-          <!-- الصورة -->
+      <!-- PHONE -->
 
-          <div class="field full">
+      <div class="field">
 
-            <label for="image">
-              صورة للمشكلة
-            </label>
+        <label for="phone">
 
-            <input
-              type="file"
-              id="image"
-              accept="image/*"
-            >
+          رقم الهاتف
 
-            <div class="hint">
-              اختياري — الحد الأقصى لحجم الصورة 5MB.
-            </div>
+          <span class="required">
+            *
+          </span>
 
-          </div>
+        </label>
+
+        <input
+          type="tel"
+          id="phone"
+          placeholder="07XXXXXXXX"
+          inputmode="tel"
+          maxlength="10"
+          required
+        >
+
+        <div class="hint">
+          مثال: 0791234567
+        </div>
+
+      </div>
+
+
+      <!-- SERVICE + DATE -->
+
+      <div class="grid">
+
+
+        <div class="field">
+
+          <label for="serviceType">
+
+            نوع الخدمة
+
+            <span class="required">
+              *
+            </span>
+
+          </label>
+
+          <select
+            id="serviceType"
+            required
+          >
+
+            <option value="">
+              اختر نوع الخدمة
+            </option>
+
+            <option value="تكييف وتبريد">
+              ❄️ تكييف وتبريد
+            </option>
+
+            <option value="كهرباء">
+              ⚡ كهرباء
+            </option>
+
+            <option value="سباكة">
+              🚿 سباكة
+            </option>
+
+            <option value="صيانة أجهزة منزلية">
+              🏠 صيانة أجهزة منزلية
+            </option>
+
+            <option value="نجارة">
+              🪚 نجارة
+            </option>
+
+            <option value="دهان">
+              🎨 دهان
+            </option>
+
+            <option value="صيانة عامة">
+              🛠️ صيانة عامة
+            </option>
+
+            <option value="أخرى">
+              🔩 أخرى
+            </option>
+
+          </select>
 
         </div>
 
 
-        <button
-          type="submit"
-          class="submit-btn"
-          id="submitBtn"
+        <div class="field">
+
+          <label for="preferredDate">
+            التاريخ المطلوب
+          </label>
+
+          <input
+            type="date"
+            id="preferredDate"
+          >
+
+        </div>
+
+
+      </div>
+
+
+      <!-- LOCATION -->
+
+      <div class="field">
+
+        <label for="location">
+
+          الموقع / العنوان
+
+          <span class="required">
+            *
+          </span>
+
+        </label>
+
+        <input
+          type="text"
+          id="location"
+          placeholder="مثال: عمّان - الجبيهة - شارع..."
+          required
         >
-          إرسال طلب الصيانة
-        </button>
 
-      </form>
+      </div>
 
 
-      <div id="message" class="message"></div>
+      <!-- DESCRIPTION -->
+
+      <div class="field">
+
+        <label for="description">
+
+          وصف المشكلة
+
+          <span class="required">
+            *
+          </span>
+
+        </label>
+
+        <textarea
+          id="description"
+          placeholder="اشرح لنا المشكلة بالتفصيل..."
+          required
+        ></textarea>
+
+      </div>
+
+
+      <!-- IMAGE -->
+
+      <div class="field">
+
+        <label for="image">
+          صورة المشكلة
+        </label>
+
+        <div class="file-box">
+
+          <input
+            type="file"
+            id="image"
+            accept="image/jpeg,image/png,image/webp"
+          >
+
+          <div class="hint">
+            يمكنك إرفاق صورة للمشكلة — اختياري
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- SUBMIT -->
+
+      <button
+        type="submit"
+        id="submitButton"
+        class="submit-btn"
+      >
+
+        إرسال طلب الصيانة
+
+      </button>
+
+
+    </form>
+
+
+    <!-- SUCCESS -->
+
+    <div
+      id="successBox"
+      class="success-box"
+    >
+
+      <div class="success-icon">
+        ✓
+      </div>
+
+      <h2>
+        تم إرسال طلبك بنجاح
+      </h2>
+
+      <p>
+        احتفظ برقم الطلب لمتابعة حالة الصيانة.
+      </p>
+
+      <div
+        id="requestNumber"
+        class="request-number"
+      >
+        FP-00000000-000000
+      </div>
+
+
+      <a
+        id="trackButton"
+        href="#"
+        class="track-btn"
+      >
+        تتبع الطلب
+      </a>
+
+
+      <a
+        href="index.html"
+        class="back-btn"
+      >
+        العودة إلى الرئيسية
+      </a>
 
     </div>
 
+
   </div>
 
-</main>
-
-
-<footer>
-  <div class="container">
-    © 2026 فني برو — جميع الحقوق محفوظة
-  </div>
-</footer>
+</div>
 
 
 <script>
 
-  /* ==========================================
-     إعداد Supabase
-  ========================================== */
+  /* =====================================================
+     SUPABASE CONFIG
+  ===================================================== */
 
   const SUPABASE_URL =
     "https://yesmnsztcqnhaqrcgpcs.supabase.co";
 
   const SUPABASE_KEY =
     "sb_publishable_fUX7DXedpKF3OyBpDQ9kAQ_RRQpnIuB";
+
 
   const supabaseClient =
     window.supabase.createClient(
@@ -535,73 +990,116 @@
     );
 
 
-  /* ==========================================
-     عناصر الصفحة
-  ========================================== */
+  /* =====================================================
+     ELEMENTS
+  ===================================================== */
+
+  const loadingScreen =
+    document.getElementById(
+      "loadingScreen"
+    );
 
   const form =
-    document.getElementById("serviceForm");
-
-  const customerName =
-    document.getElementById("customerName");
-
-  const phone =
-    document.getElementById("phone");
-
-  const serviceType =
-    document.getElementById("serviceType");
-
-  const preferredDate =
-    document.getElementById("preferredDate");
-
-  const locationInput =
-    document.getElementById("location");
-
-  const description =
-    document.getElementById("description");
-
-  const imageInput =
-    document.getElementById("image");
-
-  const submitBtn =
-    document.getElementById("submitBtn");
+    document.getElementById(
+      "serviceForm"
+    );
 
   const message =
-    document.getElementById("message");
+    document.getElementById(
+      "message"
+    );
+
+  const serviceType =
+    document.getElementById(
+      "serviceType"
+    );
+
+  const preferredDate =
+    document.getElementById(
+      "preferredDate"
+    );
+
+  const userEmail =
+    document.getElementById(
+      "userEmail"
+    );
+
+  const userBox =
+    document.getElementById(
+      "userBox"
+    );
+
+  const successBox =
+    document.getElementById(
+      "successBox"
+    );
+
+  const requestNumber =
+    document.getElementById(
+      "requestNumber"
+    );
+
+  const trackButton =
+    document.getElementById(
+      "trackButton"
+    );
 
 
-  /* ==========================================
-     التاريخ الأدنى = اليوم
-  ========================================== */
+  /* =====================================================
+     TODAY DATE
+  ===================================================== */
 
-  const today =
-    new Date().toISOString().split("T")[0];
+  function setMinimumDate() {
 
-  preferredDate.min = today;
+    const today =
+      new Date();
+
+    const year =
+      today.getFullYear();
+
+    const month =
+      String(
+        today.getMonth() + 1
+      ).padStart(2, "0");
+
+    const day =
+      String(
+        today.getDate()
+      ).padStart(2, "0");
+
+    preferredDate.min =
+      `${year}-${month}-${day}`;
+
+  }
 
 
-  /* ==========================================
-     استقبال الخدمة من index.html
-     
-     مثال:
-     service-request.html?service=تكييف%20وتبريد
-  ========================================== */
+  /* =====================================================
+     GET SELECTED SERVICE FROM URL
+  ===================================================== */
 
-  const urlParams =
-    new URLSearchParams(window.location.search);
+  function loadSelectedService() {
 
-  const selectedService =
-    urlParams.get("service");
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
 
-  if (selectedService) {
+    const selectedService =
+      params.get("service");
 
-    const optionExists =
-      Array.from(serviceType.options)
-        .some(option =>
+    if (!selectedService) {
+      return;
+    }
+
+    const exists =
+      Array.from(
+        serviceType.options
+      ).some(
+        option =>
           option.value === selectedService
-        );
+      );
 
-    if (optionExists) {
+    if (exists) {
 
       serviceType.value =
         selectedService;
@@ -611,24 +1109,100 @@
   }
 
 
-  /* ==========================================
-     رقم الطلب
-  ========================================== */
+  /* =====================================================
+     AUTH CHECK
+  ===================================================== */
+
+  async function checkAuthentication() {
+
+    try {
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.auth.getSession();
+
+
+      if (error) {
+        throw error;
+      }
+
+
+      const session =
+        data?.session;
+
+
+      /*
+        إذا لا يوجد تسجيل دخول
+      */
+
+      if (!session) {
+
+        window.location.href =
+          "login.html";
+
+        return false;
+
+      }
+
+
+      /*
+        يوجد تسجيل دخول
+      */
+
+      userEmail.textContent =
+        session.user.email || "مستخدم";
+
+
+      loadingScreen.style.display =
+        "none";
+
+
+      loadSelectedService();
+
+      return true;
+
+
+    } catch (error) {
+
+      console.error(
+        "Auth error:",
+        error
+      );
+
+      window.location.href =
+        "login.html";
+
+      return false;
+
+    }
+
+  }
+
+
+  /* =====================================================
+     REQUEST NUMBER
+  ===================================================== */
 
   function generateRequestNumber() {
 
-    const now = new Date();
+    const now =
+      new Date();
 
     const year =
       now.getFullYear();
 
     const month =
-      String(now.getMonth() + 1)
-        .padStart(2, "0");
+      String(
+        now.getMonth() + 1
+      ).padStart(2, "0");
 
     const day =
-      String(now.getDate())
-        .padStart(2, "0");
+      String(
+        now.getDate()
+      ).padStart(2, "0");
+
 
     const random =
       Math.floor(
@@ -636,45 +1210,155 @@
         Math.random() * 900000
       );
 
+
     return `FP-${year}${month}${day}-${random}`;
 
   }
 
 
-  /* ==========================================
-     إظهار الرسالة
-  ========================================== */
+  /* =====================================================
+     PHONE VALIDATION
+  ===================================================== */
 
-  function showMessage(type, html) {
+  function validatePhone(phone) {
+
+    return /^07\d{8}$/.test(
+      phone
+    );
+
+  }
+
+
+  /* =====================================================
+     MESSAGE
+  ===================================================== */
+
+  function showMessage(
+    text,
+    type
+  ) {
+
+    message.textContent =
+      text;
 
     message.className =
       "message " + type;
 
-    message.innerHTML =
-      html;
+  }
 
-    message.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
+
+  function clearMessage() {
+
+    message.textContent =
+      "";
+
+    message.className =
+      "message";
 
   }
 
 
-  /* ==========================================
-     التحقق من رقم الهاتف الأردني
-  ========================================== */
+  /* =====================================================
+     FILE UPLOAD
+  ===================================================== */
 
-  function validJordanPhone(value) {
+  async function uploadImage(
+    file,
+    requestNo
+  ) {
 
-    return /^07[0-9]{8}$/.test(value);
+    if (!file) {
+      return null;
+    }
+
+
+    /*
+      حماية من الملفات الكبيرة
+    */
+
+    if (
+      file.size >
+      5 * 1024 * 1024
+    ) {
+
+      throw new Error(
+        "حجم الصورة يجب ألا يتجاوز 5 ميجابايت."
+      );
+
+    }
+
+
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ];
+
+
+    if (
+      !allowedTypes.includes(
+        file.type
+      )
+    ) {
+
+      throw new Error(
+        "نوع الصورة غير مدعوم."
+      );
+
+    }
+
+
+    const extension =
+      file.name
+        .split(".")
+        .pop()
+        .toLowerCase();
+
+
+    const filePath =
+      `requests/${requestNo}.${extension}`;
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .storage
+        .from("service-images")
+        .upload(
+          filePath,
+          file,
+          {
+            cacheControl: "3600",
+            upsert: false
+          }
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    const {
+      data
+    } =
+      supabaseClient
+        .storage
+        .from("service-images")
+        .getPublicUrl(
+          filePath
+        );
+
+
+    return data?.publicUrl || null;
 
   }
 
 
-  /* ==========================================
-     إرسال الطلب
-  ========================================== */
+  /* =====================================================
+     FORM SUBMIT
+  ===================================================== */
 
   form.addEventListener(
     "submit",
@@ -682,40 +1366,99 @@
 
       event.preventDefault();
 
-      message.className = "message";
-      message.innerHTML = "";
+      clearMessage();
 
-      const name =
-        customerName.value.trim();
 
-      const phoneValue =
-        phone.value.trim();
+      /*
+        تأكيد تسجيل الدخول مرة أخرى
+      */
+
+      const {
+        data: sessionData,
+        error: sessionError
+      } =
+        await supabaseClient.auth.getSession();
+
+
+      if (
+        sessionError ||
+        !sessionData?.session
+      ) {
+
+        window.location.href =
+          "login.html";
+
+        return;
+
+      }
+
+
+      const session =
+        sessionData.session;
+
+
+      /* VALUES */
+
+      const customerName =
+        document
+          .getElementById(
+            "customerName"
+          )
+          .value
+          .trim();
+
+
+      const phone =
+        document
+          .getElementById(
+            "phone"
+          )
+          .value
+          .trim();
+
 
       const service =
         serviceType.value;
 
+
       const date =
-        preferredDate.value || null;
+        preferredDate.value ||
+        null;
+
 
       const location =
-        locationInput.value.trim();
+        document
+          .getElementById(
+            "location"
+          )
+          .value
+          .trim();
 
-      const problem =
-        description.value.trim();
+
+      const description =
+        document
+          .getElementById(
+            "description"
+          )
+          .value
+          .trim();
+
 
       const image =
-        imageInput.files[0];
+        document
+          .getElementById(
+            "image"
+          )
+          .files[0];
 
 
-      /* ------------------------------
-         التحقق
-      ------------------------------ */
+      /* VALIDATION */
 
-      if (name.length < 2) {
+      if (!customerName) {
 
         showMessage(
-          "error",
-          "يرجى إدخال الاسم الكامل."
+          "أدخل الاسم الكامل.",
+          "error"
         );
 
         return;
@@ -723,11 +1466,13 @@
       }
 
 
-      if (!validJordanPhone(phoneValue)) {
+      if (
+        !validatePhone(phone)
+      ) {
 
         showMessage(
-          "error",
-          "يرجى إدخال رقم هاتف أردني صحيح مثل 0791234567."
+          "أدخل رقم هاتف أردني صحيح مثل 0791234567.",
+          "error"
         );
 
         return;
@@ -738,8 +1483,8 @@
       if (!service) {
 
         showMessage(
-          "error",
-          "يرجى اختيار نوع الخدمة."
+          "اختر نوع الخدمة.",
+          "error"
         );
 
         return;
@@ -750,8 +1495,8 @@
       if (!location) {
 
         showMessage(
-          "error",
-          "يرجى إدخال الموقع أو العنوان."
+          "أدخل موقع أو عنوان الخدمة.",
+          "error"
         );
 
         return;
@@ -759,11 +1504,11 @@
       }
 
 
-      if (problem.length < 5) {
+      if (!description) {
 
         showMessage(
-          "error",
-          "يرجى كتابة وصف واضح للمشكلة."
+          "اكتب وصف المشكلة.",
+          "error"
         );
 
         return;
@@ -771,156 +1516,69 @@
       }
 
 
-      if (image) {
+      /* BUTTON */
 
-        if (!image.type.startsWith("image/")) {
-
-          showMessage(
-            "error",
-            "الملف المرفوع يجب أن يكون صورة."
-          );
-
-          return;
-
-        }
-
-        if (image.size > 5 * 1024 * 1024) {
-
-          showMessage(
-            "error",
-            "حجم الصورة يجب ألا يتجاوز 5MB."
-          );
-
-          return;
-
-        }
-
-      }
+      const button =
+        document.getElementById(
+          "submitButton"
+        );
 
 
-      /* ------------------------------
-         بدء الإرسال
-      ------------------------------ */
+      button.disabled =
+        true;
 
-      submitBtn.disabled = true;
-
-      submitBtn.textContent =
+      button.textContent =
         "جاري إرسال الطلب...";
 
 
       try {
 
-        const requestNumber =
+        /*
+          رقم الطلب
+        */
+
+        const requestNo =
           generateRequestNumber();
 
 
-        /* ==================================
-           رفع الصورة إن وجدت
-        ================================== */
+        /*
+          رفع الصورة إذا وجدت
+        */
 
-        let imageUrl = null;
+        let imageUrl =
+          null;
+
 
         if (image) {
 
-          const extension =
-            image.name
-              .split(".")
-              .pop()
-              .toLowerCase();
-
-          const filePath =
-            `requests/${requestNumber}.${extension}`;
-
-
-          const {
-            error: uploadError
-          } =
-            await supabaseClient
-              .storage
-              .from("service-images")
-              .upload(
-                filePath,
-                image,
-                {
-                  cacheControl: "3600",
-                  upsert: false,
-                  contentType: image.type
-                }
-              );
-
-
-          if (uploadError) {
-
-            console.error(
-              "Image upload error:",
-              uploadError
-            );
-
-            throw new Error(
-              "تعذر رفع الصورة. تأكد من إعداد Storage في Supabase."
-            );
-
-          }
-
-
-          const {
-            data: publicData
-          } =
-            supabaseClient
-              .storage
-              .from("service-images")
-              .getPublicUrl(filePath);
-
-
-          imageUrl =
-            publicData.publicUrl;
-
-        }
-
-
-        /* ==================================
-           الحصول على المستخدم الحالي
-           إن كان مسجل الدخول
-        ================================== */
-
-        let currentUser = null;
-
-        try {
-
-          const {
-            data: sessionData
-          } =
-            await supabaseClient
-              .auth
-              .getSession();
-
-          currentUser =
-            sessionData?.session?.user || null;
-
-        } catch (sessionError) {
-
-          console.warn(
-            "Session check:",
-            sessionError
+          showMessage(
+            "جاري رفع الصورة...",
+            "info"
           );
 
+          imageUrl =
+            await uploadImage(
+              image,
+              requestNo
+            );
+
         }
 
 
-        /* ==================================
-           تجهيز بيانات الطلب
-        ================================== */
+        /*
+          بيانات الطلب
+        */
 
         const requestData = {
 
           request_number:
-            requestNumber,
+            requestNo,
 
           customer_name:
-            name,
+            customerName,
 
           phone:
-            phoneValue,
+            phone,
 
           service_type:
             service,
@@ -932,7 +1590,7 @@
             location,
 
           description:
-            problem,
+            description,
 
           status:
             "جديد",
@@ -941,175 +1599,248 @@
             "عادي",
 
           image_url:
-            imageUrl
+            imageUrl,
+
+          user_id:
+            session.user.id
 
         };
 
 
+        showMessage(
+          "جاري حفظ طلب الصيانة...",
+          "info"
+        );
+
+
         /*
-          إذا كان جدول service_requests
-          يحتوي على user_id، نضيفه فقط
-          عند وجود مستخدم مسجل.
+          إدخال الطلب
         */
 
-        if (currentUser) {
-
-          requestData.user_id =
-            currentUser.id;
-
-        }
-
-
-        /* ==================================
-           حفظ الطلب في Supabase
-        ================================== */
-
-        const {
-          data,
-          error
-        } =
+        let result =
           await supabaseClient
             .from("service_requests")
-            .insert([requestData])
+            .insert(
+              requestData
+            )
             .select()
             .single();
 
 
-        if (error) {
-
-          console.error(
-            "Supabase insert error:",
-            error
-          );
-
-          /*
-            إذا كان سبب الخطأ أن user_id
-            غير موجود في الجدول، نحاول
-            الحفظ بدون user_id.
-          */
-
-          if (
-            currentUser &&
-            error.message &&
-            error.message
-              .toLowerCase()
-              .includes("user_id")
-          ) {
-
-            delete requestData.user_id;
-
-            const retry =
-              await supabaseClient
-                .from("service_requests")
-                .insert([requestData])
-                .select()
-                .single();
-
-            if (retry.error) {
-
-              throw retry.error;
-
-            }
-
-          } else {
-
-            throw error;
-
-          }
-
-        }
-
-
-        /* ==================================
-           نجاح
-        ================================== */
-
-        showMessage(
-          "success",
-
-          `
-            <strong>
-              تم إرسال طلب الصيانة بنجاح.
-            </strong>
-
-            <br>
-
-            رقم طلبك:
-
-            <br>
-
-            <span class="request-number">
-              ${requestNumber}
-            </span>
-
-            <br>
-
-            احتفظ برقم الطلب لاستخدامه في متابعة حالة الطلب.
-
-            <div class="result-buttons">
-
-              <a href="track-request.html?request=${encodeURIComponent(requestNumber)}">
-                تتبع الطلب
-              </a>
-
-              <a href="index.html">
-                العودة للرئيسية
-              </a>
-
-            </div>
-          `
-        );
-
-
-        /* تفريغ النموذج */
-
-        form.reset();
-
         /*
-          إعادة اختيار الخدمة إذا كانت
-          الصفحة مفتوحة من بطاقة خدمة.
+          إذا كانت قاعدة البيانات
+          لا تحتوي user_id
         */
 
-        if (selectedService) {
+        if (
+          result.error &&
+          (
+            result.error.message
+              .toLowerCase()
+              .includes("user_id")
+            ||
+            result.error.message
+              .toLowerCase()
+              .includes("column")
+          )
+        ) {
 
-          serviceType.value =
-            selectedService;
+          const fallbackData = {
+
+            request_number:
+              requestNo,
+
+            customer_name:
+              customerName,
+
+            phone:
+              phone,
+
+            service_type:
+              service,
+
+            preferred_date:
+              date,
+
+            location:
+              location,
+
+            description:
+              description,
+
+            status:
+              "جديد",
+
+            priority:
+              "عادي",
+
+            image_url:
+              imageUrl
+
+          };
+
+
+          result =
+            await supabaseClient
+              .from("service_requests")
+              .insert(
+                fallbackData
+              )
+              .select()
+              .single();
 
         }
+
+
+        if (result.error) {
+          throw result.error;
+        }
+
+
+        /*
+          SUCCESS
+        */
+
+        form.style.display =
+          "none";
+
+        userBox.style.display =
+          "none";
+
+        clearMessage();
+
+        successBox.style.display =
+          "block";
+
+
+        requestNumber.textContent =
+          requestNo;
+
+
+        trackButton.href =
+          "track-request.html?request=" +
+          encodeURIComponent(
+            requestNo
+          );
 
 
       } catch (error) {
 
-        console.error(error);
-
-        let errorText =
-          "حدث خطأ أثناء إرسال الطلب.";
-
-        if (error?.message) {
-
-          errorText +=
-            "<br><br>" +
-            "التفاصيل: " +
-            error.message;
-
-        }
-
-        showMessage(
-          "error",
-          errorText
+        console.error(
+          "Submit error:",
+          error
         );
 
-      } finally {
 
-        submitBtn.disabled = false;
+        showMessage(
+          translateError(error),
+          "error"
+        );
 
-        submitBtn.textContent =
+
+        button.disabled =
+          false;
+
+        button.textContent =
           "إرسال طلب الصيانة";
 
       }
 
     }
   );
+
+
+  /* =====================================================
+     ERROR TRANSLATION
+  ===================================================== */
+
+  function translateError(error) {
+
+    const text =
+      error?.message ||
+      String(error) ||
+      "حدث خطأ غير معروف.";
+
+
+    const lower =
+      text.toLowerCase();
+
+
+    if (
+      lower.includes(
+        "row-level security"
+      )
+    ) {
+
+      return `
+        تم رفض الطلب بسبب صلاحيات قاعدة البيانات.
+        يجب ضبط سياسات RLS في Supabase.
+      `;
+
+    }
+
+
+    if (
+      lower.includes(
+        "bucket"
+      )
+    ) {
+
+      return `
+        حدثت مشكلة في تخزين الصورة.
+        تأكد من وجود Storage Bucket باسم service-images.
+      `;
+
+    }
+
+
+    if (
+      lower.includes(
+        "duplicate"
+      )
+    ) {
+
+      return `
+        حدث تعارض في رقم الطلب.
+        حاول إرسال الطلب مرة أخرى.
+      `;
+
+    }
+
+
+    if (
+      lower.includes(
+        "network"
+      ) ||
+      lower.includes(
+        "failed to fetch"
+      )
+    ) {
+
+      return `
+        تعذر الاتصال بـ Supabase.
+        تأكد من اتصال الإنترنت.
+      `;
+
+    }
+
+
+    return (
+      "تعذر إرسال الطلب: " +
+      text
+    );
+
+  }
+
+
+  /* =====================================================
+     START
+  ===================================================== */
+
+  setMinimumDate();
+
+
+  checkAuthentication();
 
 </script>
 
