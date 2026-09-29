@@ -366,7 +366,39 @@ display:none;
 box-shadow:0 10px 30px rgba(0,0,0,.3)
 }
 
-.toast.error{background:#dc2626}
+.toast.error{
+background:#dc2626
+}
+
+.access-denied{
+max-width:500px;
+margin:80px auto;
+padding:35px 25px;
+background:#0f1d30;
+border:1px solid #1e334d;
+border-radius:20px;
+text-align:center
+}
+
+.access-denied h2{
+margin-bottom:12px;
+font-size:24px
+}
+
+.access-denied p{
+color:#94a3b8;
+line-height:1.8;
+margin-bottom:20px
+}
+
+.access-denied a{
+display:inline-block;
+background:#2563eb;
+color:#fff;
+padding:11px 18px;
+border-radius:10px;
+text-decoration:none
+}
 
 @media(max-width:1000px){
 .stats{grid-template-columns:repeat(3,1fr)}
@@ -419,11 +451,11 @@ main{padding:20px 12px 40px}
 </header>
 
 
-<main>
+<main id="mainContent">
 
 <div class="welcome">
 <h2>لوحة التحكم</h2>
-<p id="adminEmail">جاري تحميل الحساب...</p>
+<p id="adminEmail">جاري التحقق من صلاحيات الحساب...</p>
 </div>
 
 
@@ -526,6 +558,21 @@ placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
 </main>
 
 
+<div id="accessDenied" class="access-denied hidden">
+
+<h2>غير مصرح بالدخول</h2>
+
+<p>
+هذا الحساب مسجل في الموقع لكنه لا يملك صلاحية مدير فني برو.
+</p>
+
+<a href="index.html">
+العودة إلى الموقع
+</a>
+
+</div>
+
+
 <div id="toast" class="toast"></div>
 
 
@@ -559,6 +606,12 @@ let technicians = [];
 /* ======================================
 ELEMENTS
 ====================================== */
+
+const mainContent =
+document.getElementById("mainContent");
+
+const accessDenied =
+document.getElementById("accessDenied");
 
 const requestsContainer =
 document.getElementById("requestsContainer");
@@ -595,12 +648,17 @@ checkSession
 );
 
 
+/* ======================================
+CHECK SESSION + ADMIN
+====================================== */
+
 async function checkSession(){
 
 const {
 data,
 error
 } = await client.auth.getSession();
+
 
 if(error || !data.session){
 
@@ -610,16 +668,89 @@ window.location.href =
 return;
 }
 
+
+const user =
+data.session.user;
+
+
 document.getElementById(
 "adminEmail"
 ).textContent =
-data.session.user.email ||
+user.email ||
 "حساب الإدارة";
+
+
+/*
+نحدد هل الحساب مدير فعلاً
+عن طريق جدول admin_users
+*/
+
+const {
+data:adminUser,
+error:adminError
+} = await client
+.from("admin_users")
+.select("user_id")
+.eq("user_id",user.id)
+.maybeSingle();
+
+
+if(adminError){
+
+console.error(
+"Admin check:",
+adminError
+);
+
+showAccessDenied(
+"حدث خطأ أثناء التحقق من صلاحيات المدير."
+);
+
+return;
+}
+
+
+if(!adminUser){
+
+showAccessDenied(
+"هذا الحساب لا يملك صلاحية مدير."
+);
+
+return;
+}
+
+
+/*
+الحساب مدير
+نبدأ تحميل البيانات
+*/
 
 await Promise.all([
 loadTechnicians(),
 loadRequests()
 ]);
+
+}
+
+
+/* ======================================
+ACCESS DENIED
+====================================== */
+
+function showAccessDenied(message){
+
+mainContent.classList.add(
+"hidden"
+);
+
+accessDenied.classList.remove(
+"hidden"
+);
+
+accessDenied.querySelector(
+"p"
+).textContent =
+message;
 
 }
 
@@ -635,13 +766,16 @@ data,
 error
 } = await client
 .from("technicians")
-.select("id,full_name,phone,service_type,status")
+.select(
+"id,full_name,phone,service_type,status"
+)
 .order(
 "full_name",
 {
 ascending:true
 }
 );
+
 
 if(error){
 
@@ -654,6 +788,7 @@ technicians = [];
 
 return;
 }
+
 
 technicians =
 data || [];
@@ -673,6 +808,7 @@ requestsContainer.innerHTML = `
 </div>
 `;
 
+
 const {
 data,
 error
@@ -686,24 +822,33 @@ ascending:false
 }
 );
 
+
 if(error){
 
 requestsContainer.innerHTML = `
 <div class="empty">
-<h3>تعذر تحميل الطلبات</h3>
+
+<h3>
+تعذر تحميل الطلبات
+</h3>
+
 <p style="margin-top:10px">
 ${escapeHtml(error.message)}
 </p>
+
 </div>
 `;
 
 return;
 }
 
+
 allRequests =
 data || [];
 
+
 updateStatistics();
+
 renderRequests();
 
 }
@@ -720,12 +865,14 @@ document.getElementById(
 ).textContent =
 allRequests.length;
 
+
 document.getElementById(
 "newCount"
 ).textContent =
 allRequests.filter(
 r => r.status === "جديد"
 ).length;
+
 
 document.getElementById(
 "progressCount"
@@ -738,12 +885,14 @@ r.status === "تم تعيين فني" ||
 r.status === "قيد المراجعة"
 ).length;
 
+
 document.getElementById(
 "completedCount"
 ).textContent =
 allRequests.filter(
 r => r.status === "مكتمل"
 ).length;
+
 
 document.getElementById(
 "cancelledCount"
@@ -779,11 +928,13 @@ priorityFilter.addEventListener(
 renderRequests
 );
 
+
 refreshBtn.addEventListener(
 "click",
 async function(){
 
 await loadTechnicians();
+
 await loadRequests();
 
 showToast(
@@ -861,6 +1012,7 @@ function renderRequests(){
 const requests =
 getFilteredRequests();
 
+
 document.getElementById(
 "requestCount"
 ).textContent =
@@ -898,8 +1050,10 @@ function requestCard(request){
 
 const preferred =
 request.preferred_date
-? formatDate(request.preferred_date)
-: "غير محدد";
+?
+formatDate(request.preferred_date)
+:
+"غير محدد";
 
 
 return `
@@ -958,6 +1112,7 @@ request.customer_name || "-"
 </div>
 </div>
 
+
 <div class="info-box">
 <div class="info-label">الهاتف</div>
 <div class="info-value">
@@ -966,6 +1121,7 @@ request.phone || "-"
 )}
 </div>
 </div>
+
 
 <div class="info-box">
 <div class="info-label">الخدمة</div>
@@ -976,12 +1132,14 @@ request.service_type || "-"
 </div>
 </div>
 
+
 <div class="info-box">
 <div class="info-label">الموعد</div>
 <div class="info-value">
 ${preferred}
 </div>
 </div>
+
 
 <div class="info-box">
 <div class="info-label">الموقع</div>
@@ -991,6 +1149,7 @@ request.location || "-"
 )}
 </div>
 </div>
+
 
 <div class="info-box">
 <div class="info-label">الفني الحالي</div>
@@ -1024,6 +1183,7 @@ request.image_url
 ?
 `
 <div style="margin-bottom:16px">
+
 <a
 href="${escapeHtml(request.image_url)}"
 target="_blank"
@@ -1032,6 +1192,7 @@ class="image-link"
 >
 عرض صورة العطل
 </a>
+
 </div>
 `
 :
@@ -1044,7 +1205,9 @@ class="image-link"
 
 <div class="control">
 
-<label>حالة الطلب</label>
+<label>
+حالة الطلب
+</label>
 
 <select class="request-status">
 
@@ -1059,7 +1222,9 @@ request.status
 
 <div class="control">
 
-<label>الأولوية</label>
+<label>
+الأولوية
+</label>
 
 <select class="request-priority">
 
@@ -1074,7 +1239,9 @@ request.priority
 
 <div class="control">
 
-<label>تعيين الفني</label>
+<label>
+تعيين الفني
+</label>
 
 <select class="technician-select">
 
@@ -1090,7 +1257,9 @@ request.service_type
 
 <div class="control">
 
-<label>ملاحظات الإدارة</label>
+<label>
+ملاحظات الإدارة
+</label>
 
 <textarea
 class="admin-notes"
@@ -1104,7 +1273,9 @@ request.admin_notes || ""
 
 <div class="control">
 
-<label>ملاحظات الفني</label>
+<label>
+ملاحظات الفني
+</label>
 
 <textarea
 class="technician-notes"
@@ -1118,7 +1289,9 @@ request.technician_notes || ""
 
 <div class="control">
 
-<label>تاريخ الإنجاز</label>
+<label>
+تاريخ الإنجاز
+</label>
 
 <input
 type="text"
@@ -1141,6 +1314,7 @@ disabled
 <div class="save-row">
 
 <span style="color:#64748b;font-size:11px">
+
 ${
 request.updated_at
 ?
@@ -1149,7 +1323,9 @@ formatDate(request.updated_at)
 :
 "لم يتم التحديث"
 }
+
 </span>
+
 
 <button
 class="save-btn"
@@ -1191,6 +1367,7 @@ if(!service){
 return true;
 }
 
+
 return (
 technician.service_type === service ||
 technician.service_type === "متعدد التخصصات" ||
@@ -1205,13 +1382,16 @@ matching.forEach(
 technician => {
 
 html += `
+
 <option
 value="${escapeAttribute(technician.id)}"
 ${technician.id === selectedId ? "selected" : ""}
 >
+
 ${escapeHtml(
 technician.full_name
 )}
+
 ${
 technician.service_type
 ?
@@ -1222,7 +1402,9 @@ technician.service_type
 :
 ""
 }
+
 </option>
+
 `;
 
 });
@@ -1250,14 +1432,19 @@ const options = [
 "ملغي"
 ];
 
+
 return options.map(
 option => `
+
 <option
 value="${escapeAttribute(option)}"
 ${current === option ? "selected" : ""}
 >
+
 ${escapeHtml(option)}
+
 </option>
+
 `
 ).join("");
 
@@ -1276,14 +1463,19 @@ const options = [
 "عاجل"
 ];
 
+
 return options.map(
 option => `
+
 <option
 value="${escapeAttribute(option)}"
 ${(current || "عادي") === option ? "selected" : ""}
 >
+
 ${escapeHtml(option)}
+
 </option>
+
 `
 ).join("");
 
@@ -1291,7 +1483,7 @@ ${escapeHtml(option)}
 
 
 /* ======================================
-SAVE
+SAVE REQUEST
 ====================================== */
 
 window.saveRequest =
@@ -1301,6 +1493,7 @@ const card =
 document.querySelector(
 `.request-card[data-id="${CSS.escape(id)}"]`
 );
+
 
 if(!card){
 return;
@@ -1312,20 +1505,24 @@ card.querySelector(
 ".request-status"
 ).value;
 
+
 const priority =
 card.querySelector(
 ".request-priority"
 ).value;
+
 
 const technicianId =
 card.querySelector(
 ".technician-select"
 ).value;
 
+
 const adminNotes =
 card.querySelector(
 ".admin-notes"
 ).value.trim();
+
 
 const technicianNotes =
 card.querySelector(
@@ -1344,6 +1541,7 @@ item =>
 item.id === technicianId
 );
 
+
 if(technician){
 
 technicianName =
@@ -1355,6 +1553,7 @@ technician.full_name;
 
 
 button.disabled = true;
+
 button.textContent =
 "جاري الحفظ...";
 
@@ -1362,6 +1561,7 @@ button.textContent =
 const updateData = {
 
 status,
+
 priority,
 
 assigned_technician_id:
@@ -1388,6 +1588,7 @@ const existing =
 allRequests.find(
 r => r.id === id
 );
+
 
 updateData.completed_at =
 existing &&
@@ -1421,7 +1622,9 @@ error.message,
 true
 );
 
+
 button.disabled = false;
+
 button.textContent =
 "حفظ التعديلات";
 
@@ -1431,8 +1634,9 @@ return;
 
 
 showToast(
-"تم حفظ الطلب وتعيين الفني"
+"تم حفظ التعديلات بنجاح"
 );
+
 
 await loadRequests();
 
@@ -1466,8 +1670,10 @@ if(!value){
 return "-";
 }
 
+
 const date =
 new Date(value);
+
 
 if(
 Number.isNaN(
@@ -1476,6 +1682,7 @@ date.getTime()
 ){
 return String(value);
 }
+
 
 return date.toLocaleString(
 "ar-JO",
@@ -1497,13 +1704,16 @@ if(status === "جديد"){
 return "new";
 }
 
+
 if(status === "مكتمل"){
 return "done";
 }
 
+
 if(status === "ملغي"){
 return "cancelled";
 }
+
 
 return "progress";
 
@@ -1518,6 +1728,7 @@ value === undefined
 ){
 return "";
 }
+
 
 return String(value)
 .replaceAll("&","&amp;")
@@ -1544,6 +1755,7 @@ error=false
 toast.textContent =
 message;
 
+
 toast.className =
 error
 ?
@@ -1551,12 +1763,15 @@ error
 :
 "toast";
 
+
 toast.style.display =
 "block";
+
 
 clearTimeout(
 window.toastTimer
 );
+
 
 window.toastTimer =
 setTimeout(
