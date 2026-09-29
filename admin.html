@@ -1,0 +1,2057 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>لوحة إدارة فني برو</title>
+
+  <meta name="description" content="لوحة إدارة طلبات الصيانة في فني برو">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Tahoma, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(37,99,235,.18), transparent 35%),
+        #07111f;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* =========================
+       LOGIN
+    ========================= */
+
+    #loginScreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 430px;
+      background: rgba(15, 29, 48, .95);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.4);
+    }
+
+    .logo {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 15px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .login-box h1 {
+      text-align: center;
+      margin-bottom: 8px;
+      font-size: 25px;
+    }
+
+    .login-box p {
+      text-align: center;
+      color: #94a3b8;
+      margin-bottom: 25px;
+      font-size: 14px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea,
+    .search-input {
+      width: 100%;
+      padding: 13px 14px;
+      background: #0b192b;
+      border: 1px solid #24354b;
+      color: #fff;
+      border-radius: 12px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus,
+    .search-input:focus {
+      border-color: #3b82f6;
+    }
+
+    .field textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .primary-btn {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .primary-btn:hover {
+      opacity: .92;
+    }
+
+    .message {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      text-align: center;
+      display: none;
+    }
+
+    .message.error {
+      display: block;
+      background: rgba(239,68,68,.12);
+      color: #fca5a5;
+      border: 1px solid rgba(239,68,68,.25);
+    }
+
+    .message.success {
+      display: block;
+      background: rgba(34,197,94,.12);
+      color: #86efac;
+      border: 1px solid rgba(34,197,94,.25);
+    }
+
+    /* =========================
+       APP
+    ========================= */
+
+    #app {
+      display: none;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(7,17,31,.94);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: auto;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .brand h1 {
+      font-size: 19px;
+    }
+
+    .brand span {
+      color: #94a3b8;
+      font-size: 12px;
+    }
+
+    .logout-btn {
+      border: 1px solid #334155;
+      background: #0f1d30;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    main {
+      max-width: 1400px;
+      margin: auto;
+      padding: 25px 20px 50px;
+    }
+
+    .welcome {
+      margin-bottom: 25px;
+    }
+
+    .welcome h2 {
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+
+    .welcome p {
+      color: #94a3b8;
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat {
+      background: #0f1d30;
+      border: 1px solid #1e334d;
+      border-radius: 17px;
+      padding: 20px;
+    }
+
+    .stat-title {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .stat-number {
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    /* =========================
+       FILTERS
+    ========================= */
+
+    .filters {
+      background: #0f1d30;
+      border: 1px solid #1e334d;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .filters-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr auto;
+      gap: 10px;
+    }
+
+    .filter {
+      width: 100%;
+      padding: 12px;
+      background: #0b192b;
+      color: #fff;
+      border: 1px solid #24354b;
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .refresh-btn {
+      padding: 12px 18px;
+      border: none;
+      border-radius: 10px;
+      background: #2563eb;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* =========================
+       REQUESTS
+    ========================= */
+
+    .requests-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .requests-title h3 {
+      font-size: 20px;
+    }
+
+    .request-count {
+      color: #94a3b8;
+      font-size: 13px;
+    }
+
+    .requests {
+      display: grid;
+      gap: 15px;
+    }
+
+    .request-card {
+      background: #0f1d30;
+      border: 1px solid #1e334d;
+      border-radius: 18px;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .request-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 18px;
+    }
+
+    .request-number {
+      font-size: 18px;
+      font-weight: bold;
+      color: #60a5fa;
+      margin-bottom: 6px;
+    }
+
+    .request-date {
+      color: #94a3b8;
+      font-size: 12px;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: bold;
+      background: #1e293b;
+      color: #cbd5e1;
+    }
+
+    .badge.new {
+      background: rgba(59,130,246,.15);
+      color: #93c5fd;
+    }
+
+    .badge.progress {
+      background: rgba(245,158,11,.15);
+      color: #fcd34d;
+    }
+
+    .badge.done {
+      background: rgba(34,197,94,.15);
+      color: #86efac;
+    }
+
+    .badge.cancelled {
+      background: rgba(239,68,68,.15);
+      color: #fca5a5;
+    }
+
+    .request-info {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .info-box {
+      background: #0b192b;
+      border-radius: 12px;
+      padding: 13px;
+      border: 1px solid #172a40;
+    }
+
+    .info-label {
+      color: #64748b;
+      font-size: 11px;
+      margin-bottom: 5px;
+    }
+
+    .info-value {
+      color: #e2e8f0;
+      font-size: 14px;
+      word-break: break-word;
+    }
+
+    .description {
+      background: #0b192b;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      color: #cbd5e1;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .request-controls {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      padding-top: 18px;
+      border-top: 1px solid #1e334d;
+    }
+
+    .control label {
+      display: block;
+      color: #94a3b8;
+      font-size: 11px;
+      margin-bottom: 6px;
+    }
+
+    .control select,
+    .control input,
+    .control textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 9px;
+      border: 1px solid #263b54;
+      background: #0b192b;
+      color: #fff;
+      outline: none;
+    }
+
+    .control textarea {
+      min-height: 42px;
+      resize: vertical;
+    }
+
+    .save-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .save-btn {
+      border: none;
+      background: #16a34a;
+      color: #fff;
+      border-radius: 10px;
+      padding: 11px 18px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .save-btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .image-link {
+      display: inline-block;
+      padding: 10px 15px;
+      border-radius: 9px;
+      background: #1d4ed8;
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .empty {
+      background: #0f1d30;
+      border: 1px dashed #334155;
+      padding: 45px 20px;
+      border-radius: 18px;
+      text-align: center;
+      color: #94a3b8;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #94a3b8;
+    }
+
+    .toast {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      z-index: 100;
+      padding: 13px 18px;
+      border-radius: 10px;
+      background: #16a34a;
+      color: #fff;
+      display: none;
+      box-shadow: 0 10px 30px rgba(0,0,0,.3);
+    }
+
+    .toast.error {
+      background: #dc2626;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 1000px) {
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .filters-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .request-controls {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .header-inner {
+        padding: 12px 14px;
+      }
+
+      main {
+        padding: 20px 12px 40px;
+      }
+
+      .brand h1 {
+        font-size: 16px;
+      }
+
+      .brand span {
+        display: none;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stat {
+        padding: 15px;
+      }
+
+      .stat-number {
+        font-size: 23px;
+      }
+
+      .filters-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .request-top {
+        flex-direction: column;
+      }
+
+      .request-info {
+        grid-template-columns: 1fr;
+      }
+
+      .request-controls {
+        grid-template-columns: 1fr;
+      }
+
+      .save-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .save-btn,
+      .image-link {
+        text-align: center;
+        width: 100%;
+      }
+
+      .welcome h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       LOGIN SCREEN
+  ========================= -->
+
+  <section id="loginScreen">
+
+    <div class="login-box">
+
+      <div class="logo">ف</div>
+
+      <h1>لوحة إدارة فني برو</h1>
+
+      <p>
+        سجّل الدخول للوصول إلى طلبات الصيانة
+      </p>
+
+      <form id="loginForm">
+
+        <div class="field">
+          <label for="email">البريد الإلكتروني</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="أدخل البريد الإلكتروني"
+            required
+            autocomplete="email"
+          >
+        </div>
+
+        <div class="field">
+          <label for="password">كلمة المرور</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="أدخل كلمة المرور"
+            required
+            autocomplete="current-password"
+          >
+        </div>
+
+        <button
+          type="submit"
+          class="primary-btn"
+          id="loginBtn"
+        >
+          تسجيل الدخول
+        </button>
+
+      </form>
+
+      <div id="loginMessage" class="message"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       ADMIN APP
+  ========================= -->
+
+  <section id="app">
+
+    <header>
+
+      <div class="header-inner">
+
+        <div class="brand">
+
+          <div class="brand-icon">ف</div>
+
+          <div>
+            <h1>فني برو</h1>
+            <span>لوحة إدارة الصيانة</span>
+          </div>
+
+        </div>
+
+        <button
+          class="logout-btn"
+          id="logoutBtn"
+        >
+          تسجيل الخروج
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <main>
+
+      <div class="welcome">
+
+        <h2>لوحة التحكم</h2>
+
+        <p id="adminEmail">
+          جاري تحميل بيانات الإدارة...
+        </p>
+
+      </div>
+
+
+      <!-- =========================
+           STATISTICS
+      ========================= -->
+
+      <div class="stats">
+
+        <div class="stat">
+          <div class="stat-title">كل الطلبات</div>
+          <div class="stat-number" id="totalCount">0</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-title">طلبات جديدة</div>
+          <div class="stat-number" id="newCount">0</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-title">قيد التنفيذ</div>
+          <div class="stat-number" id="progressCount">0</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-title">مكتملة</div>
+          <div class="stat-number" id="completedCount">0</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-title">ملغاة</div>
+          <div class="stat-number" id="cancelledCount">0</div>
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           FILTERS
+      ========================= -->
+
+      <div class="filters">
+
+        <div class="filters-grid">
+
+          <input
+            type="search"
+            id="searchInput"
+            class="filter"
+            placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
+          >
+
+          <select id="serviceFilter" class="filter">
+
+            <option value="">كل الخدمات</option>
+
+            <option value="تكييف وتبريد">
+              تكييف وتبريد
+            </option>
+
+            <option value="كهرباء">
+              كهرباء
+            </option>
+
+            <option value="سباكة">
+              سباكة
+            </option>
+
+            <option value="صيانة أجهزة منزلية">
+              صيانة أجهزة منزلية
+            </option>
+
+            <option value="نجارة">
+              نجارة
+            </option>
+
+            <option value="دهان">
+              دهان
+            </option>
+
+            <option value="أخرى">
+              أخرى
+            </option>
+
+          </select>
+
+
+          <select id="statusFilter" class="filter">
+
+            <option value="">كل الحالات</option>
+
+            <option value="جديد">
+              جديد
+            </option>
+
+            <option value="قيد المراجعة">
+              قيد المراجعة
+            </option>
+
+            <option value="تم تعيين فني">
+              تم تعيين فني
+            </option>
+
+            <option value="الفني في الطريق">
+              الفني في الطريق
+            </option>
+
+            <option value="قيد التنفيذ">
+              قيد التنفيذ
+            </option>
+
+            <option value="بانتظار قطعة/موافقة">
+              بانتظار قطعة/موافقة
+            </option>
+
+            <option value="مكتمل">
+              مكتمل
+            </option>
+
+            <option value="ملغي">
+              ملغي
+            </option>
+
+          </select>
+
+
+          <select id="priorityFilter" class="filter">
+
+            <option value="">كل الأولويات</option>
+
+            <option value="عادي">
+              عادي
+            </option>
+
+            <option value="متوسط">
+              متوسط
+            </option>
+
+            <option value="عاجل">
+              عاجل
+            </option>
+
+          </select>
+
+
+          <button
+            class="refresh-btn"
+            id="refreshBtn"
+          >
+            تحديث
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           REQUESTS
+      ========================= -->
+
+      <div class="requests-title">
+
+        <h3>طلبات العملاء</h3>
+
+        <span
+          class="request-count"
+          id="requestCount"
+        >
+          0 طلب
+        </span>
+
+      </div>
+
+
+      <div id="requestsContainer">
+
+        <div class="loading">
+          جاري تحميل الطلبات...
+        </div>
+
+      </div>
+
+    </main>
+
+  </section>
+
+
+  <div id="toast" class="toast"></div>
+
+
+  <script>
+
+    /* ==========================================
+       SUPABASE
+    ========================================== */
+
+    const SUPABASE_URL =
+      "https://yesmnsztcqnhaqrcgpcs.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_fUX7DXedpKF3OyBpDQ9kAQ_RRQpnIuB";
+
+    const client =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    /* ==========================================
+       ELEMENTS
+    ========================================== */
+
+    const loginScreen =
+      document.getElementById("loginScreen");
+
+    const app =
+      document.getElementById("app");
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const loginBtn =
+      document.getElementById("loginBtn");
+
+    const loginMessage =
+      document.getElementById("loginMessage");
+
+    const logoutBtn =
+      document.getElementById("logoutBtn");
+
+    const adminEmail =
+      document.getElementById("adminEmail");
+
+    const requestsContainer =
+      document.getElementById("requestsContainer");
+
+    const searchInput =
+      document.getElementById("searchInput");
+
+    const serviceFilter =
+      document.getElementById("serviceFilter");
+
+    const statusFilter =
+      document.getElementById("statusFilter");
+
+    const priorityFilter =
+      document.getElementById("priorityFilter");
+
+    const refreshBtn =
+      document.getElementById("refreshBtn");
+
+    const toast =
+      document.getElementById("toast");
+
+
+    /* ==========================================
+       DATA
+    ========================================== */
+
+    let allRequests = [];
+
+
+    /* ==========================================
+       START
+    ========================================== */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      checkSession
+    );
+
+
+    async function checkSession() {
+
+      const {
+        data,
+        error
+      } = await client.auth.getSession();
+
+      if (error) {
+
+        showLogin();
+
+        return;
+      }
+
+      if (data.session) {
+
+        showApp(
+          data.session.user
+        );
+
+      } else {
+
+        showLogin();
+
+      }
+
+    }
+
+
+    /* ==========================================
+       LOGIN
+    ========================================== */
+
+    loginForm.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+        loginMessage.className =
+          "message";
+
+        loginMessage.textContent = "";
+
+        loginBtn.disabled = true;
+
+        loginBtn.textContent =
+          "جاري تسجيل الدخول...";
+
+        const email =
+          document.getElementById("email").value.trim();
+
+        const password =
+          document.getElementById("password").value;
+
+        const {
+          data,
+          error
+        } = await client.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) {
+
+          loginMessage.className =
+            "message error";
+
+          loginMessage.textContent =
+            "فشل تسجيل الدخول: " +
+            error.message;
+
+          loginBtn.disabled = false;
+
+          loginBtn.textContent =
+            "تسجيل الدخول";
+
+          return;
+        }
+
+        loginBtn.disabled = false;
+
+        loginBtn.textContent =
+          "تسجيل الدخول";
+
+        showApp(data.user);
+
+      }
+    );
+
+
+    /* ==========================================
+       SHOW LOGIN
+    ========================================== */
+
+    function showLogin() {
+
+      loginScreen.style.display =
+        "flex";
+
+      app.style.display =
+        "none";
+
+    }
+
+
+    /* ==========================================
+       SHOW APP
+    ========================================== */
+
+    async function showApp(user) {
+
+      loginScreen.style.display =
+        "none";
+
+      app.style.display =
+        "block";
+
+      adminEmail.textContent =
+        user.email || "حساب الإدارة";
+
+      await loadRequests();
+
+    }
+
+
+    /* ==========================================
+       LOGOUT
+    ========================================== */
+
+    logoutBtn.addEventListener(
+      "click",
+      async function() {
+
+        await client.auth.signOut();
+
+        allRequests = [];
+
+        showLogin();
+
+      }
+    );
+
+
+    /* ==========================================
+       LOAD REQUESTS
+    ========================================== */
+
+    async function loadRequests() {
+
+      requestsContainer.innerHTML = `
+        <div class="loading">
+          جاري تحميل الطلبات...
+        </div>
+      `;
+
+      const {
+        data,
+        error
+      } = await client
+        .from("service_requests")
+        .select("*")
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
+
+      if (error) {
+
+        requestsContainer.innerHTML = `
+          <div class="empty">
+            <h3>تعذر تحميل الطلبات</h3>
+            <p style="margin-top:10px;">
+              ${escapeHtml(error.message)}
+            </p>
+          </div>
+        `;
+
+        return;
+      }
+
+      allRequests =
+        data || [];
+
+      updateStatistics();
+
+      renderRequests();
+
+    }
+
+
+    /* ==========================================
+       STATISTICS
+    ========================================== */
+
+    function updateStatistics() {
+
+      const total =
+        allRequests.length;
+
+      const newRequests =
+        allRequests.filter(
+          r => r.status === "جديد"
+        ).length;
+
+      const progress =
+        allRequests.filter(
+          r =>
+            r.status === "قيد التنفيذ" ||
+            r.status === "الفني في الطريق" ||
+            r.status === "تم تعيين فني" ||
+            r.status === "قيد المراجعة"
+        ).length;
+
+      const completed =
+        allRequests.filter(
+          r => r.status === "مكتمل"
+        ).length;
+
+      const cancelled =
+        allRequests.filter(
+          r => r.status === "ملغي"
+        ).length;
+
+      document.getElementById(
+        "totalCount"
+      ).textContent = total;
+
+      document.getElementById(
+        "newCount"
+      ).textContent = newRequests;
+
+      document.getElementById(
+        "progressCount"
+      ).textContent = progress;
+
+      document.getElementById(
+        "completedCount"
+      ).textContent = completed;
+
+      document.getElementById(
+        "cancelledCount"
+      ).textContent = cancelled;
+
+    }
+
+
+    /* ==========================================
+       FILTER
+    ========================================== */
+
+    searchInput.addEventListener(
+      "input",
+      renderRequests
+    );
+
+    serviceFilter.addEventListener(
+      "change",
+      renderRequests
+    );
+
+    statusFilter.addEventListener(
+      "change",
+      renderRequests
+    );
+
+    priorityFilter.addEventListener(
+      "change",
+      renderRequests
+    );
+
+
+    refreshBtn.addEventListener(
+      "click",
+      loadRequests
+    );
+
+
+    function getFilteredRequests() {
+
+      const search =
+        searchInput.value
+          .trim()
+          .toLowerCase();
+
+      const service =
+        serviceFilter.value;
+
+      const status =
+        statusFilter.value;
+
+      const priority =
+        priorityFilter.value;
+
+      return allRequests.filter(
+        request => {
+
+          const searchable = [
+
+            request.request_number,
+
+            request.customer_name,
+
+            request.phone,
+
+            request.location,
+
+            request.service_type
+
+          ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+
+          const matchesSearch =
+            !search ||
+            searchable.includes(search);
+
+          const matchesService =
+            !service ||
+            request.service_type === service;
+
+          const matchesStatus =
+            !status ||
+            request.status === status;
+
+          const matchesPriority =
+            !priority ||
+            request.priority === priority;
+
+          return (
+            matchesSearch &&
+            matchesService &&
+            matchesStatus &&
+            matchesPriority
+          );
+
+        }
+      );
+
+    }
+
+
+    /* ==========================================
+       RENDER
+    ========================================== */
+
+    function renderRequests() {
+
+      const requests =
+        getFilteredRequests();
+
+      document.getElementById(
+        "requestCount"
+      ).textContent =
+        requests.length + " طلب";
+
+
+      if (!requests.length) {
+
+        requestsContainer.innerHTML = `
+          <div class="empty">
+            لا توجد طلبات مطابقة للبحث.
+          </div>
+        `;
+
+        return;
+      }
+
+
+      requestsContainer.innerHTML =
+        `
+        <div class="requests">
+          ${requests.map(
+            requestCard
+          ).join("")}
+        </div>
+        `;
+
+    }
+
+
+    function requestCard(request) {
+
+      const statusClass =
+        getStatusClass(
+          request.status
+        );
+
+      const createdDate =
+        formatDate(
+          request.created_at
+        );
+
+      const preferredDate =
+        request.preferred_date
+          ? formatDate(
+              request.preferred_date
+            )
+          : "غير محدد";
+
+
+      return `
+
+        <article
+          class="request-card"
+          data-id="${escapeHtml(
+            request.id
+          )}"
+        >
+
+          <div class="request-top">
+
+            <div>
+
+              <div class="request-number">
+                ${escapeHtml(
+                  request.request_number ||
+                  "بدون رقم"
+                )}
+              </div>
+
+              <div class="request-date">
+                تم إنشاء الطلب:
+                ${createdDate}
+              </div>
+
+            </div>
+
+
+            <div class="badges">
+
+              <span class="badge ${statusClass}">
+                ${escapeHtml(
+                  request.status ||
+                  "غير محدد"
+                )}
+              </span>
+
+              <span class="badge">
+                ${escapeHtml(
+                  request.priority ||
+                  "عادي"
+                )}
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="request-info">
+
+            <div class="info-box">
+
+              <div class="info-label">
+                العميل
+              </div>
+
+              <div class="info-value">
+                ${escapeHtml(
+                  request.customer_name ||
+                  "-"
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+              <div class="info-label">
+                الهاتف
+              </div>
+
+              <div class="info-value">
+                ${escapeHtml(
+                  request.phone ||
+                  "-"
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+              <div class="info-label">
+                نوع الخدمة
+              </div>
+
+              <div class="info-value">
+                ${escapeHtml(
+                  request.service_type ||
+                  "-"
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+              <div class="info-label">
+                الموعد المطلوب
+              </div>
+
+              <div class="info-value">
+                ${preferredDate}
+              </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+              <div class="info-label">
+                الموقع
+              </div>
+
+              <div class="info-value">
+                ${escapeHtml(
+                  request.location ||
+                  "-"
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+              <div class="info-label">
+                الفني المعين
+              </div>
+
+              <div class="info-value">
+                ${escapeHtml(
+                  request.assigned_technician_name ||
+                  "لم يتم التعيين"
+                )}
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="description">
+
+            <strong>
+              وصف المشكلة:
+            </strong>
+
+            <br>
+
+            ${escapeHtml(
+              request.description ||
+              "لا يوجد وصف"
+            )}
+
+          </div>
+
+
+          ${
+            request.image_url
+            ?
+            `
+            <div style="margin-bottom:18px;">
+              <a
+                class="image-link"
+                href="${escapeHtml(
+                  request.image_url
+                )}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                عرض صورة العطل
+              </a>
+            </div>
+            `
+            :
+            ""
+          }
+
+
+          <div class="request-controls">
+
+            <div class="control">
+
+              <label>
+                حالة الطلب
+              </label>
+
+              <select
+                class="request-status"
+                data-field="status"
+              >
+
+                ${statusOptions(
+                  request.status
+                )}
+
+              </select>
+
+            </div>
+
+
+            <div class="control">
+
+              <label>
+                الأولوية
+              </label>
+
+              <select
+                class="request-priority"
+                data-field="priority"
+              >
+
+                ${priorityOptions(
+                  request.priority
+                )}
+
+              </select>
+
+            </div>
+
+
+            <div class="control">
+
+              <label>
+                اسم الفني
+              </label>
+
+              <input
+                type="text"
+                class="technician-name"
+                data-field="assigned_technician_name"
+                value="${escapeAttribute(
+                  request.assigned_technician_name || ""
+                )}"
+                placeholder="اسم الفني"
+              >
+
+            </div>
+
+
+            <div class="control">
+
+              <label>
+                رقم/معرف الفني
+              </label>
+
+              <input
+                type="text"
+                class="technician-id"
+                data-field="assigned_technician_id"
+                value="${escapeAttribute(
+                  request.assigned_technician_id || ""
+                )}"
+                placeholder="اختياري"
+              >
+
+            </div>
+
+
+            <div class="control">
+
+              <label>
+                ملاحظات الإدارة
+              </label>
+
+              <textarea
+                class="admin-notes"
+                data-field="admin_notes"
+                placeholder="ملاحظات الإدارة"
+              >${escapeHtml(
+                request.admin_notes || ""
+              )}</textarea>
+
+            </div>
+
+
+            <div class="control">
+
+              <label>
+                ملاحظات الفني
+              </label>
+
+              <textarea
+                class="technician-notes"
+                data-field="technician_notes"
+                placeholder="ملاحظات الفني"
+              >${escapeHtml(
+                request.technician_notes || ""
+              )}</textarea>
+
+            </div>
+
+          </div>
+
+
+          <div class="save-row">
+
+            <span style="color:#64748b;font-size:12px;">
+              ${
+                request.updated_at
+                ?
+                "آخر تحديث: " +
+                formatDate(request.updated_at)
+                :
+                "لم يتم تحديثه بعد"
+              }
+            </span>
+
+            <button
+              class="save-btn"
+              onclick="saveRequest('${escapeAttribute(
+                request.id
+              )}', this)"
+            >
+              حفظ التعديلات
+            </button>
+
+          </div>
+
+        </article>
+
+      `;
+
+    }
+
+
+    /* ==========================================
+       STATUS OPTIONS
+    ========================================== */
+
+    function statusOptions(current) {
+
+      const options = [
+        "جديد",
+        "قيد المراجعة",
+        "تم تعيين فني",
+        "الفني في الطريق",
+        "قيد التنفيذ",
+        "بانتظار قطعة/موافقة",
+        "مكتمل",
+        "ملغي"
+      ];
+
+      return options.map(
+        option => `
+          <option
+            value="${escapeAttribute(option)}"
+            ${current === option ? "selected" : ""}
+          >
+            ${escapeHtml(option)}
+          </option>
+        `
+      ).join("");
+
+    }
+
+
+    /* ==========================================
+       PRIORITY OPTIONS
+    ========================================== */
+
+    function priorityOptions(current) {
+
+      const options = [
+        "عادي",
+        "متوسط",
+        "عاجل"
+      ];
+
+      const selected =
+        current || "عادي";
+
+      return options.map(
+        option => `
+          <option
+            value="${escapeAttribute(option)}"
+            ${selected === option ? "selected" : ""}
+          >
+            ${escapeHtml(option)}
+          </option>
+        `
+      ).join("");
+
+    }
+
+
+    /* ==========================================
+       SAVE REQUEST
+    ========================================== */
+
+    async function saveRequest(
+      id,
+      button
+    ) {
+
+      const card =
+        document.querySelector(
+          `.request-card[data-id="${CSS.escape(id)}"]`
+        );
+
+      if (!card) {
+
+        showToast(
+          "تعذر العثور على الطلب",
+          true
+        );
+
+        return;
+      }
+
+
+      const status =
+        card.querySelector(
+          ".request-status"
+        ).value;
+
+      const priority =
+        card.querySelector(
+          ".request-priority"
+        ).value;
+
+      const technicianName =
+        card.querySelector(
+          ".technician-name"
+        ).value.trim();
+
+      const technicianId =
+        card.querySelector(
+          ".technician-id"
+        ).value.trim();
+
+      const adminNotes =
+        card.querySelector(
+          ".admin-notes"
+        ).value.trim();
+
+      const technicianNotes =
+        card.querySelector(
+          ".technician-notes"
+        ).value.trim();
+
+
+      button.disabled = true;
+
+      button.textContent =
+        "جاري الحفظ...";
+
+
+      const updateData = {
+
+        status,
+
+        priority,
+
+        assigned_technician_name:
+          technicianName || null,
+
+        assigned_technician_id:
+          technicianId || null,
+
+        admin_notes:
+          adminNotes || null,
+
+        technician_notes:
+          technicianNotes || null,
+
+        updated_at:
+          new Date().toISOString()
+
+      };
+
+
+      if (
+        status === "مكتمل"
+      ) {
+
+        updateData.completed_at =
+          new Date().toISOString();
+
+      }
+
+
+      if (
+        status !== "مكتمل"
+      ) {
+
+        updateData.completed_at =
+          null;
+
+      }
+
+
+      const {
+        error
+      } = await client
+        .from("service_requests")
+        .update(updateData)
+        .eq("id", id);
+
+
+      if (error) {
+
+        showToast(
+          "فشل حفظ التعديلات: " +
+          error.message,
+          true
+        );
+
+        button.disabled = false;
+
+        button.textContent =
+          "حفظ التعديلات";
+
+        return;
+      }
+
+
+      showToast(
+        "تم حفظ تعديلات الطلب"
+      );
+
+
+      await loadRequests();
+
+    }
+
+
+    /* ==========================================
+       HELPERS
+    ========================================== */
+
+    function formatDate(value) {
+
+      if (!value) {
+        return "-";
+      }
+
+      const date =
+        new Date(value);
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+        return escapeHtml(
+          String(value)
+        );
+      }
+
+      return date.toLocaleString(
+        "ar-JO",
+        {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit"
+        }
+      );
+
+    }
+
+
+    function getStatusClass(status) {
+
+      if (
+        status === "جديد"
+      ) {
+        return "new";
+      }
+
+      if (
+        status === "مكتمل"
+      ) {
+        return "done";
+      }
+
+      if (
+        status === "ملغي"
+      ) {
+        return "cancelled";
+      }
+
+      if (
+        status === "قيد التنفيذ" ||
+        status === "الفني في الطريق" ||
+        status === "تم تعيين فني" ||
+        status === "قيد المراجعة"
+      ) {
+        return "progress";
+      }
+
+      return "";
+
+    }
+
+
+    function escapeHtml(value) {
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
+        return "";
+      }
+
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+    }
+
+
+    function escapeAttribute(value) {
+
+      return escapeHtml(value);
+
+    }
+
+
+    function showToast(
+      message,
+      isError = false
+    ) {
+
+      toast.textContent =
+        message;
+
+      toast.className =
+        isError
+        ? "toast error"
+        : "toast";
+
+      toast.style.display =
+        "block";
+
+      clearTimeout(
+        window.toastTimer
+      );
+
+      window.toastTimer =
+        setTimeout(
+          () => {
+            toast.style.display =
+              "none";
+          },
+          3500
+        );
+
+    }
+
+  </script>
+
+</body>
+</html>
