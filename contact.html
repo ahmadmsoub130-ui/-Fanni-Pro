@@ -1,463 +1,202 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
-
-<title>تواصل معنا | فني برو</title>
-
-<meta
-name="description"
-content="تواصل مع فني برو للاستفسارات والمساعدة المتعلقة بخدمات الصيانة والطلبات."
->
-
-<style>
-
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
-
-body{
-
-font-family:
-Tahoma,
-Arial,
-sans-serif;
-
-background:
-radial-gradient(
-circle at top right,
-rgba(99,102,241,.18),
-transparent 35%
-),
-#07111f;
-
-color:#fff;
-
-line-height:1.8;
-
-}
-
-.container{
-
-width:92%;
-
-max-width:900px;
-
-margin:auto;
-
-}
-
-header{
-
-border-bottom:
-1px solid rgba(255,255,255,.08);
-
-background:
-rgba(7,17,31,.92);
-
-padding:18px 0;
-
-}
-
-.logo{
-
-font-size:22px;
-
-font-weight:bold;
-
-color:#fff;
-
-text-decoration:none;
-
-}
-
-main{
-
-padding:45px 0 60px;
-
-}
-
-.card{
-
-background:#0f1d30;
-
-border:
-1px solid #1e334d;
-
-border-radius:20px;
-
-padding:30px;
-
-}
-
-h1{
-
-font-size:30px;
-
-margin-bottom:10px;
-
-}
-
-.subtitle{
-
-color:#94a3b8;
-
-font-size:14px;
-
-margin-bottom:30px;
-
-}
-
-.contact-grid{
-
-display:grid;
-
-grid-template-columns:
-repeat(2,1fr);
-
-gap:15px;
-
-margin-bottom:25px;
-
-}
-
-.contact-box{
-
-background:#0b192b;
-
-border:
-1px solid #172a40;
-
-border-radius:15px;
-
-padding:20px;
-
-}
-
-.contact-icon{
-
-font-size:28px;
-
-margin-bottom:10px;
-
-}
-
-.contact-box h2{
-
-font-size:17px;
-
-margin-bottom:7px;
-
-}
-
-.contact-box p{
-
-color:#94a3b8;
-
-font-size:13px;
-
-}
-
-.contact-box a{
-
-display:inline-block;
-
-margin-top:10px;
-
-color:#93c5fd;
-
-text-decoration:none;
-
-font-weight:bold;
-
-}
-
-.info{
-
-background:
-rgba(99,102,241,.08);
-
-border:
-1px solid rgba(99,102,241,.18);
-
-border-radius:14px;
-
-padding:18px;
-
-color:#cbd5e1;
-
-font-size:14px;
-
-line-height:1.9;
-
-}
-
-.buttons{
-
-display:flex;
-
-flex-wrap:wrap;
-
-gap:10px;
-
-margin-top:25px;
-
-}
-
-.btn{
-
-display:inline-block;
-
-padding:11px 18px;
-
-border-radius:10px;
-
-background:#2563eb;
-
-color:#fff;
-
-text-decoration:none;
-
-font-weight:bold;
-
-font-size:13px;
-
-}
-
-.btn.secondary{
-
-background:#1e293b;
-
-border:
-1px solid #334155;
-
-}
-
-footer{
-
-border-top:
-1px solid rgba(255,255,255,.08);
-
-padding:25px 0;
-
-text-align:center;
-
-color:#64748b;
-
-font-size:13px;
-
-}
-
-@media(max-width:600px){
-
-.card{
-
-padding:20px;
-
-}
-
-h1{
-
-font-size:25px;
-
-}
-
-.contact-grid{
-
-grid-template-columns:1fr;
-
-}
-
-.buttons{
-
-flex-direction:column;
-
-}
-
-.btn{
-
-text-align:center;
-
-width:100%;
-
-}
-
-}
-
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>تواصل معنا | فني برو</title>
+
+  <meta name="description" content="تواصل مع فريق فني برو للاستفسارات والمساعدة المتعلقة بخدمات الصيانة وطلبات الخدمة.">
+
+  <meta name="robots" content="index, follow">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Tahoma, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(92, 70, 180, 0.25), transparent 35%),
+        linear-gradient(135deg, #071426, #101b3d);
+      color: #fff;
+      min-height: 100vh;
+      line-height: 1.8;
+    }
+
+    header {
+      padding: 22px 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(5, 15, 30, 0.75);
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #8b7cff;
+    }
+
+    main {
+      width: 92%;
+      max-width: 850px;
+      margin: 50px auto;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 22px;
+      padding: 35px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 15px;
+      color: #fff;
+    }
+
+    .intro {
+      color: #cbd5e1;
+      margin-bottom: 30px;
+    }
+
+    .contact-box {
+      background: rgba(139,124,255,0.1);
+      border: 1px solid rgba(139,124,255,0.25);
+      border-radius: 18px;
+      padding: 25px;
+      margin-top: 20px;
+    }
+
+    .contact-box h2 {
+      font-size: 21px;
+      margin-bottom: 10px;
+      color: #a99eff;
+    }
+
+    .email {
+      display: inline-block;
+      margin-top: 10px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+      word-break: break-word;
+    }
+
+    .email:hover {
+      color: #a99eff;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 22px;
+      border-radius: 12px;
+      background: #6d5dfc;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back:hover {
+      background: #5848e8;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 15px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    .links {
+      margin-top: 10px;
+    }
+
+    .links a {
+      color: #a99eff;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        margin: 30px auto;
+      }
+
+      .card {
+        padding: 25px 20px;
+      }
+
+      h1 {
+        font-size: 27px;
+      }
+
+      .email {
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
-
 
 <body>
 
-
 <header>
-
-<div class="container">
-
-<a
-href="index.html"
-class="logo"
->
-
-🔧 فني برو
-
-</a>
-
-</div>
-
+  <div class="logo">فني برو</div>
 </header>
 
-
 <main>
+  <section class="card">
 
-<div class="container">
+    <h1>تواصل معنا</h1>
 
-<div class="card">
+    <p class="intro">
+      إذا كان لديك استفسار أو مشكلة أو تحتاج إلى مساعدة بخصوص خدمات
+      فني برو، يمكنك التواصل معنا عبر البريد الإلكتروني.
+    </p>
 
+    <div class="contact-box">
+      <h2>البريد الإلكتروني</h2>
 
-<h1>
-تواصل معنا
-</h1>
+      <p>
+        يمكنك مراسلتنا مباشرة عبر:
+      </p>
 
-<p class="subtitle">
+      <a
+        class="email"
+        href="mailto:contact.fannipro@gmail.com"
+      >
+        contact.fannipro@gmail.com
+      </a>
+    </div>
 
-يسعدنا استقبال استفساراتك وملاحظاتك المتعلقة بخدمات فني برو.
+    <a class="back" href="index.html">
+      العودة إلى الصفحة الرئيسية
+    </a>
 
-</p>
-
-
-<div class="contact-grid">
-
-
-<div class="contact-box">
-
-<div class="contact-icon">
-📱
-</div>
-
-<h2>
-الهاتف
-</h2>
-
-<p>
-يمكنك التواصل معنا عبر رقم الهاتف المخصص لخدمة العملاء.
-</p>
-
-<a
-href="tel:+962000000000"
->
-اتصال
-</a>
-
-</div>
-
-
-<div class="contact-box">
-
-<div class="contact-icon">
-✉️
-</div>
-
-<h2>
-البريد الإلكتروني
-</h2>
-
-<p>
-للاستفسارات والملاحظات المتعلقة بالمنصة.
-</p>
-
-<a
-href="mailto:contact@fannipro.com"
->
-إرسال بريد
-</a>
-
-</div>
-
-
-</div>
-
-
-<div class="info">
-
-<strong>
-ملاحظة:
-</strong>
-
-<br>
-
-إذا كان لديك طلب صيانة قائم، استخدم رقم الطلب
-الذي يبدأ بـ <strong>FP-</strong>
-لمتابعة حالته من صفحة تتبع الطلب.
-
-</div>
-
-
-<div class="buttons">
-
-<a
-href="track-request.html"
-class="btn"
->
-تتبع طلب الصيانة
-</a>
-
-
-<a
-href="privacy.html"
-class="btn secondary"
->
-سياسة الخصوصية
-</a>
-
-
-<a
-href="terms.html"
-class="btn secondary"
->
-الشروط والأحكام
-</a>
-
-
-<a
-href="index.html"
-class="btn secondary"
->
-العودة إلى الرئيسية
-</a>
-
-</div>
-
-
-</div>
-
-</div>
-
+  </section>
 </main>
-
 
 <footer>
 
-<div class="container">
+  <div>
+    © 2026 فني برو — جميع الحقوق محفوظة
+  </div>
 
-© 2026 فني برو — جميع الحقوق محفوظة
-
-</div>
+  <div class="links">
+    <a href="privacy.html">سياسة الخصوصية</a>
+    <a href="terms.html">الشروط والأحكام</a>
+    <a href="contact.html">تواصل معنا</a>
+  </div>
 
 </footer>
 
-
 </body>
-
 </html>
