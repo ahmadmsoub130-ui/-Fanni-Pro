@@ -434,8 +434,28 @@
       margin-bottom: 20px;
     }
 
+    /* REQUEST NUMBER AREA */
+
+    .request-number-row {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 10px;
+
+      flex-wrap: wrap;
+
+      margin-top: 5px;
+    }
+
     .request-number {
-      display: inline-block;
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
 
       padding: 13px 20px;
 
@@ -454,6 +474,69 @@
       font-weight: bold;
 
       direction: ltr;
+
+      user-select: text;
+    }
+
+    /* COPY BUTTON */
+
+    .copy-btn {
+      border: 1px solid rgba(99,102,241,.30);
+
+      border-radius: 12px;
+
+      padding: 13px 17px;
+
+      background:
+        rgba(99,102,241,.14);
+
+      color: #d5d3ff;
+
+      font-family: inherit;
+
+      font-size: 14px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+      transition: .2s;
+
+      min-width: 120px;
+    }
+
+    .copy-btn:hover {
+      background:
+        rgba(99,102,241,.24);
+
+      border-color:
+        rgba(99,102,241,.45);
+
+      transform: translateY(-1px);
+    }
+
+    .copy-btn:active {
+      transform: scale(.97);
+    }
+
+    .copy-btn.copied {
+      background:
+        rgba(34,197,94,.14);
+
+      border-color:
+        rgba(34,197,94,.35);
+
+      color: #86efac;
+    }
+
+    .copy-hint {
+      color: #748399;
+
+      font-size: 12px;
+
+      margin-top: 10px;
+
+      min-height: 18px;
     }
 
     .track-btn {
@@ -573,6 +656,19 @@
 
       .top {
         padding: 0 4px;
+      }
+
+      .request-number-row {
+        flex-direction: column;
+      }
+
+      .request-number {
+        width: 100%;
+        font-size: 18px;
+      }
+
+      .copy-btn {
+        width: 100%;
       }
 
     }
@@ -938,12 +1034,33 @@
         احتفظ برقم الطلب لمتابعة حالة الصيانة.
       </p>
 
-      <div
-        id="requestNumber"
-        class="request-number"
-      >
-        FP-00000000-000000
+
+      <!-- REQUEST NUMBER + COPY -->
+
+      <div class="request-number-row">
+
+        <div
+          id="requestNumber"
+          class="request-number"
+        >
+          FP-00000000-000000
+        </div>
+
+        <button
+          type="button"
+          id="copyRequestButton"
+          class="copy-btn"
+        >
+          📋 نسخ الرقم
+        </button>
+
       </div>
+
+      <div
+        id="copyHint"
+        class="copy-hint"
+        aria-live="polite"
+      ></div>
 
 
       <a
@@ -1042,6 +1159,16 @@
   const trackButton =
     document.getElementById(
       "trackButton"
+    );
+
+  const copyRequestButton =
+    document.getElementById(
+      "copyRequestButton"
+    );
+
+  const copyHint =
+    document.getElementById(
+      "copyHint"
     );
 
 
@@ -1214,6 +1341,127 @@
     return `FP-${year}${month}${day}-${random}`;
 
   }
+
+
+  /* =====================================================
+     COPY REQUEST NUMBER
+  ===================================================== */
+
+  async function copyRequestNumber() {
+
+    const number =
+      requestNumber.textContent.trim();
+
+    if (!number) {
+      return;
+    }
+
+
+    try {
+
+      /*
+        الطريقة الحديثة
+      */
+
+      if (
+        navigator.clipboard &&
+        window.isSecureContext
+      ) {
+
+        await navigator.clipboard.writeText(
+          number
+        );
+
+      } else {
+
+        /*
+          طريقة احتياطية
+          للأجهزة والمتصفحات التي
+          لا تدعم Clipboard API
+        */
+
+        const textArea =
+          document.createElement(
+            "textarea"
+          );
+
+        textArea.value =
+          number;
+
+        textArea.style.position =
+          "fixed";
+
+        textArea.style.opacity =
+          "0";
+
+        document.body.appendChild(
+          textArea
+        );
+
+        textArea.focus();
+
+        textArea.select();
+
+        document.execCommand(
+          "copy"
+        );
+
+        textArea.remove();
+
+      }
+
+
+      copyRequestButton.textContent =
+        "✓ تم النسخ";
+
+      copyRequestButton.classList.add(
+        "copied"
+      );
+
+      copyHint.textContent =
+        "تم نسخ رقم الطلب، ويمكنك لصقه في صفحة تتبع الطلب.";
+
+      setTimeout(
+        function() {
+
+          copyRequestButton.textContent =
+            "📋 نسخ الرقم";
+
+          copyRequestButton.classList.remove(
+            "copied"
+          );
+
+          copyHint.textContent =
+            "";
+
+        },
+        2500
+      );
+
+
+    } catch (error) {
+
+      console.error(
+        "Copy error:",
+        error
+      );
+
+      copyHint.textContent =
+        "لم يتم النسخ تلقائيًا. اضغط مطولًا على رقم الطلب لنسخه.";
+
+    }
+
+  }
+
+
+  /*
+    زر النسخ
+  */
+
+  copyRequestButton.addEventListener(
+    "click",
+    copyRequestNumber
+  );
 
 
   /* =====================================================
@@ -1716,6 +1964,26 @@
         requestNumber.textContent =
           requestNo;
 
+
+        /*
+          إعادة زر النسخ
+          إلى حالته الأصلية
+        */
+
+        copyRequestButton.textContent =
+          "📋 نسخ الرقم";
+
+        copyRequestButton.classList.remove(
+          "copied"
+        );
+
+        copyHint.textContent =
+          "";
+
+
+        /*
+          رابط التتبع
+        */
 
         trackButton.href =
           "track-request.html?request=" +
