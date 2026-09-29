@@ -332,6 +332,34 @@ opacity:.5;
 cursor:not-allowed
 }
 
+/* زر حذف الطلب الملغي */
+
+.save-actions{
+display:flex;
+gap:10px;
+align-items:center;
+flex-wrap:wrap
+}
+
+.delete-btn{
+border:none;
+background:#dc2626;
+color:#fff;
+border-radius:10px;
+padding:11px 18px;
+cursor:pointer;
+font-weight:bold
+}
+
+.delete-btn:hover{
+background:#b91c1c
+}
+
+.delete-btn:disabled{
+opacity:.5;
+cursor:not-allowed
+}
+
 .image-link{
 display:inline-block;
 padding:10px 14px;
@@ -649,6 +677,16 @@ align-items:stretch
 .save-btn,
 .image-link{
 text-align:center;
+width:100%
+}
+
+.save-actions{
+width:100%;
+flex-direction:column;
+align-items:stretch
+}
+
+.delete-btn{
 width:100%
 }
 
@@ -2540,6 +2578,8 @@ request.updated_at
 </span>
 
 
+<div class="save-actions">
+
 <button
 class="save-btn"
 onclick="saveRequest(
@@ -2551,6 +2591,31 @@ this
 حفظ التعديلات
 
 </button>
+
+
+${
+request.status === "ملغي"
+?
+`
+
+<button
+class="delete-btn"
+onclick="deleteCancelledRequest(
+'${escapeAttribute(request.id)}',
+this
+)"
+>
+
+🗑️ حذف الطلب
+
+</button>
+
+`
+:
+""
+}
+
+</div>
 
 </div>
 
@@ -2695,9 +2760,7 @@ current === option
 }
 >
 
-${escapeHtml(
-option
-)}
+${escapeHtml(option)}
 
 </option>
 
@@ -2743,9 +2806,7 @@ ${
 
 >
 
-${escapeHtml(
-option
-)}
+${escapeHtml(option)}
 
 </option>
 
@@ -2911,6 +2972,144 @@ button.disabled = false;
 
 button.textContent =
 "حفظ التعديلات";
+
+}
+
+};
+
+
+/* =====================================================
+   DELETE CANCELLED REQUEST
+===================================================== */
+
+window.deleteCancelledRequest =
+async function(id,button){
+
+try{
+
+const request =
+allRequests.find(
+item => item.id === id
+);
+
+
+if(!request){
+
+showToast(
+"الطلب غير موجود",
+true
+);
+
+return;
+
+}
+
+
+/*
+   حماية إضافية:
+   لا يسمح بالحذف إلا إذا كانت الحالة ملغي
+*/
+
+if(request.status !== "ملغي"){
+
+showToast(
+"لا يمكن حذف طلب غير ملغي",
+true
+);
+
+return;
+
+}
+
+
+const confirmed =
+confirm(
+"هل أنت متأكد من حذف هذا الطلب نهائيًا؟\n\n" +
+"رقم الطلب: " +
+(request.request_number || "بدون رقم") +
+"\n\n" +
+"هذا الإجراء لا يمكن التراجع عنه."
+);
+
+
+if(!confirmed){
+
+return;
+
+}
+
+
+button.disabled = true;
+
+button.textContent =
+"جاري الحذف...";
+
+
+const {
+error
+} = await client
+
+.from("service_requests")
+
+.delete()
+
+.eq(
+"id",
+id
+)
+
+.eq(
+"status",
+"ملغي"
+);
+
+
+if(error){
+
+throw error;
+
+}
+
+
+/* إزالة الطلب من القائمة المحلية */
+
+allRequests =
+allRequests.filter(
+item => item.id !== id
+);
+
+
+/* تحديث الإحصائيات والواجهة */
+
+updateStatistics();
+
+renderRequests();
+
+
+showToast(
+"تم حذف الطلب الملغي بنجاح"
+);
+
+
+}catch(error){
+
+console.error(
+"Delete request error:",
+error
+);
+
+
+button.disabled = false;
+
+button.textContent =
+"🗑️ حذف الطلب";
+
+
+showToast(
+"فشل حذف الطلب: " +
+(error.message || "خطأ غير معروف"),
+true
+);
 
 }
 
