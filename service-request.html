@@ -4,317 +4,359 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>طلب خدمة | فني برو</title>
+<title>طلب صيانة | فني برو</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,Tahoma,sans-serif;
+box-sizing:border-box;
+margin:0;
+padding:0
 }
 
 body{
-  background:#f3f6fb;
-  color:#172033;
-  min-height:100vh;
-}
-
-header{
-  background:linear-gradient(135deg,#0757d9,#0b75ff);
-  color:white;
-  padding:28px 20px;
-  text-align:center;
-}
-
-header h1{
-  font-size:30px;
-  margin-bottom:8px;
-}
-
-header p{
-  opacity:.92;
+font-family:Tahoma,Arial,sans-serif;
+min-height:100vh;
+background:
+radial-gradient(circle at top right,rgba(37,99,235,.20),transparent 35%),
+radial-gradient(circle at bottom left,rgba(124,58,237,.14),transparent 35%),
+#07111f;
+color:#fff;
+padding:18px
 }
 
 .container{
-  width:min(900px,94%);
-  margin:30px auto 50px;
+max-width:720px;
+margin:25px auto
 }
 
-.card{
-  background:white;
-  border-radius:22px;
-  padding:28px;
-  box-shadow:0 10px 35px rgba(0,0,0,.08);
+.header{
+text-align:center;
+margin-bottom:22px
 }
 
-.title{
-  color:#0757d9;
-  font-size:25px;
-  margin-bottom:7px;
+.logo{
+width:65px;
+height:65px;
+margin:auto;
+margin-bottom:13px;
+border-radius:20px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+font-weight:bold;
+background:linear-gradient(135deg,#2563eb,#7c3aed);
+box-shadow:0 15px 40px rgba(37,99,235,.25)
+}
+
+h1{
+font-size:27px;
+margin-bottom:7px
 }
 
 .subtitle{
-  color:#667085;
-  margin-bottom:28px;
+color:#94a3b8;
+font-size:13px;
+line-height:1.7
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
+.card{
+background:rgba(15,29,48,.96);
+border:1px solid #1e334d;
+border-radius:22px;
+padding:22px;
+box-shadow:0 20px 50px rgba(0,0,0,.25)
 }
 
-.field{
-  margin-bottom:20px;
-}
-
-.full{
-  grid-column:1/-1;
+.form-group{
+margin-bottom:16px
 }
 
 label{
-  display:block;
-  margin-bottom:8px;
-  font-weight:bold;
+display:block;
+font-size:12px;
+color:#cbd5e1;
+margin-bottom:7px
+}
+
+.required{
+color:#60a5fa
 }
 
 input,
 select,
 textarea{
-  width:100%;
-  border:1px solid #d0d5dd;
-  border-radius:12px;
-  padding:14px;
-  font-size:16px;
-  background:white;
-  outline:none;
+width:100%;
+padding:13px;
+border-radius:11px;
+border:1px solid #263b54;
+background:#0b192b;
+color:#fff;
+outline:none;
+font-family:inherit;
+font-size:14px
 }
 
 input:focus,
 select:focus,
 textarea:focus{
-  border-color:#0757d9;
-  box-shadow:0 0 0 3px rgba(7,87,217,.08);
+border-color:#3b82f6;
+box-shadow:0 0 0 3px rgba(59,130,246,.08)
 }
 
 textarea{
-  min-height:140px;
-  resize:vertical;
+min-height:110px;
+resize:vertical;
+line-height:1.7
 }
 
-.file-box{
-  border:2px dashed #cbd5e1;
-  border-radius:14px;
-  padding:18px;
-  text-align:center;
-  background:#f8fafc;
+select{
+cursor:pointer
 }
 
-.file-box input{
-  border:0;
-  padding:5px;
-  background:transparent;
+input[type="file"]{
+padding:10px;
+font-size:12px
 }
 
-.file-info{
-  margin-top:8px;
-  color:#667085;
-  font-size:13px;
+.file-note{
+font-size:10px;
+color:#64748b;
+margin-top:5px
 }
 
-.preview{
-  display:none;
-  width:100%;
-  max-height:300px;
-  object-fit:contain;
-  margin-top:15px;
-  border-radius:12px;
-  background:#f1f5f9;
+.submit-btn{
+width:100%;
+border:0;
+border-radius:12px;
+padding:15px;
+background:linear-gradient(135deg,#2563eb,#4f46e5);
+color:#fff;
+font-weight:bold;
+font-size:15px;
+cursor:pointer;
+margin-top:5px
 }
 
-button{
-  width:100%;
-  border:0;
-  border-radius:13px;
-  padding:16px;
-  background:#0757d9;
-  color:white;
-  font-size:18px;
-  font-weight:bold;
-  cursor:pointer;
-  transition:.2s;
-}
-
-button:hover{
-  background:#0647b1;
-}
-
-button:disabled{
-  opacity:.6;
-  cursor:not-allowed;
+.submit-btn:disabled{
+opacity:.6;
+cursor:not-allowed
 }
 
 .message{
-  display:none;
-  margin-top:18px;
-  padding:15px;
-  border-radius:12px;
-  text-align:center;
-  font-weight:bold;
+display:none;
+padding:13px;
+border-radius:11px;
+margin-bottom:15px;
+font-size:13px;
+line-height:1.7
+}
+
+.message.error{
+display:block;
+background:rgba(239,68,68,.12);
+border:1px solid rgba(239,68,68,.3);
+color:#fca5a5
 }
 
 .success{
-  display:block;
-  background:#e8f7ee;
-  color:#137333;
+display:none;
+margin-top:18px;
+padding:20px;
+border-radius:16px;
+background:rgba(34,197,94,.10);
+border:1px solid rgba(34,197,94,.28);
+text-align:center
 }
 
-.error{
-  display:block;
-  background:#fdecec;
-  color:#b42318;
+.success-icon{
+font-size:40px;
+margin-bottom:8px
 }
 
-.result{
-  display:none;
-  margin-top:20px;
-  padding:20px;
-  background:#eef5ff;
-  border-radius:15px;
-  text-align:center;
+.success h2{
+font-size:20px;
+margin-bottom:8px
 }
 
-.result strong{
-  display:block;
-  font-size:24px;
-  color:#0757d9;
-  margin-top:8px;
+.success p{
+color:#a7f3d0;
+font-size:12px;
+line-height:1.8
 }
 
-.result small{
-  display:block;
-  margin-top:8px;
-  color:#667085;
+.request-number-box{
+margin:16px 0;
+padding:14px;
+background:#07111f;
+border-radius:12px;
+border:1px dashed #2563eb
 }
 
-.back{
-  display:block;
-  text-align:center;
-  margin-top:22px;
-  color:#0757d9;
-  text-decoration:none;
-  font-weight:bold;
+.request-number-label{
+font-size:10px;
+color:#64748b;
+margin-bottom:6px
 }
 
-.notice{
-  background:#f8fafc;
-  border:1px solid #e2e8f0;
-  padding:14px;
-  border-radius:12px;
-  margin-bottom:20px;
-  color:#475467;
-  line-height:1.7;
+.request-number{
+font-size:21px;
+font-weight:bold;
+color:#60a5fa;
+direction:ltr;
+letter-spacing:1px
 }
 
-@media(max-width:650px){
-  .grid{
-    grid-template-columns:1fr;
-  }
+.success-actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:9px;
+margin-top:14px
+}
 
-  .full{
-    grid-column:auto;
-  }
+.action-btn{
+display:block;
+padding:12px;
+border-radius:10px;
+text-decoration:none;
+font-size:12px;
+font-weight:bold
+}
 
-  .card{
-    padding:20px;
-  }
+.track-btn{
+background:#2563eb;
+color:#fff
+}
 
-  header h1{
-    font-size:25px;
-  }
+.new-btn{
+background:#172a40;
+color:#cbd5e1;
+border:1px solid #263b54
+}
+
+.home-link{
+display:block;
+text-align:center;
+margin-top:18px;
+color:#93c5fd;
+text-decoration:none;
+font-size:12px
+}
+
+.footer{
+text-align:center;
+color:#475569;
+font-size:10px;
+margin-top:20px;
+line-height:1.7
+}
+
+@media(max-width:550px){
+
+body{
+padding:10px
+}
+
+.container{
+margin:12px auto
+}
+
+.card{
+padding:17px
+}
+
+h1{
+font-size:23px
+}
+
+.success-actions{
+grid-template-columns:1fr
+}
+
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>فني برو</h1>
-  <p>خدمات الصيانة والفنيين في مكان واحد</p>
-</header>
+<div class="container">
 
-<main class="container">
+<div class="header">
 
-<section class="card">
+<div class="logo">ف</div>
 
-<h2 class="title">طلب خدمة جديد</h2>
+<h1>طلب خدمة صيانة</h1>
 
-<p class="subtitle">
-أدخل تفاصيل المشكلة وسنتابع طلبك.
-</p>
-
-<div class="notice">
-بعد إرسال الطلب سيتم إنشاء رقم خاص لطلبك.
-يمكن استخدام الرقم لاحقًا لمتابعة حالة الطلب.
+<div class="subtitle">
+اطلب فنيًا لمختلف أعمال الصيانة والخدمات المنزلية
 </div>
 
-<form id="serviceForm">
+</div>
 
-<div class="grid">
 
-<!-- الاسم -->
+<div class="card">
 
-<div class="field">
+<div
+id="errorMessage"
+class="message"
+></div>
 
-<label for="name">
-الاسم الكامل *
+
+<form id="requestForm">
+
+<div class="form-group">
+
+<label>
+الاسم الكامل
+<span class="required">*</span>
 </label>
 
 <input
-id="name"
 type="text"
-placeholder="مثال: أحمد محمد"
-autocomplete="name"
+id="customerName"
+placeholder="أدخل اسمك الكامل"
 required
+maxlength="100"
 >
 
 </div>
 
 
-<!-- الهاتف -->
+<div class="form-group">
 
-<div class="field">
-
-<label for="phone">
-رقم الهاتف *
+<label>
+رقم الهاتف
+<span class="required">*</span>
 </label>
 
 <input
-id="phone"
 type="tel"
+id="phone"
 placeholder="07XXXXXXXX"
-autocomplete="tel"
+inputmode="numeric"
 required
+maxlength="10"
 >
 
 </div>
 
 
-<!-- الخدمة -->
+<div class="form-group">
 
-<div class="field">
-
-<label for="service">
-نوع الخدمة *
+<label>
+نوع الخدمة
+<span class="required">*</span>
 </label>
 
-<select id="service" required>
+<select
+id="serviceType"
+required
+>
 
 <option value="">
-اختر الخدمة
+اختر نوع الصيانة
 </option>
 
 <option value="تكييف وتبريد">
@@ -350,140 +392,159 @@ required
 </div>
 
 
-<!-- الموعد -->
+<div class="form-group">
 
-<div class="field">
-
-<label for="date">
-الموعد المفضل
+<label>
+التاريخ والوقت المفضل
 </label>
 
 <input
-id="date"
 type="datetime-local"
+id="preferredDate"
 >
 
 </div>
 
 
-<!-- الموقع -->
+<div class="form-group">
 
-<div class="field full">
-
-<label for="location">
-الموقع *
+<label>
+الموقع
+<span class="required">*</span>
 </label>
 
 <input
-id="location"
 type="text"
-placeholder="المنطقة والعنوان"
-autocomplete="street-address"
+id="location"
+placeholder="المحافظة / المنطقة / العنوان"
 required
+maxlength="250"
 >
 
 </div>
 
 
-<!-- وصف المشكلة -->
+<div class="form-group">
 
-<div class="field full">
-
-<label for="description">
-وصف المشكلة *
+<label>
+وصف المشكلة
+<span class="required">*</span>
 </label>
 
 <textarea
 id="description"
-placeholder="اكتب تفاصيل العطل أو الخدمة المطلوبة..."
+placeholder="اشرح المشكلة أو العمل المطلوب بالتفصيل..."
 required
+maxlength="2000"
 ></textarea>
 
 </div>
 
 
-<!-- الصورة -->
+<div class="form-group">
 
-<div class="field full">
-
-<label for="image">
-صورة المشكلة
+<label>
+صورة للعطل — اختياري
 </label>
 
-<div class="file-box">
-
 <input
-id="image"
 type="file"
+id="image"
 accept="image/*"
 >
 
-<div class="file-info">
-يمكنك إرفاق صورة للمشكلة — اختياري
-</div>
-
-<img
-id="imagePreview"
-class="preview"
-alt="معاينة الصورة"
->
-
-</div>
-
+<div class="file-note">
+يمكنك إرفاق صورة واضحة للعطل لمساعدة الفني.
 </div>
 
 </div>
 
 
 <button
-id="submitBtn"
 type="submit"
+class="submit-btn"
+id="submitBtn"
 >
-إرسال طلب الخدمة
+إرسال طلب الصيانة
 </button>
-
-
-<div
-id="message"
-class="message"
-></div>
-
-
-<div
-id="result"
-class="result"
->
-
-تم إرسال طلبك بنجاح
-
-<strong id="requestNumber"></strong>
-
-<small>
-احتفظ برقم الطلب لمتابعته لاحقًا.
-</small>
-
-</div>
 
 </form>
 
 
-<a
-class="back"
-href="index.html"
+<div
+id="successBox"
+class="success"
 >
-← العودة إلى الصفحة الرئيسية
+
+<div class="success-icon">
+✓
+</div>
+
+<h2>
+تم إرسال طلبك بنجاح
+</h2>
+
+<p>
+احتفظ برقم الطلب التالي لمتابعة حالة طلبك.
+</p>
+
+
+<div class="request-number-box">
+
+<div class="request-number-label">
+رقم طلبك
+</div>
+
+<div
+class="request-number"
+id="successRequestNumber"
+>
+-
+</div>
+
+</div>
+
+
+<div class="success-actions">
+
+<a
+href="track-request.html"
+class="action-btn track-btn"
+id="trackBtn"
+>
+تتبع طلبك
 </a>
 
-</section>
+<a
+href="service-request.html"
+class="action-btn new-btn"
+>
+طلب جديد
+</a>
 
-</main>
+</div>
+
+</div>
+
+</div>
+
+
+<a
+href="track-request.html"
+class="home-link"
+>
+لديك طلب سابق؟ تتبع طلبك برقم الطلب
+</a>
+
+
+<div class="footer">
+فني برو — خدمات الصيانة في مكان واحد
+</div>
+
+</div>
 
 
 <script>
-
-/* ==========================================
-   SUPABASE
-========================================== */
 
 const SUPABASE_URL =
 "https://yesmnsztcqnhaqrcgpcs.supabase.co";
@@ -491,536 +552,424 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_fUX7DXedpKF3OyBpDQ9kAQ_RRQpnIuB";
 
-const supabaseClient =
+const client =
 window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+SUPABASE_URL,
+SUPABASE_KEY
 );
 
 
-/* ==========================================
-   ELEMENTS
-========================================== */
-
 const form =
-document.getElementById("serviceForm");
+document.getElementById(
+"requestForm"
+);
 
 const submitBtn =
-document.getElementById("submitBtn");
+document.getElementById(
+"submitBtn"
+);
 
-const message =
-document.getElementById("message");
+const errorMessage =
+document.getElementById(
+"errorMessage"
+);
 
-const result =
-document.getElementById("result");
+const successBox =
+document.getElementById(
+"successBox"
+);
 
-const requestNumber =
-document.getElementById("requestNumber");
-
-const imageInput =
-document.getElementById("image");
-
-const imagePreview =
-document.getElementById("imagePreview");
-
-
-/* ==========================================
-   IMAGE PREVIEW
-========================================== */
-
-imageInput.addEventListener(
-"change",
-function(){
-
-  const file =
-  this.files[0];
-
-  if(!file){
-
-    imagePreview.style.display =
-    "none";
-
-    imagePreview.src =
-    "";
-
-    return;
-  }
-
-  if(!file.type.startsWith("image/")){
-
-    showMessage(
-      "يرجى اختيار صورة فقط.",
-      "error"
-    );
-
-    this.value="";
-
-    return;
-  }
-
-  const reader =
-  new FileReader();
-
-  reader.onload =
-  function(event){
-
-    imagePreview.src =
-    event.target.result;
-
-    imagePreview.style.display =
-    "block";
-
-  };
-
-  reader.readAsDataURL(file);
-
-});
-
-
-/* ==========================================
-   MESSAGE
-========================================== */
-
-function showMessage(text,type){
-
-  message.textContent =
-  text;
-
-  message.className =
-  "message " + type;
-
-  message.style.display =
-  "block";
-}
-
-
-/* ==========================================
-   REQUEST NUMBER
-========================================== */
-
-function createRequestNumber(){
-
-  const now =
-  new Date();
-
-  const year =
-  now.getFullYear();
-
-  const month =
-  String(
-    now.getMonth()+1
-  ).padStart(2,"0");
-
-  const day =
-  String(
-    now.getDate()
-  ).padStart(2,"0");
-
-  const random =
-  Math.floor(
-    100000 +
-    Math.random()*900000
-  );
-
-  return (
-    "FP-" +
-    year +
-    month +
-    day +
-    "-" +
-    random
-  );
-
-}
-
-
-/* ==========================================
-   PHONE VALIDATION
-========================================== */
-
-function validJordanPhone(phone){
-
-  const clean =
-  phone.replace(
-    /[\s-]/g,
-    ""
-  );
-
-  return /^07\d{8}$/.test(clean);
-
-}
-
-
-/* ==========================================
-   SUBMIT
-========================================== */
 
 form.addEventListener(
 "submit",
 async function(event){
 
-  event.preventDefault();
+event.preventDefault();
 
-  message.style.display =
-  "none";
+hideError();
 
-  result.style.display =
-  "none";
 
-  submitBtn.disabled =
-  true;
+const customerName =
+document.getElementById(
+"customerName"
+).value.trim();
 
-  submitBtn.textContent =
-  "جاري إرسال الطلب...";
+const phone =
+document.getElementById(
+"phone"
+).value.trim();
 
+const serviceType =
+document.getElementById(
+"serviceType"
+).value;
 
-  try{
+const preferredDate =
+document.getElementById(
+"preferredDate"
+).value;
 
-    /* ---------------------------------------
-       GET VALUES
-    --------------------------------------- */
+const location =
+document.getElementById(
+"location"
+).value.trim();
 
-    const name =
-    document
-    .getElementById("name")
-    .value
-    .trim();
+const description =
+document.getElementById(
+"description"
+).value.trim();
 
+const imageFile =
+document.getElementById(
+"image"
+).files[0];
 
-    const phone =
-    document
-    .getElementById("phone")
-    .value
-    .trim();
 
+if(!customerName){
 
-    const service =
-    document
-    .getElementById("service")
-    .value;
+showError(
+"أدخل الاسم الكامل."
+);
 
+return;
 
-    const location =
-    document
-    .getElementById("location")
-    .value
-    .trim();
+}
 
 
-    const date =
-    document
-    .getElementById("date")
-    .value;
+if(!/^07\d{8}$/.test(phone)){
 
+showError(
+"أدخل رقم هاتف أردني صحيح بالشكل 07XXXXXXXX."
+);
 
-    const description =
-    document
-    .getElementById("description")
-    .value
-    .trim();
+return;
 
+}
 
-    const imageFile =
-    imageInput.files[0];
 
+if(!serviceType){
 
-    /* ---------------------------------------
-       REQUIRED VALIDATION
-    --------------------------------------- */
+showError(
+"اختر نوع الخدمة."
+);
 
-    if(
-      !name ||
-      !phone ||
-      !service ||
-      !location ||
-      !description
-    ){
+return;
 
-      throw new Error(
-        "يرجى تعبئة جميع الحقول المطلوبة."
-      );
+}
 
-    }
 
+if(!location){
 
-    if(
-      !validJordanPhone(phone)
-    ){
+showError(
+"أدخل موقع الخدمة."
+);
 
-      throw new Error(
-        "يرجى إدخال رقم هاتف أردني صحيح مثل 0791234567."
-      );
+return;
 
-    }
+}
 
 
-    /* ---------------------------------------
-       FILE SIZE
-    --------------------------------------- */
+if(!description){
 
-    if(
-      imageFile &&
-      imageFile.size >
-      5 * 1024 * 1024
-    ){
+showError(
+"اكتب وصف المشكلة."
+);
 
-      throw new Error(
-        "حجم الصورة يجب ألا يتجاوز 5 ميجابايت."
-      );
+return;
 
-    }
+}
 
 
-    /* ---------------------------------------
-       REQUEST NUMBER
-    --------------------------------------- */
+if(imageFile){
 
-    const generatedNumber =
-    createRequestNumber();
+const maxSize =
+5 * 1024 * 1024;
 
+if(imageFile.size > maxSize){
 
-    /* ---------------------------------------
-       USER
-    --------------------------------------- */
+showError(
+"حجم الصورة يجب ألا يتجاوز 5 ميجابايت."
+);
 
-    const {
-      data:authData
-    } =
-    await supabaseClient
-    .auth
-    .getUser();
+return;
 
+}
 
-    const user =
-    authData &&
-    authData.user
-      ? authData.user
-      : null;
+}
 
 
-    /* ---------------------------------------
-       IMAGE UPLOAD
-       
-       ملاحظة:
-       إذا لم يكن Bucket باسم
-       service-images
-       موجودًا، سيستمر الطلب بدون الصورة.
-    --------------------------------------- */
+submitBtn.disabled = true;
+submitBtn.textContent =
+"جاري إرسال الطلب...";
 
-    let imageUrl = null;
 
+try{
 
-    if(imageFile){
+const requestNumber =
+generateRequestNumber();
 
-      const extension =
-      imageFile.name
-      .split(".")
-      .pop()
-      .toLowerCase();
 
+let imageUrl = null;
 
-      const filePath =
-      "requests/" +
-      generatedNumber +
-      "." +
-      extension;
 
+/* رفع الصورة إن وجدت */
 
-      const {
-        error:uploadError
-      } =
-      await supabaseClient
-      .storage
-      .from("service-images")
-      .upload(
-        filePath,
-        imageFile,
-        {
-          upsert:true,
-          contentType:
-            imageFile.type
-        }
-      );
+if(imageFile){
 
+const extension =
+getExtension(
+imageFile.name
+);
 
-      if(!uploadError){
+const filePath =
+"requests/" +
+requestNumber +
+"." +
+extension;
 
-        const {
-          data:publicData
-        } =
-        supabaseClient
-        .storage
-        .from("service-images")
-        .getPublicUrl(
-          filePath
-        );
 
+const {
+error: uploadError
+} = await client
+.storage
+.from("service-images")
+.upload(
+filePath,
+imageFile,
+{
+upsert:false,
+contentType:
+imageFile.type
+}
+);
 
-        imageUrl =
-        publicData
-        .publicUrl;
 
-      }
+if(!uploadError){
 
-    }
+const {
+data:urlData
+} = client
+.storage
+.from("service-images")
+.getPublicUrl(
+filePath
+);
 
+imageUrl =
+urlData.publicUrl;
 
-    /* ======================================
-       REQUEST DATA
-       
-       هذه الحقول مجهزة للوحة إدارة الفنيين
-    ====================================== */
+}
 
-    const requestData = {
+}
 
-      request_number:
-        generatedNumber,
 
-      user_id:
-        user
-          ? user.id
-          : null,
+/* إنشاء الطلب */
 
-      customer_name:
-        name,
+const {
+data,
+error
+} = await client
+.from("service_requests")
+.insert({
 
-      phone:
-        phone,
+request_number:
+requestNumber,
 
-      service_type:
-        service,
+customer_name:
+customerName,
 
-      location:
-        location,
+phone:
+phone,
 
-      preferred_date:
-        date
-          ? new Date(date).toISOString()
-          : null,
+service_type:
+serviceType,
 
-      description:
-        description,
+location:
+location,
 
-      status:
-        "جديد",
+preferred_date:
+preferredDate
+?
+new Date(
+preferredDate
+).toISOString()
+:
+null,
 
-      priority:
-        "عادي",
+description:
+description,
 
-      assigned_technician_id:
-        null,
+status:
+"جديد",
 
-      assigned_technician_name:
-        null,
+priority:
+"عادي",
 
-      technician_notes:
-        null,
+image_url:
+imageUrl
 
-      admin_notes:
-        null,
+})
+.select()
+.single();
 
-      image_url:
-        imageUrl,
 
-      customer_rating:
-        null,
+if(error){
 
-      customer_comment:
-        null,
+console.error(error);
 
-      completed_at:
-        null
+showError(
+"تعذر إرسال الطلب. تأكد من اتصال الإنترنت وحاول مرة أخرى."
+);
 
-    };
+submitBtn.disabled = false;
+submitBtn.textContent =
+"إرسال طلب الصيانة";
 
+return;
 
-    /* ======================================
-       INSERT
-    ====================================== */
+}
 
-    const {
-      data,
-      error
-    } =
-    await supabaseClient
-    .from("service_requests")
-    .insert(
-      requestData
-    )
-    .select()
-    .single();
 
+/* نجاح */
 
-    if(error){
+form.style.display =
+"none";
 
-      console.error(
-        "Supabase Error:",
-        error
-      );
+successBox.style.display =
+"block";
 
-      throw new Error(
-        "تعذر حفظ الطلب. تأكد من إعداد جدول service_requests في Supabase."
-      );
 
-    }
+document.getElementById(
+"successRequestNumber"
+).textContent =
+data.request_number;
 
 
-    /* ======================================
-       SUCCESS
-    ====================================== */
+/* تمرير الرقم إلى صفحة التتبع */
 
-    showMessage(
-      "تم إرسال طلب الخدمة بنجاح.",
-      "success"
-    );
+const trackBtn =
+document.getElementById(
+"trackBtn"
+);
 
+trackBtn.href =
+"track-request.html?request=" +
+encodeURIComponent(
+data.request_number
+);
 
-    requestNumber.textContent =
-    data.request_number;
 
+}catch(error){
 
-    result.style.display =
-    "block";
+console.error(error);
 
+showError(
+"حدث خطأ غير متوقع. حاول مرة أخرى."
+);
 
-    form.reset();
+submitBtn.disabled = false;
+submitBtn.textContent =
+"إرسال طلب الصيانة";
 
-
-    imagePreview.src =
-    "";
-
-    imagePreview.style.display =
-    "none";
-
-
-    window.scrollTo({
-      top:document.body.scrollHeight,
-      behavior:"smooth"
-    });
-
-
-  }catch(error){
-
-    console.error(
-      error
-    );
-
-    showMessage(
-      error.message ||
-      "حدث خطأ غير متوقع.",
-      "error"
-    );
-
-  }
-
-
-  submitBtn.disabled =
-  false;
-
-  submitBtn.textContent =
-  "إرسال طلب الخدمة";
+}
 
 });
+
+
+/* ======================================
+GENERATE REQUEST NUMBER
+====================================== */
+
+function generateRequestNumber(){
+
+const now =
+new Date();
+
+const year =
+now.getFullYear();
+
+const month =
+String(
+now.getMonth()+1
+).padStart(2,"0");
+
+const day =
+String(
+now.getDate()
+).padStart(2,"0");
+
+const random =
+Math.floor(
+100000 +
+Math.random()*900000
+);
+
+return (
+"FP-" +
+year +
+month +
+day +
+"-" +
+random
+);
+
+}
+
+
+/* ======================================
+FILE EXTENSION
+====================================== */
+
+function getExtension(
+filename
+){
+
+const parts =
+filename.split(".");
+
+if(parts.length < 2){
+return "jpg";
+}
+
+return parts
+.pop()
+.toLowerCase()
+.replace(/[^a-z0-9]/g,"");
+
+}
+
+
+/* ======================================
+ERROR
+====================================== */
+
+function showError(
+text
+){
+
+errorMessage.textContent =
+text;
+
+errorMessage.className =
+"message error";
+
+errorMessage.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+}
+
+
+function hideError(){
+
+errorMessage.textContent =
+"";
+
+errorMessage.className =
+"message";
+
+}
 
 </script>
 
