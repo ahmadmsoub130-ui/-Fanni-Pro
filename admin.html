@@ -430,6 +430,7 @@ main{padding:20px 12px 40px}
 
 <div class="brand">
 <div class="brand-icon">ف</div>
+
 <div>
 <h1>فني برو</h1>
 <span>لوحة إدارة طلبات الصيانة</span>
@@ -454,8 +455,13 @@ main{padding:20px 12px 40px}
 <main id="mainContent">
 
 <div class="welcome">
+
 <h2>لوحة التحكم</h2>
-<p id="adminEmail">جاري التحقق من صلاحيات الحساب...</p>
+
+<p id="adminEmail">
+جاري التحقق من صلاحيات الحساب...
+</p>
+
 </div>
 
 
@@ -501,34 +507,107 @@ placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
 >
 
 <select id="serviceFilter" class="filter">
-<option value="">كل الخدمات</option>
-<option value="تكييف وتبريد">تكييف وتبريد</option>
-<option value="كهرباء">كهرباء</option>
-<option value="سباكة">سباكة</option>
-<option value="صيانة أجهزة منزلية">صيانة أجهزة منزلية</option>
-<option value="نجارة">نجارة</option>
-<option value="دهان">دهان</option>
-<option value="أخرى">أخرى</option>
+
+<option value="">
+كل الخدمات
+</option>
+
+<option value="تكييف وتبريد">
+تكييف وتبريد
+</option>
+
+<option value="كهرباء">
+كهرباء
+</option>
+
+<option value="سباكة">
+سباكة
+</option>
+
+<option value="صيانة أجهزة منزلية">
+صيانة أجهزة منزلية
+</option>
+
+<option value="نجارة">
+نجارة
+</option>
+
+<option value="دهان">
+دهان
+</option>
+
+<option value="صيانة عامة">
+صيانة عامة
+</option>
+
+<option value="أخرى">
+أخرى
+</option>
+
 </select>
+
 
 <select id="statusFilter" class="filter">
-<option value="">كل الحالات</option>
-<option value="جديد">جديد</option>
-<option value="قيد المراجعة">قيد المراجعة</option>
-<option value="تم تعيين فني">تم تعيين فني</option>
-<option value="الفني في الطريق">الفني في الطريق</option>
-<option value="قيد التنفيذ">قيد التنفيذ</option>
-<option value="بانتظار قطعة/موافقة">بانتظار قطعة/موافقة</option>
-<option value="مكتمل">مكتمل</option>
-<option value="ملغي">ملغي</option>
+
+<option value="">
+كل الحالات
+</option>
+
+<option value="جديد">
+جديد
+</option>
+
+<option value="قيد المراجعة">
+قيد المراجعة
+</option>
+
+<option value="تم تعيين فني">
+تم تعيين فني
+</option>
+
+<option value="الفني في الطريق">
+الفني في الطريق
+</option>
+
+<option value="قيد التنفيذ">
+قيد التنفيذ
+</option>
+
+<option value="بانتظار قطعة/موافقة">
+بانتظار قطعة/موافقة
+</option>
+
+<option value="مكتمل">
+مكتمل
+</option>
+
+<option value="ملغي">
+ملغي
+</option>
+
 </select>
 
+
 <select id="priorityFilter" class="filter">
-<option value="">كل الأولويات</option>
-<option value="عادي">عادي</option>
-<option value="متوسط">متوسط</option>
-<option value="عاجل">عاجل</option>
+
+<option value="">
+كل الأولويات
+</option>
+
+<option value="عادي">
+عادي
+</option>
+
+<option value="متوسط">
+متوسط
+</option>
+
+<option value="عاجل">
+عاجل
+</option>
+
 </select>
+
 
 <button class="refresh-btn" id="refreshBtn">
 تحديث
@@ -550,9 +629,11 @@ placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
 
 
 <div id="requestsContainer">
+
 <div class="loading">
 جاري تحميل الطلبات...
 </div>
+
 </div>
 
 </main>
@@ -560,10 +641,12 @@ placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
 
 <div id="accessDenied" class="access-denied hidden">
 
-<h2>غير مصرح بالدخول</h2>
+<h2>
+غير مصرح بالدخول
+</h2>
 
 <p>
-هذا الحساب مسجل في الموقع لكنه لا يملك صلاحية مدير فني برو.
+هذا الحساب لا يملك صلاحية مدير فني برو.
 </p>
 
 <a href="index.html">
@@ -578,9 +661,9 @@ placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
 
 <script>
 
-/* ======================================
-SUPABASE
-====================================== */
+/* =====================================================
+   SUPABASE
+===================================================== */
 
 const SUPABASE_URL =
 "https://yesmnsztcqnhaqrcgpcs.supabase.co";
@@ -595,17 +678,18 @@ SUPABASE_KEY
 );
 
 
-/* ======================================
-DATA
-====================================== */
+/* =====================================================
+   DATA
+===================================================== */
 
 let allRequests = [];
+
 let technicians = [];
 
 
-/* ======================================
-ELEMENTS
-====================================== */
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
 const mainContent =
 document.getElementById("mainContent");
@@ -638,9 +722,9 @@ const toast =
 document.getElementById("toast");
 
 
-/* ======================================
-START
-====================================== */
+/* =====================================================
+   START
+===================================================== */
 
 document.addEventListener(
 "DOMContentLoaded",
@@ -648,11 +732,13 @@ checkSession
 );
 
 
-/* ======================================
-CHECK SESSION + ADMIN
-====================================== */
+/* =====================================================
+   SESSION + ADMIN ROLE
+===================================================== */
 
 async function checkSession(){
+
+try{
 
 const {
 data,
@@ -660,17 +746,29 @@ error
 } = await client.auth.getSession();
 
 
-if(error || !data.session){
+if(error){
+
+throw error;
+
+}
+
+
+const session =
+data?.session;
+
+
+if(!session){
 
 window.location.href =
-"admin.html";
+"login.html";
 
 return;
+
 }
 
 
 const user =
-data.session.user;
+session.user;
 
 
 document.getElementById(
@@ -681,48 +779,59 @@ user.email ||
 
 
 /*
-نحدد هل الحساب مدير فعلاً
-عن طريق جدول admin_users
+   التحقق من الدور من user_roles
+   وليس admin_users
 */
 
 const {
-data:adminUser,
-error:adminError
+data:roleData,
+error:roleError
 } = await client
-.from("admin_users")
-.select("user_id")
-.eq("user_id",user.id)
+
+.from("user_roles")
+
+.select("role")
+
+.eq(
+"user_id",
+user.id
+)
+
 .maybeSingle();
 
 
-if(adminError){
+if(roleError){
 
 console.error(
-"Admin check:",
-adminError
+"Role error:",
+roleError
 );
 
 showAccessDenied(
-"حدث خطأ أثناء التحقق من صلاحيات المدير."
+"تعذر التحقق من صلاحيات الحساب."
 );
 
 return;
+
 }
 
 
-if(!adminUser){
+if(
+!roleData ||
+roleData.role !== "admin"
+){
 
 showAccessDenied(
-"هذا الحساب لا يملك صلاحية مدير."
+"هذا الحساب ليس لديه صلاحية مدير."
 );
 
 return;
+
 }
 
 
 /*
-الحساب مدير
-نبدأ تحميل البيانات
+   تم التحقق من المدير
 */
 
 await Promise.all([
@@ -730,12 +839,26 @@ loadTechnicians(),
 loadRequests()
 ]);
 
+
+}catch(error){
+
+console.error(
+"Session error:",
+error
+);
+
+showAccessDenied(
+"حدث خطأ أثناء التحقق من الحساب."
+);
+
+}
+
 }
 
 
-/* ======================================
-ACCESS DENIED
-====================================== */
+/* =====================================================
+   ACCESS DENIED
+===================================================== */
 
 function showAccessDenied(message){
 
@@ -755,20 +878,25 @@ message;
 }
 
 
-/* ======================================
-LOAD TECHNICIANS
-====================================== */
+/* =====================================================
+   LOAD TECHNICIANS
+===================================================== */
 
 async function loadTechnicians(){
+
+try{
 
 const {
 data,
 error
 } = await client
+
 .from("technicians")
+
 .select(
 "id,full_name,phone,service_type,status"
 )
+
 .order(
 "full_name",
 {
@@ -779,33 +907,48 @@ ascending:true
 
 if(error){
 
-console.error(
+console.warn(
 "Technicians:",
-error
+error.message
 );
 
 technicians = [];
 
 return;
+
 }
 
 
 technicians =
 data || [];
 
+
+}catch(error){
+
+console.warn(
+"Technicians error:",
+error
+);
+
+technicians = [];
+
+}
+
 }
 
 
-/* ======================================
-LOAD REQUESTS
-====================================== */
+/* =====================================================
+   LOAD REQUESTS
+===================================================== */
 
 async function loadRequests(){
 
 requestsContainer.innerHTML = `
+
 <div class="loading">
 جاري تحميل الطلبات...
 </div>
+
 `;
 
 
@@ -813,8 +956,11 @@ const {
 data,
 error
 } = await client
+
 .from("service_requests")
+
 .select("*")
+
 .order(
 "created_at",
 {
@@ -825,7 +971,13 @@ ascending:false
 
 if(error){
 
+console.error(
+"Requests:",
+error
+);
+
 requestsContainer.innerHTML = `
+
 <div class="empty">
 
 <h3>
@@ -837,9 +989,11 @@ ${escapeHtml(error.message)}
 </p>
 
 </div>
+
 `;
 
 return;
+
 }
 
 
@@ -854,9 +1008,9 @@ renderRequests();
 }
 
 
-/* ======================================
-STATISTICS
-====================================== */
+/* =====================================================
+   STATISTICS
+===================================================== */
 
 function updateStatistics(){
 
@@ -904,9 +1058,9 @@ r => r.status === "ملغي"
 }
 
 
-/* ======================================
-FILTERS
-====================================== */
+/* =====================================================
+   FILTER EVENTS
+===================================================== */
 
 searchInput.addEventListener(
 "input",
@@ -933,9 +1087,22 @@ refreshBtn.addEventListener(
 "click",
 async function(){
 
+refreshBtn.disabled = true;
+
+refreshBtn.textContent =
+"جاري التحديث...";
+
+
 await loadTechnicians();
 
 await loadRequests();
+
+
+refreshBtn.disabled = false;
+
+refreshBtn.textContent =
+"تحديث";
+
 
 showToast(
 "تم تحديث البيانات"
@@ -945,9 +1112,9 @@ showToast(
 );
 
 
-/* ======================================
-FILTER DATA
-====================================== */
+/* =====================================================
+   FILTER
+===================================================== */
 
 function getFilteredRequests(){
 
@@ -984,17 +1151,25 @@ request.service_type
 
 
 return (
+
 (!search ||
-searchable.includes(search)) &&
+searchable.includes(search))
+
+&&
 
 (!service ||
-request.service_type === service) &&
+request.service_type === service)
+
+&&
 
 (!status ||
-request.status === status) &&
+request.status === status)
+
+&&
 
 (!priority ||
 request.priority === priority)
+
 );
 
 }
@@ -1003,9 +1178,9 @@ request.priority === priority)
 }
 
 
-/* ======================================
-RENDER
-====================================== */
+/* =====================================================
+   RENDER REQUESTS
+===================================================== */
 
 function renderRequests(){
 
@@ -1022,78 +1197,115 @@ requests.length + " طلب";
 if(!requests.length){
 
 requestsContainer.innerHTML = `
+
 <div class="empty">
 لا توجد طلبات مطابقة.
 </div>
+
 `;
 
 return;
+
 }
 
 
 requestsContainer.innerHTML = `
+
 <div class="requests">
-${requests.map(
-requestCard
-).join("")}
+
+${requests
+.map(requestCard)
+.join("")}
+
 </div>
+
 `;
 
 }
 
 
-/* ======================================
-REQUEST CARD
-====================================== */
+/* =====================================================
+   REQUEST CARD
+===================================================== */
 
 function requestCard(request){
 
 const preferred =
 request.preferred_date
 ?
-formatDate(request.preferred_date)
+formatDateOnly(
+request.preferred_date
+)
 :
 "غير محدد";
+
+
+const technician =
+technicians.find(
+item =>
+item.id === request.technician_id
+);
+
+
+const technicianName =
+technician
+?
+technician.full_name
+:
+"لم يتم تعيين فني";
 
 
 return `
 
 <article
 class="request-card"
-data-id="${escapeHtml(request.id)}"
+data-id="${escapeAttribute(request.id)}"
 >
+
 
 <div class="request-top">
 
 <div>
 
 <div class="request-number">
+
 ${escapeHtml(
 request.request_number ||
 "بدون رقم"
 )}
+
 </div>
 
 <div class="request-date">
-${formatDate(request.created_at)}
+
+${formatDate(
+request.created_at
+)}
+
 </div>
 
 </div>
+
 
 <div class="badges">
 
 <span class="badge ${getStatusClass(request.status)}">
+
 ${escapeHtml(
 request.status ||
 "غير محدد"
 )}
+
 </span>
 
+
 <span class="badge">
+
 ${escapeHtml(
 request.priority ||
 "عادي"
 )}
+
 </span>
 
 </div>
@@ -1103,70 +1315,119 @@ request.priority ||
 
 <div class="request-info">
 
+
 <div class="info-box">
-<div class="info-label">العميل</div>
+
+<div class="info-label">
+العميل
+</div>
+
 <div class="info-value">
+
 ${escapeHtml(
-request.customer_name || "-"
+request.customer_name ||
+"-"
 )}
+
 </div>
+
 </div>
 
 
 <div class="info-box">
-<div class="info-label">الهاتف</div>
+
+<div class="info-label">
+الهاتف
+</div>
+
 <div class="info-value">
+
 ${escapeHtml(
-request.phone || "-"
+request.phone ||
+"-"
 )}
+
 </div>
+
 </div>
 
 
 <div class="info-box">
-<div class="info-label">الخدمة</div>
+
+<div class="info-label">
+الخدمة
+</div>
+
 <div class="info-value">
+
 ${escapeHtml(
-request.service_type || "-"
+request.service_type ||
+"-"
 )}
+
 </div>
+
 </div>
 
 
 <div class="info-box">
-<div class="info-label">الموعد</div>
+
+<div class="info-label">
+الموعد
+</div>
+
 <div class="info-value">
+
 ${preferred}
+
 </div>
+
 </div>
 
 
 <div class="info-box">
-<div class="info-label">الموقع</div>
-<div class="info-value">
-${escapeHtml(
-request.location || "-"
-)}
+
+<div class="info-label">
+الموقع
 </div>
+
+<div class="info-value">
+
+${escapeHtml(
+request.location ||
+"-"
+)}
+
+</div>
+
 </div>
 
 
 <div class="info-box">
-<div class="info-label">الفني الحالي</div>
+
+<div class="info-label">
+الفني الحالي
+</div>
+
 <div class="info-value">
+
 ${escapeHtml(
-request.assigned_technician_name ||
-"لم يتم تعيين فني"
+technicianName
 )}
+
 </div>
+
 </div>
+
 
 </div>
 
 
 <div class="description">
 
-<strong>وصف المشكلة:</strong>
+<strong>
+وصف المشكلة:
+</strong>
 
 <br>
 
@@ -1182,18 +1443,24 @@ ${
 request.image_url
 ?
 `
+
 <div style="margin-bottom:16px">
 
 <a
-href="${escapeHtml(request.image_url)}"
+href="${escapeAttribute(
+request.image_url
+)}"
 target="_blank"
 rel="noopener noreferrer"
 class="image-link"
 >
+
 عرض صورة العطل
+
 </a>
 
 </div>
+
 `
 :
 ""
@@ -1246,7 +1513,7 @@ request.priority
 <select class="technician-select">
 
 ${technicianOptions(
-request.assigned_technician_id,
+request.technician_id,
 request.service_type
 )}
 
@@ -1265,7 +1532,8 @@ request.service_type
 class="admin-notes"
 placeholder="ملاحظات الإدارة..."
 >${escapeHtml(
-request.admin_notes || ""
+request.admin_notes ||
+""
 )}</textarea>
 
 </div>
@@ -1281,7 +1549,8 @@ request.admin_notes || ""
 class="technician-notes"
 placeholder="ملاحظات الفني..."
 >${escapeHtml(
-request.technician_notes || ""
+request.technician_notes ||
+""
 )}</textarea>
 
 </div>
@@ -1298,7 +1567,9 @@ type="text"
 value="${
 request.completed_at
 ?
-formatDate(request.completed_at)
+formatDate(
+request.completed_at
+)
 :
 "لم يكتمل بعد"
 }"
@@ -1313,13 +1584,17 @@ disabled
 
 <div class="save-row">
 
-<span style="color:#64748b;font-size:11px">
+<span
+style="color:#64748b;font-size:11px"
+>
 
 ${
 request.updated_at
 ?
 "آخر تحديث: " +
-formatDate(request.updated_at)
+formatDate(
+request.updated_at
+)
 :
 "لم يتم التحديث"
 }
@@ -1329,12 +1604,18 @@ formatDate(request.updated_at)
 
 <button
 class="save-btn"
-onclick="saveRequest('${escapeAttribute(request.id)}',this)"
+onclick="saveRequest(
+'${escapeAttribute(request.id)}',
+this
+)"
 >
+
 حفظ التعديلات
+
 </button>
 
 </div>
+
 
 </article>
 
@@ -1343,9 +1624,9 @@ onclick="saveRequest('${escapeAttribute(request.id)}',this)"
 }
 
 
-/* ======================================
-TECHNICIAN OPTIONS
-====================================== */
+/* =====================================================
+   TECHNICIAN OPTIONS
+===================================================== */
 
 function technicianOptions(
 selectedId,
@@ -1353,9 +1634,11 @@ service
 ){
 
 let html = `
+
 <option value="">
 -- بدون فني --
 </option>
+
 `;
 
 
@@ -1364,14 +1647,20 @@ technicians.filter(
 technician => {
 
 if(!service){
+
 return true;
+
 }
 
 
 return (
+
 technician.service_type === service ||
+
 technician.service_type === "متعدد التخصصات" ||
+
 technician.status === "متاح"
+
 );
 
 }
@@ -1384,8 +1673,19 @@ technician => {
 html += `
 
 <option
-value="${escapeAttribute(technician.id)}"
-${technician.id === selectedId ? "selected" : ""}
+
+value="${escapeAttribute(
+technician.id
+)}"
+
+${
+technician.id === selectedId
+?
+"selected"
+:
+""
+}
+
 >
 
 ${escapeHtml(
@@ -1415,21 +1715,30 @@ return html;
 }
 
 
-/* ======================================
-STATUS OPTIONS
-====================================== */
+/* =====================================================
+   STATUS OPTIONS
+===================================================== */
 
 function statusOptions(current){
 
 const options = [
+
 "جديد",
+
 "قيد المراجعة",
+
 "تم تعيين فني",
+
 "الفني في الطريق",
+
 "قيد التنفيذ",
+
 "بانتظار قطعة/موافقة",
+
 "مكتمل",
+
 "ملغي"
+
 ];
 
 
@@ -1437,11 +1746,22 @@ return options.map(
 option => `
 
 <option
-value="${escapeAttribute(option)}"
-${current === option ? "selected" : ""}
+value="${escapeAttribute(
+option
+)}"
+
+${
+current === option
+?
+"selected"
+:
+""
+}
 >
 
-${escapeHtml(option)}
+${escapeHtml(
+option
+)}
 
 </option>
 
@@ -1451,16 +1771,20 @@ ${escapeHtml(option)}
 }
 
 
-/* ======================================
-PRIORITY OPTIONS
-====================================== */
+/* =====================================================
+   PRIORITY OPTIONS
+===================================================== */
 
 function priorityOptions(current){
 
 const options = [
+
 "عادي",
+
 "متوسط",
+
 "عاجل"
+
 ];
 
 
@@ -1468,11 +1792,24 @@ return options.map(
 option => `
 
 <option
-value="${escapeAttribute(option)}"
-${(current || "عادي") === option ? "selected" : ""}
+
+value="${escapeAttribute(
+option
+)}"
+
+${
+(current || "عادي") === option
+?
+"selected"
+:
+""
+}
+
 >
 
-${escapeHtml(option)}
+${escapeHtml(
+option
+)}
 
 </option>
 
@@ -1482,12 +1819,15 @@ ${escapeHtml(option)}
 }
 
 
-/* ======================================
-SAVE REQUEST
-====================================== */
+/* =====================================================
+   SAVE REQUEST
+===================================================== */
 
 window.saveRequest =
 async function(id,button){
+
+try{
+
 
 const card =
 document.querySelector(
@@ -1496,7 +1836,9 @@ document.querySelector(
 
 
 if(!card){
+
 return;
+
 }
 
 
@@ -1530,26 +1872,11 @@ card.querySelector(
 ).value.trim();
 
 
-let technicianName = null;
-
-
-if(technicianId){
-
 const technician =
 technicians.find(
 item =>
 item.id === technicianId
 );
-
-
-if(technician){
-
-technicianName =
-technician.full_name;
-
-}
-
-}
 
 
 button.disabled = true;
@@ -1560,15 +1887,14 @@ button.textContent =
 
 const updateData = {
 
+status:
 status,
 
+priority:
 priority,
 
-assigned_technician_id:
+technician_id:
 technicianId || null,
-
-assigned_technician_name:
-technicianName,
 
 admin_notes:
 adminNotes || null,
@@ -1581,6 +1907,22 @@ new Date().toISOString()
 
 };
 
+
+/*
+   عند تعيين فني
+*/
+
+if(technicianId){
+
+updateData.assigned_at =
+new Date().toISOString();
+
+}
+
+
+/*
+   عند اكتمال الطلب
+*/
 
 if(status === "مكتمل"){
 
@@ -1606,29 +1948,27 @@ null;
 }
 
 
+/*
+   حفظ التعديلات
+*/
+
 const {
 error
 } = await client
+
 .from("service_requests")
+
 .update(updateData)
-.eq("id",id);
+
+.eq(
+"id",
+id
+);
 
 
 if(error){
 
-showToast(
-"فشل الحفظ: " +
-error.message,
-true
-);
-
-
-button.disabled = false;
-
-button.textContent =
-"حفظ التعديلات";
-
-return;
+throw error;
 
 }
 
@@ -1640,12 +1980,35 @@ showToast(
 
 await loadRequests();
 
+
+}catch(error){
+
+console.error(
+"Save request error:",
+error
+);
+
+
+showToast(
+"فشل الحفظ: " +
+(error.message || "خطأ غير معروف"),
+true
+);
+
+
+button.disabled = false;
+
+button.textContent =
+"حفظ التعديلات";
+
+}
+
 };
 
 
-/* ======================================
-LOGOUT
-====================================== */
+/* =====================================================
+   LOGOUT
+===================================================== */
 
 logoutBtn.addEventListener(
 "click",
@@ -1654,20 +2017,43 @@ async function(){
 await client.auth.signOut();
 
 window.location.href =
-"admin.html";
+"login.html";
 
 }
 );
 
 
-/* ======================================
-HELPERS
-====================================== */
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+client.auth.onAuthStateChange(
+(event,session) => {
+
+if(
+event === "SIGNED_OUT" ||
+!session
+){
+
+window.location.href =
+"login.html";
+
+}
+
+}
+);
+
+
+/* =====================================================
+   DATE
+===================================================== */
 
 function formatDate(value){
 
 if(!value){
+
 return "-";
+
 }
 
 
@@ -1680,7 +2066,9 @@ Number.isNaN(
 date.getTime()
 )
 ){
+
 return String(value);
+
 }
 
 
@@ -1698,20 +2086,68 @@ minute:"2-digit"
 }
 
 
+function formatDateOnly(value){
+
+if(!value){
+
+return "-";
+
+}
+
+
+try{
+
+return new Date(
+value + "T00:00:00"
+)
+.toLocaleDateString(
+"ar-JO",
+{
+year:"numeric",
+month:"2-digit",
+day:"2-digit"
+}
+);
+
+}catch{
+
+return value;
+
+}
+
+}
+
+
+/* =====================================================
+   STATUS COLOR
+===================================================== */
+
 function getStatusClass(status){
 
-if(status === "جديد"){
+if(
+status === "جديد"
+){
+
 return "new";
+
 }
 
 
-if(status === "مكتمل"){
+if(
+status === "مكتمل"
+){
+
 return "done";
+
 }
 
 
-if(status === "ملغي"){
+if(
+status === "ملغي"
+){
+
 return "cancelled";
+
 }
 
 
@@ -1720,22 +2156,48 @@ return "progress";
 }
 
 
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
 function escapeHtml(value){
 
 if(
 value === null ||
 value === undefined
 ){
+
 return "";
+
 }
 
 
 return String(value)
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
+
+.replaceAll(
+"&",
+"&amp;"
+)
+
+.replaceAll(
+"<",
+"&lt;"
+)
+
+.replaceAll(
+">",
+"&gt;"
+)
+
+.replaceAll(
+'"',
+"&quot;"
+)
+
+.replaceAll(
+"'",
+"&#039;"
+);
 
 }
 
@@ -1746,6 +2208,10 @@ return escapeHtml(value);
 
 }
 
+
+/* =====================================================
+   TOAST
+===================================================== */
 
 function showToast(
 message,
@@ -1775,9 +2241,11 @@ window.toastTimer
 
 window.toastTimer =
 setTimeout(
-()=>{
+function(){
+
 toast.style.display =
 "none";
+
 },
 3500
 );
