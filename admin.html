@@ -1,2057 +1,1575 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>لوحة إدارة فني برو</title>
-
-  <meta name="description" content="لوحة إدارة طلبات الصيانة في فني برو">
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Tahoma, Arial, sans-serif;
-      background:
-        radial-gradient(circle at top right, rgba(37,99,235,.18), transparent 35%),
-        #07111f;
-      color: #fff;
-      min-height: 100vh;
-    }
-
-    button,
-    input,
-    select,
-    textarea {
-      font-family: inherit;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    /* =========================
-       LOGIN
-    ========================= */
-
-    #loginScreen {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .login-box {
-      width: 100%;
-      max-width: 430px;
-      background: rgba(15, 29, 48, .95);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 24px;
-      padding: 30px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.4);
-    }
-
-    .logo {
-      width: 70px;
-      height: 70px;
-      margin: 0 auto 15px;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
-      font-size: 30px;
-      font-weight: bold;
-    }
-
-    .login-box h1 {
-      text-align: center;
-      margin-bottom: 8px;
-      font-size: 25px;
-    }
-
-    .login-box p {
-      text-align: center;
-      color: #94a3b8;
-      margin-bottom: 25px;
-      font-size: 14px;
-    }
-
-    .field {
-      margin-bottom: 16px;
-    }
-
-    .field label {
-      display: block;
-      margin-bottom: 7px;
-      color: #cbd5e1;
-      font-size: 14px;
-    }
-
-    .field input,
-    .field select,
-    .field textarea,
-    .search-input {
-      width: 100%;
-      padding: 13px 14px;
-      background: #0b192b;
-      border: 1px solid #24354b;
-      color: #fff;
-      border-radius: 12px;
-      outline: none;
-      font-size: 14px;
-    }
-
-    .field input:focus,
-    .field select:focus,
-    .field textarea:focus,
-    .search-input:focus {
-      border-color: #3b82f6;
-    }
-
-    .field textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    .primary-btn {
-      width: 100%;
-      border: none;
-      border-radius: 12px;
-      padding: 14px;
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
-      color: #fff;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .primary-btn:hover {
-      opacity: .92;
-    }
-
-    .message {
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 10px;
-      font-size: 14px;
-      text-align: center;
-      display: none;
-    }
-
-    .message.error {
-      display: block;
-      background: rgba(239,68,68,.12);
-      color: #fca5a5;
-      border: 1px solid rgba(239,68,68,.25);
-    }
-
-    .message.success {
-      display: block;
-      background: rgba(34,197,94,.12);
-      color: #86efac;
-      border: 1px solid rgba(34,197,94,.25);
-    }
-
-    /* =========================
-       APP
-    ========================= */
-
-    #app {
-      display: none;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: rgba(7,17,31,.94);
-      backdrop-filter: blur(15px);
-      border-bottom: 1px solid rgba(255,255,255,.07);
-    }
-
-    .header-inner {
-      max-width: 1400px;
-      margin: auto;
-      padding: 15px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .brand-icon {
-      width: 45px;
-      height: 45px;
-      border-radius: 13px;
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-    }
-
-    .brand h1 {
-      font-size: 19px;
-    }
-
-    .brand span {
-      color: #94a3b8;
-      font-size: 12px;
-    }
-
-    .logout-btn {
-      border: 1px solid #334155;
-      background: #0f1d30;
-      color: #fff;
-      padding: 10px 15px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    main {
-      max-width: 1400px;
-      margin: auto;
-      padding: 25px 20px 50px;
-    }
-
-    .welcome {
-      margin-bottom: 25px;
-    }
-
-    .welcome h2 {
-      font-size: 26px;
-      margin-bottom: 6px;
-    }
-
-    .welcome p {
-      color: #94a3b8;
-    }
-
-    /* =========================
-       STATS
-    ========================= */
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-
-    .stat {
-      background: #0f1d30;
-      border: 1px solid #1e334d;
-      border-radius: 17px;
-      padding: 20px;
-    }
-
-    .stat-title {
-      color: #94a3b8;
-      font-size: 13px;
-      margin-bottom: 10px;
-    }
-
-    .stat-number {
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    /* =========================
-       FILTERS
-    ========================= */
-
-    .filters {
-      background: #0f1d30;
-      border: 1px solid #1e334d;
-      border-radius: 18px;
-      padding: 18px;
-      margin-bottom: 20px;
-    }
-
-    .filters-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr auto;
-      gap: 10px;
-    }
-
-    .filter {
-      width: 100%;
-      padding: 12px;
-      background: #0b192b;
-      color: #fff;
-      border: 1px solid #24354b;
-      border-radius: 10px;
-      outline: none;
-    }
-
-    .refresh-btn {
-      padding: 12px 18px;
-      border: none;
-      border-radius: 10px;
-      background: #2563eb;
-      color: #fff;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    /* =========================
-       REQUESTS
-    ========================= */
-
-    .requests-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 15px;
-    }
-
-    .requests-title h3 {
-      font-size: 20px;
-    }
-
-    .request-count {
-      color: #94a3b8;
-      font-size: 13px;
-    }
-
-    .requests {
-      display: grid;
-      gap: 15px;
-    }
-
-    .request-card {
-      background: #0f1d30;
-      border: 1px solid #1e334d;
-      border-radius: 18px;
-      padding: 20px;
-      overflow: hidden;
-    }
-
-    .request-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 18px;
-    }
-
-    .request-number {
-      font-size: 18px;
-      font-weight: bold;
-      color: #60a5fa;
-      margin-bottom: 6px;
-    }
-
-    .request-date {
-      color: #94a3b8;
-      font-size: 12px;
-    }
-
-    .badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
-
-    .badge {
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: bold;
-      background: #1e293b;
-      color: #cbd5e1;
-    }
-
-    .badge.new {
-      background: rgba(59,130,246,.15);
-      color: #93c5fd;
-    }
-
-    .badge.progress {
-      background: rgba(245,158,11,.15);
-      color: #fcd34d;
-    }
-
-    .badge.done {
-      background: rgba(34,197,94,.15);
-      color: #86efac;
-    }
-
-    .badge.cancelled {
-      background: rgba(239,68,68,.15);
-      color: #fca5a5;
-    }
-
-    .request-info {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .info-box {
-      background: #0b192b;
-      border-radius: 12px;
-      padding: 13px;
-      border: 1px solid #172a40;
-    }
-
-    .info-label {
-      color: #64748b;
-      font-size: 11px;
-      margin-bottom: 5px;
-    }
-
-    .info-value {
-      color: #e2e8f0;
-      font-size: 14px;
-      word-break: break-word;
-    }
-
-    .description {
-      background: #0b192b;
-      padding: 14px;
-      border-radius: 12px;
-      margin-bottom: 18px;
-      color: #cbd5e1;
-      font-size: 14px;
-      line-height: 1.7;
-    }
-
-    .request-controls {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      padding-top: 18px;
-      border-top: 1px solid #1e334d;
-    }
-
-    .control label {
-      display: block;
-      color: #94a3b8;
-      font-size: 11px;
-      margin-bottom: 6px;
-    }
-
-    .control select,
-    .control input,
-    .control textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 9px;
-      border: 1px solid #263b54;
-      background: #0b192b;
-      color: #fff;
-      outline: none;
-    }
-
-    .control textarea {
-      min-height: 42px;
-      resize: vertical;
-    }
-
-    .save-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .save-btn {
-      border: none;
-      background: #16a34a;
-      color: #fff;
-      border-radius: 10px;
-      padding: 11px 18px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .save-btn:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-    }
-
-    .image-link {
-      display: inline-block;
-      padding: 10px 15px;
-      border-radius: 9px;
-      background: #1d4ed8;
-      color: #fff;
-      text-decoration: none;
-      font-size: 13px;
-    }
-
-    .empty {
-      background: #0f1d30;
-      border: 1px dashed #334155;
-      padding: 45px 20px;
-      border-radius: 18px;
-      text-align: center;
-      color: #94a3b8;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 40px;
-      color: #94a3b8;
-    }
-
-    .toast {
-      position: fixed;
-      left: 20px;
-      bottom: 20px;
-      z-index: 100;
-      padding: 13px 18px;
-      border-radius: 10px;
-      background: #16a34a;
-      color: #fff;
-      display: none;
-      box-shadow: 0 10px 30px rgba(0,0,0,.3);
-    }
-
-    .toast.error {
-      background: #dc2626;
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 1000px) {
-      .stats {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .filters-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .request-controls {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 650px) {
-      .header-inner {
-        padding: 12px 14px;
-      }
-
-      main {
-        padding: 20px 12px 40px;
-      }
-
-      .brand h1 {
-        font-size: 16px;
-      }
-
-      .brand span {
-        display: none;
-      }
-
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .stat {
-        padding: 15px;
-      }
-
-      .stat-number {
-        font-size: 23px;
-      }
-
-      .filters-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .request-top {
-        flex-direction: column;
-      }
-
-      .request-info {
-        grid-template-columns: 1fr;
-      }
-
-      .request-controls {
-        grid-template-columns: 1fr;
-      }
-
-      .save-row {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .save-btn,
-      .image-link {
-        text-align: center;
-        width: 100%;
-      }
-
-      .welcome h2 {
-        font-size: 22px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>لوحة إدارة فني برو</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Tahoma,Arial,sans-serif;
+background:
+radial-gradient(circle at top right,rgba(37,99,235,.18),transparent 35%),
+#07111f;
+color:#fff;
+min-height:100vh
+}
+
+button,input,select,textarea{font-family:inherit}
+
+.hidden{display:none!important}
+
+header{
+position:sticky;
+top:0;
+z-index:20;
+background:rgba(7,17,31,.95);
+backdrop-filter:blur(15px);
+border-bottom:1px solid rgba(255,255,255,.08)
+}
+
+.header-inner{
+max-width:1400px;
+margin:auto;
+padding:14px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:12px
+}
+
+.brand-icon{
+width:45px;
+height:45px;
+border-radius:13px;
+background:linear-gradient(135deg,#2563eb,#7c3aed);
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+font-size:20px
+}
+
+.brand h1{font-size:18px}
+.brand span{color:#94a3b8;font-size:12px}
+
+.header-actions{
+display:flex;
+gap:8px;
+flex-wrap:wrap
+}
+
+.header-btn{
+border:1px solid #334155;
+background:#0f1d30;
+color:#fff;
+padding:10px 14px;
+border-radius:10px;
+cursor:pointer;
+text-decoration:none;
+font-size:13px
+}
+
+main{
+max-width:1400px;
+margin:auto;
+padding:25px 18px 50px
+}
+
+.welcome{margin-bottom:22px}
+
+.welcome h2{
+font-size:27px;
+margin-bottom:6px
+}
+
+.welcome p{color:#94a3b8}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:14px;
+margin-bottom:22px
+}
+
+.stat{
+background:#0f1d30;
+border:1px solid #1e334d;
+border-radius:17px;
+padding:18px
+}
+
+.stat-title{
+color:#94a3b8;
+font-size:12px;
+margin-bottom:8px
+}
+
+.stat-number{
+font-size:27px;
+font-weight:bold
+}
+
+.filters{
+background:#0f1d30;
+border:1px solid #1e334d;
+border-radius:17px;
+padding:16px;
+margin-bottom:20px
+}
+
+.filters-grid{
+display:grid;
+grid-template-columns:2fr 1fr 1fr 1fr auto;
+gap:9px
+}
+
+.filter{
+width:100%;
+padding:12px;
+background:#0b192b;
+color:#fff;
+border:1px solid #263b54;
+border-radius:10px;
+outline:none
+}
+
+.refresh-btn{
+padding:12px 17px;
+border:none;
+border-radius:10px;
+background:#2563eb;
+color:#fff;
+cursor:pointer;
+font-weight:bold
+}
+
+.requests-title{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:14px
+}
+
+.requests-title h3{font-size:20px}
+
+.request-count{
+color:#94a3b8;
+font-size:13px
+}
+
+.requests{
+display:grid;
+gap:15px
+}
+
+.request-card{
+background:#0f1d30;
+border:1px solid #1e334d;
+border-radius:18px;
+padding:19px;
+overflow:hidden
+}
+
+.request-top{
+display:flex;
+align-items:flex-start;
+justify-content:space-between;
+gap:15px;
+margin-bottom:17px
+}
+
+.request-number{
+font-size:18px;
+font-weight:bold;
+color:#60a5fa;
+margin-bottom:5px
+}
+
+.request-date{
+color:#64748b;
+font-size:11px
+}
+
+.badges{
+display:flex;
+flex-wrap:wrap;
+gap:7px
+}
+
+.badge{
+padding:6px 10px;
+border-radius:999px;
+font-size:11px;
+font-weight:bold;
+background:#1e293b;
+color:#cbd5e1
+}
+
+.badge.new{
+background:rgba(59,130,246,.15);
+color:#93c5fd
+}
+
+.badge.progress{
+background:rgba(245,158,11,.15);
+color:#fcd34d
+}
+
+.badge.done{
+background:rgba(34,197,94,.15);
+color:#86efac
+}
+
+.badge.cancelled{
+background:rgba(239,68,68,.15);
+color:#fca5a5
+}
+
+.request-info{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-bottom:16px
+}
+
+.info-box{
+background:#0b192b;
+border-radius:11px;
+padding:12px;
+border:1px solid #172a40
+}
+
+.info-label{
+color:#64748b;
+font-size:10px;
+margin-bottom:4px
+}
+
+.info-value{
+color:#e2e8f0;
+font-size:13px;
+word-break:break-word
+}
+
+.description{
+background:#0b192b;
+padding:13px;
+border-radius:11px;
+margin-bottom:16px;
+color:#cbd5e1;
+font-size:13px;
+line-height:1.7
+}
+
+.controls{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+padding-top:16px;
+border-top:1px solid #1e334d
+}
+
+.control label{
+display:block;
+color:#94a3b8;
+font-size:11px;
+margin-bottom:6px
+}
+
+.control select,
+.control input,
+.control textarea{
+width:100%;
+padding:10px;
+border-radius:9px;
+border:1px solid #263b54;
+background:#0b192b;
+color:#fff;
+outline:none
+}
+
+.control textarea{
+min-height:70px;
+resize:vertical
+}
+
+.save-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+margin-top:14px
+}
+
+.save-btn{
+border:none;
+background:#16a34a;
+color:#fff;
+border-radius:10px;
+padding:11px 18px;
+cursor:pointer;
+font-weight:bold
+}
+
+.save-btn:disabled{
+opacity:.5;
+cursor:not-allowed
+}
+
+.image-link{
+display:inline-block;
+padding:10px 14px;
+border-radius:9px;
+background:#1d4ed8;
+color:#fff;
+text-decoration:none;
+font-size:12px
+}
+
+.empty{
+background:#0f1d30;
+border:1px dashed #334155;
+padding:45px 20px;
+border-radius:18px;
+text-align:center;
+color:#94a3b8
+}
+
+.loading{
+text-align:center;
+padding:40px;
+color:#94a3b8
+}
+
+.toast{
+position:fixed;
+left:18px;
+bottom:18px;
+z-index:100;
+padding:13px 18px;
+border-radius:10px;
+background:#16a34a;
+color:#fff;
+display:none;
+box-shadow:0 10px 30px rgba(0,0,0,.3)
+}
+
+.toast.error{background:#dc2626}
+
+@media(max-width:1000px){
+.stats{grid-template-columns:repeat(3,1fr)}
+.filters-grid{grid-template-columns:1fr 1fr}
+.controls{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:650px){
+.header-inner{padding:12px}
+.brand h1{font-size:16px}
+.brand span{display:none}
+main{padding:20px 12px 40px}
+.stats{grid-template-columns:repeat(2,1fr)}
+.filters-grid{grid-template-columns:1fr}
+.request-top{flex-direction:column}
+.request-info{grid-template-columns:1fr}
+.controls{grid-template-columns:1fr}
+.save-row{flex-direction:column;align-items:stretch}
+.save-btn,.image-link{text-align:center;width:100%}
+.welcome h2{font-size:22px}
+}
+</style>
 </head>
 
 <body>
 
-  <!-- =========================
-       LOGIN SCREEN
-  ========================= -->
+<header>
+<div class="header-inner">
+
+<div class="brand">
+<div class="brand-icon">ف</div>
+<div>
+<h1>فني برو</h1>
+<span>لوحة إدارة طلبات الصيانة</span>
+</div>
+</div>
+
+<div class="header-actions">
+
+<a href="technicians.html" class="header-btn">
+إدارة الفنيين
+</a>
+
+<button class="header-btn" id="logoutBtn">
+تسجيل الخروج
+</button>
+
+</div>
+</div>
+</header>
 
-  <section id="loginScreen">
 
-    <div class="login-box">
+<main>
 
-      <div class="logo">ف</div>
+<div class="welcome">
+<h2>لوحة التحكم</h2>
+<p id="adminEmail">جاري تحميل الحساب...</p>
+</div>
 
-      <h1>لوحة إدارة فني برو</h1>
 
-      <p>
-        سجّل الدخول للوصول إلى طلبات الصيانة
-      </p>
+<div class="stats">
 
-      <form id="loginForm">
+<div class="stat">
+<div class="stat-title">كل الطلبات</div>
+<div class="stat-number" id="totalCount">0</div>
+</div>
 
-        <div class="field">
-          <label for="email">البريد الإلكتروني</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="أدخل البريد الإلكتروني"
-            required
-            autocomplete="email"
-          >
-        </div>
+<div class="stat">
+<div class="stat-title">طلبات جديدة</div>
+<div class="stat-number" id="newCount">0</div>
+</div>
 
-        <div class="field">
-          <label for="password">كلمة المرور</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="أدخل كلمة المرور"
-            required
-            autocomplete="current-password"
-          >
-        </div>
+<div class="stat">
+<div class="stat-title">قيد التنفيذ</div>
+<div class="stat-number" id="progressCount">0</div>
+</div>
 
-        <button
-          type="submit"
-          class="primary-btn"
-          id="loginBtn"
-        >
-          تسجيل الدخول
-        </button>
+<div class="stat">
+<div class="stat-title">مكتملة</div>
+<div class="stat-number" id="completedCount">0</div>
+</div>
 
-      </form>
+<div class="stat">
+<div class="stat-title">ملغاة</div>
+<div class="stat-number" id="cancelledCount">0</div>
+</div>
 
-      <div id="loginMessage" class="message"></div>
+</div>
 
-    </div>
 
-  </section>
+<div class="filters">
 
+<div class="filters-grid">
 
-  <!-- =========================
-       ADMIN APP
-  ========================= -->
+<input
+type="search"
+id="searchInput"
+class="filter"
+placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
+>
 
-  <section id="app">
+<select id="serviceFilter" class="filter">
+<option value="">كل الخدمات</option>
+<option value="تكييف وتبريد">تكييف وتبريد</option>
+<option value="كهرباء">كهرباء</option>
+<option value="سباكة">سباكة</option>
+<option value="صيانة أجهزة منزلية">صيانة أجهزة منزلية</option>
+<option value="نجارة">نجارة</option>
+<option value="دهان">دهان</option>
+<option value="أخرى">أخرى</option>
+</select>
 
-    <header>
+<select id="statusFilter" class="filter">
+<option value="">كل الحالات</option>
+<option value="جديد">جديد</option>
+<option value="قيد المراجعة">قيد المراجعة</option>
+<option value="تم تعيين فني">تم تعيين فني</option>
+<option value="الفني في الطريق">الفني في الطريق</option>
+<option value="قيد التنفيذ">قيد التنفيذ</option>
+<option value="بانتظار قطعة/موافقة">بانتظار قطعة/موافقة</option>
+<option value="مكتمل">مكتمل</option>
+<option value="ملغي">ملغي</option>
+</select>
 
-      <div class="header-inner">
+<select id="priorityFilter" class="filter">
+<option value="">كل الأولويات</option>
+<option value="عادي">عادي</option>
+<option value="متوسط">متوسط</option>
+<option value="عاجل">عاجل</option>
+</select>
 
-        <div class="brand">
+<button class="refresh-btn" id="refreshBtn">
+تحديث
+</button>
 
-          <div class="brand-icon">ف</div>
+</div>
+</div>
 
-          <div>
-            <h1>فني برو</h1>
-            <span>لوحة إدارة الصيانة</span>
-          </div>
 
-        </div>
+<div class="requests-title">
 
-        <button
-          class="logout-btn"
-          id="logoutBtn"
-        >
-          تسجيل الخروج
-        </button>
+<h3>طلبات العملاء</h3>
 
-      </div>
+<span class="request-count" id="requestCount">
+0 طلب
+</span>
 
-    </header>
+</div>
 
 
-    <main>
+<div id="requestsContainer">
+<div class="loading">
+جاري تحميل الطلبات...
+</div>
+</div>
 
-      <div class="welcome">
+</main>
 
-        <h2>لوحة التحكم</h2>
 
-        <p id="adminEmail">
-          جاري تحميل بيانات الإدارة...
-        </p>
+<div id="toast" class="toast"></div>
 
-      </div>
 
+<script>
 
-      <!-- =========================
-           STATISTICS
-      ========================= -->
+/* ======================================
+SUPABASE
+====================================== */
 
-      <div class="stats">
+const SUPABASE_URL =
+"https://yesmnsztcqnhaqrcgpcs.supabase.co";
 
-        <div class="stat">
-          <div class="stat-title">كل الطلبات</div>
-          <div class="stat-number" id="totalCount">0</div>
-        </div>
+const SUPABASE_KEY =
+"sb_publishable_fUX7DXedpKF3OyBpDQ9kAQ_RRQpnIuB";
 
-        <div class="stat">
-          <div class="stat-title">طلبات جديدة</div>
-          <div class="stat-number" id="newCount">0</div>
-        </div>
+const client =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
-        <div class="stat">
-          <div class="stat-title">قيد التنفيذ</div>
-          <div class="stat-number" id="progressCount">0</div>
-        </div>
 
-        <div class="stat">
-          <div class="stat-title">مكتملة</div>
-          <div class="stat-number" id="completedCount">0</div>
-        </div>
+/* ======================================
+DATA
+====================================== */
 
-        <div class="stat">
-          <div class="stat-title">ملغاة</div>
-          <div class="stat-number" id="cancelledCount">0</div>
-        </div>
+let allRequests = [];
+let technicians = [];
 
-      </div>
 
+/* ======================================
+ELEMENTS
+====================================== */
 
-      <!-- =========================
-           FILTERS
-      ========================= -->
+const requestsContainer =
+document.getElementById("requestsContainer");
 
-      <div class="filters">
+const searchInput =
+document.getElementById("searchInput");
 
-        <div class="filters-grid">
+const serviceFilter =
+document.getElementById("serviceFilter");
 
-          <input
-            type="search"
-            id="searchInput"
-            class="filter"
-            placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
-          >
+const statusFilter =
+document.getElementById("statusFilter");
 
-          <select id="serviceFilter" class="filter">
+const priorityFilter =
+document.getElementById("priorityFilter");
 
-            <option value="">كل الخدمات</option>
+const refreshBtn =
+document.getElementById("refreshBtn");
 
-            <option value="تكييف وتبريد">
-              تكييف وتبريد
-            </option>
+const logoutBtn =
+document.getElementById("logoutBtn");
 
-            <option value="كهرباء">
-              كهرباء
-            </option>
+const toast =
+document.getElementById("toast");
 
-            <option value="سباكة">
-              سباكة
-            </option>
 
-            <option value="صيانة أجهزة منزلية">
-              صيانة أجهزة منزلية
-            </option>
+/* ======================================
+START
+====================================== */
 
-            <option value="نجارة">
-              نجارة
-            </option>
+document.addEventListener(
+"DOMContentLoaded",
+checkSession
+);
 
-            <option value="دهان">
-              دهان
-            </option>
 
-            <option value="أخرى">
-              أخرى
-            </option>
+async function checkSession(){
 
-          </select>
+const {
+data,
+error
+} = await client.auth.getSession();
 
+if(error || !data.session){
 
-          <select id="statusFilter" class="filter">
+window.location.href =
+"admin.html";
 
-            <option value="">كل الحالات</option>
+return;
+}
 
-            <option value="جديد">
-              جديد
-            </option>
+document.getElementById(
+"adminEmail"
+).textContent =
+data.session.user.email ||
+"حساب الإدارة";
 
-            <option value="قيد المراجعة">
-              قيد المراجعة
-            </option>
+await Promise.all([
+loadTechnicians(),
+loadRequests()
+]);
 
-            <option value="تم تعيين فني">
-              تم تعيين فني
-            </option>
+}
 
-            <option value="الفني في الطريق">
-              الفني في الطريق
-            </option>
 
-            <option value="قيد التنفيذ">
-              قيد التنفيذ
-            </option>
+/* ======================================
+LOAD TECHNICIANS
+====================================== */
 
-            <option value="بانتظار قطعة/موافقة">
-              بانتظار قطعة/موافقة
-            </option>
+async function loadTechnicians(){
 
-            <option value="مكتمل">
-              مكتمل
-            </option>
+const {
+data,
+error
+} = await client
+.from("technicians")
+.select("id,full_name,phone,service_type,status")
+.order(
+"full_name",
+{
+ascending:true
+}
+);
 
-            <option value="ملغي">
-              ملغي
-            </option>
+if(error){
 
-          </select>
+console.error(
+"Technicians:",
+error
+);
 
+technicians = [];
 
-          <select id="priorityFilter" class="filter">
+return;
+}
 
-            <option value="">كل الأولويات</option>
+technicians =
+data || [];
 
-            <option value="عادي">
-              عادي
-            </option>
+}
 
-            <option value="متوسط">
-              متوسط
-            </option>
 
-            <option value="عاجل">
-              عاجل
-            </option>
+/* ======================================
+LOAD REQUESTS
+====================================== */
 
-          </select>
+async function loadRequests(){
 
+requestsContainer.innerHTML = `
+<div class="loading">
+جاري تحميل الطلبات...
+</div>
+`;
 
-          <button
-            class="refresh-btn"
-            id="refreshBtn"
-          >
-            تحديث
-          </button>
+const {
+data,
+error
+} = await client
+.from("service_requests")
+.select("*")
+.order(
+"created_at",
+{
+ascending:false
+}
+);
 
-        </div>
+if(error){
 
-      </div>
+requestsContainer.innerHTML = `
+<div class="empty">
+<h3>تعذر تحميل الطلبات</h3>
+<p style="margin-top:10px">
+${escapeHtml(error.message)}
+</p>
+</div>
+`;
 
+return;
+}
 
-      <!-- =========================
-           REQUESTS
-      ========================= -->
+allRequests =
+data || [];
 
-      <div class="requests-title">
+updateStatistics();
+renderRequests();
 
-        <h3>طلبات العملاء</h3>
+}
 
-        <span
-          class="request-count"
-          id="requestCount"
-        >
-          0 طلب
-        </span>
 
-      </div>
+/* ======================================
+STATISTICS
+====================================== */
 
+function updateStatistics(){
 
-      <div id="requestsContainer">
+document.getElementById(
+"totalCount"
+).textContent =
+allRequests.length;
 
-        <div class="loading">
-          جاري تحميل الطلبات...
-        </div>
+document.getElementById(
+"newCount"
+).textContent =
+allRequests.filter(
+r => r.status === "جديد"
+).length;
 
-      </div>
+document.getElementById(
+"progressCount"
+).textContent =
+allRequests.filter(
+r =>
+r.status === "قيد التنفيذ" ||
+r.status === "الفني في الطريق" ||
+r.status === "تم تعيين فني" ||
+r.status === "قيد المراجعة"
+).length;
 
-    </main>
+document.getElementById(
+"completedCount"
+).textContent =
+allRequests.filter(
+r => r.status === "مكتمل"
+).length;
 
-  </section>
+document.getElementById(
+"cancelledCount"
+).textContent =
+allRequests.filter(
+r => r.status === "ملغي"
+).length;
 
+}
 
-  <div id="toast" class="toast"></div>
 
+/* ======================================
+FILTERS
+====================================== */
 
-  <script>
+searchInput.addEventListener(
+"input",
+renderRequests
+);
 
-    /* ==========================================
-       SUPABASE
-    ========================================== */
+serviceFilter.addEventListener(
+"change",
+renderRequests
+);
 
-    const SUPABASE_URL =
-      "https://yesmnsztcqnhaqrcgpcs.supabase.co";
+statusFilter.addEventListener(
+"change",
+renderRequests
+);
 
-    const SUPABASE_KEY =
-      "sb_publishable_fUX7DXedpKF3OyBpDQ9kAQ_RRQpnIuB";
+priorityFilter.addEventListener(
+"change",
+renderRequests
+);
 
-    const client =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
+refreshBtn.addEventListener(
+"click",
+async function(){
 
+await loadTechnicians();
+await loadRequests();
 
-    /* ==========================================
-       ELEMENTS
-    ========================================== */
+showToast(
+"تم تحديث البيانات"
+);
 
-    const loginScreen =
-      document.getElementById("loginScreen");
+}
+);
 
-    const app =
-      document.getElementById("app");
 
-    const loginForm =
-      document.getElementById("loginForm");
+/* ======================================
+FILTER DATA
+====================================== */
 
-    const loginBtn =
-      document.getElementById("loginBtn");
+function getFilteredRequests(){
 
-    const loginMessage =
-      document.getElementById("loginMessage");
+const search =
+searchInput.value
+.trim()
+.toLowerCase();
 
-    const logoutBtn =
-      document.getElementById("logoutBtn");
+const service =
+serviceFilter.value;
 
-    const adminEmail =
-      document.getElementById("adminEmail");
+const status =
+statusFilter.value;
 
-    const requestsContainer =
-      document.getElementById("requestsContainer");
+const priority =
+priorityFilter.value;
 
-    const searchInput =
-      document.getElementById("searchInput");
 
-    const serviceFilter =
-      document.getElementById("serviceFilter");
+return allRequests.filter(
+request => {
 
-    const statusFilter =
-      document.getElementById("statusFilter");
+const searchable = [
 
-    const priorityFilter =
-      document.getElementById("priorityFilter");
+request.request_number,
+request.customer_name,
+request.phone,
+request.location,
+request.service_type
 
-    const refreshBtn =
-      document.getElementById("refreshBtn");
+]
+.filter(Boolean)
+.join(" ")
+.toLowerCase();
 
-    const toast =
-      document.getElementById("toast");
 
+return (
+(!search ||
+searchable.includes(search)) &&
 
-    /* ==========================================
-       DATA
-    ========================================== */
+(!service ||
+request.service_type === service) &&
 
-    let allRequests = [];
+(!status ||
+request.status === status) &&
 
+(!priority ||
+request.priority === priority)
+);
 
-    /* ==========================================
-       START
-    ========================================== */
+}
+);
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      checkSession
-    );
+}
 
 
-    async function checkSession() {
+/* ======================================
+RENDER
+====================================== */
 
-      const {
-        data,
-        error
-      } = await client.auth.getSession();
+function renderRequests(){
 
-      if (error) {
+const requests =
+getFilteredRequests();
 
-        showLogin();
+document.getElementById(
+"requestCount"
+).textContent =
+requests.length + " طلب";
 
-        return;
-      }
 
-      if (data.session) {
+if(!requests.length){
 
-        showApp(
-          data.session.user
-        );
+requestsContainer.innerHTML = `
+<div class="empty">
+لا توجد طلبات مطابقة.
+</div>
+`;
 
-      } else {
+return;
+}
 
-        showLogin();
 
-      }
+requestsContainer.innerHTML = `
+<div class="requests">
+${requests.map(
+requestCard
+).join("")}
+</div>
+`;
 
-    }
+}
 
 
-    /* ==========================================
-       LOGIN
-    ========================================== */
+/* ======================================
+REQUEST CARD
+====================================== */
 
-    loginForm.addEventListener(
-      "submit",
-      async function(event) {
+function requestCard(request){
 
-        event.preventDefault();
+const preferred =
+request.preferred_date
+? formatDate(request.preferred_date)
+: "غير محدد";
 
-        loginMessage.className =
-          "message";
 
-        loginMessage.textContent = "";
+return `
 
-        loginBtn.disabled = true;
+<article
+class="request-card"
+data-id="${escapeHtml(request.id)}"
+>
 
-        loginBtn.textContent =
-          "جاري تسجيل الدخول...";
+<div class="request-top">
 
-        const email =
-          document.getElementById("email").value.trim();
+<div>
 
-        const password =
-          document.getElementById("password").value;
+<div class="request-number">
+${escapeHtml(
+request.request_number ||
+"بدون رقم"
+)}
+</div>
 
-        const {
-          data,
-          error
-        } = await client.auth.signInWithPassword({
-          email,
-          password
-        });
+<div class="request-date">
+${formatDate(request.created_at)}
+</div>
 
-        if (error) {
+</div>
 
-          loginMessage.className =
-            "message error";
+<div class="badges">
 
-          loginMessage.textContent =
-            "فشل تسجيل الدخول: " +
-            error.message;
+<span class="badge ${getStatusClass(request.status)}">
+${escapeHtml(
+request.status ||
+"غير محدد"
+)}
+</span>
 
-          loginBtn.disabled = false;
+<span class="badge">
+${escapeHtml(
+request.priority ||
+"عادي"
+)}
+</span>
 
-          loginBtn.textContent =
-            "تسجيل الدخول";
+</div>
 
-          return;
-        }
+</div>
 
-        loginBtn.disabled = false;
 
-        loginBtn.textContent =
-          "تسجيل الدخول";
+<div class="request-info">
 
-        showApp(data.user);
+<div class="info-box">
+<div class="info-label">العميل</div>
+<div class="info-value">
+${escapeHtml(
+request.customer_name || "-"
+)}
+</div>
+</div>
 
-      }
-    );
+<div class="info-box">
+<div class="info-label">الهاتف</div>
+<div class="info-value">
+${escapeHtml(
+request.phone || "-"
+)}
+</div>
+</div>
 
+<div class="info-box">
+<div class="info-label">الخدمة</div>
+<div class="info-value">
+${escapeHtml(
+request.service_type || "-"
+)}
+</div>
+</div>
 
-    /* ==========================================
-       SHOW LOGIN
-    ========================================== */
+<div class="info-box">
+<div class="info-label">الموعد</div>
+<div class="info-value">
+${preferred}
+</div>
+</div>
 
-    function showLogin() {
+<div class="info-box">
+<div class="info-label">الموقع</div>
+<div class="info-value">
+${escapeHtml(
+request.location || "-"
+)}
+</div>
+</div>
 
-      loginScreen.style.display =
-        "flex";
+<div class="info-box">
+<div class="info-label">الفني الحالي</div>
+<div class="info-value">
+${escapeHtml(
+request.assigned_technician_name ||
+"لم يتم تعيين فني"
+)}
+</div>
+</div>
 
-      app.style.display =
-        "none";
+</div>
 
-    }
 
+<div class="description">
 
-    /* ==========================================
-       SHOW APP
-    ========================================== */
+<strong>وصف المشكلة:</strong>
 
-    async function showApp(user) {
+<br>
 
-      loginScreen.style.display =
-        "none";
+${escapeHtml(
+request.description ||
+"لا يوجد وصف"
+)}
 
-      app.style.display =
-        "block";
+</div>
 
-      adminEmail.textContent =
-        user.email || "حساب الإدارة";
 
-      await loadRequests();
+${
+request.image_url
+?
+`
+<div style="margin-bottom:16px">
+<a
+href="${escapeHtml(request.image_url)}"
+target="_blank"
+rel="noopener noreferrer"
+class="image-link"
+>
+عرض صورة العطل
+</a>
+</div>
+`
+:
+""
+}
 
-    }
 
+<div class="controls">
 
-    /* ==========================================
-       LOGOUT
-    ========================================== */
 
-    logoutBtn.addEventListener(
-      "click",
-      async function() {
+<div class="control">
 
-        await client.auth.signOut();
+<label>حالة الطلب</label>
 
-        allRequests = [];
+<select class="request-status">
 
-        showLogin();
+${statusOptions(
+request.status
+)}
 
-      }
-    );
+</select>
 
+</div>
 
-    /* ==========================================
-       LOAD REQUESTS
-    ========================================== */
 
-    async function loadRequests() {
+<div class="control">
 
-      requestsContainer.innerHTML = `
-        <div class="loading">
-          جاري تحميل الطلبات...
-        </div>
-      `;
+<label>الأولوية</label>
 
-      const {
-        data,
-        error
-      } = await client
-        .from("service_requests")
-        .select("*")
-        .order(
-          "created_at",
-          {
-            ascending: false
-          }
-        );
+<select class="request-priority">
 
-      if (error) {
+${priorityOptions(
+request.priority
+)}
 
-        requestsContainer.innerHTML = `
-          <div class="empty">
-            <h3>تعذر تحميل الطلبات</h3>
-            <p style="margin-top:10px;">
-              ${escapeHtml(error.message)}
-            </p>
-          </div>
-        `;
+</select>
 
-        return;
-      }
+</div>
 
-      allRequests =
-        data || [];
 
-      updateStatistics();
+<div class="control">
 
-      renderRequests();
+<label>تعيين الفني</label>
 
-    }
+<select class="technician-select">
 
+${technicianOptions(
+request.assigned_technician_id,
+request.service_type
+)}
 
-    /* ==========================================
-       STATISTICS
-    ========================================== */
+</select>
 
-    function updateStatistics() {
+</div>
 
-      const total =
-        allRequests.length;
 
-      const newRequests =
-        allRequests.filter(
-          r => r.status === "جديد"
-        ).length;
+<div class="control">
 
-      const progress =
-        allRequests.filter(
-          r =>
-            r.status === "قيد التنفيذ" ||
-            r.status === "الفني في الطريق" ||
-            r.status === "تم تعيين فني" ||
-            r.status === "قيد المراجعة"
-        ).length;
+<label>ملاحظات الإدارة</label>
 
-      const completed =
-        allRequests.filter(
-          r => r.status === "مكتمل"
-        ).length;
+<textarea
+class="admin-notes"
+placeholder="ملاحظات الإدارة..."
+>${escapeHtml(
+request.admin_notes || ""
+)}</textarea>
 
-      const cancelled =
-        allRequests.filter(
-          r => r.status === "ملغي"
-        ).length;
+</div>
 
-      document.getElementById(
-        "totalCount"
-      ).textContent = total;
 
-      document.getElementById(
-        "newCount"
-      ).textContent = newRequests;
+<div class="control">
 
-      document.getElementById(
-        "progressCount"
-      ).textContent = progress;
+<label>ملاحظات الفني</label>
 
-      document.getElementById(
-        "completedCount"
-      ).textContent = completed;
+<textarea
+class="technician-notes"
+placeholder="ملاحظات الفني..."
+>${escapeHtml(
+request.technician_notes || ""
+)}</textarea>
 
-      document.getElementById(
-        "cancelledCount"
-      ).textContent = cancelled;
+</div>
 
-    }
 
+<div class="control">
 
-    /* ==========================================
-       FILTER
-    ========================================== */
+<label>تاريخ الإنجاز</label>
 
-    searchInput.addEventListener(
-      "input",
-      renderRequests
-    );
+<input
+type="text"
+value="${
+request.completed_at
+?
+formatDate(request.completed_at)
+:
+"لم يكتمل بعد"
+}"
+disabled
+>
 
-    serviceFilter.addEventListener(
-      "change",
-      renderRequests
-    );
+</div>
 
-    statusFilter.addEventListener(
-      "change",
-      renderRequests
-    );
 
-    priorityFilter.addEventListener(
-      "change",
-      renderRequests
-    );
+</div>
 
 
-    refreshBtn.addEventListener(
-      "click",
-      loadRequests
-    );
+<div class="save-row">
 
+<span style="color:#64748b;font-size:11px">
+${
+request.updated_at
+?
+"آخر تحديث: " +
+formatDate(request.updated_at)
+:
+"لم يتم التحديث"
+}
+</span>
 
-    function getFilteredRequests() {
+<button
+class="save-btn"
+onclick="saveRequest('${escapeAttribute(request.id)}',this)"
+>
+حفظ التعديلات
+</button>
 
-      const search =
-        searchInput.value
-          .trim()
-          .toLowerCase();
+</div>
 
-      const service =
-        serviceFilter.value;
+</article>
 
-      const status =
-        statusFilter.value;
+`;
 
-      const priority =
-        priorityFilter.value;
+}
 
-      return allRequests.filter(
-        request => {
 
-          const searchable = [
+/* ======================================
+TECHNICIAN OPTIONS
+====================================== */
 
-            request.request_number,
+function technicianOptions(
+selectedId,
+service
+){
 
-            request.customer_name,
+let html = `
+<option value="">
+-- بدون فني --
+</option>
+`;
 
-            request.phone,
 
-            request.location,
+const matching =
+technicians.filter(
+technician => {
 
-            request.service_type
+if(!service){
+return true;
+}
 
-          ]
-          .filter(Boolean)
-          .join(" ")
-          .toLowerCase();
+return (
+technician.service_type === service ||
+technician.service_type === "متعدد التخصصات" ||
+technician.status === "متاح"
+);
 
-          const matchesSearch =
-            !search ||
-            searchable.includes(search);
+}
+);
 
-          const matchesService =
-            !service ||
-            request.service_type === service;
 
-          const matchesStatus =
-            !status ||
-            request.status === status;
+matching.forEach(
+technician => {
 
-          const matchesPriority =
-            !priority ||
-            request.priority === priority;
+html += `
+<option
+value="${escapeAttribute(technician.id)}"
+${technician.id === selectedId ? "selected" : ""}
+>
+${escapeHtml(
+technician.full_name
+)}
+${
+technician.service_type
+?
+" — " +
+escapeHtml(
+technician.service_type
+)
+:
+""
+}
+</option>
+`;
 
-          return (
-            matchesSearch &&
-            matchesService &&
-            matchesStatus &&
-            matchesPriority
-          );
+});
 
-        }
-      );
 
-    }
+return html;
 
+}
 
-    /* ==========================================
-       RENDER
-    ========================================== */
 
-    function renderRequests() {
+/* ======================================
+STATUS OPTIONS
+====================================== */
 
-      const requests =
-        getFilteredRequests();
+function statusOptions(current){
 
-      document.getElementById(
-        "requestCount"
-      ).textContent =
-        requests.length + " طلب";
+const options = [
+"جديد",
+"قيد المراجعة",
+"تم تعيين فني",
+"الفني في الطريق",
+"قيد التنفيذ",
+"بانتظار قطعة/موافقة",
+"مكتمل",
+"ملغي"
+];
 
+return options.map(
+option => `
+<option
+value="${escapeAttribute(option)}"
+${current === option ? "selected" : ""}
+>
+${escapeHtml(option)}
+</option>
+`
+).join("");
 
-      if (!requests.length) {
+}
 
-        requestsContainer.innerHTML = `
-          <div class="empty">
-            لا توجد طلبات مطابقة للبحث.
-          </div>
-        `;
 
-        return;
-      }
+/* ======================================
+PRIORITY OPTIONS
+====================================== */
 
+function priorityOptions(current){
 
-      requestsContainer.innerHTML =
-        `
-        <div class="requests">
-          ${requests.map(
-            requestCard
-          ).join("")}
-        </div>
-        `;
+const options = [
+"عادي",
+"متوسط",
+"عاجل"
+];
 
-    }
+return options.map(
+option => `
+<option
+value="${escapeAttribute(option)}"
+${(current || "عادي") === option ? "selected" : ""}
+>
+${escapeHtml(option)}
+</option>
+`
+).join("");
 
+}
 
-    function requestCard(request) {
 
-      const statusClass =
-        getStatusClass(
-          request.status
-        );
+/* ======================================
+SAVE
+====================================== */
 
-      const createdDate =
-        formatDate(
-          request.created_at
-        );
+window.saveRequest =
+async function(id,button){
 
-      const preferredDate =
-        request.preferred_date
-          ? formatDate(
-              request.preferred_date
-            )
-          : "غير محدد";
+const card =
+document.querySelector(
+`.request-card[data-id="${CSS.escape(id)}"]`
+);
 
+if(!card){
+return;
+}
 
-      return `
 
-        <article
-          class="request-card"
-          data-id="${escapeHtml(
-            request.id
-          )}"
-        >
+const status =
+card.querySelector(
+".request-status"
+).value;
 
-          <div class="request-top">
+const priority =
+card.querySelector(
+".request-priority"
+).value;
 
-            <div>
+const technicianId =
+card.querySelector(
+".technician-select"
+).value;
 
-              <div class="request-number">
-                ${escapeHtml(
-                  request.request_number ||
-                  "بدون رقم"
-                )}
-              </div>
+const adminNotes =
+card.querySelector(
+".admin-notes"
+).value.trim();
 
-              <div class="request-date">
-                تم إنشاء الطلب:
-                ${createdDate}
-              </div>
+const technicianNotes =
+card.querySelector(
+".technician-notes"
+).value.trim();
 
-            </div>
 
+let technicianName = null;
 
-            <div class="badges">
 
-              <span class="badge ${statusClass}">
-                ${escapeHtml(
-                  request.status ||
-                  "غير محدد"
-                )}
-              </span>
+if(technicianId){
 
-              <span class="badge">
-                ${escapeHtml(
-                  request.priority ||
-                  "عادي"
-                )}
-              </span>
+const technician =
+technicians.find(
+item =>
+item.id === technicianId
+);
 
-            </div>
+if(technician){
 
-          </div>
+technicianName =
+technician.full_name;
 
+}
 
-          <div class="request-info">
+}
 
-            <div class="info-box">
 
-              <div class="info-label">
-                العميل
-              </div>
+button.disabled = true;
+button.textContent =
+"جاري الحفظ...";
 
-              <div class="info-value">
-                ${escapeHtml(
-                  request.customer_name ||
-                  "-"
-                )}
-              </div>
 
-            </div>
+const updateData = {
 
+status,
+priority,
 
-            <div class="info-box">
+assigned_technician_id:
+technicianId || null,
 
-              <div class="info-label">
-                الهاتف
-              </div>
+assigned_technician_name:
+technicianName,
 
-              <div class="info-value">
-                ${escapeHtml(
-                  request.phone ||
-                  "-"
-                )}
-              </div>
+admin_notes:
+adminNotes || null,
 
-            </div>
+technician_notes:
+technicianNotes || null,
 
+updated_at:
+new Date().toISOString()
 
-            <div class="info-box">
+};
 
-              <div class="info-label">
-                نوع الخدمة
-              </div>
 
-              <div class="info-value">
-                ${escapeHtml(
-                  request.service_type ||
-                  "-"
-                )}
-              </div>
+if(status === "مكتمل"){
 
-            </div>
+const existing =
+allRequests.find(
+r => r.id === id
+);
 
+updateData.completed_at =
+existing &&
+existing.completed_at
+?
+existing.completed_at
+:
+new Date().toISOString();
 
-            <div class="info-box">
+}else{
 
-              <div class="info-label">
-                الموعد المطلوب
-              </div>
+updateData.completed_at =
+null;
 
-              <div class="info-value">
-                ${preferredDate}
-              </div>
+}
 
-            </div>
 
+const {
+error
+} = await client
+.from("service_requests")
+.update(updateData)
+.eq("id",id);
 
-            <div class="info-box">
 
-              <div class="info-label">
-                الموقع
-              </div>
+if(error){
 
-              <div class="info-value">
-                ${escapeHtml(
-                  request.location ||
-                  "-"
-                )}
-              </div>
+showToast(
+"فشل الحفظ: " +
+error.message,
+true
+);
 
-            </div>
+button.disabled = false;
+button.textContent =
+"حفظ التعديلات";
 
+return;
 
-            <div class="info-box">
+}
 
-              <div class="info-label">
-                الفني المعين
-              </div>
 
-              <div class="info-value">
-                ${escapeHtml(
-                  request.assigned_technician_name ||
-                  "لم يتم التعيين"
-                )}
-              </div>
+showToast(
+"تم حفظ الطلب وتعيين الفني"
+);
 
-            </div>
+await loadRequests();
 
-          </div>
+};
 
 
-          <div class="description">
+/* ======================================
+LOGOUT
+====================================== */
 
-            <strong>
-              وصف المشكلة:
-            </strong>
+logoutBtn.addEventListener(
+"click",
+async function(){
 
-            <br>
+await client.auth.signOut();
 
-            ${escapeHtml(
-              request.description ||
-              "لا يوجد وصف"
-            )}
+window.location.href =
+"admin.html";
 
-          </div>
+}
+);
 
 
-          ${
-            request.image_url
-            ?
-            `
-            <div style="margin-bottom:18px;">
-              <a
-                class="image-link"
-                href="${escapeHtml(
-                  request.image_url
-                )}"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                عرض صورة العطل
-              </a>
-            </div>
-            `
-            :
-            ""
-          }
+/* ======================================
+HELPERS
+====================================== */
 
+function formatDate(value){
 
-          <div class="request-controls">
+if(!value){
+return "-";
+}
 
-            <div class="control">
+const date =
+new Date(value);
 
-              <label>
-                حالة الطلب
-              </label>
+if(
+Number.isNaN(
+date.getTime()
+)
+){
+return String(value);
+}
 
-              <select
-                class="request-status"
-                data-field="status"
-              >
+return date.toLocaleString(
+"ar-JO",
+{
+year:"numeric",
+month:"2-digit",
+day:"2-digit",
+hour:"2-digit",
+minute:"2-digit"
+}
+);
 
-                ${statusOptions(
-                  request.status
-                )}
+}
 
-              </select>
 
-            </div>
+function getStatusClass(status){
 
+if(status === "جديد"){
+return "new";
+}
 
-            <div class="control">
+if(status === "مكتمل"){
+return "done";
+}
 
-              <label>
-                الأولوية
-              </label>
+if(status === "ملغي"){
+return "cancelled";
+}
 
-              <select
-                class="request-priority"
-                data-field="priority"
-              >
+return "progress";
 
-                ${priorityOptions(
-                  request.priority
-                )}
+}
 
-              </select>
 
-            </div>
+function escapeHtml(value){
 
+if(
+value === null ||
+value === undefined
+){
+return "";
+}
 
-            <div class="control">
+return String(value)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 
-              <label>
-                اسم الفني
-              </label>
+}
 
-              <input
-                type="text"
-                class="technician-name"
-                data-field="assigned_technician_name"
-                value="${escapeAttribute(
-                  request.assigned_technician_name || ""
-                )}"
-                placeholder="اسم الفني"
-              >
 
-            </div>
+function escapeAttribute(value){
 
+return escapeHtml(value);
 
-            <div class="control">
+}
 
-              <label>
-                رقم/معرف الفني
-              </label>
 
-              <input
-                type="text"
-                class="technician-id"
-                data-field="assigned_technician_id"
-                value="${escapeAttribute(
-                  request.assigned_technician_id || ""
-                )}"
-                placeholder="اختياري"
-              >
+function showToast(
+message,
+error=false
+){
 
-            </div>
+toast.textContent =
+message;
 
+toast.className =
+error
+?
+"toast error"
+:
+"toast";
 
-            <div class="control">
+toast.style.display =
+"block";
 
-              <label>
-                ملاحظات الإدارة
-              </label>
+clearTimeout(
+window.toastTimer
+);
 
-              <textarea
-                class="admin-notes"
-                data-field="admin_notes"
-                placeholder="ملاحظات الإدارة"
-              >${escapeHtml(
-                request.admin_notes || ""
-              )}</textarea>
+window.toastTimer =
+setTimeout(
+()=>{
+toast.style.display =
+"none";
+},
+3500
+);
 
-            </div>
+}
 
-
-            <div class="control">
-
-              <label>
-                ملاحظات الفني
-              </label>
-
-              <textarea
-                class="technician-notes"
-                data-field="technician_notes"
-                placeholder="ملاحظات الفني"
-              >${escapeHtml(
-                request.technician_notes || ""
-              )}</textarea>
-
-            </div>
-
-          </div>
-
-
-          <div class="save-row">
-
-            <span style="color:#64748b;font-size:12px;">
-              ${
-                request.updated_at
-                ?
-                "آخر تحديث: " +
-                formatDate(request.updated_at)
-                :
-                "لم يتم تحديثه بعد"
-              }
-            </span>
-
-            <button
-              class="save-btn"
-              onclick="saveRequest('${escapeAttribute(
-                request.id
-              )}', this)"
-            >
-              حفظ التعديلات
-            </button>
-
-          </div>
-
-        </article>
-
-      `;
-
-    }
-
-
-    /* ==========================================
-       STATUS OPTIONS
-    ========================================== */
-
-    function statusOptions(current) {
-
-      const options = [
-        "جديد",
-        "قيد المراجعة",
-        "تم تعيين فني",
-        "الفني في الطريق",
-        "قيد التنفيذ",
-        "بانتظار قطعة/موافقة",
-        "مكتمل",
-        "ملغي"
-      ];
-
-      return options.map(
-        option => `
-          <option
-            value="${escapeAttribute(option)}"
-            ${current === option ? "selected" : ""}
-          >
-            ${escapeHtml(option)}
-          </option>
-        `
-      ).join("");
-
-    }
-
-
-    /* ==========================================
-       PRIORITY OPTIONS
-    ========================================== */
-
-    function priorityOptions(current) {
-
-      const options = [
-        "عادي",
-        "متوسط",
-        "عاجل"
-      ];
-
-      const selected =
-        current || "عادي";
-
-      return options.map(
-        option => `
-          <option
-            value="${escapeAttribute(option)}"
-            ${selected === option ? "selected" : ""}
-          >
-            ${escapeHtml(option)}
-          </option>
-        `
-      ).join("");
-
-    }
-
-
-    /* ==========================================
-       SAVE REQUEST
-    ========================================== */
-
-    async function saveRequest(
-      id,
-      button
-    ) {
-
-      const card =
-        document.querySelector(
-          `.request-card[data-id="${CSS.escape(id)}"]`
-        );
-
-      if (!card) {
-
-        showToast(
-          "تعذر العثور على الطلب",
-          true
-        );
-
-        return;
-      }
-
-
-      const status =
-        card.querySelector(
-          ".request-status"
-        ).value;
-
-      const priority =
-        card.querySelector(
-          ".request-priority"
-        ).value;
-
-      const technicianName =
-        card.querySelector(
-          ".technician-name"
-        ).value.trim();
-
-      const technicianId =
-        card.querySelector(
-          ".technician-id"
-        ).value.trim();
-
-      const adminNotes =
-        card.querySelector(
-          ".admin-notes"
-        ).value.trim();
-
-      const technicianNotes =
-        card.querySelector(
-          ".technician-notes"
-        ).value.trim();
-
-
-      button.disabled = true;
-
-      button.textContent =
-        "جاري الحفظ...";
-
-
-      const updateData = {
-
-        status,
-
-        priority,
-
-        assigned_technician_name:
-          technicianName || null,
-
-        assigned_technician_id:
-          technicianId || null,
-
-        admin_notes:
-          adminNotes || null,
-
-        technician_notes:
-          technicianNotes || null,
-
-        updated_at:
-          new Date().toISOString()
-
-      };
-
-
-      if (
-        status === "مكتمل"
-      ) {
-
-        updateData.completed_at =
-          new Date().toISOString();
-
-      }
-
-
-      if (
-        status !== "مكتمل"
-      ) {
-
-        updateData.completed_at =
-          null;
-
-      }
-
-
-      const {
-        error
-      } = await client
-        .from("service_requests")
-        .update(updateData)
-        .eq("id", id);
-
-
-      if (error) {
-
-        showToast(
-          "فشل حفظ التعديلات: " +
-          error.message,
-          true
-        );
-
-        button.disabled = false;
-
-        button.textContent =
-          "حفظ التعديلات";
-
-        return;
-      }
-
-
-      showToast(
-        "تم حفظ تعديلات الطلب"
-      );
-
-
-      await loadRequests();
-
-    }
-
-
-    /* ==========================================
-       HELPERS
-    ========================================== */
-
-    function formatDate(value) {
-
-      if (!value) {
-        return "-";
-      }
-
-      const date =
-        new Date(value);
-
-      if (
-        Number.isNaN(
-          date.getTime()
-        )
-      ) {
-        return escapeHtml(
-          String(value)
-        );
-      }
-
-      return date.toLocaleString(
-        "ar-JO",
-        {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit"
-        }
-      );
-
-    }
-
-
-    function getStatusClass(status) {
-
-      if (
-        status === "جديد"
-      ) {
-        return "new";
-      }
-
-      if (
-        status === "مكتمل"
-      ) {
-        return "done";
-      }
-
-      if (
-        status === "ملغي"
-      ) {
-        return "cancelled";
-      }
-
-      if (
-        status === "قيد التنفيذ" ||
-        status === "الفني في الطريق" ||
-        status === "تم تعيين فني" ||
-        status === "قيد المراجعة"
-      ) {
-        return "progress";
-      }
-
-      return "";
-
-    }
-
-
-    function escapeHtml(value) {
-
-      if (
-        value === null ||
-        value === undefined
-      ) {
-        return "";
-      }
-
-      return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-
-    }
-
-
-    function escapeAttribute(value) {
-
-      return escapeHtml(value);
-
-    }
-
-
-    function showToast(
-      message,
-      isError = false
-    ) {
-
-      toast.textContent =
-        message;
-
-      toast.className =
-        isError
-        ? "toast error"
-        : "toast";
-
-      toast.style.display =
-        "block";
-
-      clearTimeout(
-        window.toastTimer
-      );
-
-      window.toastTimer =
-        setTimeout(
-          () => {
-            toast.style.display =
-              "none";
-          },
-          3500
-        );
-
-    }
-
-  </script>
+</script>
 
 </body>
 </html>
