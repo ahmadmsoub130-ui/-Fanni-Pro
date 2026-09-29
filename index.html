@@ -4,12 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>فني برو | خدمات الصيانة المنزلية</title>
+  <title>فني برو | خدمات الصيانة</title>
 
-  <meta name="description" content="فني برو منصة عربية لطلب خدمات الصيانة المنزلية ومتابعة الطلبات بسهولة.">
-  <meta name="theme-color" content="#07152f">
+  <meta
+    name="description"
+    content="فني برو منصة متكاملة لطلب خدمات الصيانة المنزلية والفنية."
+  >
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -23,12 +28,11 @@
     body {
       font-family: Arial, Tahoma, sans-serif;
       background:
-        radial-gradient(circle at top right, rgba(74, 70, 229, 0.18), transparent 35%),
-        radial-gradient(circle at bottom left, rgba(0, 174, 255, 0.12), transparent 30%),
-        #050b1b;
-      color: #fff;
-      min-height: 100vh;
-      overflow-x: hidden;
+        radial-gradient(circle at top right, rgba(99,102,241,.18), transparent 35%),
+        radial-gradient(circle at 20% 80%, rgba(139,92,246,.12), transparent 30%),
+        #07111f;
+      color: white;
+      line-height: 1.7;
     }
 
     a {
@@ -37,482 +41,461 @@
     }
 
     .container {
-      width: min(1180px, 92%);
+      width: 92%;
+      max-width: 1200px;
       margin: auto;
     }
 
-    /* ================= HEADER ================= */
+    /* HEADER */
 
     header {
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(5, 11, 27, 0.88);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(7,17,31,.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,.07);
     }
 
-    .navbar {
-      min-height: 76px;
+    .nav {
+      min-height: 72px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      gap: 15px;
     }
 
     .logo {
-      font-size: 26px;
-      font-weight: 900;
-      color: #fff;
-      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 21px;
+      font-weight: bold;
     }
 
-    .logo span {
-      color: #6d63ff;
+    .logo-icon {
+      width: 43px;
+      height: 43px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg,#6366f1,#8b5cf6);
+      box-shadow: 0 8px 25px rgba(99,102,241,.3);
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .nav-links a {
-      padding: 10px 14px;
-      color: #cbd5e1;
-      border-radius: 10px;
-      transition: 0.25s;
-      font-size: 15px;
-    }
-
-    .nav-links a:hover {
-      color: #fff;
-      background: rgba(255,255,255,0.07);
-    }
-
+    .nav-links a,
     .nav-button {
-      background: linear-gradient(135deg, #665cff, #8d5cff) !important;
-      color: #fff !important;
-      font-weight: bold;
-      box-shadow: 0 8px 25px rgba(105, 92, 255, 0.25);
+      border: none;
+      background: transparent;
+      color: #b9c5d6;
+      padding: 9px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
     }
 
-    /* ================= HERO ================= */
+    .nav-links a:hover,
+    .nav-button:hover {
+      color: white;
+      background: rgba(255,255,255,.05);
+    }
+
+    .login-btn {
+      background: linear-gradient(135deg,#6366f1,#8b5cf6) !important;
+      color: white !important;
+    }
+
+    /* HERO */
 
     .hero {
-      padding: 90px 0 70px;
-      min-height: 690px;
-      display: flex;
-      align-items: center;
+      padding: 80px 0 65px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 45px;
       align-items: center;
-      gap: 60px;
     }
 
     .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(105, 92, 255, 0.12);
-      border: 1px solid rgba(105, 92, 255, 0.3);
-      color: #aaa4ff;
-      padding: 9px 14px;
-      border-radius: 50px;
-      font-size: 14px;
-      margin-bottom: 22px;
+      display: inline-block;
+      padding: 7px 13px;
+      border-radius: 999px;
+      background: rgba(99,102,241,.12);
+      border: 1px solid rgba(99,102,241,.25);
+      color: #b8b5ff;
+      font-size: 13px;
+      margin-bottom: 17px;
     }
 
     .hero h1 {
-      font-size: clamp(40px, 6vw, 68px);
-      line-height: 1.1;
-      margin-bottom: 22px;
-      font-weight: 900;
+      font-size: clamp(35px,5vw,60px);
+      line-height: 1.15;
+      margin-bottom: 20px;
     }
 
     .hero h1 span {
-      background: linear-gradient(90deg, #6d63ff, #00c6ff);
+      background: linear-gradient(135deg,#818cf8,#c084fc);
       -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      -webkit-text-fill-color: transparent;
     }
 
     .hero p {
-      color: #aeb9ce;
-      font-size: 18px;
-      line-height: 1.9;
+      color: #aebacd;
+      font-size: 17px;
       max-width: 650px;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
 
     .hero-buttons {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 12px;
     }
 
     .primary-btn,
     .secondary-btn {
       display: inline-flex;
-      justify-content: center;
       align-items: center;
-      min-height: 52px;
-      padding: 0 24px;
-      border-radius: 14px;
+      justify-content: center;
+      padding: 14px 20px;
+      border-radius: 13px;
       font-weight: bold;
-      transition: 0.25s;
+      cursor: pointer;
+      border: none;
+      font-size: 15px;
     }
 
     .primary-btn {
-      background: linear-gradient(135deg, #665cff, #8d5cff);
-      box-shadow: 0 12px 35px rgba(105, 92, 255, 0.3);
+      background: linear-gradient(135deg,#6366f1,#8b5cf6);
+      color: white;
+      box-shadow: 0 12px 30px rgba(99,102,241,.25);
     }
 
     .secondary-btn {
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.04);
-      color: #e2e8f0;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      color: white;
     }
 
-    .primary-btn:hover,
-    .secondary-btn:hover {
-      transform: translateY(-3px);
-    }
-
-    /* ================= HERO CARD ================= */
+    /* HERO CARD */
 
     .hero-card {
       position: relative;
-      background: linear-gradient(
-        145deg,
-        rgba(24, 36, 75, 0.9),
-        rgba(9, 17, 38, 0.95)
-      );
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius: 30px;
-      padding: 28px;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+      min-height: 350px;
+      padding: 25px;
+      border-radius: 28px;
+      background: rgba(15,27,46,.88);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 25px 70px rgba(0,0,0,.3);
+      overflow: hidden;
     }
 
     .hero-card::before {
       content: "";
       position: absolute;
-      width: 180px;
-      height: 180px;
-      background: #665cff;
-      filter: blur(90px);
-      opacity: 0.22;
-      top: -50px;
-      right: -50px;
-      pointer-events: none;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background: rgba(99,102,241,.17);
+      filter: blur(20px);
+      top: -70px;
+      right: -70px;
     }
 
-    .card-title {
-      font-size: 21px;
-      font-weight: bold;
+    .preview-title {
+      font-size: 19px;
       margin-bottom: 20px;
-    }
-
-    .preview-list {
-      display: grid;
-      gap: 12px;
+      position: relative;
     }
 
     .preview-item {
+      position: relative;
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 13px;
       padding: 15px;
-      background: rgba(255,255,255,0.045);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 16px;
-      transition: 0.25s;
+      margin-bottom: 10px;
+      border-radius: 15px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+      cursor: pointer;
+      transition: .2s;
     }
 
     .preview-item:hover {
-      background: rgba(105,92,255,0.12);
-      border-color: rgba(105,92,255,0.3);
-      transform: translateX(-4px);
+      transform: translateY(-2px);
+      background: rgba(99,102,241,.1);
+      border-color: rgba(99,102,241,.25);
     }
 
     .preview-icon {
-      width: 46px;
-      height: 46px;
-      display: grid;
-      place-items: center;
-      border-radius: 13px;
-      background: rgba(105,92,255,0.15);
-      font-size: 22px;
-      flex-shrink: 0;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(99,102,241,.13);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
     }
 
     .preview-text strong {
       display: block;
-      margin-bottom: 5px;
+      font-size: 14px;
     }
 
-    .preview-text small {
-      color: #8e9ab0;
+    .preview-text span {
+      display: block;
+      color: #8492a8;
+      font-size: 12px;
     }
 
-    /* ================= SERVICES ================= */
+    /* SERVICES */
 
     .section {
-      padding: 90px 0;
+      padding: 70px 0;
     }
 
-    .section-heading {
+    .section-head {
       text-align: center;
-      margin-bottom: 45px;
+      margin-bottom: 35px;
     }
 
-    .section-heading .mini {
-      color: #7f78ff;
-      font-weight: bold;
-      margin-bottom: 10px;
-      display: block;
+    .section-head h2 {
+      font-size: 32px;
+      margin-bottom: 8px;
     }
 
-    .section-heading h2 {
-      font-size: 38px;
-      margin-bottom: 14px;
-    }
-
-    .section-heading p {
-      color: #9ba8bd;
-      max-width: 650px;
-      margin: auto;
-      line-height: 1.8;
+    .section-head p {
+      color: #8f9caf;
     }
 
     .services-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
+      grid-template-columns: repeat(4,1fr);
+      gap: 15px;
     }
-
-    /*
-      مهم:
-      أصبحت بطاقات الخدمات روابط حقيقية.
-      الضغط عليها ينقل إلى service-request.html
-      مع نوع الخدمة في الرابط.
-    */
 
     .service {
       display: block;
-      padding: 25px 20px;
-      min-height: 190px;
-      background: rgba(255,255,255,0.035);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 22px;
-      transition: 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .service::after {
-      content: "";
-      position: absolute;
-      width: 100px;
-      height: 100px;
-      background: #665cff;
-      filter: blur(70px);
-      opacity: 0;
-      right: -30px;
-      bottom: -30px;
-      transition: 0.3s;
-      pointer-events: none;
+      padding: 22px;
+      min-height: 170px;
+      border-radius: 20px;
+      background: rgba(15,27,46,.85);
+      border: 1px solid rgba(255,255,255,.07);
+      cursor: pointer;
+      transition: .2s;
     }
 
     .service:hover {
-      transform: translateY(-7px);
-      border-color: rgba(105,92,255,0.45);
-      background: rgba(105,92,255,0.07);
-    }
-
-    .service:hover::after {
-      opacity: 0.35;
+      transform: translateY(-5px);
+      border-color: rgba(99,102,241,.4);
+      box-shadow: 0 15px 35px rgba(0,0,0,.2);
     }
 
     .service-icon {
-      width: 55px;
-      height: 55px;
-      display: grid;
-      place-items: center;
-      border-radius: 16px;
-      background: rgba(105,92,255,0.13);
-      font-size: 27px;
-      margin-bottom: 18px;
+      width: 52px;
+      height: 52px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(99,102,241,.13);
+      font-size: 26px;
+      margin-bottom: 15px;
     }
 
     .service h3 {
-      font-size: 18px;
-      margin-bottom: 8px;
+      font-size: 17px;
+      margin-bottom: 5px;
     }
 
     .service p {
-      color: #8997ad;
-      line-height: 1.7;
-      font-size: 14px;
-    }
-
-    .service-action {
-      margin-top: 13px;
-      color: #8f88ff;
+      color: #8592a5;
       font-size: 13px;
-      font-weight: bold;
     }
 
-    /* ================= HOW ================= */
+    /* HOW */
 
-    .how-box {
+    .steps {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3,1fr);
       gap: 18px;
     }
 
     .step {
-      background: rgba(255,255,255,0.035);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 22px;
-      padding: 28px;
+      padding: 25px;
+      border-radius: 18px;
+      background: rgba(15,27,46,.75);
+      border: 1px solid rgba(255,255,255,.06);
       text-align: center;
     }
 
     .step-number {
-      width: 55px;
-      height: 55px;
-      display: grid;
-      place-items: center;
-      margin: 0 auto 18px;
+      width: 45px;
+      height: 45px;
+      margin: 0 auto 14px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #665cff, #00aeea);
-      font-size: 20px;
-      font-weight: 900;
-    }
-
-    .step h3 {
-      margin-bottom: 10px;
+      background: linear-gradient(135deg,#6366f1,#8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
     }
 
     .step p {
-      color: #8f9bb0;
-      line-height: 1.8;
+      color: #8f9caf;
       font-size: 14px;
+      margin-top: 6px;
     }
 
-    /* ================= CTA ================= */
+    /* FOOTER */
 
-    .cta {
-      padding: 30px;
-      border-radius: 28px;
-      background:
-        linear-gradient(
-          135deg,
-          rgba(102,92,255,0.2),
-          rgba(0,174,234,0.1)
-        );
-      border: 1px solid rgba(105,92,255,0.25);
+    footer {
+      border-top: 1px solid rgba(255,255,255,.07);
+      padding: 30px 0;
+      color: #77869c;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    /* MODAL */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(5px);
+      z-index: 5000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 430px;
+      background: #0d1a2d;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 23px;
+      padding: 28px;
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(0,0,0,.5);
+    }
+
+    .modal-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      background: rgba(99,102,241,.14);
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .modal-box h3 {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .modal-box p {
+      color: #9aa8ba;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .modal-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .modal-buttons button,
+    .modal-buttons a {
+      padding: 13px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
       text-align: center;
     }
 
-    .cta h2 {
-      font-size: 32px;
-      margin-bottom: 12px;
+    .modal-login {
+      background: linear-gradient(135deg,#6366f1,#8b5cf6);
+      color: white;
     }
 
-    .cta p {
-      color: #a4b0c4;
-      line-height: 1.8;
-      margin-bottom: 24px;
+    .modal-close {
+      background: rgba(255,255,255,.06);
+      color: #d6deea;
     }
 
-    .cta-buttons {
+    /* USER STATUS */
+
+    #userArea {
       display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    /* ================= FOOTER ================= */
-
-    footer {
-      border-top: 1px solid rgba(255,255,255,0.08);
-      margin-top: 50px;
-      padding: 35px 0;
-      color: #7f8ba0;
-    }
-
-    .footer-content {
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .footer-links {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
+    .user-badge {
+      color: #aebbd0;
+      font-size: 13px;
     }
 
-    .footer-links a:hover {
-      color: #fff;
+    .logout-btn {
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      color: #d3dbea;
+      padding: 8px 11px;
+      border-radius: 9px;
+      cursor: pointer;
     }
 
-    /* ================= RESPONSIVE ================= */
+    @media (max-width: 900px) {
 
-    @media (max-width: 950px) {
       .hero-grid {
         grid-template-columns: 1fr;
       }
 
       .services-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2,1fr);
       }
 
-      .how-box {
+    }
+
+    @media (max-width: 600px) {
+
+      .nav-links a:not(.login-btn) {
+        display: none;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .steps {
         grid-template-columns: 1fr;
       }
 
       .hero {
-        padding-top: 55px;
-      }
-    }
-
-    @media (max-width: 650px) {
-      .navbar {
-        min-height: 68px;
-      }
-
-      .logo {
-        font-size: 22px;
-      }
-
-      .nav-links {
-        gap: 3px;
-      }
-
-      .nav-links a {
-        padding: 8px 7px;
-        font-size: 12px;
-      }
-
-      .nav-links a:not(.nav-button) {
-        display: none;
-      }
-
-      .hero h1 {
-        font-size: 40px;
-      }
-
-      .hero p {
-        font-size: 16px;
+        padding-top: 50px;
       }
 
       .hero-buttons {
@@ -524,566 +507,763 @@
         width: 100%;
       }
 
-      .services-grid {
-        grid-template-columns: 1fr;
+      .user-badge {
+        display: none;
       }
 
-      .section {
-        padding: 65px 0;
-      }
-
-      .section-heading h2 {
-        font-size: 30px;
-      }
-
-      .footer-content {
-        flex-direction: column;
-        text-align: center;
-      }
     }
+
   </style>
 </head>
 
 <body>
 
-  <!-- ================= HEADER ================= -->
+<!-- HEADER -->
 
-  <header>
-    <div class="container navbar">
+<header>
 
-      <a href="index.html" class="logo">
-        فني <span>برو</span>
+  <div class="container nav">
+
+    <a href="index.html" class="logo">
+      <div class="logo-icon">🔧</div>
+      <span>فني برو</span>
+    </a>
+
+    <div class="nav-links">
+
+      <a href="#services">
+        الخدمات
       </a>
 
-      <nav class="nav-links">
+      <a href="#how">
+        كيف يعمل؟
+      </a>
 
-        <a href="#services">
-          الخدمات
-        </a>
+      <a href="track-request.html">
+        تتبع طلب
+      </a>
 
-        <a href="#how">
-          كيف يعمل؟
-        </a>
+      <div id="userArea">
 
-        <a href="track-request.html">
-          تتبع طلب
-        </a>
-
-        <a href="login.html">
+        <a
+          href="login.html"
+          class="login-btn"
+        >
           تسجيل الدخول
         </a>
 
-        <a href="service-request.html" class="nav-button">
+      </div>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+  <div class="container hero-grid">
+
+    <div>
+
+      <div class="badge">
+        منصة الصيانة والخدمات الفنية
+      </div>
+
+      <h1>
+        اطلب فنيك
+        <span>بسهولة</span>
+      </h1>
+
+      <p>
+        فني برو تجمع لك خدمات الصيانة المختلفة
+        في مكان واحد. اختر الخدمة المناسبة،
+        أرسل طلبك وتابع حالته بسهولة.
+      </p>
+
+      <div class="hero-buttons">
+
+        <button
+          class="primary-btn"
+          onclick="requestService('تكييف وتبريد')"
+        >
           اطلب خدمة
-        </a>
-
-      </nav>
-
-    </div>
-  </header>
-
-
-  <!-- ================= HERO ================= -->
-
-  <main>
-
-    <section class="hero">
-
-      <div class="container hero-grid">
-
-        <div>
-
-          <div class="badge">
-            منصة الصيانة الذكية
-          </div>
-
-          <h1>
-            كل خدمات الصيانة
-            <br>
-            <span>في مكان واحد</span>
-          </h1>
-
-          <p>
-            فني برو تربطك بخدمات الصيانة المختلفة بسهولة،
-            من التكييف والكهرباء والسباكة إلى الصيانة العامة
-            والخدمات المنزلية الأخرى.
-          </p>
-
-          <div class="hero-buttons">
-
-            <a href="service-request.html"
-               class="primary-btn">
-              اطلب خدمة صيانة
-            </a>
-
-            <a href="track-request.html"
-               class="secondary-btn">
-              تتبع طلبك
-            </a>
-
-          </div>
-
-        </div>
-
-
-        <div class="hero-card">
-
-          <div class="card-title">
-            اختر الخدمة التي تحتاجها
-          </div>
-
-          <div class="preview-list">
-
-            <a class="preview-item"
-               href="service-request.html?service=تكييف%20وتبريد">
-
-              <div class="preview-icon">
-                ❄️
-              </div>
-
-              <div class="preview-text">
-                <strong>تكييف وتبريد</strong>
-                <small>صيانة وتركيب وإصلاح</small>
-              </div>
-
-            </a>
-
-
-            <a class="preview-item"
-               href="service-request.html?service=كهرباء">
-
-              <div class="preview-icon">
-                ⚡
-              </div>
-
-              <div class="preview-text">
-                <strong>كهرباء</strong>
-                <small>أعمال كهربائية وصيانة</small>
-              </div>
-
-            </a>
-
-
-            <a class="preview-item"
-               href="service-request.html?service=سباكة">
-
-              <div class="preview-icon">
-                🚰
-              </div>
-
-              <div class="preview-text">
-                <strong>سباكة</strong>
-                <small>إصلاح وتركيب وتمديدات</small>
-              </div>
-
-            </a>
-
-
-            <a class="preview-item"
-               href="service-request.html?service=صيانة%20أجهزة%20منزلية">
-
-              <div class="preview-icon">
-                🔧
-              </div>
-
-              <div class="preview-text">
-                <strong>أجهزة منزلية</strong>
-                <small>صيانة وإصلاح الأجهزة</small>
-              </div>
-
-            </a>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= SERVICES ================= -->
-
-    <section class="section" id="services">
-
-      <div class="container">
-
-        <div class="section-heading">
-
-          <span class="mini">
-            خدمات فني برو
-          </span>
-
-          <h2>
-            جميع خدمات الصيانة
-          </h2>
-
-          <p>
-            اختر نوع الخدمة وسيتم نقلك مباشرة إلى نموذج طلب الصيانة.
-          </p>
-
-        </div>
-
-
-        <div class="services-grid">
-
-
-          <!-- تكييف -->
-
-          <a class="service"
-             href="service-request.html?service=تكييف%20وتبريد">
-
-            <div class="service-icon">
-              ❄️
-            </div>
-
-            <h3>
-              تكييف وتبريد
-            </h3>
-
-            <p>
-              صيانة وتركيب وتنظيف وإصلاح أجهزة التكييف والتبريد.
-            </p>
-
-            <div class="service-action">
-              اطلب الخدمة ←
-            </div>
-
-          </a>
-
-
-          <!-- كهرباء -->
-
-          <a class="service"
-             href="service-request.html?service=كهرباء">
-
-            <div class="service-icon">
-              ⚡
-            </div>
-
-            <h3>
-              كهرباء
-            </h3>
-
-            <p>
-              إصلاح الأعطال والأعمال الكهربائية والتركيبات.
-            </p>
-
-            <div class="service-action">
-              اطلب الخدمة ←
-            </div>
-
-          </a>
-
-
-          <!-- سباكة -->
-
-          <a class="service"
-             href="service-request.html?service=سباكة">
-
-            <div class="service-icon">
-              🚰
-            </div>
-
-            <h3>
-              سباكة
-            </h3>
-
-            <p>
-              إصلاح التسريبات والمواسير والتمديدات الصحية.
-            </p>
-
-            <div class="service-action">
-              اطلب الخدمة ←
-            </div>
-
-          </a>
-
-
-          <!-- أجهزة منزلية -->
-
-          <a class="service"
-             href="service-request.html?service=صيانة%20أجهزة%20منزلية">
-
-            <div class="service-icon">
-              🔧
-            </div>
-
-            <h3>
-              أجهزة منزلية
-            </h3>
-
-            <p>
-              صيانة وإصلاح الأجهزة المنزلية المختلفة.
-            </p>
-
-            <div class="service-action">
-              اطلب الخدمة ←
-            </div>
-
-          </a>
-
-
-          <!-- نجارة -->
-
-          <a class="service"
-             href="service-request.html?service=نجارة">
-
-            <div class="service-icon">
-              🪚
-            </div>
-
-            <h3>
-              نجارة
-            </h3>
-
-            <p>
-              أعمال النجارة والإصلاح والتركيب للأبواب والأثاث.
-            </p>
-
-            <div class="service-action">
-              اطلب الخدمة ←
-            </div>
-
-          </a>
-
-
-          <!-- دهان -->
-
-          <a class="service"
-             href="service-request.html?service=دهان">
-
-            <div class="service-icon">
-              🎨
-            </div>
-
-            <h3>
-              دهان
-            </h3>
-
-            <p>
-              دهان وتجديد الجدران والأسطح والأعمال الداخلية.
-            </p>
-
-            <div class="service-action">
-              اطلب الخدمة ←
-            </div>
-
-          </a>
-
-
-          <!-- صيانة عامة -->
-
-          <a class="service"
-             href="service-request.html?service=صيانة%20عامة">
-
-            <div class="service-icon">
-              🛠️
-            </div>
-
-            <h3>
-              صيانة عامة
-            </h3>
-
-            <p>
-              أعمال الصيانة المنزلية العامة والإصلاحات المتنوعة.
-            </p>
-
-            <div class="service-action">
-              اطلب الخدمة ←
-            </div>
-
-          </a>
-
-
-          <!-- خدمات أخرى -->
-
-          <a class="service"
-             href="service-request.html?service=أخرى">
-
-            <div class="service-icon">
-              ➕
-            </div>
-
-            <h3>
-              خدمات أخرى
-            </h3>
-
-            <p>
-              إذا لم تجد نوع الخدمة المطلوبة، اختر هذا الخيار.
-            </p>
-
-            <div class="service-action">
-              اطلب الخدمة ←
-            </div>
-
-          </a>
-
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= HOW IT WORKS ================= -->
-
-    <section class="section" id="how">
-
-      <div class="container">
-
-        <div class="section-heading">
-
-          <span class="mini">
-            خطوات بسيطة
-          </span>
-
-          <h2>
-            كيف يعمل فني برو؟
-          </h2>
-
-          <p>
-            طلب خدمة الصيانة أصبح أسهل وأسرع.
-          </p>
-
-        </div>
-
-
-        <div class="how-box">
-
-
-          <div class="step">
-
-            <div class="step-number">
-              1
-            </div>
-
-            <h3>
-              اختر الخدمة
-            </h3>
-
-            <p>
-              حدد نوع الصيانة التي تحتاجها من الخدمات المتاحة.
-            </p>
-
-          </div>
-
-
-          <div class="step">
-
-            <div class="step-number">
-              2
-            </div>
-
-            <h3>
-              أرسل الطلب
-            </h3>
-
-            <p>
-              أدخل بياناتك وموقعك ووصف المشكلة وأرسل طلب الصيانة.
-            </p>
-
-          </div>
-
-
-          <div class="step">
-
-            <div class="step-number">
-              3
-            </div>
-
-            <h3>
-              تابع طلبك
-            </h3>
-
-            <p>
-              استخدم رقم الطلب لمتابعة حالة طلب الصيانة.
-            </p>
-
-          </div>
-
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= CTA ================= -->
-
-    <section class="section">
-
-      <div class="container">
-
-        <div class="cta">
-
-          <h2>
-            تحتاج إلى صيانة؟
-          </h2>
-
-          <p>
-            أرسل طلبك الآن وسجّل بيانات المشكلة حتى يتم التعامل معها.
-          </p>
-
-          <div class="cta-buttons">
-
-            <a href="service-request.html"
-               class="primary-btn">
-              طلب خدمة
-            </a>
-
-            <a href="track-request.html"
-               class="secondary-btn">
-              تتبع طلب
-            </a>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-  </main>
-
-
-  <!-- ================= FOOTER ================= -->
-
-  <footer>
-
-    <div class="container footer-content">
-
-      <div>
-        © 2026 فني برو — جميع الحقوق محفوظة
-      </div>
-
-      <div class="footer-links">
-
-        <a href="index.html">
-          الرئيسية
-        </a>
-
-        <a href="service-request.html">
-          طلب خدمة
-        </a>
-
-        <a href="track-request.html">
+        </button>
+
+        <a
+          href="track-request.html"
+          class="secondary-btn"
+        >
           تتبع طلب
         </a>
 
-        <a href="login.html">
-          تسجيل الدخول
-        </a>
+      </div>
+
+    </div>
+
+
+    <div class="hero-card">
+
+      <h3 class="preview-title">
+        خدماتنا
+      </h3>
+
+      <div
+        class="preview-item"
+        onclick="requestService('تكييف وتبريد')"
+      >
+
+        <div class="preview-icon">
+          ❄️
+        </div>
+
+        <div class="preview-text">
+          <strong>تكييف وتبريد</strong>
+          <span>صيانة وتركيب وإصلاح</span>
+        </div>
+
+      </div>
+
+
+      <div
+        class="preview-item"
+        onclick="requestService('كهرباء')"
+      >
+
+        <div class="preview-icon">
+          ⚡
+        </div>
+
+        <div class="preview-text">
+          <strong>كهرباء</strong>
+          <span>أعمال كهربائية وصيانة</span>
+        </div>
+
+      </div>
+
+
+      <div
+        class="preview-item"
+        onclick="requestService('سباكة')"
+      >
+
+        <div class="preview-icon">
+          🚿
+        </div>
+
+        <div class="preview-text">
+          <strong>سباكة</strong>
+          <span>إصلاح وتركيب وتمديدات</span>
+        </div>
+
+      </div>
+
+
+      <div
+        class="preview-item"
+        onclick="requestService('صيانة أجهزة منزلية')"
+      >
+
+        <div class="preview-icon">
+          🔧
+        </div>
+
+        <div class="preview-text">
+          <strong>أجهزة منزلية</strong>
+          <span>غسالات وثلاجات وأجهزة منزلية</span>
+        </div>
 
       </div>
 
     </div>
 
-  </footer>
+  </div>
 
+</section>
+
+
+<!-- SERVICES -->
+
+<section
+  class="section"
+  id="services"
+>
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <h2>
+        جميع خدمات الصيانة
+      </h2>
+
+      <p>
+        اختر الخدمة التي تحتاجها
+      </p>
+
+    </div>
+
+
+    <div class="services-grid">
+
+
+      <div
+        class="service"
+        onclick="requestService('تكييف وتبريد')"
+      >
+
+        <div class="service-icon">
+          ❄️
+        </div>
+
+        <h3>
+          تكييف وتبريد
+        </h3>
+
+        <p>
+          صيانة وتركيب وإصلاح أجهزة التكييف والتبريد.
+        </p>
+
+      </div>
+
+
+      <div
+        class="service"
+        onclick="requestService('كهرباء')"
+      >
+
+        <div class="service-icon">
+          ⚡
+        </div>
+
+        <h3>
+          كهرباء
+        </h3>
+
+        <p>
+          أعمال الكهرباء والصيانة والإصلاح.
+        </p>
+
+      </div>
+
+
+      <div
+        class="service"
+        onclick="requestService('سباكة')"
+      >
+
+        <div class="service-icon">
+          🚿
+        </div>
+
+        <h3>
+          سباكة
+        </h3>
+
+        <p>
+          إصلاح التسربات والتمديدات وأعمال السباكة.
+        </p>
+
+      </div>
+
+
+      <div
+        class="service"
+        onclick="requestService('صيانة أجهزة منزلية')"
+      >
+
+        <div class="service-icon">
+          🏠
+        </div>
+
+        <h3>
+          أجهزة منزلية
+        </h3>
+
+        <p>
+          صيانة الأجهزة المنزلية المختلفة.
+        </p>
+
+      </div>
+
+
+      <div
+        class="service"
+        onclick="requestService('نجارة')"
+      >
+
+        <div class="service-icon">
+          🪚
+        </div>
+
+        <h3>
+          نجارة
+        </h3>
+
+        <p>
+          إصلاح وتركيب الأعمال الخشبية.
+        </p>
+
+      </div>
+
+
+      <div
+        class="service"
+        onclick="requestService('دهان')"
+      >
+
+        <div class="service-icon">
+          🎨
+        </div>
+
+        <h3>
+          دهان
+        </h3>
+
+        <p>
+          أعمال الدهان والتشطيبات.
+        </p>
+
+      </div>
+
+
+      <div
+        class="service"
+        onclick="requestService('صيانة عامة')"
+      >
+
+        <div class="service-icon">
+          🛠️
+        </div>
+
+        <h3>
+          صيانة عامة
+        </h3>
+
+        <p>
+          مختلف أعمال الصيانة والخدمات الفنية.
+        </p>
+
+      </div>
+
+
+      <div
+        class="service"
+        onclick="requestService('أخرى')"
+      >
+
+        <div class="service-icon">
+          🔩
+        </div>
+
+        <h3>
+          خدمات أخرى
+        </h3>
+
+        <p>
+          اطلب خدمة فنية غير موجودة في القائمة.
+        </p>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- HOW IT WORKS -->
+
+<section
+  class="section"
+  id="how"
+>
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <h2>
+        كيف يعمل فني برو؟
+      </h2>
+
+      <p>
+        ثلاث خطوات بسيطة
+      </p>
+
+    </div>
+
+
+    <div class="steps">
+
+      <div class="step">
+
+        <div class="step-number">
+          1
+        </div>
+
+        <h3>
+          سجل دخولك
+        </h3>
+
+        <p>
+          أنشئ حساباً أو سجل الدخول إلى حسابك.
+        </p>
+
+      </div>
+
+
+      <div class="step">
+
+        <div class="step-number">
+          2
+        </div>
+
+        <h3>
+          اختر الخدمة
+        </h3>
+
+        <p>
+          اختر نوع الصيانة التي تحتاجها وأرسل تفاصيل الطلب.
+        </p>
+
+      </div>
+
+
+      <div class="step">
+
+        <div class="step-number">
+          3
+        </div>
+
+        <h3>
+          تابع طلبك
+        </h3>
+
+        <p>
+          استخدم رقم الطلب لمعرفة حالة طلب الصيانة.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+  <div class="container">
+
+    © 2026 فني برو — جميع الحقوق محفوظة
+
+  </div>
+
+</footer>
+
+
+<!-- LOGIN REQUIRED MODAL -->
+
+<div
+  class="modal"
+  id="loginModal"
+  onclick="closeModalOutside(event)"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-icon">
+      🔐
+    </div>
+
+    <h3>
+      تسجيل الدخول مطلوب
+    </h3>
+
+    <p>
+      يجب تسجيل الدخول أولاً حتى تتمكن من اختيار
+      خدمة وتقديم طلب صيانة.
+    </p>
+
+    <div class="modal-buttons">
+
+      <a
+        href="login.html"
+        class="modal-login"
+      >
+        تسجيل الدخول
+      </a>
+
+      <button
+        class="modal-close"
+        onclick="closeLoginModal()"
+      >
+        إلغاء
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  /* ==========================
+     SUPABASE
+  ========================== */
+
+  const SUPABASE_URL =
+    "https://yesmnsztcqnhaqrcgpcs.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_fUX7DXedpKF3OyBpDQ9kAQ_RRQpnIuB";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  /* ==========================
+     USER STATUS
+  ========================== */
+
+  async function checkUser() {
+
+    try {
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.auth.getSession();
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      const session =
+        data?.session;
+
+      const userArea =
+        document.getElementById("userArea");
+
+      if (session) {
+
+        const email =
+          session.user.email || "حسابي";
+
+        userArea.innerHTML = `
+
+          <span class="user-badge">
+            ${escapeHtml(email)}
+          </span>
+
+          <button
+            class="logout-btn"
+            onclick="logoutUser()"
+          >
+            تسجيل الخروج
+          </button>
+
+        `;
+
+      } else {
+
+        userArea.innerHTML = `
+
+          <a
+            href="login.html"
+            class="login-btn"
+          >
+            تسجيل الدخول
+          </a>
+
+        `;
+
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+  }
+
+
+  /* ==========================
+     SERVICE CLICK
+  ========================== */
+
+  async function requestService(service) {
+
+    try {
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.auth.getSession();
+
+      if (error) {
+        console.error(error);
+      }
+
+      const session =
+        data?.session;
+
+
+      /*
+        إذا لم يكن مسجلاً:
+        لا نفتح الخدمة
+      */
+
+      if (!session) {
+
+        openLoginModal();
+
+        return;
+
+      }
+
+
+      /*
+        إذا كان مسجلاً:
+        نفتح نموذج طلب الخدمة
+      */
+
+      window.location.href =
+        "service-request.html?service=" +
+        encodeURIComponent(service);
+
+    } catch (error) {
+
+      console.error(error);
+
+      openLoginModal();
+
+    }
+
+  }
+
+
+  /* ==========================
+     LOGIN MODAL
+  ========================== */
+
+  function openLoginModal() {
+
+    document
+      .getElementById("loginModal")
+      .classList.add("show");
+
+  }
+
+
+  function closeLoginModal() {
+
+    document
+      .getElementById("loginModal")
+      .classList.remove("show");
+
+  }
+
+
+  function closeModalOutside(event) {
+
+    if (
+      event.target.id === "loginModal"
+    ) {
+
+      closeLoginModal();
+
+    }
+
+  }
+
+
+  /* ==========================
+     LOGOUT
+  ========================== */
+
+  async function logoutUser() {
+
+    try {
+
+      const {
+        error
+      } =
+        await supabaseClient.auth.signOut();
+
+      if (error) {
+        throw error;
+      }
+
+      window.location.reload();
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "تعذر تسجيل الخروج. حاول مرة أخرى."
+      );
+
+    }
+
+  }
+
+
+  /* ==========================
+     ESCAPE HTML
+  ========================== */
+
+  function escapeHtml(value) {
+
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+  }
+
+
+  /* ==========================
+     INITIALIZE
+  ========================== */
+
+  checkUser();
+
+
+  /*
+    تحديث الواجهة مباشرة عند تغير حالة تسجيل الدخول
+  */
+
+  supabaseClient.auth.onAuthStateChange(
+    function(event, session) {
+
+      checkUser();
+
+    }
+  );
+
+</script>
 
 </body>
 </html>
