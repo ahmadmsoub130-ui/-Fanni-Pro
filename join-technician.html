@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>انضم كفني | فني برو</title>
+
+  <meta name="description" content="تقديم طلب للانضمام إلى شبكة الفنيين في فني برو">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Tahoma, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(0, 153, 255, .15), transparent 35%),
+        linear-gradient(135deg, #07111f, #0b1830 55%, #07111f);
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 18px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(5,12,24,.75);
+      backdrop-filter: blur(12px);
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 800;
+      color: #38bdf8;
+    }
+
+    .back {
+      color: #fff;
+      text-decoration: none;
+      background: rgba(255,255,255,.08);
+      padding: 10px 16px;
+      border-radius: 12px;
+    }
+
+    main {
+      width: min(850px, 92%);
+      margin: 45px auto;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .hero h1 {
+      font-size: 36px;
+      margin: 0 0 12px;
+    }
+
+    .hero p {
+      color: #b9c6d8;
+      line-height: 1.8;
+    }
+
+    .card {
+      background: rgba(13, 27, 48, .92);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.3);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.12);
+      background: #081426;
+      color: #fff;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #38bdf8;
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 14px;
+      padding: 16px;
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      margin-top: 18px;
+      padding: 15px;
+      border-radius: 12px;
+      line-height: 1.7;
+    }
+
+    .success {
+      background: rgba(16,185,129,.12);
+      border: 1px solid rgba(16,185,129,.35);
+      color: #86efac;
+    }
+
+    .error {
+      background: rgba(239,68,68,.12);
+      border: 1px solid rgba(239,68,68,.35);
+      color: #fca5a5;
+    }
+
+    .note {
+      margin-top: 20px;
+      color: #9fb0c7;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 700px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">فني برو</div>
+  <a class="back" href="index.html">العودة للموقع</a>
+</header>
+
+<main>
+
+  <section class="hero">
+    <h1>انضم إلى شبكة الفنيين</h1>
+    <p>
+      هل أنت فني محترف؟ أرسل بياناتك وسيراجع فريق الإدارة طلبك.
+      عند الموافقة سيتم التواصل معك لاستكمال التسجيل.
+    </p>
+  </section>
+
+  <section class="card">
+
+    <form id="technicianForm">
+
+      <div class="grid">
+
+        <div class="field">
+          <label for="fullName">الاسم الكامل *</label>
+          <input
+            id="fullName"
+            type="text"
+            required
+            maxlength="100"
+            placeholder="مثال: أحمد محمد"
+          >
+        </div>
+
+        <div class="field">
+          <label for="phone">رقم الهاتف *</label>
+          <input
+            id="phone"
+            type="tel"
+            required
+            maxlength="10"
+            placeholder="07XXXXXXXX"
+          >
+        </div>
+
+        <div class="field">
+          <label for="serviceType">التخصص *</label>
+
+          <select id="serviceType" required>
+            <option value="">اختر التخصص</option>
+            <option value="تكييف وتبريد">تكييف وتبريد</option>
+            <option value="كهرباء">كهرباء</option>
+            <option value="سباكة">سباكة</option>
+            <option value="صيانة أجهزة منزلية">صيانة أجهزة منزلية</option>
+            <option value="نجارة">نجارة</option>
+            <option value="دهان">دهان</option>
+            <option value="صيانة عامة">صيانة عامة</option>
+            <option value="أخرى">أخرى</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="city">المدينة / المنطقة *</label>
+
+          <input
+            id="city"
+            type="text"
+            required
+            maxlength="100"
+            placeholder="مثال: الكرك"
+          >
+        </div>
+
+        <div class="field">
+          <label for="experience">سنوات الخبرة *</label>
+
+          <input
+            id="experience"
+            type="number"
+            min="0"
+            max="60"
+            required
+            placeholder="مثال: 5"
+          >
+        </div>
+
+        <div class="field">
+          <label for="workType">نوع العمل</label>
+
+          <select id="workType">
+            <option value="دوام كامل">دوام كامل</option>
+            <option value="دوام جزئي">دوام جزئي</option>
+            <option value="حسب الطلب">حسب الطلب</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label for="description">الخبرة والمهارات *</label>
+
+          <textarea
+            id="description"
+            required
+            maxlength="2000"
+            placeholder="اكتب خبرتك ومهاراتك والأعمال التي تتقنها..."
+          ></textarea>
+        </div>
+
+        <div class="field full">
+          <label for="notes">ملاحظات إضافية</label>
+
+          <textarea
+            id="notes"
+            maxlength="1000"
+            placeholder="أي معلومات إضافية تريد إرسالها للإدارة..."
+          ></textarea>
+        </div>
+
+        <div class="field full">
+          <button id="submitBtn" type="submit">
+            إرسال طلب الانضمام
+          </button>
+        </div>
+
+      </div>
+
+    </form>
+
+    <div id="successMessage" class="message success"></div>
+    <div id="errorMessage" class="message error"></div>
+
+    <div class="note">
+      إرسال الطلب لا يعني القبول التلقائي. تتم مراجعة بيانات الفني من قبل إدارة فني برو قبل اعتماد الحساب.
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+
+const SUPABASE_URL =
+  "https://yesmnsztcqnhaqrcgpcs.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_fUX7DXedpKF3OyBpDQ9kAQ_RRQpnIuB";
+
+const client =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+const form = document.getElementById("technicianForm");
+const submitBtn = document.getElementById("submitBtn");
+
+const successMessage =
+  document.getElementById("successMessage");
+
+const errorMessage =
+  document.getElementById("errorMessage");
+
+
+function showError(message) {
+
+  errorMessage.textContent = message;
+  errorMessage.style.display = "block";
+  successMessage.style.display = "none";
+
+}
+
+
+function showSuccess(message) {
+
+  successMessage.textContent = message;
+  successMessage.style.display = "block";
+  errorMessage.style.display = "none";
+
+}
+
+
+function generateRequestNumber() {
+
+  const date = new Date();
+
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+
+  const random =
+    Math.floor(100000 + Math.random() * 900000);
+
+  return `TECH-${y}${m}${d}-${random}`;
+
+}
+
+
+form.addEventListener("submit", async function(event) {
+
+  event.preventDefault();
+
+  errorMessage.style.display = "none";
+  successMessage.style.display = "none";
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "جاري إرسال الطلب...";
+
+  try {
+
+    const fullName =
+      document.getElementById("fullName").value.trim();
+
+    const phone =
+      document.getElementById("phone").value.trim();
+
+    const serviceType =
+      document.getElementById("serviceType").value;
+
+    const city =
+      document.getElementById("city").value.trim();
+
+    const experience =
+      Number(document.getElementById("experience").value);
+
+    const workType =
+      document.getElementById("workType").value;
+
+    const description =
+      document.getElementById("description").value.trim();
+
+    const notes =
+      document.getElementById("notes").value.trim();
+
+
+    if (!/^07[0-9]{8}$/.test(phone)) {
+
+      throw new Error(
+        "يرجى إدخال رقم هاتف أردني صحيح مثل 079XXXXXXX"
+      );
+
+    }
+
+
+    if (!fullName || !serviceType || !city || !description) {
+
+      throw new Error(
+        "يرجى تعبئة جميع الحقول المطلوبة."
+      );
+
+    }
+
+
+    const requestNumber =
+      generateRequestNumber();
+
+
+    const { data, error } =
+      await client
+        .from("technician_applications")
+        .insert({
+
+          request_number: requestNumber,
+
+          full_name: fullName,
+
+          phone: phone,
+
+          service_type: serviceType,
+
+          city: city,
+
+          experience_years: experience,
+
+          work_type: workType,
+
+          description: description,
+
+          notes: notes || null,
+
+          status: "جديد"
+
+        })
+        .select()
+        .single();
+
+
+    if (error) {
+
+      console.error(error);
+
+      throw new Error(
+        "تعذر إرسال الطلب. تأكد من إعداد قاعدة البيانات ثم حاول مرة أخرى."
+      );
+
+    }
+
+
+    form.reset();
+
+    showSuccess(
+      `تم إرسال طلبك بنجاح.
+رقم طلب الانضمام: ${data.request_number}
+سيتم مراجعة الطلب من الإدارة والتواصل معك عند قبول الطلب.`
+    );
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    showError(
+      error.message ||
+      "حدث خطأ أثناء إرسال الطلب."
+    );
+
+  } finally {
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = "إرسال طلب الانضمام";
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
