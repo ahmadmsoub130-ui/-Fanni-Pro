@@ -1,1391 +1,1088 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>فني برو | خدمات الصيانة في مكان واحد</title>
-
-<meta name="description" content="فني برو منصة لخدمات الصيانة المنزلية. تكييف وتبريد، كهرباء، سباكة، أجهزة منزلية، نجارة، دهان وأكثر.">
-
-<meta name="theme-color" content="#07111f">
-
-<style>
-
-*{
-box-sizing:border-box;
-margin:0;
-padding:0
-}
-
-html{
-scroll-behavior:smooth
-}
-
-body{
-font-family:Tahoma,Arial,sans-serif;
-background:#07111f;
-color:#fff;
-line-height:1.7;
-overflow-x:hidden
-}
-
-a{
-text-decoration:none;
-color:inherit
-}
-
-button{
-font-family:inherit
-}
-
-
-/* =========================
-HEADER
-========================= */
-
-header{
-position:sticky;
-top:0;
-z-index:100;
-background:rgba(7,17,31,.90);
-backdrop-filter:blur(16px);
-border-bottom:1px solid rgba(255,255,255,.07)
-}
-
-.nav{
-max-width:1200px;
-margin:auto;
-padding:13px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:20px
-}
-
-.logo{
-display:flex;
-align-items:center;
-gap:10px
-}
-
-.logo-icon{
-width:43px;
-height:43px;
-border-radius:13px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
-font-size:21px;
-background:linear-gradient(135deg,#2563eb,#7c3aed);
-box-shadow:0 8px 25px rgba(37,99,235,.25)
-}
-
-.logo-text strong{
-display:block;
-font-size:17px
-}
-
-.logo-text span{
-display:block;
-font-size:10px;
-color:#64748b
-}
-
-.nav-links{
-display:flex;
-align-items:center;
-gap:20px;
-color:#94a3b8;
-font-size:12px
-}
-
-.nav-links a:hover{
-color:#fff
-}
-
-.nav-button{
-padding:9px 14px;
-border-radius:9px;
-background:#2563eb;
-color:#fff!important
-}
-
-
-/* =========================
-HERO
-========================= */
-
-.hero{
-position:relative;
-min-height:650px;
-display:flex;
-align-items:center;
-overflow:hidden
-}
-
-.hero::before{
-content:"";
-position:absolute;
-width:500px;
-height:500px;
-border-radius:50%;
-background:rgba(37,99,235,.13);
-filter:blur(80px);
-top:-150px;
-right:-100px
-}
-
-.hero::after{
-content:"";
-position:absolute;
-width:400px;
-height:400px;
-border-radius:50%;
-background:rgba(124,58,237,.10);
-filter:blur(80px);
-bottom:-150px;
-left:-100px
-}
-
-.hero-container{
-width:100%;
-max-width:1200px;
-margin:auto;
-padding:70px 18px;
-display:grid;
-grid-template-columns:1.1fr .9fr;
-align-items:center;
-gap:60px;
-position:relative;
-z-index:2
-}
-
-.badge{
-display:inline-flex;
-align-items:center;
-gap:7px;
-padding:7px 12px;
-border-radius:999px;
-background:rgba(37,99,235,.10);
-border:1px solid rgba(59,130,246,.22);
-color:#93c5fd;
-font-size:11px;
-margin-bottom:18px
-}
-
-.badge-dot{
-width:7px;
-height:7px;
-border-radius:50%;
-background:#22c55e;
-box-shadow:0 0 10px #22c55e
-}
-
-.hero h1{
-font-size:48px;
-line-height:1.25;
-margin-bottom:17px
-}
-
-.hero h1 span{
-background:linear-gradient(90deg,#60a5fa,#a78bfa);
--webkit-background-clip:text;
-background-clip:text;
-color:transparent
-}
-
-.hero-text{
-color:#94a3b8;
-font-size:16px;
-max-width:600px;
-margin-bottom:27px
-}
-
-.hero-buttons{
-display:flex;
-flex-wrap:wrap;
-gap:10px
-}
-
-.primary-btn,
-.secondary-btn{
-padding:14px 22px;
-border-radius:12px;
-font-size:13px;
-font-weight:bold;
-display:inline-flex;
-align-items:center;
-justify-content:center;
-transition:.2s
-}
-
-.primary-btn{
-background:linear-gradient(135deg,#2563eb,#4f46e5);
-box-shadow:0 12px 30px rgba(37,99,235,.20)
-}
-
-.secondary-btn{
-background:#0f1d30;
-border:1px solid #263b54;
-color:#cbd5e1
-}
-
-.primary-btn:hover,
-.secondary-btn:hover{
-transform:translateY(-2px)
-}
-
-
-/* =========================
-HERO CARD
-========================= */
-
-.hero-card{
-background:linear-gradient(
-145deg,
-rgba(15,29,48,.95),
-rgba(10,23,39,.90)
-);
-border:1px solid #1e334d;
-border-radius:25px;
-padding:24px;
-box-shadow:0 30px 80px rgba(0,0,0,.30);
-position:relative
-}
-
-.hero-card-top{
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin-bottom:20px
-}
-
-.hero-card-title{
-font-size:17px;
-font-weight:bold
-}
-
-.live{
-font-size:10px;
-padding:6px 9px;
-border-radius:999px;
-background:rgba(34,197,94,.10);
-color:#86efac
-}
-
-.service-preview{
-display:grid;
-gap:9px
-}
-
-.preview-item{
-display:flex;
-align-items:center;
-gap:12px;
-padding:12px;
-border-radius:13px;
-background:#0b192b;
-border:1px solid #172a40
-}
-
-.preview-icon{
-width:39px;
-height:39px;
-border-radius:10px;
-display:flex;
-align-items:center;
-justify-content:center;
-background:#172a40;
-font-size:18px
-}
-
-.preview-item strong{
-font-size:12px;
-display:block
-}
-
-.preview-item span{
-font-size:10px;
-color:#64748b
-}
-
-.preview-arrow{
-margin-right:auto;
-color:#475569
-}
-
-
-/* =========================
-SECTION
-========================= */
-
-section{
-padding:80px 18px
-}
-
-.section-container{
-max-width:1200px;
-margin:auto
-}
-
-.section-head{
-text-align:center;
-margin-bottom:40px
-}
-
-.section-head h2{
-font-size:30px;
-margin-bottom:8px
-}
-
-.section-head p{
-color:#64748b;
-font-size:13px
-}
-
-
-/* =========================
-SERVICES
-========================= */
-
-.services{
-background:#091522
-}
-
-.services-grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:13px
-}
-
-.service{
-background:#0f1d30;
-border:1px solid #1e334d;
-border-radius:17px;
-padding:22px 18px;
-transition:.2s;
-position:relative;
-overflow:hidden
-}
-
-.service::before{
-content:"";
-position:absolute;
-width:100px;
-height:100px;
-border-radius:50%;
-background:rgba(37,99,235,.08);
-filter:blur(20px);
-top:-50px;
-right:-30px
-}
-
-.service:hover{
-transform:translateY(-4px);
-border-color:#31567e
-}
-
-.service-icon{
-width:48px;
-height:48px;
-border-radius:13px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:23px;
-background:#172a40;
-margin-bottom:15px;
-position:relative
-}
-
-.service h3{
-font-size:14px;
-margin-bottom:5px
-}
-
-.service p{
-font-size:11px;
-color:#64748b;
-line-height:1.7
-}
-
-
-/* =========================
-HOW IT WORKS
-========================= */
-
-.steps{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:15px;
-position:relative
-}
-
-.step{
-text-align:center;
-padding:20px
-}
-
-.step-number{
-width:52px;
-height:52px;
-margin:0 auto 14px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
-background:linear-gradient(135deg,#2563eb,#4f46e5);
-box-shadow:0 10px 30px rgba(37,99,235,.20)
-}
-
-.step h3{
-font-size:14px;
-margin-bottom:6px
-}
-
-.step p{
-font-size:11px;
-color:#64748b
-}
-
-
-/* =========================
-FEATURES
-========================= */
-
-.features{
-background:#091522
-}
-
-.features-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:15px
-}
-
-.feature{
-padding:22px;
-border:1px solid #1e334d;
-background:#0f1d30;
-border-radius:17px
-}
-
-.feature-icon{
-font-size:25px;
-margin-bottom:10px
-}
-
-.feature h3{
-font-size:14px;
-margin-bottom:6px
-}
-
-.feature p{
-font-size:11px;
-color:#64748b
-}
-
-
-/* =========================
-CTA
-========================= */
-
-.cta{
-padding:65px 18px
-}
-
-.cta-box{
-max-width:1000px;
-margin:auto;
-text-align:center;
-padding:55px 25px;
-border-radius:25px;
-background:
-radial-gradient(circle at top right,rgba(37,99,235,.18),transparent 40%),
-#0f1d30;
-border:1px solid #1e334d
-}
-
-.cta-box h2{
-font-size:29px;
-margin-bottom:9px
-}
-
-.cta-box p{
-color:#94a3b8;
-font-size:13px;
-margin-bottom:22px
-}
-
-
-/* =========================
-FOOTER
-========================= */
-
-footer{
-background:#050c15;
-border-top:1px solid #172a40;
-padding:35px 18px
-}
-
-.footer-container{
-max-width:1200px;
-margin:auto;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:20px
-}
-
-.footer-brand{
-font-size:16px;
-font-weight:bold
-}
-
-.footer-brand span{
-display:block;
-font-size:10px;
-font-weight:normal;
-color:#64748b;
-margin-top:3px
-}
-
-.footer-links{
-display:flex;
-gap:18px;
-font-size:11px;
-color:#64748b
-}
-
-.copyright{
-text-align:center;
-color:#334155;
-font-size:10px;
-margin-top:25px
-}
-
-
-/* =========================
-MOBILE
-========================= */
-
-@media(max-width:950px){
-
-.hero-container{
-grid-template-columns:1fr;
-text-align:center;
-gap:35px
-}
-
-.hero-text{
-margin-left:auto;
-margin-right:auto
-}
-
-.hero-buttons{
-justify-content:center
-}
-
-.services-grid{
-grid-template-columns:repeat(2,1fr)
-}
-
-.steps{
-grid-template-columns:repeat(2,1fr)
-}
-
-.features-grid{
-grid-template-columns:1fr
-}
-
-.hero-card{
-max-width:550px;
-width:100%;
-margin:auto
-}
-
-.nav-links a:not(.nav-button){
-display:none
-}
-
-}
-
-
-@media(max-width:600px){
-
-.hero{
-min-height:auto
-}
-
-.hero-container{
-padding:55px 12px
-}
-
-.hero h1{
-font-size:34px
-}
-
-.hero-text{
-font-size:13px
-}
-
-.primary-btn,
-.secondary-btn{
-width:100%
-}
-
-.hero-buttons{
-flex-direction:column
-}
-
-.services-grid{
-grid-template-columns:1fr 1fr;
-gap:9px
-}
-
-.service{
-padding:17px 13px
-}
-
-.service-icon{
-width:42px;
-height:42px;
-font-size:19px
-}
-
-.service h3{
-font-size:12px
-}
-
-.service p{
-font-size:10px
-}
-
-.steps{
-grid-template-columns:1fr 1fr
-}
-
-.step{
-padding:12px 5px
-}
-
-.section-head h2{
-font-size:24px
-}
-
-section{
-padding:60px 12px
-}
-
-.footer-container{
-flex-direction:column;
-text-align:center
-}
-
-.footer-links{
-flex-wrap:wrap;
-justify-content:center
-}
-
-}
-
-
-@media(max-width:380px){
-
-.services-grid{
-grid-template-columns:1fr
-}
-
-.steps{
-grid-template-columns:1fr
-}
-
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>فني برو | خدمات الصيانة المنزلية</title>
+
+  <meta name="description" content="فني برو منصة عربية لطلب خدمات الصيانة المنزلية ومتابعة الطلبات بسهولة.">
+  <meta name="theme-color" content="#07152f">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Tahoma, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(74, 70, 229, 0.18), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(0, 174, 255, 0.12), transparent 30%),
+        #050b1b;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: auto;
+    }
+
+    /* ================= HEADER ================= */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(5, 11, 27, 0.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .navbar {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: 900;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    .logo span {
+      color: #6d63ff;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      padding: 10px 14px;
+      color: #cbd5e1;
+      border-radius: 10px;
+      transition: 0.25s;
+      font-size: 15px;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.07);
+    }
+
+    .nav-button {
+      background: linear-gradient(135deg, #665cff, #8d5cff) !important;
+      color: #fff !important;
+      font-weight: bold;
+      box-shadow: 0 8px 25px rgba(105, 92, 255, 0.25);
+    }
+
+    /* ================= HERO ================= */
+
+    .hero {
+      padding: 90px 0 70px;
+      min-height: 690px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(105, 92, 255, 0.12);
+      border: 1px solid rgba(105, 92, 255, 0.3);
+      color: #aaa4ff;
+      padding: 9px 14px;
+      border-radius: 50px;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 6vw, 68px);
+      line-height: 1.1;
+      margin-bottom: 22px;
+      font-weight: 900;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(90deg, #6d63ff, #00c6ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      color: #aeb9ce;
+      font-size: 18px;
+      line-height: 1.9;
+      max-width: 650px;
+      margin-bottom: 30px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 52px;
+      padding: 0 24px;
+      border-radius: 14px;
+      font-weight: bold;
+      transition: 0.25s;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, #665cff, #8d5cff);
+      box-shadow: 0 12px 35px rgba(105, 92, 255, 0.3);
+    }
+
+    .secondary-btn {
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: #e2e8f0;
+    }
+
+    .primary-btn:hover,
+    .secondary-btn:hover {
+      transform: translateY(-3px);
+    }
+
+    /* ================= HERO CARD ================= */
+
+    .hero-card {
+      position: relative;
+      background: linear-gradient(
+        145deg,
+        rgba(24, 36, 75, 0.9),
+        rgba(9, 17, 38, 0.95)
+      );
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 30px;
+      padding: 28px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      background: #665cff;
+      filter: blur(90px);
+      opacity: 0.22;
+      top: -50px;
+      right: -50px;
+      pointer-events: none;
+    }
+
+    .card-title {
+      font-size: 21px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .preview-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .preview-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 15px;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      transition: 0.25s;
+    }
+
+    .preview-item:hover {
+      background: rgba(105,92,255,0.12);
+      border-color: rgba(105,92,255,0.3);
+      transform: translateX(-4px);
+    }
+
+    .preview-icon {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background: rgba(105,92,255,0.15);
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .preview-text strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .preview-text small {
+      color: #8e9ab0;
+    }
+
+    /* ================= SERVICES ================= */
+
+    .section {
+      padding: 90px 0;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    .section-heading .mini {
+      color: #7f78ff;
+      font-weight: bold;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .section-heading h2 {
+      font-size: 38px;
+      margin-bottom: 14px;
+    }
+
+    .section-heading p {
+      color: #9ba8bd;
+      max-width: 650px;
+      margin: auto;
+      line-height: 1.8;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    /*
+      مهم:
+      أصبحت بطاقات الخدمات روابط حقيقية.
+      الضغط عليها ينقل إلى service-request.html
+      مع نوع الخدمة في الرابط.
+    */
+
+    .service {
+      display: block;
+      padding: 25px 20px;
+      min-height: 190px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      transition: 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service::after {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: #665cff;
+      filter: blur(70px);
+      opacity: 0;
+      right: -30px;
+      bottom: -30px;
+      transition: 0.3s;
+      pointer-events: none;
+    }
+
+    .service:hover {
+      transform: translateY(-7px);
+      border-color: rgba(105,92,255,0.45);
+      background: rgba(105,92,255,0.07);
+    }
+
+    .service:hover::after {
+      opacity: 0.35;
+    }
+
+    .service-icon {
+      width: 55px;
+      height: 55px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: rgba(105,92,255,0.13);
+      font-size: 27px;
+      margin-bottom: 18px;
+    }
+
+    .service h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .service p {
+      color: #8997ad;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .service-action {
+      margin-top: 13px;
+      color: #8f88ff;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    /* ================= HOW ================= */
+
+    .how-box {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .step {
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      padding: 28px;
+      text-align: center;
+    }
+
+    .step-number {
+      width: 55px;
+      height: 55px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #665cff, #00aeea);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .step h3 {
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      color: #8f9bb0;
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    /* ================= CTA ================= */
+
+    .cta {
+      padding: 30px;
+      border-radius: 28px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(102,92,255,0.2),
+          rgba(0,174,234,0.1)
+        );
+      border: 1px solid rgba(105,92,255,0.25);
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .cta p {
+      color: #a4b0c4;
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-top: 50px;
+      padding: 35px 0;
+      color: #7f8ba0;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a:hover {
+      color: #fff;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 950px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .how-box {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 55px;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .navbar {
+        min-height: 68px;
+      }
+
+      .logo {
+        font-size: 22px;
+      }
+
+      .nav-links {
+        gap: 3px;
+      }
+
+      .nav-links a {
+        padding: 8px 7px;
+        font-size: 12px;
+      }
+
+      .nav-links a:not(.nav-button) {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 40px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .primary-btn,
+      .secondary-btn {
+        width: 100%;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 65px 0;
+      }
+
+      .section-heading h2 {
+        font-size: 30px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
+  <!-- ================= HEADER ================= -->
 
-<header>
+  <header>
+    <div class="container navbar">
 
-<nav class="nav">
+      <a href="index.html" class="logo">
+        فني <span>برو</span>
+      </a>
 
-<a href="index.html" class="logo">
+      <nav class="nav-links">
 
-<div class="logo-icon">
-ف
-</div>
+        <a href="#services">
+          الخدمات
+        </a>
 
-<div class="logo-text">
-<strong>فني برو</strong>
-<span>خدمات الصيانة</span>
-</div>
+        <a href="#how">
+          كيف يعمل؟
+        </a>
 
-</a>
+        <a href="track-request.html">
+          تتبع طلب
+        </a>
 
+        <a href="login.html">
+          تسجيل الدخول
+        </a>
 
-<div class="nav-links">
+        <a href="service-request.html" class="nav-button">
+          اطلب خدمة
+        </a>
 
-<a href="#services">
-الخدمات
-</a>
+      </nav>
 
-<a href="#how">
-كيف يعمل؟
-</a>
+    </div>
+  </header>
 
-<a href="track-request.html">
-تتبع طلب
-</a>
 
-<a
-href="service-request.html"
-class="nav-button"
->
-اطلب خدمة
-</a>
+  <!-- ================= HERO ================= -->
 
-</div>
+  <main>
 
-</nav>
+    <section class="hero">
 
-</header>
+      <div class="container hero-grid">
 
+        <div>
 
-<main>
+          <div class="badge">
+            منصة الصيانة الذكية
+          </div>
 
+          <h1>
+            كل خدمات الصيانة
+            <br>
+            <span>في مكان واحد</span>
+          </h1>
 
-<section class="hero">
+          <p>
+            فني برو تربطك بخدمات الصيانة المختلفة بسهولة،
+            من التكييف والكهرباء والسباكة إلى الصيانة العامة
+            والخدمات المنزلية الأخرى.
+          </p>
 
-<div class="hero-container">
+          <div class="hero-buttons">
 
+            <a href="service-request.html"
+               class="primary-btn">
+              اطلب خدمة صيانة
+            </a>
 
-<div>
+            <a href="track-request.html"
+               class="secondary-btn">
+              تتبع طلبك
+            </a>
 
-<div class="badge">
+          </div>
 
-<span class="badge-dot"></span>
+        </div>
 
-خدمات صيانة في مكان واحد
 
-</div>
+        <div class="hero-card">
 
+          <div class="card-title">
+            اختر الخدمة التي تحتاجها
+          </div>
 
-<h1>
+          <div class="preview-list">
 
-مشكلتك تحتاج
-<br>
+            <a class="preview-item"
+               href="service-request.html?service=تكييف%20وتبريد">
 
-<span>فني محترف</span>
+              <div class="preview-icon">
+                ❄️
+              </div>
 
-</h1>
+              <div class="preview-text">
+                <strong>تكييف وتبريد</strong>
+                <small>صيانة وتركيب وإصلاح</small>
+              </div>
 
+            </a>
 
-<p class="hero-text">
 
-فني برو يساعدك في طلب خدمات الصيانة المختلفة
-من خلال منصة سهلة وسريعة، مع إمكانية متابعة حالة
-طلبك ومعرفة الفني المعيّن.
+            <a class="preview-item"
+               href="service-request.html?service=كهرباء">
 
-</p>
+              <div class="preview-icon">
+                ⚡
+              </div>
 
+              <div class="preview-text">
+                <strong>كهرباء</strong>
+                <small>أعمال كهربائية وصيانة</small>
+              </div>
 
-<div class="hero-buttons">
+            </a>
 
-<a
-href="service-request.html"
-class="primary-btn"
->
-اطلب خدمة صيانة
-</a>
 
-<a
-href="track-request.html"
-class="secondary-btn"
->
-تتبع طلبك
-</a>
+            <a class="preview-item"
+               href="service-request.html?service=سباكة">
 
-</div>
+              <div class="preview-icon">
+                🚰
+              </div>
 
-</div>
+              <div class="preview-text">
+                <strong>سباكة</strong>
+                <small>إصلاح وتركيب وتمديدات</small>
+              </div>
 
+            </a>
 
-<div class="hero-card">
 
-<div class="hero-card-top">
+            <a class="preview-item"
+               href="service-request.html?service=صيانة%20أجهزة%20منزلية">
 
-<div class="hero-card-title">
-خدماتنا
-</div>
+              <div class="preview-icon">
+                🔧
+              </div>
 
-<div class="live">
-متاح للطلب
-</div>
+              <div class="preview-text">
+                <strong>أجهزة منزلية</strong>
+                <small>صيانة وإصلاح الأجهزة</small>
+              </div>
 
-</div>
+            </a>
 
+          </div>
 
-<div class="service-preview">
+        </div>
 
+      </div>
 
-<div class="preview-item">
+    </section>
 
-<div class="preview-icon">
-❄️
-</div>
 
-<div>
-<strong>تكييف وتبريد</strong>
-<span>صيانة وتركيب وفحص</span>
-</div>
+    <!-- ================= SERVICES ================= -->
 
-<div class="preview-arrow">
-‹
-</div>
+    <section class="section" id="services">
 
-</div>
+      <div class="container">
 
+        <div class="section-heading">
 
-<div class="preview-item">
+          <span class="mini">
+            خدمات فني برو
+          </span>
 
-<div class="preview-icon">
-⚡
-</div>
+          <h2>
+            جميع خدمات الصيانة
+          </h2>
 
-<div>
-<strong>كهرباء</strong>
-<span>أعمال الكهرباء والصيانة</span>
-</div>
+          <p>
+            اختر نوع الخدمة وسيتم نقلك مباشرة إلى نموذج طلب الصيانة.
+          </p>
 
-<div class="preview-arrow">
-‹
-</div>
+        </div>
 
-</div>
 
+        <div class="services-grid">
 
-<div class="preview-item">
 
-<div class="preview-icon">
-🔧
-</div>
+          <!-- تكييف -->
 
-<div>
-<strong>سباكة</strong>
-<span>إصلاح وتمديدات وتسريبات</span>
-</div>
+          <a class="service"
+             href="service-request.html?service=تكييف%20وتبريد">
 
-<div class="preview-arrow">
-‹
-</div>
+            <div class="service-icon">
+              ❄️
+            </div>
 
-</div>
+            <h3>
+              تكييف وتبريد
+            </h3>
 
+            <p>
+              صيانة وتركيب وتنظيف وإصلاح أجهزة التكييف والتبريد.
+            </p>
 
-<div class="preview-item">
+            <div class="service-action">
+              اطلب الخدمة ←
+            </div>
 
-<div class="preview-icon">
-🏠
-</div>
+          </a>
 
-<div>
-<strong>صيانة منزلية</strong>
-<span>خدمات متنوعة للمنزل</span>
-</div>
 
-<div class="preview-arrow">
-‹
-</div>
+          <!-- كهرباء -->
 
-</div>
+          <a class="service"
+             href="service-request.html?service=كهرباء">
 
-</div>
+            <div class="service-icon">
+              ⚡
+            </div>
 
-</div>
+            <h3>
+              كهرباء
+            </h3>
 
-</div>
+            <p>
+              إصلاح الأعطال والأعمال الكهربائية والتركيبات.
+            </p>
 
-</section>
+            <div class="service-action">
+              اطلب الخدمة ←
+            </div>
 
+          </a>
 
 
-<section id="services" class="services">
+          <!-- سباكة -->
 
-<div class="section-container">
+          <a class="service"
+             href="service-request.html?service=سباكة">
 
-<div class="section-head">
+            <div class="service-icon">
+              🚰
+            </div>
 
-<h2>
-خدمات الصيانة
-</h2>
+            <h3>
+              سباكة
+            </h3>
 
-<p>
-مجموعة من الخدمات لتلبية احتياجات المنزل والعمل
-</p>
+            <p>
+              إصلاح التسريبات والمواسير والتمديدات الصحية.
+            </p>
 
-</div>
+            <div class="service-action">
+              اطلب الخدمة ←
+            </div>
 
+          </a>
 
-<div class="services-grid">
 
+          <!-- أجهزة منزلية -->
 
-<div class="service">
+          <a class="service"
+             href="service-request.html?service=صيانة%20أجهزة%20منزلية">
 
-<div class="service-icon">
-❄️
-</div>
+            <div class="service-icon">
+              🔧
+            </div>
 
-<h3>
-تكييف وتبريد
-</h3>
+            <h3>
+              أجهزة منزلية
+            </h3>
 
-<p>
-فحص وصيانة وتركيب أجهزة التكييف والتبريد.
-</p>
+            <p>
+              صيانة وإصلاح الأجهزة المنزلية المختلفة.
+            </p>
 
-</div>
+            <div class="service-action">
+              اطلب الخدمة ←
+            </div>
 
+          </a>
 
-<div class="service">
 
-<div class="service-icon">
-⚡
-</div>
+          <!-- نجارة -->
 
-<h3>
-كهرباء
-</h3>
+          <a class="service"
+             href="service-request.html?service=نجارة">
 
-<p>
-أعمال الكهرباء وإصلاح الأعطال والمشاكل الكهربائية.
-</p>
+            <div class="service-icon">
+              🪚
+            </div>
 
-</div>
+            <h3>
+              نجارة
+            </h3>
 
+            <p>
+              أعمال النجارة والإصلاح والتركيب للأبواب والأثاث.
+            </p>
 
-<div class="service">
+            <div class="service-action">
+              اطلب الخدمة ←
+            </div>
 
-<div class="service-icon">
-🚰
-</div>
+          </a>
 
-<h3>
-سباكة
-</h3>
 
-<p>
-إصلاح التسريبات وتمديدات وأعمال السباكة.
-</p>
+          <!-- دهان -->
 
-</div>
+          <a class="service"
+             href="service-request.html?service=دهان">
 
+            <div class="service-icon">
+              🎨
+            </div>
 
-<div class="service">
+            <h3>
+              دهان
+            </h3>
 
-<div class="service-icon">
-🧰
-</div>
+            <p>
+              دهان وتجديد الجدران والأسطح والأعمال الداخلية.
+            </p>
 
-<h3>
-أجهزة منزلية
-</h3>
+            <div class="service-action">
+              اطلب الخدمة ←
+            </div>
 
-<p>
-صيانة الأجهزة المنزلية المختلفة.
-</p>
+          </a>
 
-</div>
 
+          <!-- صيانة عامة -->
 
-<div class="service">
+          <a class="service"
+             href="service-request.html?service=صيانة%20عامة">
 
-<div class="service-icon">
-🪚
-</div>
+            <div class="service-icon">
+              🛠️
+            </div>
 
-<h3>
-نجارة
-</h3>
+            <h3>
+              صيانة عامة
+            </h3>
 
-<p>
-أعمال النجارة والإصلاحات المنزلية.
-</p>
+            <p>
+              أعمال الصيانة المنزلية العامة والإصلاحات المتنوعة.
+            </p>
 
-</div>
+            <div class="service-action">
+              اطلب الخدمة ←
+            </div>
 
+          </a>
 
-<div class="service">
 
-<div class="service-icon">
-🎨
-</div>
+          <!-- خدمات أخرى -->
 
-<h3>
-دهان
-</h3>
+          <a class="service"
+             href="service-request.html?service=أخرى">
 
-<p>
-أعمال الدهان والتجديد والتشطيبات.
-</p>
+            <div class="service-icon">
+              ➕
+            </div>
 
-</div>
+            <h3>
+              خدمات أخرى
+            </h3>
 
+            <p>
+              إذا لم تجد نوع الخدمة المطلوبة، اختر هذا الخيار.
+            </p>
 
-<div class="service">
+            <div class="service-action">
+              اطلب الخدمة ←
+            </div>
 
-<div class="service-icon">
-🏗️
-</div>
+          </a>
 
-<h3>
-صيانة عامة
-</h3>
 
-<p>
-خدمات صيانة متنوعة حسب احتياج العميل.
-</p>
+        </div>
 
-</div>
+      </div>
 
+    </section>
 
-<div class="service">
 
-<div class="service-icon">
-➕
-</div>
+    <!-- ================= HOW IT WORKS ================= -->
 
-<h3>
-خدمات أخرى
-</h3>
+    <section class="section" id="how">
 
-<p>
-إذا لم تجد الخدمة المطلوبة، أرسل طلبك وسنراجعه.
-</p>
+      <div class="container">
 
-</div>
+        <div class="section-heading">
 
+          <span class="mini">
+            خطوات بسيطة
+          </span>
 
-</div>
+          <h2>
+            كيف يعمل فني برو؟
+          </h2>
 
-</div>
+          <p>
+            طلب خدمة الصيانة أصبح أسهل وأسرع.
+          </p>
 
-</section>
+        </div>
 
 
+        <div class="how-box">
 
-<section id="how">
 
-<div class="section-container">
+          <div class="step">
 
-<div class="section-head">
+            <div class="step-number">
+              1
+            </div>
 
-<h2>
-كيف يعمل فني برو؟
-</h2>
+            <h3>
+              اختر الخدمة
+            </h3>
 
-<p>
-أربع خطوات بسيطة لإرسال ومتابعة طلبك
-</p>
+            <p>
+              حدد نوع الصيانة التي تحتاجها من الخدمات المتاحة.
+            </p>
 
-</div>
+          </div>
 
 
-<div class="steps">
+          <div class="step">
 
+            <div class="step-number">
+              2
+            </div>
 
-<div class="step">
+            <h3>
+              أرسل الطلب
+            </h3>
 
-<div class="step-number">
-1
-</div>
+            <p>
+              أدخل بياناتك وموقعك ووصف المشكلة وأرسل طلب الصيانة.
+            </p>
 
-<h3>
-أرسل طلبك
-</h3>
+          </div>
 
-<p>
-حدد نوع الخدمة واكتب تفاصيل المشكلة وموقعك.
-</p>
 
-</div>
+          <div class="step">
 
+            <div class="step-number">
+              3
+            </div>
 
-<div class="step">
+            <h3>
+              تابع طلبك
+            </h3>
 
-<div class="step-number">
-2
-</div>
+            <p>
+              استخدم رقم الطلب لمتابعة حالة طلب الصيانة.
+            </p>
 
-<h3>
-مراجعة الطلب
-</h3>
+          </div>
 
-<p>
-يتم استقبال الطلب ومراجعته من لوحة الإدارة.
-</p>
 
-</div>
+        </div>
 
+      </div>
 
-<div class="step">
+    </section>
 
-<div class="step-number">
-3
-</div>
 
-<h3>
-تعيين فني
-</h3>
+    <!-- ================= CTA ================= -->
 
-<p>
-يتم اختيار الفني المناسب للخدمة المطلوبة.
-</p>
+    <section class="section">
 
-</div>
+      <div class="container">
 
+        <div class="cta">
 
-<div class="step">
+          <h2>
+            تحتاج إلى صيانة؟
+          </h2>
 
-<div class="step-number">
-4
-</div>
+          <p>
+            أرسل طلبك الآن وسجّل بيانات المشكلة حتى يتم التعامل معها.
+          </p>
 
-<h3>
-تابع طلبك
-</h3>
+          <div class="cta-buttons">
 
-<p>
-استخدم رقم الطلب لمعرفة آخر حالة للطلب.
-</p>
+            <a href="service-request.html"
+               class="primary-btn">
+              طلب خدمة
+            </a>
 
-</div>
+            <a href="track-request.html"
+               class="secondary-btn">
+              تتبع طلب
+            </a>
 
+          </div>
 
-</div>
+        </div>
 
-</div>
+      </div>
 
-</section>
+    </section>
 
+  </main>
 
 
-<section class="features">
+  <!-- ================= FOOTER ================= -->
 
-<div class="section-container">
+  <footer>
 
-<div class="section-head">
+    <div class="container footer-content">
 
-<h2>
-لماذا فني برو؟
-</h2>
+      <div>
+        © 2026 فني برو — جميع الحقوق محفوظة
+      </div>
 
-<p>
-منصة مصممة لتسهيل إدارة طلبات الصيانة
-</p>
+      <div class="footer-links">
 
-</div>
+        <a href="index.html">
+          الرئيسية
+        </a>
 
+        <a href="service-request.html">
+          طلب خدمة
+        </a>
 
-<div class="features-grid">
+        <a href="track-request.html">
+          تتبع طلب
+        </a>
 
+        <a href="login.html">
+          تسجيل الدخول
+        </a>
 
-<div class="feature">
+      </div>
 
-<div class="feature-icon">
-📋
-</div>
+    </div>
 
-<h3>
-طلب إلكتروني
-</h3>
-
-<p>
-أرسل تفاصيل طلب الصيانة من هاتفك دون الحاجة إلى إجراءات معقدة.
-</p>
-
-</div>
-
-
-<div class="feature">
-
-<div class="feature-icon">
-🔎
-</div>
-
-<h3>
-تتبع الطلب
-</h3>
-
-<p>
-احتفظ برقم الطلب واستخدمه لمعرفة حالته في أي وقت.
-</p>
-
-</div>
-
-
-<div class="feature">
-
-<div class="feature-icon">
-👨‍🔧
-</div>
-
-<h3>
-إدارة الفنيين
-</h3>
-
-<p>
-نظام داخلي لإدارة الفنيين وتعيين الفني المناسب لكل طلب.
-</p>
-
-</div>
-
-
-<div class="feature">
-
-<div class="feature-icon">
-📱
-</div>
-
-<h3>
-مصمم للموبايل
-</h3>
-
-<p>
-واجهة بسيطة وسريعة تعمل بشكل مناسب على الهواتف.
-</p>
-
-</div>
-
-
-<div class="feature">
-
-<div class="feature-icon">
-🖼️
-</div>
-
-<h3>
-إرفاق الصور
-</h3>
-
-<p>
-يمكن للعميل إرسال صورة للعطل لمساعدة الإدارة والفني.
-</p>
-
-</div>
-
-
-<div class="feature">
-
-<div class="feature-icon">
-🔄
-</div>
-
-<h3>
-تحديث حالة الطلب
-</h3>
-
-<p>
-يمكن تحديث حالة الطلب من الاستقبال حتى اكتمال الخدمة.
-</p>
-
-</div>
-
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<section class="cta">
-
-<div class="cta-box">
-
-<h2>
-لديك عطل أو تحتاج صيانة؟
-</h2>
-
-<p>
-أرسل طلبك الآن وابدأ بمتابعة حالة الطلب من خلال رقم الطلب.
-</p>
-
-
-<div class="hero-buttons">
-
-<a
-href="service-request.html"
-class="primary-btn"
->
-ابدأ طلب الصيانة
-</a>
-
-<a
-href="track-request.html"
-class="secondary-btn"
->
-تتبع طلب سابق
-</a>
-
-</div>
-
-</div>
-
-</section>
-
-
-</main>
-
-
-
-<footer>
-
-<div class="footer-container">
-
-<div class="footer-brand">
-
-فني برو
-
-<span>
-منصة خدمات الصيانة
-</span>
-
-</div>
-
-
-<div class="footer-links">
-
-<a href="index.html">
-الرئيسية
-</a>
-
-<a href="service-request.html">
-طلب صيانة
-</a>
-
-<a href="track-request.html">
-تتبع الطلب
-</a>
-
-</div>
-
-</div>
-
-
-<div class="copyright">
-
-© 2026 فني برو — جميع الحقوق محفوظة
-
-</div>
-
-</footer>
+  </footer>
 
 
 </body>
