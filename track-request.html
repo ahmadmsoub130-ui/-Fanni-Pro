@@ -404,7 +404,6 @@ grid-template-columns:1fr
 
 </div>
 
-
 <div class="card">
 
 <div class="search-title">
@@ -440,7 +439,6 @@ class="message"
 ></div>
 
 </div>
-
 
 <div
 id="result"
@@ -478,51 +476,29 @@ id="resultStatus"
 
 </div>
 
-
 <div class="info-grid">
 
 <div class="info">
 <div class="label">الخدمة</div>
-<div
-class="value"
-id="resultService"
->
--
-</div>
+<div class="value" id="resultService">-</div>
 </div>
 
 <div class="info">
 <div class="label">الأولوية</div>
-<div
-class="value"
-id="resultPriority"
->
--
-</div>
+<div class="value" id="resultPriority">-</div>
 </div>
 
 <div class="info">
 <div class="label">الموعد المطلوب</div>
-<div
-class="value"
-id="resultDate"
->
--
-</div>
+<div class="value" id="resultDate">-</div>
 </div>
 
 <div class="info">
 <div class="label">الموقع</div>
-<div
-class="value"
-id="resultLocation"
->
--
-</div>
+<div class="value" id="resultLocation">-</div>
 </div>
 
 </div>
-
 
 <div class="timeline">
 
@@ -533,7 +509,6 @@ id="resultLocation"
 <div id="timeline"></div>
 
 </div>
-
 
 <div
 id="technicianBox"
@@ -554,17 +529,18 @@ id="technicianName"
 
 </div>
 
-
 <div
 id="notesBox"
 class="notes"
 style="display:none"
 >
+
 <strong>ملاحظات:</strong>
 <br>
-<span id="notesText"></span>
-</div>
 
+<span id="notesText"></span>
+
+</div>
 
 <a
 id="imageLink"
@@ -580,14 +556,12 @@ style="display:none"
 
 </div>
 
-
 <a
 href="service-request.html"
 class="home-link"
 >
 إنشاء طلب صيانة جديد
 </a>
-
 
 <div class="footer">
 فني برو — منصة خدمات الصيانة
@@ -596,7 +570,6 @@ class="home-link"
 </div>
 
 </div>
-
 
 <script>
 
@@ -612,27 +585,17 @@ SUPABASE_URL,
 SUPABASE_KEY
 );
 
-
 const input =
-document.getElementById(
-"requestNumber"
-);
+document.getElementById("requestNumber");
 
 const searchBtn =
-document.getElementById(
-"searchBtn"
-);
+document.getElementById("searchBtn");
 
 const message =
-document.getElementById(
-"message"
-);
+document.getElementById("message");
 
 const result =
-document.getElementById(
-"result"
-);
-
+document.getElementById("result");
 
 const statusList = [
 "جديد",
@@ -644,12 +607,10 @@ const statusList = [
 "مكتمل"
 ];
 
-
 searchBtn.addEventListener(
 "click",
 searchRequest
 );
-
 
 input.addEventListener(
 "keydown",
@@ -662,15 +623,16 @@ searchRequest();
 }
 );
 
-
 async function searchRequest(){
 
 const number =
-input.value.trim().toUpperCase();
+input.value
+.trim()
+.toUpperCase();
 
 hideMessage();
-result.style.display = "none";
 
+result.style.display = "none";
 
 if(!number){
 
@@ -685,11 +647,22 @@ return;
 
 }
 
+if(!/^FP-\d{8}-\d{6}$/i.test(number)){
+
+showMessage(
+"صيغة رقم الطلب غير صحيحة. مثال: FP-20260929-123456",
+"error"
+);
+
+return;
+
+}
 
 searchBtn.disabled = true;
 searchBtn.textContent =
 "جاري البحث...";
 
+try{
 
 const {
 data,
@@ -699,14 +672,12 @@ error
 .select(`
 id,
 request_number,
-customer_name,
 service_type,
 preferred_date,
 location,
-description,
 status,
 priority,
-assigned_technician_name,
+technician_id,
 technician_notes,
 admin_notes,
 image_url,
@@ -720,25 +691,18 @@ number
 )
 .maybeSingle();
 
-
-searchBtn.disabled = false;
-searchBtn.textContent =
-"بحث";
-
-
 if(error){
 
 console.error(error);
 
 showMessage(
-"حدث خطأ أثناء البحث عن الطلب. حاول مرة أخرى.",
+translateError(error),
 "error"
 );
 
 return;
 
 }
-
 
 if(!data){
 
@@ -751,23 +715,64 @@ return;
 
 }
 
+let technicianName = null;
 
-displayRequest(data);
+if(data.technician_id){
+
+const {
+data: technician,
+error: technicianError
+} = await client
+.from("technicians")
+.select("full_name,name")
+.eq("id",data.technician_id)
+.maybeSingle();
+
+if(!technicianError && technician){
+
+technicianName =
+technician.full_name ||
+technician.name ||
+null;
 
 }
 
+}
 
-function displayRequest(request){
+displayRequest(
+data,
+technicianName
+);
 
-result.style.display =
-"block";
+}catch(error){
 
+console.error(error);
+
+showMessage(
+"تعذر الاتصال بقاعدة البيانات. حاول مرة أخرى.",
+"error"
+);
+
+}finally{
+
+searchBtn.disabled = false;
+searchBtn.textContent = "بحث";
+
+}
+
+}
+
+function displayRequest(
+request,
+technicianName
+){
+
+result.style.display = "block";
 
 document.getElementById(
 "resultNumber"
 ).textContent =
 request.request_number || "-";
-
 
 document.getElementById(
 "resultCreated"
@@ -775,41 +780,34 @@ document.getElementById(
 "تم إنشاء الطلب: " +
 formatDate(request.created_at);
 
-
 document.getElementById(
 "resultStatus"
 ).textContent =
 request.status || "غير محدد";
 
-
 setStatusStyle(
 request.status
 );
-
 
 document.getElementById(
 "resultService"
 ).textContent =
 request.service_type || "-";
 
-
 document.getElementById(
 "resultPriority"
 ).textContent =
 request.priority || "عادي";
-
 
 document.getElementById(
 "resultDate"
 ).textContent =
 formatDate(request.preferred_date);
 
-
 document.getElementById(
 "resultLocation"
 ).textContent =
 request.location || "-";
-
 
 buildTimeline(
 request.status,
@@ -818,14 +816,12 @@ request.updated_at,
 request.completed_at
 );
 
-
 const technicianBox =
 document.getElementById(
 "technicianBox"
 );
 
-
-if(request.assigned_technician_name){
+if(technicianName){
 
 technicianBox.style.display =
 "block";
@@ -833,7 +829,7 @@ technicianBox.style.display =
 document.getElementById(
 "technicianName"
 ).textContent =
-request.assigned_technician_name;
+technicianName;
 
 }else{
 
@@ -842,7 +838,6 @@ technicianBox.style.display =
 
 }
 
-
 const notes = [
 request.admin_notes,
 request.technician_notes
@@ -850,12 +845,10 @@ request.technician_notes
 .filter(Boolean)
 .join("\n\n");
 
-
 const notesBox =
 document.getElementById(
 "notesBox"
 );
-
 
 if(notes){
 
@@ -874,12 +867,10 @@ notesBox.style.display =
 
 }
 
-
 const imageLink =
 document.getElementById(
 "imageLink"
 );
-
 
 if(request.image_url){
 
@@ -896,7 +887,6 @@ imageLink.style.display =
 
 }
 
-
 setTimeout(
 ()=>{
 result.scrollIntoView({
@@ -908,7 +898,6 @@ block:"start"
 );
 
 }
-
 
 function buildTimeline(
 currentStatus,
@@ -922,6 +911,33 @@ document.getElementById(
 "timeline"
 );
 
+if(currentStatus === "ملغي"){
+
+timeline.innerHTML = `
+
+<div class="step active">
+
+<div class="step-title">
+تم إلغاء الطلب
+</div>
+
+<div class="step-date">
+آخر تحديث:
+${formatDate(updatedAt)}
+</div>
+
+</div>
+
+`;
+
+return;
+
+}
+
+const currentIndex =
+statusList.indexOf(
+currentStatus
+);
 
 const steps = [
 
@@ -962,39 +978,6 @@ date:completedAt
 
 ];
 
-
-const currentIndex =
-statusList.indexOf(
-currentStatus
-);
-
-
-if(
-currentStatus === "ملغي"
-){
-
-timeline.innerHTML = `
-
-<div class="step active">
-
-<div class="step-title">
-تم إلغاء الطلب
-</div>
-
-<div class="step-date">
-آخر تحديث:
-${formatDate(updatedAt)}
-</div>
-
-</div>
-
-`;
-
-return;
-
-}
-
-
 timeline.innerHTML =
 steps.map(
 (step,index)=>{
@@ -1005,22 +988,27 @@ if(
 currentIndex >= 0 &&
 index < currentIndex
 ){
+
 className = "done";
+
 }
 
 if(
 currentIndex === index
 ){
+
 className = "active";
+
 }
 
 if(
 currentStatus === "مكتمل" &&
 index === steps.length - 1
 ){
-className = "done";
-}
 
+className = "done";
+
+}
 
 return `
 
@@ -1063,7 +1051,6 @@ step.date
 
 }
 
-
 function setStatusStyle(status){
 
 const element =
@@ -1073,7 +1060,6 @@ document.getElementById(
 
 element.className =
 "status";
-
 
 if(status === "مكتمل"){
 
@@ -1101,11 +1087,12 @@ element.classList.add(
 
 }
 
-
 function formatDate(value){
 
 if(!value){
+
 return "غير محدد";
+
 }
 
 const date =
@@ -1116,7 +1103,9 @@ Number.isNaN(
 date.getTime()
 )
 ){
+
 return String(value);
+
 }
 
 return date.toLocaleString(
@@ -1132,7 +1121,6 @@ minute:"2-digit"
 
 }
 
-
 function showMessage(
 text,
 type
@@ -1146,15 +1134,41 @@ message.className =
 
 }
 
-
 function hideMessage(){
 
 message.textContent = "";
+
 message.className =
 "message";
 
 }
 
+function translateError(error){
+
+const text =
+error?.message ||
+"";
+
+if(
+text.includes("permission denied") ||
+text.includes("row-level security")
+){
+
+return "لا توجد صلاحية لعرض بيانات الطلب. يجب مراجعة صلاحيات قاعدة البيانات.";
+
+}
+
+if(
+text.includes("technician_id")
+){
+
+return "يوجد اختلاف في بنية جدول الطلبات. تأكد من وجود حقل technician_id.";
+
+}
+
+return "حدث خطأ أثناء البحث عن الطلب. حاول مرة أخرى.";
+
+}
 
 function escapeHtml(value){
 
@@ -1162,7 +1176,9 @@ if(
 value === null ||
 value === undefined
 ){
+
 return "";
+
 }
 
 return String(value)
