@@ -1,1582 +1,1760 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>إدارة الفنيين | فني برو</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Tahoma, Arial, sans-serif;
-      background:
-        radial-gradient(circle at top right, rgba(37,99,235,.18), transparent 35%),
-        #07111f;
-      color: #fff;
-      min-height: 100vh;
-    }
-
-    button,
-    input,
-    select,
-    textarea {
-      font-family: inherit;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: rgba(7,17,31,.94);
-      backdrop-filter: blur(15px);
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-
-    .header-inner {
-      max-width: 1300px;
-      margin: auto;
-      padding: 14px 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .brand-icon {
-      width: 45px;
-      height: 45px;
-      border-radius: 13px;
-      background: linear-gradient(135deg,#2563eb,#7c3aed);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .brand h1 {
-      font-size: 18px;
-    }
-
-    .brand span {
-      color: #94a3b8;
-      font-size: 12px;
-    }
-
-    .header-actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .header-btn {
-      border: 1px solid #334155;
-      background: #0f1d30;
-      color: #fff;
-      padding: 10px 14px;
-      border-radius: 10px;
-      cursor: pointer;
-      text-decoration: none;
-      font-size: 13px;
-    }
-
-    main {
-      max-width: 1300px;
-      margin: auto;
-      padding: 25px 18px 50px;
-    }
-
-    .page-title {
-      margin-bottom: 22px;
-    }
-
-    .page-title h2 {
-      font-size: 27px;
-      margin-bottom: 6px;
-    }
-
-    .page-title p {
-      color: #94a3b8;
-      font-size: 14px;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-
-    .panel {
-      background: #0f1d30;
-      border: 1px solid #1e334d;
-      border-radius: 18px;
-      padding: 20px;
-    }
-
-    .panel h3 {
-      margin-bottom: 18px;
-      font-size: 18px;
-    }
-
-    .field {
-      margin-bottom: 15px;
-    }
-
-    .field label {
-      display: block;
-      color: #cbd5e1;
-      font-size: 13px;
-      margin-bottom: 7px;
-    }
-
-    .field input,
-    .field select,
-    .field textarea {
-      width: 100%;
-      padding: 12px;
-      background: #0b192b;
-      color: #fff;
-      border: 1px solid #263b54;
-      border-radius: 10px;
-      outline: none;
-    }
-
-    .field textarea {
-      min-height: 90px;
-      resize: vertical;
-    }
-
-    .field input:focus,
-    .field select:focus,
-    .field textarea:focus {
-      border-color: #3b82f6;
-    }
-
-    .save-btn {
-      width: 100%;
-      border: none;
-      padding: 13px;
-      border-radius: 10px;
-      background: linear-gradient(135deg,#2563eb,#7c3aed);
-      color: #fff;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .cancel-btn {
-      width: 100%;
-      border: 1px solid #334155;
-      padding: 12px;
-      border-radius: 10px;
-      background: transparent;
-      color: #fff;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-
-    .filters {
-      display: grid;
-      grid-template-columns: 1fr 200px 160px;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .filters input,
-    .filters select {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      background: #0b192b;
-      border: 1px solid #263b54;
-      color: #fff;
-      outline: none;
-    }
-
-    .technicians {
-      display: grid;
-      gap: 12px;
-    }
-
-    .technician-card {
-      background: #0b192b;
-      border: 1px solid #1e334d;
-      border-radius: 15px;
-      padding: 17px;
-    }
-
-    .tech-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 13px;
-    }
-
-    .tech-name {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .tech-id {
-      color: #64748b;
-      font-size: 11px;
-      direction: ltr;
-      text-align: right;
-    }
-
-    .status {
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: bold;
-      white-space: nowrap;
-    }
-
-    .status.available {
-      background: rgba(34,197,94,.15);
-      color: #86efac;
-    }
-
-    .status.busy {
-      background: rgba(245,158,11,.15);
-      color: #fcd34d;
-    }
-
-    .status.offline {
-      background: rgba(100,116,139,.15);
-      color: #cbd5e1;
-    }
-
-    .tech-info {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 9px;
-      margin-bottom: 13px;
-    }
-
-    .info {
-      background: #07111f;
-      border-radius: 9px;
-      padding: 10px;
-    }
-
-    .info-label {
-      color: #64748b;
-      font-size: 10px;
-      margin-bottom: 4px;
-    }
-
-    .info-value {
-      color: #e2e8f0;
-      font-size: 13px;
-      word-break: break-word;
-    }
-
-    .tech-notes {
-      background: #07111f;
-      padding: 11px;
-      border-radius: 9px;
-      color: #94a3b8;
-      font-size: 12px;
-      line-height: 1.6;
-      margin-bottom: 13px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .edit-btn,
-    .delete-btn {
-      flex: 1;
-      padding: 10px;
-      border-radius: 9px;
-      cursor: pointer;
-      font-weight: bold;
-      border: none;
-    }
-
-    .edit-btn {
-      background: #1d4ed8;
-      color: #fff;
-    }
-
-    .delete-btn {
-      background: #991b1b;
-      color: #fff;
-    }
-
-    .empty {
-      padding: 45px 20px;
-      text-align: center;
-      color: #94a3b8;
-      border: 1px dashed #334155;
-      border-radius: 15px;
-    }
-
-    .loading {
-      padding: 35px;
-      text-align: center;
-      color: #94a3b8;
-    }
-
-    .message {
-      display: none;
-      margin-bottom: 15px;
-      padding: 11px;
-      border-radius: 10px;
-      font-size: 13px;
-    }
-
-    .message.error {
-      display: block;
-      color: #fca5a5;
-      background: rgba(239,68,68,.12);
-      border: 1px solid rgba(239,68,68,.2);
-    }
-
-    .message.success {
-      display: block;
-      color: #86efac;
-      background: rgba(34,197,94,.12);
-      border: 1px solid rgba(34,197,94,.2);
-    }
-
-    .toast {
-      position: fixed;
-      left: 18px;
-      bottom: 18px;
-      z-index: 100;
-      display: none;
-      background: #16a34a;
-      color: #fff;
-      padding: 12px 17px;
-      border-radius: 10px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.3);
-    }
-
-    .toast.error {
-      background: #dc2626;
-    }
-
-    @media (max-width: 900px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .filters {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .filters input {
-        grid-column: 1 / -1;
-      }
-    }
-
-    @media (max-width: 600px) {
-      main {
-        padding: 20px 12px 40px;
-      }
-
-      .brand span {
-        display: none;
-      }
-
-      .header-actions .header-btn:first-child {
-        display: none;
-      }
-
-      .filters {
-        grid-template-columns: 1fr;
-      }
-
-      .filters input {
-        grid-column: auto;
-      }
-
-      .tech-info {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>إدارة الفنيين | فني برو</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Tahoma,Arial,sans-serif;
+background:
+radial-gradient(circle at top right,rgba(37,99,235,.18),transparent 35%),
+#07111f;
+color:#fff;
+min-height:100vh
+}
+
+button,input,select,textarea{font-family:inherit}
+
+.hidden{display:none!important}
+
+header{
+position:sticky;
+top:0;
+z-index:20;
+background:rgba(7,17,31,.94);
+backdrop-filter:blur(15px);
+border-bottom:1px solid rgba(255,255,255,.08)
+}
+
+.header-inner{
+max-width:1300px;
+margin:auto;
+padding:14px 18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:12px
+}
+
+.brand-icon{
+width:45px;
+height:45px;
+border-radius:13px;
+background:linear-gradient(135deg,#2563eb,#7c3aed);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+font-weight:bold
+}
+
+.brand h1{font-size:18px}
+.brand span{color:#94a3b8;font-size:12px}
+
+.header-actions{
+display:flex;
+gap:8px
+}
+
+.header-btn{
+border:1px solid #334155;
+background:#0f1d30;
+color:#fff;
+padding:10px 14px;
+border-radius:10px;
+cursor:pointer;
+text-decoration:none;
+font-size:13px
+}
+
+main{
+max-width:1300px;
+margin:auto;
+padding:25px 18px 50px
+}
+
+.page-title{
+margin-bottom:22px
+}
+
+.page-title h2{
+font-size:27px;
+margin-bottom:6px
+}
+
+.page-title p{
+color:#94a3b8;
+font-size:14px
+}
+
+.layout{
+display:grid;
+grid-template-columns:360px 1fr;
+gap:20px;
+align-items:start
+}
+
+.panel{
+background:#0f1d30;
+border:1px solid #1e334d;
+border-radius:18px;
+padding:20px
+}
+
+.panel h3{
+margin-bottom:18px;
+font-size:18px
+}
+
+.field{
+margin-bottom:15px
+}
+
+.field label{
+display:block;
+color:#cbd5e1;
+font-size:13px;
+margin-bottom:7px
+}
+
+.field input,
+.field select,
+.field textarea{
+width:100%;
+padding:12px;
+background:#0b192b;
+color:#fff;
+border:1px solid #263b54;
+border-radius:10px;
+outline:none
+}
+
+.field textarea{
+min-height:90px;
+resize:vertical
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+border-color:#3b82f6
+}
+
+.save-btn{
+width:100%;
+border:none;
+padding:13px;
+border-radius:10px;
+background:linear-gradient(135deg,#2563eb,#7c3aed);
+color:#fff;
+font-size:15px;
+font-weight:bold;
+cursor:pointer
+}
+
+.save-btn:disabled{
+opacity:.6;
+cursor:not-allowed
+}
+
+.cancel-btn{
+width:100%;
+border:1px solid #334155;
+padding:12px;
+border-radius:10px;
+background:transparent;
+color:#fff;
+cursor:pointer;
+margin-top:8px
+}
+
+.filters{
+display:grid;
+grid-template-columns:1fr 200px 160px;
+gap:10px;
+margin-bottom:15px
+}
+
+.filters input,
+.filters select{
+width:100%;
+padding:12px;
+border-radius:10px;
+background:#0b192b;
+border:1px solid #263b54;
+color:#fff;
+outline:none
+}
+
+.technicians{
+display:grid;
+gap:12px
+}
+
+.technician-card{
+background:#0b192b;
+border:1px solid #1e334d;
+border-radius:15px;
+padding:17px
+}
+
+.tech-top{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:10px;
+margin-bottom:13px
+}
+
+.tech-name{
+font-size:18px;
+font-weight:bold;
+margin-bottom:5px
+}
+
+.tech-id{
+color:#64748b;
+font-size:11px;
+direction:ltr;
+text-align:right
+}
+
+.status{
+padding:6px 10px;
+border-radius:999px;
+font-size:11px;
+font-weight:bold;
+white-space:nowrap
+}
+
+.status.available{
+background:rgba(34,197,94,.15);
+color:#86efac
+}
+
+.status.busy{
+background:rgba(245,158,11,.15);
+color:#fcd34d
+}
+
+.status.offline{
+background:rgba(100,116,139,.15);
+color:#cbd5e1
+}
+
+.tech-info{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:9px;
+margin-bottom:13px
+}
+
+.info{
+background:#07111f;
+border-radius:9px;
+padding:10px
+}
+
+.info-label{
+color:#64748b;
+font-size:10px;
+margin-bottom:4px
+}
+
+.info-value{
+color:#e2e8f0;
+font-size:13px;
+word-break:break-word
+}
+
+.tech-notes{
+background:#07111f;
+padding:11px;
+border-radius:9px;
+color:#94a3b8;
+font-size:12px;
+line-height:1.6;
+margin-bottom:13px
+}
+
+.actions{
+display:flex;
+gap:8px
+}
+
+.edit-btn,
+.delete-btn{
+flex:1;
+padding:10px;
+border-radius:9px;
+cursor:pointer;
+font-weight:bold;
+border:none
+}
+
+.edit-btn{
+background:#1d4ed8;
+color:#fff
+}
+
+.delete-btn{
+background:#991b1b;
+color:#fff
+}
+
+.empty{
+padding:45px 20px;
+text-align:center;
+color:#94a3b8;
+border:1px dashed #334155;
+border-radius:15px
+}
+
+.loading{
+padding:35px;
+text-align:center;
+color:#94a3b8
+}
+
+.message{
+display:none;
+margin-bottom:15px;
+padding:11px;
+border-radius:10px;
+font-size:13px
+}
+
+.message.error{
+display:block;
+color:#fca5a5;
+background:rgba(239,68,68,.12);
+border:1px solid rgba(239,68,68,.2)
+}
+
+.message.success{
+display:block;
+color:#86efac;
+background:rgba(34,197,94,.12);
+border:1px solid rgba(34,197,94,.2)
+}
+
+.toast{
+position:fixed;
+left:18px;
+bottom:18px;
+z-index:100;
+display:none;
+background:#16a34a;
+color:#fff;
+padding:12px 17px;
+border-radius:10px;
+box-shadow:0 10px 30px rgba(0,0,0,.3)
+}
+
+.toast.error{
+background:#dc2626
+}
+
+.access-denied{
+max-width:500px;
+margin:80px auto;
+padding:35px 25px;
+background:#0f1d30;
+border:1px solid #1e334d;
+border-radius:20px;
+text-align:center
+}
+
+.access-denied h2{
+margin-bottom:12px;
+font-size:24px
+}
+
+.access-denied p{
+color:#94a3b8;
+line-height:1.8;
+margin-bottom:20px
+}
+
+.access-denied a{
+display:inline-block;
+background:#2563eb;
+color:#fff;
+padding:11px 18px;
+border-radius:10px;
+text-decoration:none
+}
+
+@media(max-width:900px){
+.layout{grid-template-columns:1fr}
+.filters{grid-template-columns:1fr 1fr}
+.filters input{grid-column:1 / -1}
+}
+
+@media(max-width:600px){
+main{padding:20px 12px 40px}
+.brand span{display:none}
+.header-actions .header-btn:first-child{display:none}
+.filters{grid-template-columns:1fr}
+.filters input{grid-column:auto}
+.tech-info{grid-template-columns:1fr}
+}
+</style>
 </head>
 
 <body>
 
 <header>
 
-  <div class="header-inner">
+<div class="header-inner">
 
-    <div class="brand">
+<div class="brand">
 
-      <div class="brand-icon">ف</div>
+<div class="brand-icon">ف</div>
 
-      <div>
-        <h1>فني برو</h1>
-        <span>إدارة الفنيين</span>
-      </div>
+<div>
+<h1>فني برو</h1>
+<span>إدارة الفنيين</span>
+</div>
 
-    </div>
+</div>
 
-    <div class="header-actions">
+<div class="header-actions">
 
-      <a
-        href="admin.html"
-        class="header-btn"
-      >
-        لوحة الطلبات
-      </a>
+<a
+href="admin.html"
+class="header-btn"
+>
+لوحة الطلبات
+</a>
 
-      <button
-        class="header-btn"
-        id="logoutBtn"
-      >
-        تسجيل الخروج
-      </button>
+<button
+class="header-btn"
+id="logoutBtn"
+>
+تسجيل الخروج
+</button>
 
-    </div>
+</div>
 
-  </div>
+</div>
 
 </header>
 
 
-<main>
+<main id="mainContent">
 
-  <div class="page-title">
+<div class="page-title">
 
-    <h2>إدارة الفنيين</h2>
+<h2>إدارة الفنيين</h2>
 
-    <p>
-      إضافة وتعديل ومتابعة الفنيين في فني برو
-    </p>
+<p>
+إضافة وتعديل ومتابعة الفنيين في فني برو
+</p>
 
-  </div>
+</div>
 
 
-  <div class="layout">
+<div class="layout">
 
-    <!-- =========================
-         ADD / EDIT
-    ========================= -->
 
-    <section class="panel">
+<section class="panel">
 
-      <h3 id="formTitle">
-        إضافة فني جديد
-      </h3>
+<h3 id="formTitle">
+إضافة فني جديد
+</h3>
 
-      <div
-        id="formMessage"
-        class="message"
-      ></div>
+<div
+id="formMessage"
+class="message"
+></div>
 
 
-      <form id="technicianForm">
+<form id="technicianForm">
 
-        <div class="field">
+<div class="field">
 
-          <label>
-            اسم الفني
-          </label>
+<label>
+اسم الفني
+</label>
 
-          <input
-            type="text"
-            id="fullName"
-            placeholder="مثال: أحمد محمد"
-            required
-          >
+<input
+type="text"
+id="fullName"
+placeholder="مثال: أحمد محمد"
+required
+>
 
-        </div>
+</div>
 
 
-        <div class="field">
+<div class="field">
 
-          <label>
-            رقم الهاتف
-          </label>
+<label>
+رقم الهاتف
+</label>
 
-          <input
-            type="tel"
-            id="phone"
-            placeholder="07XXXXXXXX"
-          >
+<input
+type="tel"
+id="phone"
+placeholder="07XXXXXXXX"
+>
 
-        </div>
+</div>
 
 
-        <div class="field">
+<div class="field">
 
-          <label>
-            التخصص
-          </label>
+<label>
+التخصص
+</label>
 
-          <select
-            id="serviceType"
-          >
+<select id="serviceType">
 
-            <option value="">
-              اختر التخصص
-            </option>
+<option value="">
+اختر التخصص
+</option>
 
-            <option value="تكييف وتبريد">
-              تكييف وتبريد
-            </option>
+<option value="تكييف وتبريد">
+تكييف وتبريد
+</option>
 
-            <option value="كهرباء">
-              كهرباء
-            </option>
+<option value="كهرباء">
+كهرباء
+</option>
 
-            <option value="سباكة">
-              سباكة
-            </option>
+<option value="سباكة">
+سباكة
+</option>
 
-            <option value="صيانة أجهزة منزلية">
-              صيانة أجهزة منزلية
-            </option>
+<option value="صيانة أجهزة منزلية">
+صيانة أجهزة منزلية
+</option>
 
-            <option value="نجارة">
-              نجارة
-            </option>
+<option value="نجارة">
+نجارة
+</option>
 
-            <option value="دهان">
-              دهان
-            </option>
+<option value="دهان">
+دهان
+</option>
 
-            <option value="متعدد التخصصات">
-              متعدد التخصصات
-            </option>
+<option value="متعدد التخصصات">
+متعدد التخصصات
+</option>
 
-            <option value="أخرى">
-              أخرى
-            </option>
+<option value="أخرى">
+أخرى
+</option>
 
-          </select>
+</select>
 
-        </div>
+</div>
 
 
-        <div class="field">
+<div class="field">
 
-          <label>
-            حالة الفني
-          </label>
+<label>
+حالة الفني
+</label>
 
-          <select id="status">
+<select id="status">
 
-            <option value="متاح">
-              متاح
-            </option>
+<option value="متاح">
+متاح
+</option>
 
-            <option value="مشغول">
-              مشغول
-            </option>
+<option value="مشغول">
+مشغول
+</option>
 
-            <option value="غير متاح">
-              غير متاح
-            </option>
+<option value="غير متاح">
+غير متاح
+</option>
 
-          </select>
+</select>
 
-        </div>
+</div>
 
 
-        <div class="field">
+<div class="field">
 
-          <label>
-            ملاحظات
-          </label>
+<label>
+ملاحظات
+</label>
 
-          <textarea
-            id="notes"
-            placeholder="ملاحظات عن الفني أو خبرته..."
-          ></textarea>
+<textarea
+id="notes"
+placeholder="ملاحظات عن الفني أو خبرته..."
+></textarea>
 
-        </div>
+</div>
 
 
-        <button
-          type="submit"
-          class="save-btn"
-          id="saveBtn"
-        >
-          إضافة الفني
-        </button>
+<button
+type="submit"
+class="save-btn"
+id="saveBtn"
+>
+إضافة الفني
+</button>
 
 
-        <button
-          type="button"
-          class="cancel-btn hidden"
-          id="cancelBtn"
-        >
-          إلغاء التعديل
-        </button>
+<button
+type="button"
+class="cancel-btn hidden"
+id="cancelBtn"
+>
+إلغاء التعديل
+</button>
 
-      </form>
+</form>
 
-    </section>
+</section>
 
 
-    <!-- =========================
-         LIST
-    ========================= -->
+<section>
 
-    <section>
+<div class="panel">
 
-      <div class="panel">
+<h3>
+الفنيون
+</h3>
 
-        <h3>
-          الفنيون
-        </h3>
 
+<div class="filters">
 
-        <div class="filters">
+<input
+type="search"
+id="search"
+placeholder="بحث باسم الفني أو الهاتف..."
+>
 
-          <input
-            type="search"
-            id="search"
-            placeholder="بحث باسم الفني أو الهاتف..."
-          >
 
+<select id="filterService">
 
-          <select id="filterService">
+<option value="">
+كل التخصصات
+</option>
 
-            <option value="">
-              كل التخصصات
-            </option>
+<option value="تكييف وتبريد">
+تكييف وتبريد
+</option>
 
-            <option value="تكييف وتبريد">
-              تكييف وتبريد
-            </option>
+<option value="كهرباء">
+كهرباء
+</option>
 
-            <option value="كهرباء">
-              كهرباء
-            </option>
+<option value="سباكة">
+سباكة
+</option>
 
-            <option value="سباكة">
-              سباكة
-            </option>
+<option value="صيانة أجهزة منزلية">
+صيانة أجهزة منزلية
+</option>
 
-            <option value="صيانة أجهزة منزلية">
-              صيانة أجهزة منزلية
-            </option>
+<option value="نجارة">
+نجارة
+</option>
 
-            <option value="نجارة">
-              نجارة
-            </option>
+<option value="دهان">
+دهان
+</option>
 
-            <option value="دهان">
-              دهان
-            </option>
+<option value="متعدد التخصصات">
+متعدد التخصصات
+</option>
 
-            <option value="متعدد التخصصات">
-              متعدد التخصصات
-            </option>
+<option value="أخرى">
+أخرى
+</option>
 
-            <option value="أخرى">
-              أخرى
-            </option>
+</select>
 
-          </select>
 
+<select id="filterStatus">
 
-          <select id="filterStatus">
+<option value="">
+كل الحالات
+</option>
 
-            <option value="">
-              كل الحالات
-            </option>
+<option value="متاح">
+متاح
+</option>
 
-            <option value="متاح">
-              متاح
-            </option>
+<option value="مشغول">
+مشغول
+</option>
 
-            <option value="مشغول">
-              مشغول
-            </option>
+<option value="غير متاح">
+غير متاح
+</option>
 
-            <option value="غير متاح">
-              غير متاح
-            </option>
+</select>
 
-          </select>
+</div>
 
-        </div>
 
+<div id="techniciansContainer">
 
-        <div id="techniciansContainer">
+<div class="loading">
+جاري تحميل الفنيين...
+</div>
 
-          <div class="loading">
-            جاري تحميل الفنيين...
-          </div>
+</div>
 
-        </div>
+</div>
 
-      </div>
+</section>
 
-    </section>
-
-  </div>
+</div>
 
 </main>
 
 
 <div
-  id="toast"
-  class="toast"
+id="accessDenied"
+class="access-denied hidden"
+>
+
+<h2>
+غير مصرح بالدخول
+</h2>
+
+<p>
+هذا الحساب لا يملك صلاحية مدير فني برو.
+</p>
+
+<a href="index.html">
+العودة إلى الموقع
+</a>
+
+</div>
+
+
+<div
+id="toast"
+class="toast"
 ></div>
 
 
 <script>
 
-  /* =========================================
-     SUPABASE
-  ========================================= */
-
-  const SUPABASE_URL =
-    "https://yesmnsztcqnhaqrcgpcs.supabase.co";
-
-  const SUPABASE_KEY =
-    "sb_publishable_fUX7DXedpKF3OyBpDQ9kAQ_RRQpnIuB";
-
-  const client =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
-
-
-  /* =========================================
-     ELEMENTS
-  ========================================= */
+/* =========================================
+SUPABASE
+========================================= */
+
+const SUPABASE_URL =
+"https://yesmnsztcqnhaqrcgpcs.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_fUX7DXedpKF3OyBpDQ9kAQ_RRQpnIuB";
+
+const client =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+/* =========================================
+ELEMENTS
+========================================= */
+
+const mainContent =
+document.getElementById(
+"mainContent"
+);
+
+const accessDenied =
+document.getElementById(
+"accessDenied"
+);
+
+const form =
+document.getElementById(
+"technicianForm"
+);
+
+const fullName =
+document.getElementById(
+"fullName"
+);
 
-  const form =
-    document.getElementById(
-      "technicianForm"
-    );
+const phone =
+document.getElementById(
+"phone"
+);
+
+const serviceType =
+document.getElementById(
+"serviceType"
+);
 
-  const fullName =
-    document.getElementById(
-      "fullName"
-    );
+const status =
+document.getElementById(
+"status"
+);
 
-  const phone =
-    document.getElementById(
-      "phone"
-    );
+const notes =
+document.getElementById(
+"notes"
+);
 
-  const serviceType =
-    document.getElementById(
-      "serviceType"
-    );
+const saveBtn =
+document.getElementById(
+"saveBtn"
+);
 
-  const status =
-    document.getElementById(
-      "status"
-    );
+const cancelBtn =
+document.getElementById(
+"cancelBtn"
+);
 
-  const notes =
-    document.getElementById(
-      "notes"
-    );
+const formTitle =
+document.getElementById(
+"formTitle"
+);
 
-  const saveBtn =
-    document.getElementById(
-      "saveBtn"
-    );
+const formMessage =
+document.getElementById(
+"formMessage"
+);
 
-  const cancelBtn =
-    document.getElementById(
-      "cancelBtn"
-    );
+const search =
+document.getElementById(
+"search"
+);
 
-  const formTitle =
-    document.getElementById(
-      "formTitle"
-    );
+const filterService =
+document.getElementById(
+"filterService"
+);
 
-  const formMessage =
-    document.getElementById(
-      "formMessage"
-    );
+const filterStatus =
+document.getElementById(
+"filterStatus"
+);
 
-  const search =
-    document.getElementById(
-      "search"
-    );
+const container =
+document.getElementById(
+"techniciansContainer"
+);
 
-  const filterService =
-    document.getElementById(
-      "filterService"
-    );
+const logoutBtn =
+document.getElementById(
+"logoutBtn"
+);
 
-  const filterStatus =
-    document.getElementById(
-      "filterStatus"
-    );
+const toast =
+document.getElementById(
+"toast"
+);
 
-  const container =
-    document.getElementById(
-      "techniciansContainer"
-    );
 
-  const logoutBtn =
-    document.getElementById(
-      "logoutBtn"
-    );
+let technicians = [];
 
-  const toast =
-    document.getElementById(
-      "toast"
-    );
+let editingId = null;
 
 
-  let technicians = [];
+/* =========================================
+START
+========================================= */
 
-  let editingId = null;
+document.addEventListener(
+"DOMContentLoaded",
+checkSession
+);
 
 
-  /* =========================================
-     START
-  ========================================= */
+/* =========================================
+CHECK SESSION + ADMIN
+========================================= */
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    checkSession
-  );
+async function checkSession(){
 
+const {
+data,
+error
+} =
+await client.auth.getSession();
 
-  async function checkSession() {
 
-    const {
-      data
-    } = await client.auth.getSession();
+if(
+error ||
+!data.session
+){
 
-    if (!data.session) {
+window.location.href =
+"admin.html";
 
-      window.location.href =
-        "admin.html";
+return;
 
-      return;
-    }
+}
 
-    await loadTechnicians();
 
-  }
+const user =
+data.session.user;
 
 
-  /* =========================================
-     LOAD
-  ========================================= */
+/*
+التحقق من وجود الحساب
+داخل جدول admin_users
+*/
 
-  async function loadTechnicians() {
+const {
+data:adminUser,
+error:adminError
+} =
+await client
+.from("admin_users")
+.select("user_id")
+.eq(
+"user_id",
+user.id
+)
+.maybeSingle();
 
-    container.innerHTML = `
-      <div class="loading">
-        جاري تحميل الفنيين...
-      </div>
-    `;
 
+if(adminError){
 
-    const {
-      data,
-      error
-    } = await client
-      .from("technicians")
-      .select("*")
-      .order(
-        "created_at",
-        {
-          ascending: false
-        }
-      );
+console.error(
+"Admin check:",
+adminError
+);
 
+showAccessDenied(
+"تعذر التحقق من صلاحيات المدير."
+);
 
-    if (error) {
+return;
 
-      container.innerHTML = `
-        <div class="empty">
-          تعذر تحميل الفنيين.
-          <br><br>
-          ${escapeHtml(
-            error.message
-          )}
-        </div>
-      `;
+}
 
-      return;
-    }
 
+if(!adminUser){
 
-    technicians =
-      data || [];
+showAccessDenied(
+"هذا الحساب لا يملك صلاحية مدير."
+);
 
-    renderTechnicians();
+return;
 
-  }
+}
 
 
-  /* =========================================
-     RENDER
-  ========================================= */
+/*
+الحساب مدير
+نسمح له بإدارة الفنيين
+*/
 
-  function renderTechnicians() {
+await loadTechnicians();
 
-    const query =
-      search.value
-        .trim()
-        .toLowerCase();
+}
 
-    const selectedService =
-      filterService.value;
 
-    const selectedStatus =
-      filterStatus.value;
+/* =========================================
+ACCESS DENIED
+========================================= */
 
+function showAccessDenied(
+message
+){
 
-    const filtered =
-      technicians.filter(
-        technician => {
+mainContent.classList.add(
+"hidden"
+);
 
-          const searchable = [
-            technician.full_name,
-            technician.phone,
-            technician.service_type
-          ]
-          .filter(Boolean)
-          .join(" ")
-          .toLowerCase();
+accessDenied.classList.remove(
+"hidden"
+);
 
+accessDenied.querySelector(
+"p"
+).textContent =
+message;
 
-          const matchesSearch =
-            !query ||
-            searchable.includes(query);
+}
 
 
-          const matchesService =
-            !selectedService ||
-            technician.service_type ===
-            selectedService;
+/* =========================================
+LOAD
+========================================= */
 
+async function loadTechnicians(){
 
-          const matchesStatus =
-            !selectedStatus ||
-            technician.status ===
-            selectedStatus;
+container.innerHTML = `
+<div class="loading">
+جاري تحميل الفنيين...
+</div>
+`;
 
 
-          return (
-            matchesSearch &&
-            matchesService &&
-            matchesStatus
-          );
+const {
+data,
+error
+} =
+await client
+.from("technicians")
+.select("*")
+.order(
+"created_at",
+{
+ascending:false
+}
+);
 
-        }
-      );
 
+if(error){
 
-    if (!filtered.length) {
+container.innerHTML = `
+<div class="empty">
+تعذر تحميل الفنيين.
+<br><br>
+${escapeHtml(
+error.message
+)}
+</div>
+`;
 
-      container.innerHTML = `
-        <div class="empty">
-          لا يوجد فنيون مطابقون للبحث.
-        </div>
-      `;
+return;
 
-      return;
-    }
+}
 
 
-    container.innerHTML = `
-      <div class="technicians">
-        ${filtered
-          .map(
-            technicianCard
-          )
-          .join("")}
-      </div>
-    `;
+technicians =
+data || [];
 
-  }
+renderTechnicians();
 
+}
 
-  function technicianCard(
-    technician
-  ) {
 
-    const statusClass =
-      technician.status === "متاح"
-        ? "available"
-        : technician.status === "مشغول"
-        ? "busy"
-        : "offline";
+/* =========================================
+RENDER
+========================================= */
 
+function renderTechnicians(){
 
-    return `
+const query =
+search.value
+.trim()
+.toLowerCase();
 
-      <article
-        class="technician-card"
-      >
 
-        <div class="tech-top">
+const selectedService =
+filterService.value;
 
-          <div>
 
-            <div class="tech-name">
-              ${escapeHtml(
-                technician.full_name
-              )}
-            </div>
+const selectedStatus =
+filterStatus.value;
 
-            <div class="tech-id">
-              ID:
-              ${escapeHtml(
-                technician.id
-              )}
-            </div>
 
-          </div>
+const filtered =
+technicians.filter(
+technician => {
 
+const searchable = [
 
-          <span
-            class="status ${statusClass}"
-          >
-            ${escapeHtml(
-              technician.status ||
-              "غير محدد"
-            )}
-          </span>
+technician.full_name,
+technician.phone,
+technician.service_type
 
-        </div>
+]
+.filter(Boolean)
+.join(" ")
+.toLowerCase();
 
 
-        <div class="tech-info">
+const matchesSearch =
+!query ||
+searchable.includes(
+query
+);
 
-          <div class="info">
 
-            <div class="info-label">
-              الهاتف
-            </div>
+const matchesService =
+!selectedService ||
+technician.service_type ===
+selectedService;
 
-            <div class="info-value">
-              ${escapeHtml(
-                technician.phone ||
-                "-"
-              )}
-            </div>
 
-          </div>
+const matchesStatus =
+!selectedStatus ||
+technician.status ===
+selectedStatus;
 
 
-          <div class="info">
+return (
+matchesSearch &&
+matchesService &&
+matchesStatus
+);
 
-            <div class="info-label">
-              التخصص
-            </div>
+}
+);
 
-            <div class="info-value">
-              ${escapeHtml(
-                technician.service_type ||
-                "-"
-              )}
-            </div>
 
-          </div>
+if(!filtered.length){
 
-        </div>
+container.innerHTML = `
+<div class="empty">
+لا يوجد فنيون مطابقون للبحث.
+</div>
+`;
 
+return;
 
-        ${
-          technician.notes
-          ?
-          `
-          <div class="tech-notes">
-            ${escapeHtml(
-              technician.notes
-            )}
-          </div>
-          `
-          :
-          ""
-        }
+}
 
 
-        <div class="actions">
+container.innerHTML = `
+<div class="technicians">
+${filtered
+.map(
+technicianCard
+)
+.join("")}
+</div>
+`;
 
-          <button
-            class="edit-btn"
-            onclick="editTechnician('${escapeAttribute(
-              technician.id
-            )}')"
-          >
-            تعديل
-          </button>
+}
 
 
-          <button
-            class="delete-btn"
-            onclick="deleteTechnician('${escapeAttribute(
-              technician.id
-            )}')"
-          >
-            حذف
-          </button>
+/* =========================================
+TECHNICIAN CARD
+========================================= */
 
-        </div>
+function technicianCard(
+technician
+){
 
-      </article>
+const statusClass =
+technician.status === "متاح"
+?
+"available"
+:
+technician.status === "مشغول"
+?
+"busy"
+:
+"offline";
 
-    `;
 
-  }
+return `
 
+<article
+class="technician-card"
+>
 
-  /* =========================================
-     ADD / UPDATE
-  ========================================= */
+<div class="tech-top">
 
-  form.addEventListener(
-    "submit",
-    async function(event) {
+<div>
 
-      event.preventDefault();
+<div class="tech-name">
+${escapeHtml(
+technician.full_name
+)}
+</div>
 
+<div class="tech-id">
+ID:
+${escapeHtml(
+technician.id
+)}
+</div>
 
-      const name =
-        fullName.value.trim();
+</div>
 
-      if (!name) {
 
-        showFormMessage(
-          "اكتب اسم الفني.",
-          true
-        );
+<span
+class="status ${statusClass}"
+>
+${escapeHtml(
+technician.status ||
+"غير محدد"
+)}
+</span>
 
-        return;
-      }
+</div>
 
 
-      const payload = {
+<div class="tech-info">
 
-        full_name: name,
+<div class="info">
 
-        phone:
-          phone.value.trim() ||
-          null,
+<div class="info-label">
+الهاتف
+</div>
 
-        service_type:
-          serviceType.value ||
-          null,
+<div class="info-value">
+${escapeHtml(
+technician.phone ||
+"-"
+)}
+</div>
 
-        status:
-          status.value,
+</div>
 
-        notes:
-          notes.value.trim() ||
-          null
 
-      };
+<div class="info">
 
+<div class="info-label">
+التخصص
+</div>
 
-      saveBtn.disabled = true;
+<div class="info-value">
+${escapeHtml(
+technician.service_type ||
+"-"
+)}
+</div>
 
-      saveBtn.textContent =
-        editingId
-        ? "جاري التحديث..."
-        : "جاري الإضافة...";
+</div>
 
+</div>
 
-      let result;
 
+${
+technician.notes
+?
+`
+<div class="tech-notes">
+${escapeHtml(
+technician.notes
+)}
+</div>
+`
+:
+""
+}
 
-      if (editingId) {
 
-        result =
-          await client
-            .from("technicians")
-            .update(payload)
-            .eq(
-              "id",
-              editingId
-            );
+<div class="actions">
 
-      } else {
+<button
+class="edit-btn"
+onclick="editTechnician('${escapeAttribute(
+technician.id
+)}')"
+>
+تعديل
+</button>
 
-        result =
-          await client
-            .from("technicians")
-            .insert(payload);
 
-      }
+<button
+class="delete-btn"
+onclick="deleteTechnician('${escapeAttribute(
+technician.id
+)}')"
+>
+حذف
+</button>
 
+</div>
 
-      if (result.error) {
+</article>
 
-        showFormMessage(
-          result.error.message,
-          true
-        );
+`;
 
-        saveBtn.disabled = false;
+}
 
-        saveBtn.textContent =
-          editingId
-          ? "حفظ التعديل"
-          : "إضافة الفني";
 
-        return;
-      }
+/* =========================================
+ADD / UPDATE
+========================================= */
 
+form.addEventListener(
+"submit",
+async function(event){
 
-      showFormMessage(
-        editingId
-        ? "تم تحديث بيانات الفني."
-        : "تمت إضافة الفني بنجاح.",
-        false
-      );
+event.preventDefault();
 
 
-      showToast(
-        editingId
-        ? "تم تحديث الفني"
-        : "تمت إضافة الفني"
-      );
+const name =
+fullName.value.trim();
 
 
-      resetForm();
+if(!name){
 
-      await loadTechnicians();
+showFormMessage(
+"اكتب اسم الفني.",
+true
+);
 
-    }
-  );
+return;
 
+}
 
-  /* =========================================
-     EDIT
-  ========================================= */
 
-  window.editTechnician =
-    function(id) {
+const payload = {
 
-      const technician =
-        technicians.find(
-          item =>
-            item.id === id
-        );
+full_name:name,
 
+phone:
+phone.value.trim() ||
+null,
 
-      if (!technician) {
-        return;
-      }
+service_type:
+serviceType.value ||
+null,
 
+status:
+status.value,
 
-      editingId =
-        technician.id;
+notes:
+notes.value.trim() ||
+null
 
+};
 
-      fullName.value =
-        technician.full_name ||
-        "";
 
-      phone.value =
-        technician.phone ||
-        "";
+saveBtn.disabled =
+true;
 
-      serviceType.value =
-        technician.service_type ||
-        "";
 
-      status.value =
-        technician.status ||
-        "متاح";
+saveBtn.textContent =
+editingId
+?
+"جاري التحديث..."
+:
+"جاري الإضافة...";
 
-      notes.value =
-        technician.notes ||
-        "";
 
+let result;
 
-      formTitle.textContent =
-        "تعديل بيانات الفني";
 
-      saveBtn.textContent =
-        "حفظ التعديل";
+if(editingId){
 
-      cancelBtn.classList.remove(
-        "hidden"
-      );
+result =
+await client
+.from("technicians")
+.update(payload)
+.eq(
+"id",
+editingId
+);
 
+}else{
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+result =
+await client
+.from("technicians")
+.insert(
+payload
+);
 
-    };
+}
 
 
-  /* =========================================
-     DELETE
-  ========================================= */
+if(result.error){
 
-  window.deleteTechnician =
-    async function(id) {
+showFormMessage(
+result.error.message,
+true
+);
 
-      const technician =
-        technicians.find(
-          item =>
-            item.id === id
-        );
 
+saveBtn.disabled =
+false;
 
-      if (!technician) {
-        return;
-      }
 
+saveBtn.textContent =
+editingId
+?
+"حفظ التعديل"
+:
+"إضافة الفني";
 
-      const confirmed =
-        confirm(
-          "هل أنت متأكد من حذف الفني: " +
-          technician.full_name +
-          "؟"
-        );
+return;
 
+}
 
-      if (!confirmed) {
-        return;
-      }
 
+showFormMessage(
+editingId
+?
+"تم تحديث بيانات الفني."
+:
+"تمت إضافة الفني بنجاح.",
+false
+);
 
-      const {
-        error
-      } = await client
-        .from("technicians")
-        .delete()
-        .eq(
-          "id",
-          id
-        );
 
+showToast(
+editingId
+?
+"تم تحديث الفني"
+:
+"تمت إضافة الفني"
+);
 
-      if (error) {
 
-        showToast(
-          "تعذر حذف الفني: " +
-          error.message,
-          true
-        );
+resetForm();
 
-        return;
-      }
+await loadTechnicians();
 
+}
+);
 
-      showToast(
-        "تم حذف الفني"
-      );
 
+/* =========================================
+EDIT
+========================================= */
 
-      if (
-        editingId === id
-      ) {
-        resetForm();
-      }
+window.editTechnician =
+function(id){
 
+const technician =
+technicians.find(
+item =>
+item.id === id
+);
 
-      await loadTechnicians();
 
-    };
+if(!technician){
+return;
+}
 
 
-  /* =========================================
-     CANCEL
-  ========================================= */
+editingId =
+technician.id;
 
-  cancelBtn.addEventListener(
-    "click",
-    resetForm
-  );
 
+fullName.value =
+technician.full_name ||
+"";
 
-  function resetForm() {
 
-    editingId = null;
+phone.value =
+technician.phone ||
+"";
 
-    form.reset();
 
-    status.value =
-      "متاح";
+serviceType.value =
+technician.service_type ||
+"";
 
-    formTitle.textContent =
-      "إضافة فني جديد";
 
-    saveBtn.textContent =
-      "إضافة الفني";
+status.value =
+technician.status ||
+"متاح";
 
-    saveBtn.disabled =
-      false;
 
-    cancelBtn.classList.add(
-      "hidden"
-    );
+notes.value =
+technician.notes ||
+"";
 
-  }
 
+formTitle.textContent =
+"تعديل بيانات الفني";
 
-  /* =========================================
-     FILTERS
-  ========================================= */
 
-  search.addEventListener(
-    "input",
-    renderTechnicians
-  );
+saveBtn.textContent =
+"حفظ التعديل";
 
-  filterService.addEventListener(
-    "change",
-    renderTechnicians
-  );
 
-  filterStatus.addEventListener(
-    "change",
-    renderTechnicians
-  );
+cancelBtn.classList.remove(
+"hidden"
+);
 
 
-  /* =========================================
-     LOGOUT
-  ========================================= */
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
-  logoutBtn.addEventListener(
-    "click",
-    async function() {
+};
 
-      await client.auth.signOut();
 
-      window.location.href =
-        "admin.html";
+/* =========================================
+DELETE
+========================================= */
 
-    }
-  );
+window.deleteTechnician =
+async function(id){
 
+const technician =
+technicians.find(
+item =>
+item.id === id
+);
 
-  /* =========================================
-     MESSAGES
-  ========================================= */
 
-  function showFormMessage(
-    message,
-    error
-  ) {
+if(!technician){
+return;
+}
 
-    formMessage.textContent =
-      message;
 
-    formMessage.className =
-      error
-      ? "message error"
-      : "message success";
+const confirmed =
+confirm(
+"هل أنت متأكد من حذف الفني: " +
+technician.full_name +
+"؟"
+);
 
-  }
 
+if(!confirmed){
+return;
+}
 
-  function showToast(
-    message,
-    error = false
-  ) {
 
-    toast.textContent =
-      message;
+const {
+error
+} =
+await client
+.from("technicians")
+.delete()
+.eq(
+"id",
+id
+);
 
-    toast.className =
-      error
-      ? "toast error"
-      : "toast";
 
-    toast.style.display =
-      "block";
+if(error){
 
+showToast(
+"تعذر حذف الفني: " +
+error.message,
+true
+);
 
-    clearTimeout(
-      window.toastTimer
-    );
+return;
 
+}
 
-    window.toastTimer =
-      setTimeout(
-        function() {
 
-          toast.style.display =
-            "none";
+showToast(
+"تم حذف الفني"
+);
 
-        },
-        3000
-      );
 
-  }
+if(
+editingId === id
+){
 
+resetForm();
 
-  /* =========================================
-     SECURITY HELPERS
-  ========================================= */
+}
 
-  function escapeHtml(value) {
 
-    if (
-      value === null ||
-      value === undefined
-    ) {
-      return "";
-    }
+await loadTechnicians();
 
-    return String(value)
-      .replaceAll(
-        "&",
-        "&amp;"
-      )
-      .replaceAll(
-        "<",
-        "&lt;"
-      )
-      .replaceAll(
-        ">",
-        "&gt;"
-      )
-      .replaceAll(
-        '"',
-        "&quot;"
-      )
-      .replaceAll(
-        "'",
-        "&#039;"
-      );
+};
 
-  }
 
+/* =========================================
+CANCEL
+========================================= */
 
-  function escapeAttribute(value) {
+cancelBtn.addEventListener(
+"click",
+resetForm
+);
 
-    return escapeHtml(value);
 
-  }
+function resetForm(){
+
+editingId =
+null;
+
+
+form.reset();
+
+
+status.value =
+"متاح";
+
+
+formTitle.textContent =
+"إضافة فني جديد";
+
+
+saveBtn.textContent =
+"إضافة الفني";
+
+
+saveBtn.disabled =
+false;
+
+
+cancelBtn.classList.add(
+"hidden"
+);
+
+}
+
+
+/* =========================================
+FILTERS
+========================================= */
+
+search.addEventListener(
+"input",
+renderTechnicians
+);
+
+filterService.addEventListener(
+"change",
+renderTechnicians
+);
+
+filterStatus.addEventListener(
+"change",
+renderTechnicians
+);
+
+
+/* =========================================
+LOGOUT
+========================================= */
+
+logoutBtn.addEventListener(
+"click",
+async function(){
+
+await client.auth.signOut();
+
+window.location.href =
+"admin.html";
+
+}
+);
+
+
+/* =========================================
+MESSAGES
+========================================= */
+
+function showFormMessage(
+message,
+error
+){
+
+formMessage.textContent =
+message;
+
+
+formMessage.className =
+error
+?
+"message error"
+:
+"message success";
+
+}
+
+
+function showToast(
+message,
+error=false
+){
+
+toast.textContent =
+message;
+
+
+toast.className =
+error
+?
+"toast error"
+:
+"toast";
+
+
+toast.style.display =
+"block";
+
+
+clearTimeout(
+window.toastTimer
+);
+
+
+window.toastTimer =
+setTimeout(
+function(){
+
+toast.style.display =
+"none";
+
+},
+3000
+);
+
+}
+
+
+/* =========================================
+SECURITY HELPERS
+========================================= */
+
+function escapeHtml(
+value
+){
+
+if(
+value === null ||
+value === undefined
+){
+
+return "";
+
+}
+
+
+return String(value)
+
+.replaceAll(
+"&",
+"&amp;"
+)
+
+.replaceAll(
+"<",
+"&lt;"
+)
+
+.replaceAll(
+">",
+"&gt;"
+)
+
+.replaceAll(
+'"',
+"&quot;"
+)
+
+.replaceAll(
+"'",
+"&#039;"
+);
+
+}
+
+
+function escapeAttribute(
+value
+){
+
+return escapeHtml(
+value
+);
+
+}
 
 </script>
 
