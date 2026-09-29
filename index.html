@@ -470,10 +470,36 @@
 
     footer {
       border-top: 1px solid rgba(255,255,255,.07);
-      padding: 30px 0;
+      padding: 35px 0;
       color: #77869c;
       text-align: center;
       font-size: 13px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin-top: 15px;
+    }
+
+    .footer-links a {
+      color: #aebbd0;
+      transition: .2s;
+    }
+
+    .footer-links a:hover {
+      color: #a99eff;
+    }
+
+    .footer-email {
+      margin-top: 12px;
+    }
+
+    .footer-email a {
+      color: #a99eff;
     }
 
     /* MODAL */
@@ -617,6 +643,11 @@
 
       .user-badge {
         display: none;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 10px;
       }
 
     }
@@ -1072,7 +1103,36 @@
 
   <div class="container">
 
-    © 2026 فني برو — جميع الحقوق محفوظة
+    <div>
+      © 2026 فني برو — جميع الحقوق محفوظة
+    </div>
+
+    <div class="footer-links">
+
+      <a href="privacy.html">
+        سياسة الخصوصية
+      </a>
+
+      <a href="terms.html">
+        الشروط والأحكام
+      </a>
+
+      <a href="contact.html">
+        تواصل معنا
+      </a>
+
+      <a href="track-request.html">
+        تتبع طلب
+      </a>
+
+    </div>
+
+    <div class="footer-email">
+      البريد الإلكتروني:
+      <a href="mailto:contact.fannipro@gmail.com">
+        contact.fannipro@gmail.com
+      </a>
+    </div>
 
   </div>
 
@@ -1235,11 +1295,6 @@
         data?.session;
 
 
-      /*
-        إذا لم يكن مسجلاً:
-        لا نفتح الخدمة
-      */
-
       if (!session) {
 
         openLoginModal();
@@ -1248,11 +1303,6 @@
 
       }
 
-
-      /*
-        إذا كان مسجلاً:
-        نفتح نموذج طلب الخدمة
-      */
 
       window.location.href =
         "service-request.html?service=" +
@@ -1358,10 +1408,6 @@
 
   checkUser();
 
-
-  /*
-    تحديث الواجهة مباشرة عند تغير حالة تسجيل الدخول
-  */
 
   supabaseClient.auth.onAuthStateChange(
     function(event, session) {
