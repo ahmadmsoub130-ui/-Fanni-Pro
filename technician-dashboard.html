@@ -353,9 +353,7 @@
     if (type !== "loading") {
 
       setTimeout(() => {
-
         box.style.display = "none";
-
       }, 3500);
     }
   }
@@ -384,7 +382,7 @@
 
 
   /* =========================
-     التحقق من تسجيل الدخول
+     التحقق من الحساب
   ========================= */
 
   async function checkTechnician() {
@@ -406,15 +404,6 @@
 
     currentUser = user;
 
-
-    document.getElementById(
-      "technicianEmail"
-    ).textContent =
-      "الحساب: " +
-      (user.email || "المستخدم");
-
-
-    /* جلب الصلاحية */
 
     const {
       data: roleData,
@@ -461,10 +450,6 @@
         .trim();
 
 
-    /*
-      السماح للإدمن والفني.
-    */
-
     if (
       currentRole !== "technician" &&
       currentRole !== "admin"
@@ -489,9 +474,11 @@
       "الحساب: " +
       (user.email || "المستخدم") +
       " — الصلاحية: " +
-      (currentRole === "admin"
-        ? "مدير"
-        : "فني");
+      (
+        currentRole === "admin"
+          ? "مدير"
+          : "فني"
+      );
 
 
     return true;
@@ -519,15 +506,6 @@
 
     let query;
 
-
-    /*
-      الإدمن:
-      يرى جميع الطلبات.
-
-      الفني:
-      يرى الطلبات المسندة إليه
-      إذا كان technician_id موجودًا.
-    */
 
     if (currentRole === "admin") {
 
@@ -567,13 +545,9 @@
 
       requestsBox.innerHTML = `
         <div class="empty">
-
           حدث خطأ أثناء تحميل الطلبات.
-
           <br><br>
-
           ${escapeHTML(error.message)}
-
         </div>
       `;
 
@@ -612,43 +586,28 @@
 
   function updateStats(requests) {
 
-    const newCount =
-      requests.filter(
-        r =>
-          r.status === "جديد"
-      ).length;
-
-
-    const workingCount =
-      requests.filter(
-        r =>
-          r.status === "قيد التنفيذ"
-      ).length;
-
-
-    const finishedCount =
-      requests.filter(
-        r =>
-          r.status === "مكتمل"
-      ).length;
-
-
     document.getElementById(
       "newCount"
     ).textContent =
-      newCount;
+      requests.filter(
+        r => r.status === "جديد"
+      ).length;
 
 
     document.getElementById(
       "workingCount"
     ).textContent =
-      workingCount;
+      requests.filter(
+        r => r.status === "قيد التنفيذ"
+      ).length;
 
 
     document.getElementById(
       "finishedCount"
     ).textContent =
-      finishedCount;
+      requests.filter(
+        r => r.status === "مكتمل"
+      ).length;
   }
 
 
@@ -700,10 +659,7 @@
 
       `;
 
-    }
-
-
-    else if (
+    } else if (
       status === "قيد التنفيذ"
     ) {
 
@@ -722,10 +678,7 @@
 
       `;
 
-    }
-
-
-    else if (
+    } else if (
       status === "مكتمل"
     ) {
 
@@ -741,10 +694,7 @@
 
       `;
 
-    }
-
-
-    else if (
+    } else if (
       status === "مرفوض"
     ) {
 
@@ -769,19 +719,11 @@
         <div class="request-top">
 
           <div class="request-number">
-
-            طلب
-            ${escapeHTML(
-              requestNumber
-            )}
-
+            طلب ${escapeHTML(requestNumber)}
           </div>
 
-
           <div class="status">
-
             ${escapeHTML(status)}
-
           </div>
 
         </div>
@@ -790,109 +732,66 @@
         <div class="details">
 
           <div class="detail">
-
-            <strong>
-              العميل:
-            </strong>
-
+            <strong>العميل:</strong>
             ${escapeHTML(
-              request.customer_name ||
-              "-"
+              request.customer_name || "-"
             )}
-
           </div>
 
 
           <div class="detail">
-
-            <strong>
-              الهاتف:
-            </strong>
-
+            <strong>الهاتف:</strong>
             ${escapeHTML(
-              request.phone ||
-              "-"
+              request.phone || "-"
             )}
-
           </div>
 
 
           <div class="detail">
-
-            <strong>
-              الخدمة:
-            </strong>
-
+            <strong>الخدمة:</strong>
             ${escapeHTML(
-              request.service_type ||
-              "-"
+              request.service_type || "-"
             )}
-
           </div>
 
 
           <div class="detail">
-
-            <strong>
-              الموقع:
-            </strong>
-
+            <strong>الموقع:</strong>
             ${escapeHTML(
-              request.location ||
-              "-"
+              request.location || "-"
             )}
-
           </div>
 
 
           <div class="detail">
-
-            <strong>
-              التاريخ المفضل:
-            </strong>
-
+            <strong>التاريخ المفضل:</strong>
             ${escapeHTML(
-              request.preferred_date ||
-              "-"
+              request.preferred_date || "-"
             )}
-
           </div>
 
 
           <div class="detail">
-
-            <strong>
-              الأولوية:
-            </strong>
-
+            <strong>الأولوية:</strong>
             ${escapeHTML(
-              request.priority ||
-              "عادي"
+              request.priority || "عادي"
             )}
-
           </div>
 
 
           <div class="detail">
-
-            <strong>
-              وصف المشكلة:
-            </strong>
-
+            <strong>وصف المشكلة:</strong>
             ${escapeHTML(
               request.description ||
               "لا يوجد وصف"
             )}
-
           </div>
 
         </div>
 
 
         <div class="buttons">
-
           ${buttons}
-
         </div>
 
       </div>
@@ -901,14 +800,13 @@
 
 
   /* =========================
-     تحديث حالة الطلب
+     تحديث حالة الطلب + الإشعار
   ========================= */
 
   async function updateStatus(
     requestId,
     newStatus
   ) {
-
 
     if (!currentUser) {
       return;
@@ -919,16 +817,14 @@
 
 
     if (
-      newStatus ===
-      "قيد التنفيذ"
+      newStatus === "قيد التنفيذ"
     ) {
 
       confirmation =
         "هل تريد قبول طلب الصيانة؟";
 
     } else if (
-      newStatus ===
-      "مرفوض"
+      newStatus === "مرفوض"
     ) {
 
       confirmation =
@@ -941,12 +837,7 @@
     }
 
 
-    if (
-      !confirm(
-        confirmation
-      )
-    ) {
-
+    if (!confirm(confirmation)) {
       return;
     }
 
@@ -957,13 +848,29 @@
     );
 
 
+    /* نص الإشعار */
+
+    const notification =
+      newStatus === "قيد التنفيذ"
+        ? "تم قبول طلب الصيانة من قبل الفني، والطلب الآن قيد التنفيذ."
+        : newStatus === "مكتمل"
+        ? "تم إكمال طلب الصيانة."
+        : newStatus === "مرفوض"
+        ? "تم رفض طلب الصيانة."
+        : "";
+
+
+    /* تحديث الطلب */
+
     const {
       error
     } =
       await supabaseClient
         .from("service_requests")
         .update({
-          status: newStatus
+          status: newStatus,
+          customer_notification: notification,
+          notification_read: false
         })
         .eq(
           "id",
@@ -986,7 +893,7 @@
 
 
     showMessage(
-      "تم تحديث حالة الطلب بنجاح.",
+      "تم تحديث الطلب وإرسال الإشعار بنجاح.",
       "success"
     );
 
@@ -1009,7 +916,7 @@
 
 
   /* =========================
-     تشغيل اللوحة
+     تشغيل الصفحة
   ========================= */
 
   async function startDashboard() {
