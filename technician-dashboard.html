@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>لوحة الفني | فني برو</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Tahoma, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #172033;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #071d3a, #0d47a1);
+      color: white;
+      padding: 22px 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,.12);
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .brand h1 {
+      font-size: 25px;
+      margin-bottom: 5px;
+    }
+
+    .brand p {
+      opacity: .85;
+      font-size: 14px;
+    }
+
+    .logout {
+      border: 0;
+      background: #fff;
+      color: #0d47a1;
+      padding: 10px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 25px auto;
+      padding: 0 15px 40px;
+    }
+
+    .welcome {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 15px rgba(0,0,0,.06);
+    }
+
+    .welcome h2 {
+      color: #0d47a1;
+      margin-bottom: 7px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat {
+      background: white;
+      padding: 18px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 3px 15px rgba(0,0,0,.06);
+    }
+
+    .stat-number {
+      display: block;
+      font-size: 30px;
+      font-weight: bold;
+      color: #0d47a1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      color: #667085;
+      font-size: 14px;
+    }
+
+    .section-title {
+      margin-bottom: 15px;
+      font-size: 22px;
+    }
+
+    #message {
+      display: none;
+      padding: 14px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .success {
+      background: #e8f7ee;
+      color: #16703b;
+    }
+
+    .error {
+      background: #fdecec;
+      color: #b42318;
+    }
+
+    .loading {
+      background: #eef4ff;
+      color: #175cd3;
+    }
+
+    .requests {
+      display: grid;
+      gap: 18px;
+    }
+
+    .request-card {
+      background: white;
+      border-radius: 17px;
+      padding: 20px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.07);
+      border-right: 5px solid #0d47a1;
+    }
+
+    .request-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .request-number {
+      color: #0d47a1;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .status {
+      padding: 6px 11px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+      background: #fff4cc;
+      color: #8a5b00;
+    }
+
+    .details {
+      display: grid;
+      gap: 9px;
+      margin-bottom: 18px;
+    }
+
+    .detail {
+      line-height: 1.6;
+      color: #344054;
+    }
+
+    .detail strong {
+      color: #101828;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button.action {
+      border: 0;
+      padding: 11px 17px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .accept {
+      background: #0d47a1;
+      color: white;
+    }
+
+    .reject {
+      background: #fee4e2;
+      color: #b42318;
+    }
+
+    .start {
+      background: #e0f2fe;
+      color: #075985;
+    }
+
+    .finish {
+      background: #dcfae6;
+      color: #067647;
+    }
+
+    button.action:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .empty {
+      background: white;
+      padding: 35px 20px;
+      text-align: center;
+      border-radius: 16px;
+      color: #667085;
+      box-shadow: 0 3px 15px rgba(0,0,0,.06);
+    }
+
+    @media (max-width: 700px) {
+      .header-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .request-card {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <h1>فني برو</h1>
+      <p>لوحة تحكم الفني</p>
+    </div>
+
+    <button class="logout" onclick="logout()">
+      تسجيل الخروج
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <div class="welcome">
+    <h2>مرحبًا بك يا فني</h2>
+    <p id="technicianEmail">جاري التحقق من الحساب...</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-number" id="newCount">0</span>
+      <span class="stat-label">طلبات جديدة</span>
+    </div>
+
+    <div class="stat">
+      <span class="stat-number" id="workingCount">0</span>
+      <span class="stat-label">طلبات قيد التنفيذ</span>
+    </div>
+
+    <div class="stat">
+      <span class="stat-number" id="finishedCount">0</span>
+      <span class="stat-label">طلبات مكتملة</span>
+    </div>
+  </div>
+
+  <div id="message"></div>
+
+  <h2 class="section-title">طلبات الصيانة</h2>
+
+  <div id="requests" class="requests">
+    <div class="empty">
+      جاري تحميل الطلبات...
+    </div>
+  </div>
+
+</main>
+
+<script>
+  const SUPABASE_URL =
+    "https://yesmnsztcqnhaqrcgpcs.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_fUX7DXedpKF3OyBpDQ9kAQ_RRQpnIuB";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+  let currentUser = null;
+
+  function showMessage(text, type = "loading") {
+    const box = document.getElementById("message");
+
+    box.textContent = text;
+    box.className = "";
+    box.id = "message";
+    box.classList.add(type);
+    box.style.display = "block";
+
+    if (type !== "loading") {
+      setTimeout(() => {
+        box.style.display = "none";
+      }, 3500);
+    }
+  }
+
+  function escapeHTML(value) {
+    if (value === null || value === undefined) return "";
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  async function checkTechnician() {
+
+    const {
+      data: { user },
+      error
+    } = await supabaseClient.auth.getUser();
+
+    if (error || !user) {
+      window.location.href = "login.html";
+      return false;
+    }
+
+    currentUser = user;
+
+    document.getElementById("technicianEmail").textContent =
+      "الحساب: " + (user.email || "فني");
+
+    const { data: roleData, error: roleError } =
+      await supabaseClient
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+    if (roleError) {
+      console.error(roleError);
+      showMessage(
+        "تعذر التحقق من صلاحيات الحساب.",
+        "error"
+      );
+      return false;
+    }
+
+    if (
+      !roleData ||
+      (roleData.role !== "technician" &&
+       roleData.role !== "admin")
+    ) {
+      document.getElementById("requests").innerHTML = `
+        <div class="empty">
+          هذا الحساب ليس لديه صلاحية فني.
+        </div>
+      `;
+
+      return false;
+    }
+
+    return true;
+  }
+
+  async function loadRequests() {
+
+    const requestsBox =
+      document.getElementById("requests");
+
+    requestsBox.innerHTML = `
+      <div class="empty">
+        جاري تحميل الطلبات...
+      </div>
+    `;
+
+    let query =
+      supabaseClient
+        .from("service_requests")
+        .select("*")
+        .order("created_at", {
+          ascending: false
+        });
+
+    /*
+      للفني: نحاول عرض الطلبات المسندة إليه.
+      للإدارة: يتم عرض جميع الطلبات.
+    */
+
+    const {
+      data: roleData
+    } = await supabaseClient
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", currentUser.id)
+      .maybeSingle();
+
+    if (
+      roleData &&
+      roleData.role === "technician"
+    ) {
+
+      query = supabaseClient
+        .from("service_requests")
+        .select("*")
+        .eq("technician_id", currentUser.id)
+        .order("created_at", {
+          ascending: false
+        });
+    }
+
+    const {
+      data,
+      error
+    } = await query;
+
+    if (error) {
+
+      console.error(error);
+
+      requestsBox.innerHTML = `
+        <div class="empty">
+          حدث خطأ أثناء تحميل الطلبات.<br><br>
+          ${escapeHTML(error.message)}
+        </div>
+      `;
+
+      return;
+    }
+
+    const requests = data || [];
+
+    updateStats(requests);
+
+    if (requests.length === 0) {
+
+      requestsBox.innerHTML = `
+        <div class="empty">
+          لا توجد طلبات صيانة حاليًا.
+        </div>
+      `;
+
+      return;
+    }
+
+    requestsBox.innerHTML =
+      requests.map(createRequestCard).join("");
+  }
+
+  function updateStats(requests) {
+
+    const newCount =
+      requests.filter(r =>
+        r.status === "جديد"
+      ).length;
+
+    const workingCount =
+      requests.filter(r =>
+        r.status === "قيد التنفيذ"
+      ).length;
+
+    const finishedCount =
+      requests.filter(r =>
+        r.status === "مكتمل"
+      ).length;
+
+    document.getElementById("newCount")
+      .textContent = newCount;
+
+    document.getElementById("workingCount")
+      .textContent = workingCount;
+
+    document.getElementById("finishedCount")
+      .textContent = finishedCount;
+  }
+
+  function createRequestCard(request) {
+
+    const requestNumber =
+      request.request_number || "بدون رقم";
+
+    const status =
+      request.status || "جديد";
+
+    let buttons = "";
+
+    if (status === "جديد") {
+
+      buttons = `
+        <button
+          class="action accept"
+          onclick="updateStatus(
+            '${request.id}',
+            'قيد التنفيذ'
+          )">
+          قبول الطلب
+        </button>
+
+        <button
+          class="action reject"
+          onclick="updateStatus(
+            '${request.id}',
+            'مرفوض'
+          )">
+          رفض الطلب
+        </button>
+      `;
+
+    } else if (status === "قيد التنفيذ") {
+
+      buttons = `
+        <button
+          class="action finish"
+          onclick="updateStatus(
+            '${request.id}',
+            'مكتمل'
+          )">
+          إنهاء الطلب
+        </button>
+      `;
+
+    } else if (status === "مكتمل") {
+
+      buttons = `
+        <button
+          class="action finish"
+          disabled>
+          تم إكمال الطلب
+        </button>
+      `;
+
+    } else if (status === "مرفوض") {
+
+      buttons = `
+        <button
+          class="action reject"
+          disabled>
+          تم رفض الطلب
+        </button>
+      `;
+    }
+
+    return `
+      <div class="request-card">
+
+        <div class="request-top">
+
+          <div class="request-number">
+            طلب ${escapeHTML(requestNumber)}
+          </div>
+
+          <div class="status">
+            ${escapeHTML(status)}
+          </div>
+
+        </div>
+
+        <div class="details">
+
+          <div class="detail">
+            <strong>العميل:</strong>
+            ${escapeHTML(request.customer_name || "-")}
+          </div>
+
+          <div class="detail">
+            <strong>الهاتف:</strong>
+            ${escapeHTML(request.phone || "-")}
+          </div>
+
+          <div class="detail">
+            <strong>الخدمة:</strong>
+            ${escapeHTML(request.service_type || "-")}
+          </div>
+
+          <div class="detail">
+            <strong>الموقع:</strong>
+            ${escapeHTML(request.location || "-")}
+          </div>
+
+          <div class="detail">
+            <strong>التاريخ المفضل:</strong>
+            ${escapeHTML(request.preferred_date || "-")}
+          </div>
+
+          <div class="detail">
+            <strong>الأولوية:</strong>
+            ${escapeHTML(request.priority || "عادي")}
+          </div>
+
+          <div class="detail">
+            <strong>وصف المشكلة:</strong>
+            ${escapeHTML(request.description || "لا يوجد وصف")}
+          </div>
+
+        </div>
+
+        <div class="buttons">
+          ${buttons}
+        </div>
+
+      </div>
+    `;
+  }
+
+  async function updateStatus(
+    requestId,
+    newStatus
+  ) {
+
+    if (!currentUser) return;
+
+    const confirmation =
+      newStatus === "قيد التنفيذ"
+        ? "هل تريد قبول طلب الصيانة؟"
+        : newStatus === "مرفوض"
+        ? "هل تريد رفض طلب الصيانة؟"
+        : "هل تريد إنهاء طلب الصيانة؟";
+
+    if (!confirm(confirmation)) {
+      return;
+    }
+
+    showMessage(
+      "جاري تحديث حالة الطلب...",
+      "loading"
+    );
+
+    const {
+      error
+    } = await supabaseClient
+      .from("service_requests")
+      .update({
+        status: newStatus
+      })
+      .eq("id", requestId);
+
+    if (error) {
+
+      console.error(error);
+
+      showMessage(
+        "تعذر تحديث حالة الطلب: " +
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+    showMessage(
+      "تم تحديث حالة الطلب بنجاح.",
+      "success"
+    );
+
+    await loadRequests();
+  }
+
+  async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href = "login.html";
+  }
+
+  async function startDashboard() {
+
+    const allowed =
+      await checkTechnician();
+
+    if (!allowed) {
+      return;
+    }
+
+    await loadRequests();
+  }
+
+  startDashboard();
+
+</script>
+
+</body>
+</html>
