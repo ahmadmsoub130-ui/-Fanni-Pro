@@ -143,6 +143,34 @@ border:1px solid rgba(59,130,246,.3);
 color:#93c5fd
 }
 
+/* إشعار العميل */
+.notification{
+display:none;
+margin-bottom:18px;
+padding:17px 18px;
+border-radius:16px;
+background:linear-gradient(
+135deg,
+rgba(37,99,235,.18),
+rgba(124,58,237,.12)
+);
+border:1px solid rgba(96,165,250,.35);
+box-shadow:0 10px 30px rgba(0,0,0,.18)
+}
+
+.notification-title{
+font-size:13px;
+font-weight:bold;
+color:#60a5fa;
+margin-bottom:7px
+}
+
+.notification-text{
+font-size:14px;
+line-height:1.8;
+color:#e2e8f0
+}
+
 .result{
 display:none
 }
@@ -447,6 +475,26 @@ class="result"
 
 <div class="card">
 
+<!-- إشعار العميل -->
+
+<div
+id="notificationBox"
+class="notification"
+>
+
+<div class="notification-title">
+إشعار بخصوص طلبك
+</div>
+
+<div
+id="notificationText"
+class="notification-text"
+>
+-
+</div>
+
+</div>
+
 <div class="request-header">
 
 <div>
@@ -681,6 +729,8 @@ technician_id,
 technician_notes,
 admin_notes,
 image_url,
+customer_notification,
+notification_read,
 created_at,
 updated_at,
 completed_at
@@ -768,6 +818,36 @@ technicianName
 ){
 
 result.style.display = "block";
+
+/* إشعار العميل */
+
+const notificationBox =
+document.getElementById(
+"notificationBox"
+);
+
+const notificationText =
+document.getElementById(
+"notificationText"
+);
+
+if(request.customer_notification){
+
+notificationBox.style.display =
+"block";
+
+notificationText.textContent =
+request.customer_notification;
+
+}else{
+
+notificationBox.style.display =
+"none";
+
+notificationText.textContent =
+"";
+
+}
 
 document.getElementById(
 "resultNumber"
@@ -1163,6 +1243,14 @@ text.includes("technician_id")
 ){
 
 return "يوجد اختلاف في بنية جدول الطلبات. تأكد من وجود حقل technician_id.";
+
+}
+
+if(
+text.includes("customer_notification")
+){
+
+return "حقل إشعار العميل غير موجود في قاعدة البيانات.";
 
 }
 
