@@ -171,6 +171,26 @@ line-height:1.8;
 color:#e2e8f0
 }
 
+/* زر واتساب */
+.whatsapp-btn{
+display:block;
+width:100%;
+margin-top:16px;
+padding:14px 16px;
+border-radius:12px;
+background:#16a34a;
+color:#fff;
+text-decoration:none;
+text-align:center;
+font-size:13px;
+font-weight:bold;
+transition:.2s
+}
+
+.whatsapp-btn:hover{
+background:#15803d
+}
+
 .result{
 display:none
 }
@@ -548,6 +568,18 @@ id="resultStatus"
 
 </div>
 
+<!-- زر واتساب للعميل -->
+
+<a
+id="whatsappCustomer"
+class="whatsapp-btn"
+target="_blank"
+rel="noopener noreferrer"
+style="display:none"
+>
+إرسال تفاصيل الطلب عبر واتساب
+</a>
+
 <div class="timeline">
 
 <div class="timeline-title">
@@ -888,6 +920,38 @@ document.getElementById(
 "resultLocation"
 ).textContent =
 request.location || "-";
+
+/* تجهيز رسالة واتساب */
+
+const whatsappCustomer =
+document.getElementById(
+"whatsappCustomer"
+);
+
+const trackingUrl =
+"https://ahmadmsoub130-ui.github.io/-Fanni-Pro/track-request.html";
+
+const whatsappMessage =
+`فني برو
+تفاصيل طلب الصيانة
+
+رقم الطلب: ${request.request_number || "-"}
+
+الخدمة: ${request.service_type || "-"}
+
+الحالة: ${request.status || "غير محدد"}
+
+الموقع: ${request.location || "-"}
+
+متابعة الطلب:
+${trackingUrl}`;
+
+whatsappCustomer.href =
+"https://wa.me/?text=" +
+encodeURIComponent(whatsappMessage);
+
+whatsappCustomer.style.display =
+"block";
 
 buildTimeline(
 request.status,
