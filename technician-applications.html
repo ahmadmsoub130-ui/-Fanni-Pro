@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,6 +58,18 @@
       margin: 8px 0;
     }
 
+    .status.new {
+      background: #2563eb;
+    }
+
+    .status.accepted {
+      background: #16a34a;
+    }
+
+    .status.rejected {
+      background: #dc2626;
+    }
+
     .buttons {
       display: flex;
       gap: 10px;
@@ -86,6 +99,8 @@
     .disabled {
       opacity: .5;
       cursor: not-allowed;
+      background: #555;
+      color: white;
     }
 
     .empty {
@@ -100,6 +115,25 @@
       margin-bottom: 20px;
       color: #7dd3fc;
     }
+
+    .user-linked {
+      color: #86efac;
+    }
+
+    .user-not-linked {
+      color: #fca5a5;
+    }
+
+    .refresh {
+      display: block;
+      margin: 0 auto 25px;
+      background: #334155;
+      color: white;
+    }
+
+    .refresh:hover {
+      background: #475569;
+    }
   </style>
 </head>
 
@@ -109,7 +143,13 @@
 
   <h1>طلبات الانضمام للفنيين</h1>
 
-  <div id="message">جاري تحميل الطلبات...</div>
+  <button class="refresh" onclick="loadApplications()">
+    تحديث الطلبات
+  </button>
+
+  <div id="message">
+    جاري تحميل الطلبات...
+  </div>
 
   <div id="applications"></div>
 
@@ -117,7 +157,8 @@
 
 <script>
 
-const SUPABASE_URL = "https://yesmnsztcqnhaqrcgpcs.supabase.co";
+const SUPABASE_URL =
+  "https://yesmnsztcqnhaqrcgpcs.supabase.co";
 
 const SUPABASE_KEY =
   "sb_publishable_fUX7DXedpKF3OyBpDQ9kAQ_RRQpnIuB";
@@ -129,9 +170,9 @@ const supabaseClient =
   );
 
 
-// ===============================
-// التحقق من تسجيل الدخول والصلاحية
-// ===============================
+// ========================================
+// التحقق من تسجيل الدخول وصلاحية الإدارة
+// ========================================
 
 async function checkAdmin() {
 
@@ -148,12 +189,14 @@ async function checkAdmin() {
     return false;
   }
 
-  const { data: role, error: roleError } =
-    await supabaseClient
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", user.id)
-      .maybeSingle();
+  const {
+    data: role,
+    error: roleError
+  } = await supabaseClient
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", user.id)
+    .maybeSingle();
 
   if (roleError) {
 
@@ -177,9 +220,9 @@ async function checkAdmin() {
 }
 
 
-// ===============================
-// تحميل الطلبات
-// ===============================
+// ========================================
+// تحميل طلبات الفنيين
+// ========================================
 
 async function loadApplications() {
 
@@ -189,11 +232,20 @@ async function loadApplications() {
   const message =
     document.getElementById("message");
 
-  const { data, error } =
-    await supabaseClient
-      .from("technician_applications")
-      .select("*")
-      .order("created_at", { ascending: false });
+  message.textContent =
+    "جاري تحميل الطلبات...";
+
+  container.innerHTML = "";
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("technician_applications")
+    .select("*")
+    .order("created_at", {
+      ascending: false
+    });
 
   if (error) {
 
@@ -204,8 +256,6 @@ async function loadApplications() {
 
     return;
   }
-
-  container.innerHTML = "";
 
   if (!data || data.length === 0) {
 
@@ -230,9 +280,38 @@ async function loadApplications() {
     const status =
       application.status || "جديد";
 
+    let statusClass = "";
+
+    if (status === "جديد") {
+      statusClass = "new";
+    }
+
+    if (status === "مقبول") {
+      statusClass = "accepted";
+    }
+
+    if (status === "مرفوض") {
+      statusClass = "rejected";
+    }
+
+    const linkedUser =
+      application.user_id
+        ? `
+          <span class="user-linked">
+            مرتبط بحساب المستخدم
+          </span>
+        `
+        : `
+          <span class="user-not-linked">
+            غير مرتبط بحساب مستخدم
+          </span>
+        `;
+
     card.innerHTML = `
 
-      <h2>${escapeHTML(application.full_name || "")}</h2>
+      <h2>
+        ${escapeHTML(application.full_name || "")}
+      </h2>
 
       <div class="info">
 
@@ -253,7 +332,9 @@ async function loadApplications() {
         <br>
 
         <strong>الخبرة:</strong>
-        ${escapeHTML(String(application.experience_years ?? "-"))}
+        ${escapeHTML(
+          String(application.experience_years ?? "-")
+        )}
         سنة
         <br>
 
@@ -267,11 +348,16 @@ async function loadApplications() {
 
         <strong>ملاحظات:</strong>
         ${escapeHTML(application.notes || "-")}
+        <br>
+
+        <strong>حساب المستخدم:</strong>
+        ${linkedUser}
 
         <br>
 
-        <span class="status">
-          الحالة: ${escapeHTML(status)}
+        <span class="status ${statusClass}">
+          الحالة:
+          ${escapeHTML(status)}
         </span>
 
       </div>
@@ -281,26 +367,39 @@ async function loadApplications() {
         ${
           status === "جديد"
           ? `
+
             <button
               class="accept"
               onclick="acceptTechnician('${application.id}')">
+
               قبول الفني
+
             </button>
 
             <button
               class="reject"
               onclick="rejectTechnician('${application.id}')">
+
               رفض
+
             </button>
+
           `
           : `
-            <button class="disabled" disabled>
+
+            <button
+              class="disabled"
+              disabled>
+
               تم اتخاذ القرار
+
             </button>
+
           `
         }
 
       </div>
+
     `;
 
     container.appendChild(card);
@@ -309,102 +408,247 @@ async function loadApplications() {
 }
 
 
-// ===============================
+// ========================================
 // قبول الفني
-// ===============================
+// ========================================
 
 async function acceptTechnician(id) {
 
   const confirmAccept =
     confirm("هل تريد قبول هذا الفني؟");
 
-  if (!confirmAccept) return;
+  if (!confirmAccept) {
+    return;
+  }
 
-  const { error } =
-    await supabaseClient
-      .from("technician_applications")
-      .update({
-        status: "مقبول"
-      })
-      .eq("id", id);
 
-  if (error) {
+  // --------------------------------------
+  // جلب بيانات الطلب
+  // --------------------------------------
 
-    console.error(error);
+  const {
+    data: application,
+    error: fetchError
+  } = await supabaseClient
+    .from("technician_applications")
+    .select(`
+      id,
+      user_id,
+      full_name,
+      status
+    `)
+    .eq("id", id)
+    .single();
+
+
+  if (fetchError || !application) {
+
+    console.error(fetchError);
 
     alert(
-      "تعذر قبول الفني. تأكد من صلاحيات قاعدة البيانات."
+      "تعذر العثور على طلب الفني."
     );
 
     return;
   }
 
-  alert("تم قبول الفني بنجاح.");
 
-  loadApplications();
+  // --------------------------------------
+  // التأكد من أن الطلب جديد
+  // --------------------------------------
+
+  if (application.status !== "جديد") {
+
+    alert(
+      "تم اتخاذ قرار بشأن هذا الطلب مسبقًا."
+    );
+
+    return;
+  }
+
+
+  // --------------------------------------
+  // التأكد من وجود حساب مستخدم
+  // --------------------------------------
+
+  if (!application.user_id) {
+
+    alert(
+      "هذا الطلب غير مرتبط بحساب مستخدم.\n\n" +
+      "يجب أولًا تعديل صفحة انضمام الفني " +
+      "لربط الطلب بحساب Supabase."
+    );
+
+    return;
+  }
+
+
+  // --------------------------------------
+  // إضافة دور technician
+  // --------------------------------------
+
+  const {
+    error: roleError
+  } = await supabaseClient
+    .from("user_roles")
+    .upsert(
+      {
+        user_id: application.user_id,
+        role: "technician"
+      },
+      {
+        onConflict: "user_id"
+      }
+    );
+
+
+  if (roleError) {
+
+    console.error(roleError);
+
+    alert(
+      "تعذر إضافة صلاحية الفني.\n\n" +
+      roleError.message
+    );
+
+    return;
+  }
+
+
+  // --------------------------------------
+  // تحديث حالة طلب الفني
+  // --------------------------------------
+
+  const {
+    error: updateError
+  } = await supabaseClient
+    .from("technician_applications")
+    .update({
+
+      status: "مقبول",
+
+      reviewed_at:
+        new Date().toISOString()
+
+    })
+    .eq("id", id);
+
+
+  if (updateError) {
+
+    console.error(updateError);
+
+    alert(
+      "تمت إضافة صلاحية الفني، " +
+      "لكن تعذر تحديث حالة الطلب.\n\n" +
+      updateError.message
+    );
+
+    return;
+  }
+
+
+  // --------------------------------------
+  // نجاح
+  // --------------------------------------
+
+  alert(
+    `تم قبول ${application.full_name} بنجاح.\n\n` +
+    "أصبح لديه الآن صلاحية technician."
+  );
+
+
+  await loadApplications();
+
 }
 
 
-// ===============================
+// ========================================
 // رفض الفني
-// ===============================
+// ========================================
 
 async function rejectTechnician(id) {
 
   const confirmReject =
-    confirm("هل تريد رفض طلب هذا الفني؟");
+    confirm(
+      "هل تريد رفض طلب هذا الفني؟"
+    );
 
-  if (!confirmReject) return;
+  if (!confirmReject) {
+    return;
+  }
 
-  const { error } =
-    await supabaseClient
-      .from("technician_applications")
-      .update({
-        status: "مرفوض"
-      })
-      .eq("id", id);
+
+  const {
+    error
+  } = await supabaseClient
+    .from("technician_applications")
+    .update({
+
+      status: "مرفوض",
+
+      reviewed_at:
+        new Date().toISOString()
+
+    })
+    .eq("id", id);
+
 
   if (error) {
 
     console.error(error);
 
     alert(
-      "تعذر رفض الطلب. تأكد من صلاحيات قاعدة البيانات."
+      "تعذر رفض الطلب.\n\n" +
+      error.message
     );
 
     return;
   }
 
-  alert("تم رفض طلب الفني.");
 
-  loadApplications();
+  alert(
+    "تم رفض طلب الفني."
+  );
+
+
+  await loadApplications();
+
 }
 
 
-// ===============================
+// ========================================
 // حماية النصوص
-// ===============================
+// ========================================
 
 function escapeHTML(value) {
 
   return String(value)
+
     .replace(/&/g, "&amp;")
+
     .replace(/</g, "&lt;")
+
     .replace(/>/g, "&gt;")
+
     .replace(/"/g, "&quot;")
+
     .replace(/'/g, "&#039;");
 }
 
 
-// ===============================
-// التشغيل
-// ===============================
+// ========================================
+// تشغيل الصفحة
+// ========================================
 
 (async function () {
 
-  const isAdmin = await checkAdmin();
+  const isAdmin =
+    await checkAdmin();
 
-  if (!isAdmin) return;
+  if (!isAdmin) {
+    return;
+  }
 
   await loadApplications();
 
