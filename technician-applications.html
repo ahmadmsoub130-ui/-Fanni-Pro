@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>طلبات الفنيين | فني برو</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1020;
+      color: #fff;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .application {
+      background: #151c32;
+      border: 1px solid #293352;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    .application h2 {
+      margin-top: 0;
+      color: #4da3ff;
+    }
+
+    .info {
+      line-height: 1.9;
+      color: #dbe4ff;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: #555;
+      margin: 8px 0;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .accept {
+      background: #16a34a;
+      color: white;
+    }
+
+    .reject {
+      background: #dc2626;
+      color: white;
+    }
+
+    .disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .empty {
+      text-align: center;
+      background: #151c32;
+      padding: 30px;
+      border-radius: 15px;
+    }
+
+    #message {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #7dd3fc;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>طلبات الانضمام للفنيين</h1>
+
+  <div id="message">جاري تحميل الطلبات...</div>
+
+  <div id="applications"></div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL = "https://yesmnsztcqnhaqrcgpcs.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_fUX7DXedpKF3OyBpDQ9kAQ_RRQpnIuB";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+// ===============================
+// التحقق من تسجيل الدخول والصلاحية
+// ===============================
+
+async function checkAdmin() {
+
+  const {
+    data: { user },
+    error
+  } = await supabaseClient.auth.getUser();
+
+  if (error || !user) {
+
+    document.getElementById("message").textContent =
+      "يجب تسجيل الدخول أولاً.";
+
+    return false;
+  }
+
+  const { data: role, error: roleError } =
+    await supabaseClient
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+  if (roleError) {
+
+    console.error(roleError);
+
+    document.getElementById("message").textContent =
+      "تعذر التحقق من صلاحيات الحساب.";
+
+    return false;
+  }
+
+  if (!role || role.role !== "admin") {
+
+    document.getElementById("message").textContent =
+      "ليس لديك صلاحية دخول لوحة الإدارة.";
+
+    return false;
+  }
+
+  return true;
+}
+
+
+// ===============================
+// تحميل الطلبات
+// ===============================
+
+async function loadApplications() {
+
+  const container =
+    document.getElementById("applications");
+
+  const message =
+    document.getElementById("message");
+
+  const { data, error } =
+    await supabaseClient
+      .from("technician_applications")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+  if (error) {
+
+    console.error(error);
+
+    message.textContent =
+      "حدث خطأ أثناء تحميل طلبات الفنيين.";
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  if (!data || data.length === 0) {
+
+    message.textContent = "";
+
+    container.innerHTML =
+      '<div class="empty">لا توجد طلبات فنيين حاليًا.</div>';
+
+    return;
+  }
+
+  message.textContent =
+    `عدد الطلبات: ${data.length}`;
+
+  data.forEach(application => {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "application";
+
+    const status =
+      application.status || "جديد";
+
+    card.innerHTML = `
+
+      <h2>${escapeHTML(application.full_name || "")}</h2>
+
+      <div class="info">
+
+        <strong>رقم الطلب:</strong>
+        ${escapeHTML(application.request_number || "-")}
+        <br>
+
+        <strong>الهاتف:</strong>
+        ${escapeHTML(application.phone || "-")}
+        <br>
+
+        <strong>التخصص:</strong>
+        ${escapeHTML(application.service_type || "-")}
+        <br>
+
+        <strong>المدينة:</strong>
+        ${escapeHTML(application.city || "-")}
+        <br>
+
+        <strong>الخبرة:</strong>
+        ${escapeHTML(String(application.experience_years ?? "-"))}
+        سنة
+        <br>
+
+        <strong>نوع العمل:</strong>
+        ${escapeHTML(application.work_type || "-")}
+        <br>
+
+        <strong>الوصف:</strong>
+        ${escapeHTML(application.description || "-")}
+        <br>
+
+        <strong>ملاحظات:</strong>
+        ${escapeHTML(application.notes || "-")}
+
+        <br>
+
+        <span class="status">
+          الحالة: ${escapeHTML(status)}
+        </span>
+
+      </div>
+
+      <div class="buttons">
+
+        ${
+          status === "جديد"
+          ? `
+            <button
+              class="accept"
+              onclick="acceptTechnician('${application.id}')">
+              قبول الفني
+            </button>
+
+            <button
+              class="reject"
+              onclick="rejectTechnician('${application.id}')">
+              رفض
+            </button>
+          `
+          : `
+            <button class="disabled" disabled>
+              تم اتخاذ القرار
+            </button>
+          `
+        }
+
+      </div>
+    `;
+
+    container.appendChild(card);
+
+  });
+}
+
+
+// ===============================
+// قبول الفني
+// ===============================
+
+async function acceptTechnician(id) {
+
+  const confirmAccept =
+    confirm("هل تريد قبول هذا الفني؟");
+
+  if (!confirmAccept) return;
+
+  const { error } =
+    await supabaseClient
+      .from("technician_applications")
+      .update({
+        status: "مقبول"
+      })
+      .eq("id", id);
+
+  if (error) {
+
+    console.error(error);
+
+    alert(
+      "تعذر قبول الفني. تأكد من صلاحيات قاعدة البيانات."
+    );
+
+    return;
+  }
+
+  alert("تم قبول الفني بنجاح.");
+
+  loadApplications();
+}
+
+
+// ===============================
+// رفض الفني
+// ===============================
+
+async function rejectTechnician(id) {
+
+  const confirmReject =
+    confirm("هل تريد رفض طلب هذا الفني؟");
+
+  if (!confirmReject) return;
+
+  const { error } =
+    await supabaseClient
+      .from("technician_applications")
+      .update({
+        status: "مرفوض"
+      })
+      .eq("id", id);
+
+  if (error) {
+
+    console.error(error);
+
+    alert(
+      "تعذر رفض الطلب. تأكد من صلاحيات قاعدة البيانات."
+    );
+
+    return;
+  }
+
+  alert("تم رفض طلب الفني.");
+
+  loadApplications();
+}
+
+
+// ===============================
+// حماية النصوص
+// ===============================
+
+function escapeHTML(value) {
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+// ===============================
+// التشغيل
+// ===============================
+
+(async function () {
+
+  const isAdmin = await checkAdmin();
+
+  if (!isAdmin) return;
+
+  await loadApplications();
+
+})();
+
+</script>
+
+</body>
+</html>
