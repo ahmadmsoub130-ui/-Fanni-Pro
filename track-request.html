@@ -1,1959 +1,1867 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>تتبع طلب الصيانة | فني برو</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0
-}
-
-body{
-font-family:Tahoma,Arial,sans-serif;
-min-height:100vh;
-color:#fff;
-background:
-radial-gradient(circle at top right,rgba(37,99,235,.20),transparent 35%),
-radial-gradient(circle at bottom left,rgba(124,58,237,.14),transparent 35%),
-#07111f;
-padding:20px
-}
-
-.container{
-width:100%;
-max-width:700px;
-margin:30px auto
-}
-
-.header{
-text-align:center;
-margin-bottom:25px
-}
-
-.logo{
-width:65px;
-height:65px;
-margin:0 auto 14px;
-border-radius:20px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:28px;
-font-weight:bold;
-background:linear-gradient(135deg,#2563eb,#7c3aed);
-box-shadow:0 15px 40px rgba(37,99,235,.25)
-}
-
-h1{
-font-size:27px;
-margin-bottom:8px
-}
-
-.subtitle{
-color:#94a3b8;
-font-size:14px;
-line-height:1.7
-}
-
-.card{
-background:rgba(15,29,48,.94);
-border:1px solid #1e334d;
-border-radius:22px;
-padding:22px;
-box-shadow:0 20px 50px rgba(0,0,0,.25);
-margin-bottom:18px
-}
-
-.search-title{
-font-size:18px;
-margin-bottom:8px
-}
-
-.search-description{
-color:#94a3b8;
-font-size:12px;
-margin-bottom:15px
-}
-
-.search-box{
-display:flex;
-gap:9px
-}
-
-input{
-flex:1;
-min-width:0;
-padding:14px;
-border-radius:12px;
-border:1px solid #263b54;
-background:#0b192b;
-color:#fff;
-font-size:15px;
-outline:none;
-direction:ltr;
-text-align:center
-}
-
-input:focus{
-border-color:#3b82f6
-}
-
-.search-btn{
-border:0;
-border-radius:12px;
-padding:0 20px;
-background:#2563eb;
-color:#fff;
-font-weight:bold;
-cursor:pointer
-}
-
-.search-btn:disabled{
-opacity:.6;
-cursor:not-allowed
-}
-
-.message{
-display:none;
-padding:14px;
-border-radius:12px;
-margin-top:15px;
-font-size:13px;
-line-height:1.7
-}
-
-.message.error{
-display:block;
-background:rgba(239,68,68,.12);
-border:1px solid rgba(239,68,68,.3);
-color:#fca5a5
-}
-
-.message.info{
-display:block;
-background:rgba(59,130,246,.12);
-border:1px solid rgba(59,130,246,.3);
-color:#93c5fd
-}
-
-.notification{
-display:none;
-margin-bottom:18px;
-padding:17px 18px;
-border-radius:16px;
-background:linear-gradient(
-135deg,
-rgba(37,99,235,.18),
-rgba(124,58,237,.12)
-);
-border:1px solid rgba(96,165,250,.35);
-box-shadow:0 10px 30px rgba(0,0,0,.18)
-}
-
-.notification-title{
-font-size:13px;
-font-weight:bold;
-color:#60a5fa;
-margin-bottom:7px
-}
-
-.notification-text{
-font-size:14px;
-line-height:1.8;
-color:#e2e8f0
-}
-
-.whatsapp-btn{
-display:block;
-width:100%;
-margin-top:16px;
-padding:14px 16px;
-border-radius:12px;
-background:#16a34a;
-color:#fff;
-text-decoration:none;
-text-align:center;
-font-size:13px;
-font-weight:bold;
-transition:.2s
-}
-
-.whatsapp-btn:hover{
-background:#15803d
-}
-
-.result{
-display:none
-}
-
-.request-header{
-display:flex;
-align-items:flex-start;
-justify-content:space-between;
-gap:15px;
-padding-bottom:18px;
-border-bottom:1px solid #1e334d;
-margin-bottom:18px
-}
-
-.request-number{
-font-size:20px;
-font-weight:bold;
-color:#60a5fa;
-direction:ltr;
-text-align:right
-}
-
-.created{
-color:#64748b;
-font-size:11px;
-margin-top:6px
-}
-
-.status{
-padding:9px 13px;
-border-radius:999px;
-font-size:12px;
-font-weight:bold;
-background:rgba(59,130,246,.15);
-color:#93c5fd;
-white-space:nowrap
-}
-
-.status.done{
-background:rgba(34,197,94,.15);
-color:#86efac
-}
-
-.status.cancelled{
-background:rgba(239,68,68,.15);
-color:#fca5a5
-}
-
-.status.warning{
-background:rgba(245,158,11,.15);
-color:#fcd34d
-}
-
-.info-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px
-}
-
-.info{
-background:#0b192b;
-border:1px solid #172a40;
-border-radius:12px;
-padding:13px
-}
-
-.label{
-font-size:10px;
-color:#64748b;
-margin-bottom:6px
-}
-
-.value{
-font-size:13px;
-color:#e2e8f0;
-line-height:1.6;
-word-break:break-word
-}
-
-.timeline{
-margin-top:22px
-}
-
-.timeline-title{
-font-size:17px;
-margin-bottom:15px
-}
-
-.step{
-position:relative;
-padding:0 35px 20px 0
-}
-
-.step:last-child{
-padding-bottom:0
-}
-
-.step::before{
-content:"";
-position:absolute;
-right:9px;
-top:6px;
-width:13px;
-height:13px;
-border-radius:50%;
-background:#334155;
-border:3px solid #0f1d30;
-box-shadow:0 0 0 1px #475569
-}
-
-.step:not(:last-child)::after{
-content:"";
-position:absolute;
-right:15px;
-top:19px;
-width:2px;
-height:calc(100% - 8px);
-background:#263b54
-}
-
-.step.active::before{
-background:#2563eb;
-box-shadow:0 0 0 4px rgba(37,99,235,.12)
-}
-
-.step.active:not(:last-child)::after{
-background:#2563eb
-}
-
-.step.done::before{
-background:#16a34a;
-box-shadow:0 0 0 4px rgba(22,163,74,.12)
-}
-
-.step-title{
-font-size:13px;
-font-weight:bold;
-margin-bottom:3px
-}
-
-.step-date{
-font-size:10px;
-color:#64748b
-}
-
-.technician{
-margin-top:20px;
-background:linear-gradient(
-135deg,
-rgba(37,99,235,.12),
-rgba(124,58,237,.08)
-);
-border:1px solid rgba(59,130,246,.22);
-border-radius:15px;
-padding:17px
-}
-
-.technician-title{
-font-size:12px;
-color:#93c5fd;
-margin-bottom:7px
-}
-
-.technician-name{
-font-size:17px;
-font-weight:bold
-}
-
-.notes{
-margin-top:18px;
-padding:15px;
-background:#0b192b;
-border-radius:12px;
-border:1px solid #172a40;
-line-height:1.8;
-font-size:13px;
-color:#cbd5e1
-}
-
-.image-link{
-display:inline-block;
-margin-top:16px;
-padding:11px 15px;
-background:#1d4ed8;
-border-radius:10px;
-color:#fff;
-text-decoration:none;
-font-size:12px
-}
-
-/* التقييم */
-
-.review-box{
-display:none;
-margin-top:20px;
-padding:20px;
-border-radius:17px;
-background:
-linear-gradient(
-135deg,
-rgba(245,158,11,.10),
-rgba(37,99,235,.08)
-);
-border:1px solid rgba(245,158,11,.25);
-text-align:center
-}
-
-.review-title{
-font-size:18px;
-font-weight:bold;
-margin-bottom:7px
-}
-
-.review-description{
-font-size:12px;
-color:#94a3b8;
-line-height:1.7;
-margin-bottom:15px
-}
-
-.stars{
-display:flex;
-justify-content:center;
-gap:7px;
-direction:ltr;
-margin-bottom:16px
-}
-
-.star{
-border:0;
-background:none;
-font-size:38px;
-line-height:1;
-color:#475569;
-cursor:pointer;
-transition:.15s;
-padding:2px
-}
-
-.star:hover{
-transform:scale(1.1)
-}
-
-.star.selected{
-color:#fbbf24
-}
-
-.rating-text{
-font-size:12px;
-color:#fcd34d;
-min-height:18px;
-margin-bottom:12px
-}
-
-.review-textarea{
-width:100%;
-min-height:95px;
-resize:vertical;
-padding:13px;
-border-radius:12px;
-border:1px solid #263b54;
-background:#0b192b;
-color:#fff;
-font-family:inherit;
-font-size:13px;
-outline:none;
-margin-bottom:12px
-}
-
-.review-textarea:focus{
-border-color:#3b82f6
-}
-
-.review-submit{
-width:100%;
-padding:14px;
-border:0;
-border-radius:12px;
-background:#f59e0b;
-color:#111827;
-font-weight:bold;
-font-size:14px;
-cursor:pointer
-}
-
-.review-submit:disabled{
-opacity:.6;
-cursor:not-allowed
-}
-
-.review-success{
-display:none;
-margin-top:12px;
-padding:12px;
-border-radius:10px;
-background:rgba(34,197,94,.12);
-border:1px solid rgba(34,197,94,.25);
-color:#86efac;
-font-size:12px;
-line-height:1.7
-}
-
-.review-error{
-display:none;
-margin-top:12px;
-padding:12px;
-border-radius:10px;
-background:rgba(239,68,68,.12);
-border:1px solid rgba(239,68,68,.25);
-color:#fca5a5;
-font-size:12px;
-line-height:1.7
-}
-
-.home-link{
-display:block;
-text-align:center;
-color:#93c5fd;
-text-decoration:none;
-font-size:13px;
-margin-top:18px
-}
-
-.footer{
-text-align:center;
-color:#475569;
-font-size:11px;
-margin-top:25px;
-line-height:1.7
-}
-
-@media(max-width:550px){
-
-body{
-padding:12px
-}
-
-.container{
-margin:15px auto
-}
-
-.card{
-padding:17px
-}
-
-h1{
-font-size:23px
-}
-
-.search-box{
-flex-direction:column
-}
-
-.search-btn{
-padding:14px
-}
-
-.request-header{
-flex-direction:column
-}
-
-.info-grid{
-grid-template-columns:1fr
-}
-
-.star{
-font-size:34px
-}
-
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>تتبع طلب الصيانة | فني برو</title>
+
+  <meta name="description" content="تتبع حالة طلب الصيانة ومراجعة عرض السعر والموافقة عليه عبر فني برو">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Tahoma, sans-serif;
+      background: linear-gradient(135deg, #07111f, #101b35);
+      color: #fff;
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+
+    header {
+      background: rgba(8, 18, 35, 0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1000px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo {
+      color: #60a5fa;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .back-btn {
+      text-decoration: none;
+      color: white;
+      background: #2563eb;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 15px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .hero h1 {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: #b8c4d9;
+      line-height: 1.8;
+    }
+
+    .search-box {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 22px;
+      border-radius: 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.2);
+    }
+
+    .search-box label {
+      display: block;
+      margin-bottom: 8px;
+      color: #dbeafe;
+      font-weight: bold;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-row input {
+      flex: 1;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: #f8fafc;
+      color: #111827;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    .search-btn {
+      background: #2563eb;
+      color: white;
+      padding: 0 22px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    .search-btn:hover {
+      background: #1d4ed8;
+    }
+
+    #message {
+      display: none;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .message-success {
+      display: block !important;
+      background: rgba(16,185,129,0.15);
+      border: 1px solid rgba(16,185,129,0.4);
+      color: #6ee7b7;
+    }
+
+    .message-error {
+      display: block !important;
+      background: rgba(239,68,68,0.15);
+      border: 1px solid rgba(239,68,68,0.4);
+      color: #fca5a5;
+    }
+
+    .message-info {
+      display: block !important;
+      background: rgba(59,130,246,0.15);
+      border: 1px solid rgba(59,130,246,0.4);
+      color: #93c5fd;
+    }
+
+    #requestResult {
+      display: none;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.18);
+    }
+
+    .request-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .request-number {
+      font-size: 22px;
+      font-weight: bold;
+      color: #60a5fa;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 8px 13px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .status-new {
+      background: rgba(59,130,246,0.18);
+      color: #93c5fd;
+    }
+
+    .status-review {
+      background: rgba(245,158,11,0.18);
+      color: #fcd34d;
+    }
+
+    .status-assigned {
+      background: rgba(139,92,246,0.18);
+      color: #c4b5fd;
+    }
+
+    .status-road {
+      background: rgba(6,182,212,0.18);
+      color: #67e8f9;
+    }
+
+    .status-working {
+      background: rgba(249,115,22,0.18);
+      color: #fdba74;
+    }
+
+    .status-waiting {
+      background: rgba(234,179,8,0.18);
+      color: #fde047;
+    }
+
+    .status-completed {
+      background: rgba(16,185,129,0.18);
+      color: #6ee7b7;
+    }
+
+    .status-cancelled {
+      background: rgba(239,68,68,0.18);
+      color: #fca5a5;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .info-item {
+      background: rgba(255,255,255,0.04);
+      padding: 14px;
+      border-radius: 12px;
+    }
+
+    .info-label {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .info-value {
+      color: #fff;
+      font-size: 15px;
+      line-height: 1.6;
+      word-break: break-word;
+    }
+
+    .description {
+      margin-top: 15px;
+      background: rgba(255,255,255,0.04);
+      padding: 15px;
+      border-radius: 12px;
+      line-height: 1.8;
+    }
+
+    .description-title {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    /* السعر */
+
+    .price-card {
+      margin-top: 20px;
+      background: linear-gradient(
+        135deg,
+        rgba(37,99,235,0.15),
+        rgba(124,58,237,0.15)
+      );
+      border: 1px solid rgba(96,165,250,0.35);
+      border-radius: 18px;
+      padding: 20px;
+    }
+
+    .price-title {
+      font-size: 21px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #bfdbfe;
+    }
+
+    .price-subtitle {
+      color: #cbd5e1;
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .price-amount {
+      text-align: center;
+      background: rgba(0,0,0,0.2);
+      border-radius: 15px;
+      padding: 18px;
+      margin-bottom: 15px;
+    }
+
+    .price-amount .number {
+      display: block;
+      font-size: 36px;
+      font-weight: bold;
+      color: #fbbf24;
+    }
+
+    .price-amount .currency {
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    .price-notes {
+      background: rgba(255,255,255,0.05);
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      line-height: 1.8;
+    }
+
+    .price-notes strong {
+      color: #93c5fd;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .price-date {
+      color: #94a3b8;
+      font-size: 12px;
+      margin-bottom: 15px;
+    }
+
+    .approval-pending {
+      background: rgba(245,158,11,0.12);
+      border: 1px solid rgba(245,158,11,0.3);
+      color: #fcd34d;
+      padding: 13px;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 15px;
+      line-height: 1.7;
+    }
+
+    .approval-approved {
+      background: rgba(16,185,129,0.12);
+      border: 1px solid rgba(16,185,129,0.35);
+      color: #6ee7b7;
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 15px;
+      line-height: 1.8;
+      font-weight: bold;
+    }
+
+    .approval-rejected {
+      background: rgba(239,68,68,0.12);
+      border: 1px solid rgba(239,68,68,0.35);
+      color: #fca5a5;
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 15px;
+      line-height: 1.8;
+      font-weight: bold;
+    }
+
+    .approval-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .approve-btn,
+    .reject-btn {
+      padding: 14px;
+      border-radius: 11px;
+      color: white;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .approve-btn {
+      background: #059669;
+    }
+
+    .approve-btn:hover {
+      background: #047857;
+    }
+
+    .reject-btn {
+      background: #dc2626;
+    }
+
+    .reject-btn:hover {
+      background: #b91c1c;
+    }
+
+    .approve-btn:disabled,
+    .reject-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .technician-card {
+      margin-top: 20px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 15px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .technician-title {
+      color: #93c5fd;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 14px;
+    }
+
+    .technician-info {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .timeline {
+      margin-top: 22px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .timeline-title {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 10px 35px 10px 0;
+      color: #94a3b8;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      right: 5px;
+      top: 15px;
+      width: 12px;
+      height: 12px;
+      background: #475569;
+      border-radius: 50%;
+    }
+
+    .timeline-item.active {
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .timeline-item.active::before {
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34,197,94,0.5);
+    }
+
+    .timeline-item.done {
+      color: #86efac;
+    }
+
+    .timeline-item.done::before {
+      background: #22c55e;
+    }
+
+    .last-update {
+      text-align: center;
+      color: #64748b;
+      font-size: 12px;
+      margin-top: 18px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 25px;
+      color: #94a3b8;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px;
+      color: #94a3b8;
+    }
+
+    .refresh-btn {
+      display: block;
+      margin: 15px auto 0;
+      background: rgba(255,255,255,0.08);
+      color: #cbd5e1;
+      padding: 10px 18px;
+      border-radius: 10px;
+    }
+
+    .refresh-btn:hover {
+      background: rgba(255,255,255,0.13);
+    }
+
+    @media (max-width: 650px) {
+
+      .hero h1 {
+        font-size: 25px;
+      }
+
+      .search-row {
+        flex-direction: column;
+      }
+
+      .search-btn {
+        padding: 14px;
+      }
+
+      .info-grid,
+      .technician-info {
+        grid-template-columns: 1fr;
+      }
+
+      .approval-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .request-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .request-number {
+        font-size: 19px;
+      }
+
+      .price-amount .number {
+        font-size: 31px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container">
+<header>
+  <div class="header-inner">
+    <div class="logo">فني برو</div>
 
-<div class="header">
+    <a href="index.html" class="back-btn">
+      الرئيسية
+    </a>
+  </div>
+</header>
 
-<div class="logo">ف</div>
+<main>
 
-<h1>تتبع طلب الصيانة</h1>
+  <section class="hero">
+    <h1>تتبع طلب الصيانة</h1>
+    <p>
+      أدخل رقم طلبك لمعرفة حالة الطلب ومراجعة عرض السعر والموافقة عليه.
+    </p>
+  </section>
 
-<div class="subtitle">
-تابع حالة طلبك لدى فني برو باستخدام رقم الطلب
-</div>
+  <section class="search-box">
 
-</div>
+    <label for="requestNumber">
+      رقم الطلب
+    </label>
 
-<div class="card">
+    <div class="search-row">
 
-<div class="search-title">
-أدخل رقم الطلب
-</div>
+      <input
+        type="text"
+        id="requestNumber"
+        placeholder="مثال: FP-123456"
+        autocomplete="off"
+      >
 
-<div class="search-description">
-رقم الطلب موجود في رسالة تأكيد الطلب، ويكون بالشكل:
-FP-20260929-123456
-</div>
+      <button
+        class="search-btn"
+        onclick="trackRequest()"
+      >
+        تتبع الطلب
+      </button>
 
-<div class="search-box">
+    </div>
 
-<input
-type="text"
-id="requestNumber"
-placeholder="FP-20260929-123456"
-autocomplete="off"
->
+  </section>
 
-<button
-class="search-btn"
-id="searchBtn"
->
-بحث
-</button>
+  <div id="message"></div>
 
-</div>
+  <div id="requestResult"></div>
 
-<div
-id="message"
-class="message"
-></div>
-
-</div>
-
-<div
-id="result"
-class="result"
->
-
-<div class="card">
-
-<div
-id="notificationBox"
-class="notification"
->
-
-<div class="notification-title">
-إشعار بخصوص طلبك
-</div>
-
-<div
-id="notificationText"
-class="notification-text"
->
--
-</div>
-
-</div>
-
-<div class="request-header">
-
-<div>
-
-<div
-class="request-number"
-id="resultNumber"
->
--
-</div>
-
-<div
-class="created"
-id="resultCreated"
->
--
-</div>
-
-</div>
-
-<div
-class="status"
-id="resultStatus"
->
--
-</div>
-
-</div>
-
-<div class="info-grid">
-
-<div class="info">
-<div class="label">الخدمة</div>
-<div class="value" id="resultService">-</div>
-</div>
-
-<div class="info">
-<div class="label">الأولوية</div>
-<div class="value" id="resultPriority">-</div>
-</div>
-
-<div class="info">
-<div class="label">الموعد المطلوب</div>
-<div class="value" id="resultDate">-</div>
-</div>
-
-<div class="info">
-<div class="label">الموقع</div>
-<div class="value" id="resultLocation">-</div>
-</div>
-
-</div>
-
-<a
-id="whatsappCustomer"
-class="whatsapp-btn"
-target="_blank"
-rel="noopener noreferrer"
-style="display:none"
->
-إرسال تفاصيل الطلب عبر واتساب
-</a>
-
-<div class="timeline">
-
-<div class="timeline-title">
-حالة الطلب
-</div>
-
-<div id="timeline"></div>
-
-</div>
-
-<div
-id="technicianBox"
-class="technician"
-style="display:none"
->
-
-<div class="technician-title">
-الفني المعيّن للطلب
-</div>
-
-<div
-class="technician-name"
-id="technicianName"
->
--
-</div>
-
-</div>
-
-<!-- تقييم الفني -->
-
-<div
-id="reviewBox"
-class="review-box"
->
-
-<div class="review-title">
-قيّم تجربتك مع الفني
-</div>
-
-<div class="review-description">
-تم إكمال طلبك بنجاح. ساعدنا بتقييم الخدمة والفني الذي قام بالعمل.
-</div>
-
-<div
-id="stars"
-class="stars"
->
-
-<button class="star" data-rating="1" type="button">★</button>
-<button class="star" data-rating="2" type="button">★</button>
-<button class="star" data-rating="3" type="button">★</button>
-<button class="star" data-rating="4" type="button">★</button>
-<button class="star" data-rating="5" type="button">★</button>
-
-</div>
-
-<div
-id="ratingText"
-class="rating-text"
->
-اختر تقييمك
-</div>
-
-<textarea
-id="reviewComment"
-class="review-textarea"
-placeholder="اكتب تعليقك عن الخدمة (اختياري)"
-></textarea>
-
-<button
-id="submitReview"
-class="review-submit"
-type="button"
->
-إرسال التقييم
-</button>
-
-<div
-id="reviewSuccess"
-class="review-success"
-></div>
-
-<div
-id="reviewError"
-class="review-error"
-></div>
-
-</div>
-
-<div
-id="notesBox"
-class="notes"
-style="display:none"
->
-
-<strong>ملاحظات:</strong>
-<br>
-
-<span id="notesText"></span>
-
-</div>
-
-<a
-id="imageLink"
-class="image-link"
-target="_blank"
-rel="noopener noreferrer"
-style="display:none"
->
-عرض صورة العطل
-</a>
-
-</div>
-
-</div>
-
-<a
-href="service-request.html"
-class="home-link"
->
-إنشاء طلب صيانة جديد
-</a>
-
-<div class="footer">
-فني برو — منصة خدمات الصيانة
-<br>
-جميع الحقوق محفوظة
-</div>
-
-</div>
+</main>
 
 <script>
 
-const SUPABASE_URL =
-"https://yesmnsztcqnhaqrcgpcs.supabase.co";
+  /* ================================
+     SUPABASE
+  ================================= */
 
-const SUPABASE_KEY =
-"sb_publishable_fUX7DXedpKF3OyBpDQ9kAQ_RRQpnIuB";
+  const SUPABASE_URL =
+    "https://yesmnsztcqnhaqrcgpcs.supabase.co";
 
-const client =
-window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
+  const SUPABASE_KEY =
+    "sb_publishable_fUX7DXedpKF3OyBpDQ9kAQ_RRQpnIuB";
 
-const input =
-document.getElementById("requestNumber");
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
-const searchBtn =
-document.getElementById("searchBtn");
 
-const message =
-document.getElementById("message");
+  /* ================================
+     VARIABLES
+  ================================= */
 
-const result =
-document.getElementById("result");
+  let currentRequest = null;
+  let refreshTimer = null;
 
-const statusList = [
-"جديد",
-"قيد المراجعة",
-"تم تعيين فني",
-"الفني في الطريق",
-"قيد التنفيذ",
-"بانتظار قطعة/موافقة",
-"مكتمل"
-];
 
-let currentRequest = null;
-let currentTechnicianId = null;
-let selectedRating = 0;
+  /* ================================
+     MESSAGE
+  ================================= */
 
-searchBtn.addEventListener(
-"click",
-searchRequest
-);
+  function showMessage(text, type = "info") {
 
-input.addEventListener(
-"keydown",
-function(event){
+    const message =
+      document.getElementById("message");
 
-if(event.key === "Enter"){
-searchRequest();
-}
+    message.className = "";
 
-}
-);
+    message.textContent = text;
 
-/* اختيار النجوم */
+    if (type === "success") {
+      message.classList.add("message-success");
+    }
 
-document
-.querySelectorAll(".star")
-.forEach(
-star => {
+    else if (type === "error") {
+      message.classList.add("message-error");
+    }
 
-star.addEventListener(
-"click",
-function(){
+    else {
+      message.classList.add("message-info");
+    }
+  }
 
-selectedRating =
-Number(this.dataset.rating);
 
-updateStars();
+  function hideMessage() {
 
-}
-);
+    const message =
+      document.getElementById("message");
 
-}
-);
+    message.style.display = "none";
+    message.className = "";
 
-function updateStars(){
+  }
 
-document
-.querySelectorAll(".star")
-.forEach(
-star => {
 
-const rating =
-Number(star.dataset.rating);
+  /* ================================
+     ESCAPE HTML
+  ================================= */
 
-if(rating <= selectedRating){
+  function escapeHTML(value) {
 
-star.classList.add("selected");
+    if (value === null || value === undefined) {
+      return "";
+    }
 
-}else{
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
-star.classList.remove("selected");
 
-}
+  /* ================================
+     FORMAT DATE
+  ================================= */
 
-}
-);
+  function formatDate(date) {
 
-const texts = {
-1:"سيئ",
-2:"يحتاج إلى تحسين",
-3:"جيد",
-4:"جيد جدًا",
-5:"ممتاز"
-};
+    if (!date) {
+      return "غير محدد";
+    }
 
-document.getElementById(
-"ratingText"
-).textContent =
-texts[selectedRating] || "اختر تقييمك";
+    try {
 
-}
+      return new Date(date).toLocaleString(
+        "ar-JO",
+        {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
+        }
+      );
 
-/* إرسال التقييم */
+    } catch (error) {
 
-document
-.getElementById("submitReview")
-.addEventListener(
-"click",
-submitReview
-);
+      return date;
 
-async function submitReview(){
+    }
+  }
 
-const successBox =
-document.getElementById("reviewSuccess");
 
-const errorBox =
-document.getElementById("reviewError");
+  /* ================================
+     STATUS CLASS
+  ================================= */
 
-successBox.style.display = "none";
-errorBox.style.display = "none";
+  function getStatusClass(status) {
 
-if(!currentRequest){
+    switch (status) {
 
-return;
+      case "جديد":
+        return "status-new";
 
-}
+      case "قيد المراجعة":
+        return "status-review";
 
-if(!currentTechnicianId){
+      case "تم تعيين فني":
+        return "status-assigned";
 
-showReviewError(
-"لا يمكن إرسال التقييم لأن الفني غير محدد لهذا الطلب."
-);
+      case "الفني في الطريق":
+        return "status-road";
 
-return;
+      case "قيد التنفيذ":
+      case "بدأ العمل":
+        return "status-working";
 
-}
+      case "بانتظار قطعة/موافقة":
+        return "status-waiting";
 
-if(selectedRating < 1){
+      case "مكتمل":
+        return "status-completed";
 
-showReviewError(
-"اختر عدد النجوم أولاً."
-);
+      case "ملغي":
+        return "status-cancelled";
 
-return;
+      default:
+        return "status-review";
+    }
+  }
 
-}
 
-const submitButton =
-document.getElementById("submitReview");
+  /* ================================
+     TRACK REQUEST
+  ================================= */
 
-submitButton.disabled = true;
-submitButton.textContent =
-"جاري إرسال التقييم...";
+  async function trackRequest(
+    silent = false
+  ) {
 
-const comment =
-document
-.getElementById("reviewComment")
-.value
-.trim();
+    const input =
+      document.getElementById("requestNumber");
 
-try{
+    let requestNumber =
+      input.value.trim();
 
-const {
-error
-} = await client
-.from("technician_reviews")
-.insert({
+    if (!requestNumber) {
 
-request_id:
-currentRequest.id,
+      showMessage(
+        "يرجى إدخال رقم الطلب.",
+        "error"
+      );
 
-technician_id:
-currentTechnicianId,
+      return;
+    }
 
-rating:
-selectedRating,
+    requestNumber =
+      requestNumber.toUpperCase();
 
-comment:
-comment || null
+    input.value = requestNumber;
 
-});
+    if (!silent) {
 
-if(error){
+      showMessage(
+        "جاري البحث عن الطلب...",
+        "info"
+      );
 
-console.error(error);
+    }
 
-if(
-error.code === "23505"
-){
+    const result =
+      document.getElementById("requestResult");
 
-showReviewError(
-"تم تقييم هذا الطلب مسبقًا."
-);
+    if (!silent) {
+      result.innerHTML =
+        '<div class="card loading">جاري تحميل الطلب...</div>';
+    }
 
-}else{
+    try {
 
-showReviewError(
-"تعذر إرسال التقييم. حاول مرة أخرى."
-);
+      const {
+        data,
+        error
+      } = await supabaseClient
+        .from("service_requests")
+        .select(`
+          id,
+          request_number,
+          customer_name,
+          phone,
+          service_type,
+          preferred_date,
+          location,
+          description,
+          status,
+          priority,
+          technician_id,
+          admin_notes,
+          technician_notes,
+          estimated_cost,
+          customer_approval,
+          price_notes,
+          price_updated_at,
+          completed_at,
+          created_at,
+          updated_at
+        `)
+        .eq(
+          "request_number",
+          requestNumber
+        )
+        .maybeSingle();
 
-}
 
-return;
+      if (error) {
+        console.error(error);
 
-}
+        throw error;
+      }
 
-successBox.textContent =
-"تم إرسال تقييمك بنجاح. شكرًا لمساعدتنا على تحسين الخدمة.";
 
-successBox.style.display =
-"block";
+      if (!data) {
 
-document
-.getElementById("reviewComment")
-.disabled = true;
+        currentRequest = null;
 
-document
-.querySelectorAll(".star")
-.forEach(
-star => star.disabled = true
-);
+        result.innerHTML = "";
 
-submitButton.style.display =
-"none";
+        showMessage(
+          "لم يتم العثور على طلب بهذا الرقم. تأكد من كتابة رقم الطلب بشكل صحيح.",
+          "error"
+        );
 
-}catch(error){
+        stopAutoRefresh();
 
-console.error(error);
+        return;
+      }
 
-showReviewError(
-"حدث خطأ أثناء إرسال التقييم."
-);
 
-}finally{
+      currentRequest = data;
 
-submitButton.disabled = false;
+      hideMessage();
 
-if(
-submitButton.style.display !== "none"
-){
+      await renderRequest(data);
 
-submitButton.textContent =
-"إرسال التقييم";
+      startAutoRefresh();
 
-}
+    } catch (error) {
 
-}
+      console.error(
+        "Track request error:",
+        error
+      );
 
-}
+      showMessage(
+        "حدث خطأ أثناء جلب الطلب. تأكد من اتصال الإنترنت وحاول مرة أخرى.",
+        "error"
+      );
 
-function showReviewError(text){
+    }
+  }
 
-const box =
-document.getElementById(
-"reviewError"
-);
 
-box.textContent = text;
-box.style.display = "block";
+  /* ================================
+     RENDER REQUEST
+  ================================= */
 
-}
+  async function renderRequest(request) {
 
-/* البحث */
+    const result =
+      document.getElementById("requestResult");
 
-async function searchRequest(){
+    let technicianHTML = "";
 
-const number =
-input.value
-.trim()
-.toUpperCase();
+    if (request.technician_id) {
 
-hideMessage();
+      technicianHTML =
+        await getTechnicianHTML(
+          request.technician_id
+        );
 
-result.style.display = "none";
+    }
 
-resetReview();
 
-if(!number){
+    const priceHTML =
+      createPriceHTML(request);
 
-showMessage(
-"أدخل رقم الطلب أولاً.",
-"error"
-);
 
-input.focus();
+    const timelineHTML =
+      createTimeline(request.status);
 
-return;
 
-}
+    result.style.display = "block";
 
-if(!/^FP-\d{8}-\d{6}$/i.test(number)){
+    result.innerHTML = `
 
-showMessage(
-"صيغة رقم الطلب غير صحيحة. مثال: FP-20260929-123456",
-"error"
-);
+      <div class="card">
 
-return;
+        <div class="request-header">
 
-}
+          <div class="request-number">
+            ${escapeHTML(request.request_number)}
+          </div>
 
-searchBtn.disabled = true;
-searchBtn.textContent =
-"جاري البحث...";
+          <div class="status ${getStatusClass(request.status)}">
+            ${escapeHTML(request.status || "غير محدد")}
+          </div>
 
-try{
+        </div>
 
-const {
-data,
-error
-} = await client
-.from("service_requests")
-.select(`
-id,
-request_number,
-service_type,
-preferred_date,
-location,
-status,
-priority,
-technician_id,
-technician_notes,
-admin_notes,
-image_url,
-customer_notification,
-notification_read,
-created_at,
-updated_at,
-completed_at
-`)
-.eq(
-"request_number",
-number
-)
-.maybeSingle();
 
-if(error){
+        <div class="info-grid">
 
-console.error(error);
+          <div class="info-item">
+            <div class="info-label">
+              اسم العميل
+            </div>
 
-showMessage(
-translateError(error),
-"error"
-);
+            <div class="info-value">
+              ${escapeHTML(request.customer_name)}
+            </div>
+          </div>
 
-return;
 
-}
+          <div class="info-item">
+            <div class="info-label">
+              نوع الخدمة
+            </div>
 
-if(!data){
+            <div class="info-value">
+              ${escapeHTML(request.service_type)}
+            </div>
+          </div>
 
-showMessage(
-"لم يتم العثور على طلب بهذا الرقم. تأكد من كتابة رقم الطلب بشكل صحيح.",
-"error"
-);
 
-return;
+          <div class="info-item">
+            <div class="info-label">
+              رقم الهاتف
+            </div>
 
-}
+            <div class="info-value">
+              ${escapeHTML(request.phone)}
+            </div>
+          </div>
 
-let technicianName = null;
 
-if(data.technician_id){
+          <div class="info-item">
+            <div class="info-label">
+              الأولوية
+            </div>
 
-const {
-data: technician,
-error: technicianError
-} = await client
-.from("technicians")
-.select("full_name,name")
-.eq("id",data.technician_id)
-.maybeSingle();
+            <div class="info-value">
+              ${escapeHTML(request.priority || "عادي")}
+            </div>
+          </div>
 
-if(!technicianError && technician){
 
-technicianName =
-technician.full_name ||
-technician.name ||
-null;
+          <div class="info-item">
+            <div class="info-label">
+              الموعد المفضل
+            </div>
 
-}
+            <div class="info-value">
+              ${escapeHTML(request.preferred_date || "لم يتم تحديده")}
+            </div>
+          </div>
 
-}
 
-displayRequest(
-data,
-technicianName
-);
+          <div class="info-item">
+            <div class="info-label">
+              الموقع
+            </div>
 
-}catch(error){
+            <div class="info-value">
+              ${escapeHTML(request.location)}
+            </div>
+          </div>
 
-console.error(error);
+        </div>
 
-showMessage(
-"تعذر الاتصال بقاعدة البيانات. حاول مرة أخرى.",
-"error"
-);
 
-}finally{
+        ${
+          request.description
+          ?
+          `
+          <div class="description">
 
-searchBtn.disabled = false;
-searchBtn.textContent = "بحث";
+            <div class="description-title">
+              وصف المشكلة
+            </div>
 
-}
+            <div>
+              ${escapeHTML(request.description)}
+            </div>
 
-}
+          </div>
+          `
+          :
+          ""
+        }
 
-function displayRequest(
-request,
-technicianName
-){
 
-result.style.display = "block";
+        ${technicianHTML}
 
-currentRequest = request;
-currentTechnicianId =
-request.technician_id || null;
 
-/* إشعار العميل */
+        ${priceHTML}
 
-const notificationBox =
-document.getElementById(
-"notificationBox"
-);
 
-const notificationText =
-document.getElementById(
-"notificationText"
-);
+        ${timelineHTML}
 
-if(request.customer_notification){
 
-notificationBox.style.display =
-"block";
+        <div class="last-update">
+          آخر تحديث:
+          ${formatDate(request.updated_at || request.created_at)}
+        </div>
 
-notificationText.textContent =
-request.customer_notification;
 
-}else{
+        <button
+          class="refresh-btn"
+          onclick="trackRequest(true)"
+        >
+          تحديث الطلب الآن
+        </button>
 
-notificationBox.style.display =
-"none";
+      </div>
 
-notificationText.textContent =
-"";
+    `;
+  }
 
-}
 
-document.getElementById(
-"resultNumber"
-).textContent =
-request.request_number || "-";
+  /* ================================
+     TECHNICIAN
+  ================================= */
 
-document.getElementById(
-"resultCreated"
-).textContent =
-"تم إنشاء الطلب: " +
-formatDate(request.created_at);
+  async function getTechnicianHTML(
+    technicianId
+  ) {
 
-document.getElementById(
-"resultStatus"
-).textContent =
-request.status || "غير محدد";
+    try {
 
-setStatusStyle(
-request.status
-);
+      const {
+        data,
+        error
+      } = await supabaseClient
+        .from("technicians")
+        .select(`
+          full_name,
+          phone,
+          service_type,
+          status
+        `)
+        .eq("id", technicianId)
+        .maybeSingle();
 
-document.getElementById(
-"resultService"
-).textContent =
-request.service_type || "-";
 
-document.getElementById(
-"resultPriority"
-).textContent =
-request.priority || "عادي";
+      if (error) {
 
-document.getElementById(
-"resultDate"
-).textContent =
-formatDate(request.preferred_date);
+        console.error(
+          "Technician error:",
+          error
+        );
 
-document.getElementById(
-"resultLocation"
-).textContent =
-request.location || "-";
+        return "";
 
-/* واتساب */
+      }
 
-const whatsappCustomer =
-document.getElementById(
-"whatsappCustomer"
-);
 
-const trackingUrl =
-"https://ahmadmsoub130-ui.github.io/-Fanni-Pro/track-request.html";
+      if (!data) {
+        return "";
+      }
 
-const whatsappMessage =
-`فني برو
-تفاصيل طلب الصيانة
 
-رقم الطلب: ${request.request_number || "-"}
+      return `
 
-الخدمة: ${request.service_type || "-"}
+        <div class="technician-card">
 
-الحالة: ${request.status || "غير محدد"}
+          <div class="technician-title">
+            الفني المسؤول
+          </div>
 
-الموقع: ${request.location || "-"}
 
-متابعة الطلب:
-${trackingUrl}`;
+          <div class="technician-info">
 
-whatsappCustomer.href =
-"https://wa.me/?text=" +
-encodeURIComponent(whatsappMessage);
+            <div class="info-item">
 
-whatsappCustomer.style.display =
-"block";
+              <div class="info-label">
+                اسم الفني
+              </div>
 
-buildTimeline(
-request.status,
-request.created_at,
-request.updated_at,
-request.completed_at
-);
+              <div class="info-value">
+                ${escapeHTML(data.full_name || "غير محدد")}
+              </div>
 
-/* الفني */
+            </div>
 
-const technicianBox =
-document.getElementById(
-"technicianBox"
-);
 
-if(technicianName){
+            <div class="info-item">
 
-technicianBox.style.display =
-"block";
+              <div class="info-label">
+                التخصص
+              </div>
 
-document.getElementById(
-"technicianName"
-).textContent =
-technicianName;
+              <div class="info-value">
+                ${escapeHTML(data.service_type || "غير محدد")}
+              </div>
 
-}else{
+            </div>
 
-technicianBox.style.display =
-"none";
 
-}
+            <div class="info-item">
 
-/* التقييم */
+              <div class="info-label">
+                حالة الفني
+              </div>
 
-const reviewBox =
-document.getElementById(
-"reviewBox"
-);
+              <div class="info-value">
+                ${escapeHTML(data.status || "غير محدد")}
+              </div>
 
-if(
-request.status === "مكتمل" &&
-request.technician_id
-){
+            </div>
 
-reviewBox.style.display =
-"block";
 
-checkExistingReview(
-request.id
-);
+            ${
+              data.phone
+              ?
+              `
+              <div class="info-item">
 
-}else{
+                <div class="info-label">
+                  هاتف الفني
+                </div>
 
-reviewBox.style.display =
-"none";
+                <div class="info-value">
+                  ${escapeHTML(data.phone)}
+                </div>
 
-}
+              </div>
+              `
+              :
+              ""
+            }
 
-/* الملاحظات */
+          </div>
 
-const notes = [
-request.admin_notes,
-request.technician_notes
-]
-.filter(Boolean)
-.join("\n\n");
+        </div>
 
-const notesBox =
-document.getElementById(
-"notesBox"
-);
+      `;
 
-if(notes){
+    } catch (error) {
 
-notesBox.style.display =
-"block";
+      console.error(error);
 
-document.getElementById(
-"notesText"
-).textContent =
-notes;
+      return "";
 
-}else{
+    }
+  }
 
-notesBox.style.display =
-"none";
 
-}
+  /* ================================
+     PRICE
+  ================================= */
 
-/* الصورة */
+  function createPriceHTML(request) {
 
-const imageLink =
-document.getElementById(
-"imageLink"
-);
+    /*
+      إذا لم يرسل الفني سعرًا بعد
+    */
 
-if(request.image_url){
+    if (
+      request.estimated_cost === null ||
+      request.estimated_cost === undefined ||
+      request.estimated_cost === ""
+    ) {
 
-imageLink.href =
-request.image_url;
+      return `
 
-imageLink.style.display =
-"inline-block";
+        <div class="price-card">
 
-}else{
+          <div class="price-title">
+            عرض السعر
+          </div>
 
-imageLink.style.display =
-"none";
+          <div class="price-subtitle">
+            لم يرسل الفني عرض السعر بعد.
+            سيظهر هنا بمجرد قيام الفني بإرسال السعر.
+          </div>
 
-}
+          <div class="approval-pending">
+            بانتظار عرض السعر من الفني
+          </div>
 
-setTimeout(
-()=>{
-result.scrollIntoView({
-behavior:"smooth",
-block:"start"
-});
-},
-100
-);
+        </div>
 
-}
+      `;
+    }
 
-/* فحص هل تم تقييم الطلب */
 
-async function checkExistingReview(
-requestId
-){
+    const amount =
+      Number(request.estimated_cost);
 
-try{
 
-const {
-data,
-error
-} = await client
-.from("technician_reviews")
-.select("id,rating,comment")
-.eq("request_id",requestId)
-.maybeSingle();
+    const formattedAmount =
+      isNaN(amount)
+      ?
+      escapeHTML(request.estimated_cost)
+      :
+      amount.toLocaleString("ar-JO", {
+        maximumFractionDigits: 2
+      });
 
-if(error){
 
-console.error(
-"Review check error:",
-error
-);
+    const approval =
+      request.customer_approval ||
+      "بانتظار موافقة العميل";
 
-return;
 
-}
+    let approvalHTML = "";
 
-if(data){
 
-showAlreadyReviewed(
-data.rating
-);
+    /* بانتظار موافقة العميل */
 
-}
+    if (
+      approval ===
+      "بانتظار موافقة العميل"
+    ) {
 
-}catch(error){
+      approvalHTML = `
 
-console.error(error);
+        <div class="approval-pending">
 
-}
+          تم إرسال عرض السعر.
+          يرجى مراجعة السعر واختيار الموافقة أو الرفض.
 
-}
+        </div>
 
-function showAlreadyReviewed(
-rating
-){
 
-const reviewBox =
-document.getElementById(
-"reviewBox"
-);
+        <div class="approval-buttons">
 
-reviewBox.style.display =
-"block";
+          <button
+            class="approve-btn"
+            onclick="approvePrice()"
+          >
+            موافقة على السعر
+          </button>
 
-document.querySelector(
-".review-title"
-).textContent =
-"شكرًا لتقييمك";
 
-document.querySelector(
-".review-description"
-).textContent =
-"تم تسجيل تقييمك لهذا الطلب مسبقًا.";
+          <button
+            class="reject-btn"
+            onclick="rejectPrice()"
+          >
+            رفض السعر
+          </button>
 
-document.querySelector(
-"#submitReview"
-).style.display =
-"none";
+        </div>
 
-document.querySelector(
-"#reviewComment"
-).style.display =
-"none";
+      `;
 
-selectedRating =
-rating;
+    }
 
-updateStars();
 
-document
-.querySelectorAll(".star")
-.forEach(
-star => star.disabled = true
-);
+    /* موافق */
 
-document.getElementById(
-"ratingText"
-).textContent =
-"تقييمك: " + rating + " من 5";
+    else if (
+      approval === "موافق"
+    ) {
 
-}
+      approvalHTML = `
 
-function resetReview(){
+        <div class="approval-approved">
 
-currentRequest = null;
-currentTechnicianId = null;
-selectedRating = 0;
+          تمت الموافقة على السعر بنجاح.
 
-const reviewBox =
-document.getElementById(
-"reviewBox"
-);
+          <br>
 
-reviewBox.style.display =
-"none";
+          يستطيع الفني الآن الانتقال إلى موقعك
+          ومتابعة تنفيذ الطلب.
 
-document.getElementById(
-"reviewComment"
-).value = "";
+        </div>
 
-document.getElementById(
-"reviewComment"
-).disabled = false;
+      `;
 
-document.getElementById(
-"reviewComment"
-).style.display =
-"block";
+    }
 
-document.getElementById(
-"submitReview"
-).style.display =
-"block";
 
-document.getElementById(
-"submitReview"
-).disabled = false;
+    /* مرفوض */
 
-document.getElementById(
-"submitReview"
-).textContent =
-"إرسال التقييم";
+    else if (
+      approval === "مرفوض"
+    ) {
 
-document.getElementById(
-"reviewSuccess"
-).style.display =
-"none";
+      approvalHTML = `
 
-document.getElementById(
-"reviewError"
-).style.display =
-"none";
+        <div class="approval-rejected">
 
-document.querySelector(
-".review-title"
-).textContent =
-"قيّم تجربتك مع الفني";
+          تم رفض عرض السعر من العميل.
 
-document.querySelector(
-".review-description"
-).textContent =
-"تم إكمال طلبك بنجاح. ساعدنا بتقييم الخدمة والفني الذي قام بالعمل.";
+          <br>
 
-updateStars();
+          سيتمكن الفني من مراجعة الطلب وإرسال
+          عرض سعر جديد إذا لزم الأمر.
 
-document
-.querySelectorAll(".star")
-.forEach(
-star => star.disabled = false
-);
+        </div>
 
-}
+      `;
 
-function buildTimeline(
-currentStatus,
-createdAt,
-updatedAt,
-completedAt
-){
+    }
 
-const timeline =
-document.getElementById(
-"timeline"
-);
 
-if(currentStatus === "ملغي"){
+    /* قيمة أخرى */
 
-timeline.innerHTML = `
+    else {
 
-<div class="step active">
+      approvalHTML = `
 
-<div class="step-title">
-تم إلغاء الطلب
-</div>
+        <div class="approval-pending">
 
-<div class="step-date">
-آخر تحديث:
-${formatDate(updatedAt)}
-</div>
+          حالة الموافقة:
+          ${escapeHTML(approval)}
 
-</div>
+        </div>
 
-`;
+      `;
 
-return;
+    }
 
-}
 
-const currentIndex =
-statusList.indexOf(
-currentStatus
-);
+    return `
 
-const steps = [
+      <div class="price-card">
 
-{
-name:"جديد",
-date:createdAt
-},
+        <div class="price-title">
+          عرض السعر
+        </div>
 
-{
-name:"قيد المراجعة",
-date:updatedAt
-},
+        <div class="price-subtitle">
+          السعر المرسل من الفني لهذا الطلب
+        </div>
 
-{
-name:"تم تعيين فني",
-date:updatedAt
-},
 
-{
-name:"الفني في الطريق",
-date:updatedAt
-},
+        <div class="price-amount">
 
-{
-name:"قيد التنفيذ",
-date:updatedAt
-},
+          <span class="number">
+            ${formattedAmount}
+          </span>
 
-{
-name:"بانتظار قطعة/موافقة",
-date:updatedAt
-},
+          <span class="currency">
+            دينار أردني
+          </span>
 
-{
-name:"مكتمل",
-date:completedAt
-}
+        </div>
 
-];
 
-timeline.innerHTML =
-steps.map(
-(step,index)=>{
+        ${
+          request.price_notes
+          ?
+          `
+          <div class="price-notes">
 
-let className = "";
+            <strong>
+              ملاحظات الفني
+            </strong>
 
-if(
-currentIndex >= 0 &&
-index < currentIndex
-){
+            ${escapeHTML(request.price_notes)}
 
-className = "done";
+          </div>
+          `
+          :
+          ""
+        }
 
-}
 
-if(
-currentIndex === index
-){
+        ${
+          request.price_updated_at
+          ?
+          `
+          <div class="price-date">
 
-className = "active";
+            تم تحديث السعر:
+            ${formatDate(request.price_updated_at)}
 
-}
+          </div>
+          `
+          :
+          ""
+        }
 
-if(
-currentStatus === "مكتمل" &&
-index === steps.length - 1
-){
 
-className = "done";
+        ${approvalHTML}
 
-}
+      </div>
 
-return `
+    `;
+  }
 
-<div class="step ${className}">
 
-<div class="step-title">
-${escapeHtml(step.name)}
-</div>
+  /* ================================
+     APPROVE PRICE
+  ================================= */
 
-<div class="step-date">
+  async function approvePrice() {
 
-${
-index === 0
-?
-"تم إنشاء الطلب"
-:
-currentIndex >= index
-?
-"تم الوصول إلى هذه المرحلة"
-:
-"بانتظار المرحلة"
-}
+    if (!currentRequest) {
 
-${
-step.date
-?
-" — " + formatDate(step.date)
-:
-""
-}
+      showMessage(
+        "لم يتم تحميل الطلب.",
+        "error"
+      );
 
-</div>
+      return;
+    }
 
-</div>
 
-`;
+    if (
+      !currentRequest.estimated_cost
+    ) {
 
-}
-).join("");
+      showMessage(
+        "لا يوجد عرض سعر للموافقة عليه.",
+        "error"
+      );
 
-}
+      return;
+    }
 
-function setStatusStyle(status){
 
-const element =
-document.getElementById(
-"resultStatus"
-);
+    const confirmed =
+      confirm(
+        "هل أنت متأكد من الموافقة على عرض السعر؟"
+      );
 
-element.className =
-"status";
 
-if(status === "مكتمل"){
+    if (!confirmed) {
+      return;
+    }
 
-element.classList.add(
-"done"
-);
 
-}else if(
-status === "ملغي"
-){
+    showMessage(
+      "جاري تسجيل الموافقة...",
+      "info"
+    );
 
-element.classList.add(
-"cancelled"
-);
 
-}else if(
-status === "بانتظار قطعة/موافقة"
-){
+    try {
 
-element.classList.add(
-"warning"
-);
+      const {
+        data,
+        error
+      } = await supabaseClient
+        .from("service_requests")
+        .update({
 
-}
+          customer_approval:
+            "موافق",
 
-}
+          updated_at:
+            new Date().toISOString()
 
-function formatDate(value){
+        })
+        .eq(
+          "id",
+          currentRequest.id
+        )
+        .eq(
+          "customer_approval",
+          "بانتظار موافقة العميل"
+        )
+        .select()
+        .maybeSingle();
 
-if(!value){
 
-return "غير محدد";
+      if (error) {
 
-}
+        console.error(error);
 
-const date =
-new Date(value);
+        throw error;
 
-if(
-Number.isNaN(
-date.getTime()
-)
-){
+      }
 
-return String(value);
 
-}
+      if (!data) {
 
-return date.toLocaleString(
-"ar-JO",
-{
-year:"numeric",
-month:"2-digit",
-day:"2-digit",
-hour:"2-digit",
-minute:"2-digit"
-}
-);
+        showMessage(
+          "تعذر تسجيل الموافقة. ربما تم تحديث الطلب من جهة أخرى.",
+          "error"
+        );
 
-}
+        await trackRequest(true);
 
-function showMessage(
-text,
-type
-){
+        return;
+      }
 
-message.textContent =
-text;
 
-message.className =
-"message " + type;
+      currentRequest = data;
 
-}
 
-function hideMessage(){
+      showMessage(
+        "تمت الموافقة على السعر بنجاح.",
+        "success"
+      );
 
-message.textContent = "";
 
-message.className =
-"message";
+      await trackRequest(true);
 
-}
+    } catch (error) {
 
-function translateError(error){
+      console.error(
+        "Approve price error:",
+        error
+      );
 
-const text =
-error?.message ||
-"";
+      showMessage(
+        "حدث خطأ أثناء تسجيل الموافقة. حاول مرة أخرى.",
+        "error"
+      );
 
-if(
-text.includes("permission denied") ||
-text.includes("row-level security")
-){
+    }
+  }
 
-return "لا توجد صلاحية لعرض بيانات الطلب. يجب مراجعة صلاحيات قاعدة البيانات.";
 
-}
+  /* ================================
+     REJECT PRICE
+  ================================= */
 
-if(
-text.includes("technician_id")
-){
+  async function rejectPrice() {
 
-return "يوجد اختلاف في بنية جدول الطلبات. تأكد من وجود حقل technician_id.";
+    if (!currentRequest) {
 
-}
+      showMessage(
+        "لم يتم تحميل الطلب.",
+        "error"
+      );
 
-if(
-text.includes("customer_notification")
-){
+      return;
+    }
 
-return "حقل إشعار العميل غير موجود في قاعدة البيانات.";
 
-}
+    if (
+      !currentRequest.estimated_cost
+    ) {
 
-return "حدث خطأ أثناء البحث عن الطلب. حاول مرة أخرى.";
+      showMessage(
+        "لا يوجد عرض سعر لرفضه.",
+        "error"
+      );
 
-}
+      return;
+    }
 
-function escapeHtml(value){
 
-if(
-value === null ||
-value === undefined
-){
+    const confirmed =
+      confirm(
+        "هل أنت متأكد من رفض عرض السعر؟"
+      );
 
-return "";
 
-}
+    if (!confirmed) {
+      return;
+    }
 
-return String(value)
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
 
-}
+    showMessage(
+      "جاري تسجيل الرفض...",
+      "info"
+    );
+
+
+    try {
+
+      const {
+        data,
+        error
+      } = await supabaseClient
+        .from("service_requests")
+        .update({
+
+          customer_approval:
+            "مرفوض",
+
+          updated_at:
+            new Date().toISOString()
+
+        })
+        .eq(
+          "id",
+          currentRequest.id
+        )
+        .eq(
+          "customer_approval",
+          "بانتظار موافقة العميل"
+        )
+        .select()
+        .maybeSingle();
+
+
+      if (error) {
+
+        console.error(error);
+
+        throw error;
+
+      }
+
+
+      if (!data) {
+
+        showMessage(
+          "تعذر تسجيل الرفض. ربما تم تحديث الطلب من جهة أخرى.",
+          "error"
+        );
+
+        await trackRequest(true);
+
+        return;
+      }
+
+
+      currentRequest = data;
+
+
+      showMessage(
+        "تم رفض عرض السعر.",
+        "success"
+      );
+
+
+      await trackRequest(true);
+
+    } catch (error) {
+
+      console.error(
+        "Reject price error:",
+        error
+      );
+
+      showMessage(
+        "حدث خطأ أثناء تسجيل الرفض. حاول مرة أخرى.",
+        "error"
+      );
+
+    }
+  }
+
+
+  /* ================================
+     TIMELINE
+  ================================= */
+
+  function createTimeline(
+    currentStatus
+  ) {
+
+    const statuses = [
+
+      "جديد",
+
+      "قيد المراجعة",
+
+      "تم تعيين فني",
+
+      "الفني في الطريق",
+
+      "بدأ العمل",
+
+      "مكتمل"
+
+    ];
+
+
+    const currentIndex =
+      statuses.indexOf(currentStatus);
+
+
+    let html = `
+
+      <div class="timeline">
+
+        <div class="timeline-title">
+          مراحل الطلب
+        </div>
+
+    `;
+
+
+    statuses.forEach(
+      (status, index) => {
+
+        let className = "";
+
+
+        if (
+          currentIndex >= 0 &&
+          index < currentIndex
+        ) {
+
+          className = "done";
+
+        }
+
+
+        if (
+          status === currentStatus
+        ) {
+
+          className += " active";
+
+        }
+
+
+        html += `
+
+          <div class="timeline-item ${className}">
+
+            ${status}
+
+          </div>
+
+        `;
+
+      }
+    );
+
+
+    html += `
+      </div>
+    `;
+
+
+    return html;
+  }
+
+
+  /* ================================
+     AUTO REFRESH
+  ================================= */
+
+  function startAutoRefresh() {
+
+    stopAutoRefresh();
+
+
+    refreshTimer =
+      setInterval(
+        async () => {
+
+          const input =
+            document.getElementById(
+              "requestNumber"
+            );
+
+
+          if (
+            input &&
+            input.value.trim()
+          ) {
+
+            await trackRequest(true);
+
+          }
+
+        },
+        15000
+      );
+
+  }
+
+
+  function stopAutoRefresh() {
+
+    if (refreshTimer) {
+
+      clearInterval(refreshTimer);
+
+      refreshTimer = null;
+
+    }
+
+  }
+
+
+  /* ================================
+     ENTER KEY
+  ================================= */
+
+  document
+    .getElementById("requestNumber")
+    .addEventListener(
+      "keydown",
+      function(event) {
+
+        if (
+          event.key === "Enter"
+        ) {
+
+          trackRequest();
+
+        }
+
+      }
+    );
+
+
+  /* ================================
+     INITIAL
+  ================================= */
+
+  const urlParams =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const urlRequestNumber =
+    urlParams.get(
+      "request"
+    );
+
+
+  if (urlRequestNumber) {
+
+    document
+      .getElementById(
+        "requestNumber"
+      )
+      .value =
+      urlRequestNumber;
+
+    trackRequest();
+
+  }
 
 </script>
 
