@@ -78,6 +78,72 @@
     }
 
     /* =========================
+       حالة الفني
+    ========================= */
+
+    .availability-card {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.06);
+    }
+
+    .availability-title {
+      font-size: 19px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .availability-description {
+      color: #667085;
+      font-size: 13px;
+      margin-bottom: 15px;
+      line-height: 1.7;
+    }
+
+    .availability-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .availability-btn {
+      border: 0;
+      padding: 11px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .available {
+      background: #dcfae6;
+      color: #067647;
+    }
+
+    .busy {
+      background: #fff4cc;
+      color: #8a5b00;
+    }
+
+    .unavailable {
+      background: #fee4e2;
+      color: #b42318;
+    }
+
+    .availability-btn.active {
+      outline: 3px solid rgba(13,71,161,.15);
+      transform: translateY(-1px);
+    }
+
+    .current-availability {
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: bold;
+      color: #0d47a1;
+    }
+
+    /* =========================
        بطاقة التقييم
     ========================= */
 
@@ -331,6 +397,26 @@
       color: #8a5b00;
     }
 
+    .status-road {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .status-working {
+      background: #eef4ff;
+      color: #175cd3;
+    }
+
+    .status-completed {
+      background: #dcfae6;
+      color: #067647;
+    }
+
+    .status-rejected {
+      background: #fee4e2;
+      color: #b42318;
+    }
+
     .details {
       display: grid;
       gap: 9px;
@@ -369,6 +455,16 @@
     .reject {
       background: #fee4e2;
       color: #b42318;
+    }
+
+    .road {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .start-work {
+      background: #eef4ff;
+      color: #175cd3;
     }
 
     .finish {
@@ -413,6 +509,15 @@
         padding: 17px;
       }
 
+      .availability-buttons {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .availability-btn {
+        width: 100%;
+      }
+
     }
   </style>
 </head>
@@ -454,6 +559,56 @@
   </div>
 
 
+  <!-- حالة الفني -->
+
+  <div class="availability-card">
+
+    <div class="availability-title">
+      حالة توفر الفني
+    </div>
+
+    <div class="availability-description">
+      اختر حالتك الحالية حتى تعرف الإدارة والعملاء ما إذا كنت متاحًا لاستقبال طلبات جديدة.
+    </div>
+
+    <div class="availability-buttons">
+
+      <button
+        id="availableBtn"
+        class="availability-btn available"
+        onclick="setAvailability('متاح')"
+      >
+        متاح
+      </button>
+
+      <button
+        id="busyBtn"
+        class="availability-btn busy"
+        onclick="setAvailability('مشغول')"
+      >
+        مشغول
+      </button>
+
+      <button
+        id="unavailableBtn"
+        class="availability-btn unavailable"
+        onclick="setAvailability('غير متاح')"
+      >
+        غير متاح
+      </button>
+
+    </div>
+
+    <div
+      id="availabilityText"
+      class="current-availability"
+    >
+      جاري معرفة الحالة...
+    </div>
+
+  </div>
+
+
   <!-- بطاقة التقييم -->
 
   <div
@@ -476,7 +631,6 @@
       </div>
 
     </div>
-
 
     <div class="rating-main">
 
@@ -505,7 +659,6 @@
 
       </div>
 
-
       <div class="rating-info">
 
         <div class="rating-info-item">
@@ -523,7 +676,6 @@
 
         </div>
 
-
         <div class="rating-info-item">
 
           <span class="rating-info-label">
@@ -538,7 +690,6 @@
           </span>
 
         </div>
-
 
         <div class="rating-info-item">
 
@@ -558,7 +709,6 @@
       </div>
 
     </div>
-
 
     <div class="reviews-title">
       آخر تقييمات العملاء
@@ -597,7 +747,6 @@
 
     </div>
 
-
     <div class="stat">
 
       <span
@@ -612,7 +761,6 @@
       </span>
 
     </div>
-
 
     <div class="stat">
 
@@ -638,7 +786,6 @@
   <h2 class="section-title">
     طلبات الصيانة
   </h2>
-
 
   <div
     id="requests"
@@ -687,9 +834,7 @@
   ) {
 
     const box =
-      document.getElementById(
-        "message"
-      );
+      document.getElementById("message");
 
     box.textContent = text;
 
@@ -705,8 +850,7 @@
 
       setTimeout(() => {
 
-        box.style.display =
-          "none";
+        box.style.display = "none";
 
       }, 3500);
 
@@ -725,38 +869,15 @@
       value === null ||
       value === undefined
     ) {
-
       return "";
-
     }
 
     return String(value)
-
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-
-      .replace(
-        /</g,
-        "&lt;"
-      )
-
-      .replace(
-        />/g,
-        "&gt;"
-      )
-
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-
-      .replace(
-        /'/g,
-        "&#039;"
-      );
-
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   }
 
 
@@ -776,7 +897,6 @@
         .auth
         .getUser();
 
-
     if (
       error ||
       !user
@@ -789,7 +909,6 @@
 
     }
 
-
     currentUser = user;
 
 
@@ -798,28 +917,15 @@
       error: roleError
     } =
       await supabaseClient
-
-        .from(
-          "user_roles"
-        )
-
-        .select(
-          "role"
-        )
-
-        .eq(
-          "user_id",
-          user.id
-        )
-
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user.id)
         .maybeSingle();
 
 
     if (roleError) {
 
-      console.error(
-        roleError
-      );
+      console.error(roleError);
 
       showMessage(
         "تعذر التحقق من صلاحيات الحساب: " +
@@ -852,19 +958,14 @@
 
 
     currentRole =
-      String(
-        roleData.role
-      )
-      .toLowerCase()
-      .trim();
+      String(roleData.role)
+        .toLowerCase()
+        .trim();
 
 
     if (
-      currentRole !==
-      "technician" &&
-
-      currentRole !==
-      "admin"
+      currentRole !== "technician" &&
+      currentRole !== "admin"
     ) {
 
       document.getElementById(
@@ -890,14 +991,11 @@
     ).textContent =
 
       "الحساب: " +
-
       (
         user.email ||
         "المستخدم"
       ) +
-
       " — الصلاحية: " +
-
       (
         currentRole === "admin"
           ? "مدير"
@@ -906,6 +1004,238 @@
 
 
     return true;
+
+  }
+
+
+  /* =========================
+     حالة توفر الفني
+  ========================= */
+
+  async function loadAvailability() {
+
+    if (
+      !currentUser ||
+      currentRole === "admin"
+    ) {
+
+      document.getElementById(
+        "availabilityText"
+      ).textContent =
+        "وضع الإدارة: لا تنطبق حالة توفر الفني.";
+
+      return;
+
+    }
+
+
+    /*
+      نحاول استخدام جدول technicians
+      إذا كان الفني موجودًا فيه.
+    */
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("technicians")
+        .select("*")
+        .eq("id", currentUser.id)
+        .maybeSingle();
+
+
+    if (error) {
+
+      console.warn(
+        "تعذر تحميل بيانات الفني:",
+        error.message
+      );
+
+      document.getElementById(
+        "availabilityText"
+      ).textContent =
+        "الحالة الحالية: غير محددة";
+
+      return;
+
+    }
+
+
+    if (!data) {
+
+      document.getElementById(
+        "availabilityText"
+      ).textContent =
+        "الحالة الحالية: غير محددة";
+
+      return;
+
+    }
+
+
+    const availability =
+      data.availability ||
+      data.status ||
+      "غير متاح";
+
+
+    showAvailability(
+      availability
+    );
+
+  }
+
+
+  function showAvailability(
+    availability
+  ) {
+
+    const text =
+      document.getElementById(
+        "availabilityText"
+      );
+
+    const availableBtn =
+      document.getElementById(
+        "availableBtn"
+      );
+
+    const busyBtn =
+      document.getElementById(
+        "busyBtn"
+      );
+
+    const unavailableBtn =
+      document.getElementById(
+        "unavailableBtn"
+      );
+
+
+    [
+      availableBtn,
+      busyBtn,
+      unavailableBtn
+    ].forEach(
+      btn =>
+        btn.classList.remove(
+          "active"
+        )
+    );
+
+
+    if (
+      availability === "متاح"
+    ) {
+
+      availableBtn.classList.add(
+        "active"
+      );
+
+    }
+
+    else if (
+      availability === "مشغول"
+    ) {
+
+      busyBtn.classList.add(
+        "active"
+      );
+
+    }
+
+    else {
+
+      unavailableBtn.classList.add(
+        "active"
+      );
+
+    }
+
+
+    text.textContent =
+      "الحالة الحالية: " +
+      availability;
+
+  }
+
+
+  async function setAvailability(
+    newAvailability
+  ) {
+
+    if (
+      !currentUser ||
+      currentRole === "admin"
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      !confirm(
+        "هل تريد تغيير حالتك إلى: " +
+        newAvailability +
+        "؟"
+      )
+    ) {
+
+      return;
+
+    }
+
+
+    showMessage(
+      "جاري تحديث حالة التوفر...",
+      "loading"
+    );
+
+
+    /*
+      نستخدم availability فقط إذا كان
+      العمود موجودًا.
+    */
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("technicians")
+        .update({
+          availability:
+            newAvailability
+        })
+        .eq(
+          "id",
+          currentUser.id
+        );
+
+
+    if (error) {
+
+      console.error(error);
+
+      showMessage(
+        "تعذر تحديث حالة التوفر. تأكد أن جدول technicians يحتوي على عمود availability.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    showAvailability(
+      newAvailability
+    );
+
+
+    showMessage(
+      "تم تحديث حالة التوفر.",
+      "success"
+    );
 
   }
 
@@ -925,9 +1255,7 @@
     requestsBox.innerHTML = `
 
       <div class="empty">
-
         جاري تحميل الطلبات...
-
       </div>
 
     `;
@@ -937,20 +1265,13 @@
 
 
     if (
-      currentRole ===
-      "admin"
+      currentRole === "admin"
     ) {
 
       query =
-
         supabaseClient
-
-          .from(
-            "service_requests"
-          )
-
+          .from("service_requests")
           .select("*")
-
           .order(
             "created_at",
             {
@@ -961,20 +1282,13 @@
     } else {
 
       query =
-
         supabaseClient
-
-          .from(
-            "service_requests"
-          )
-
+          .from("service_requests")
           .select("*")
-
           .eq(
             "technician_id",
             currentUser.id
           )
-
           .order(
             "created_at",
             {
@@ -993,9 +1307,7 @@
 
     if (error) {
 
-      console.error(
-        error
-      );
+      console.error(error);
 
       requestsBox.innerHTML = `
 
@@ -1047,13 +1359,10 @@
 
 
     requestsBox.innerHTML =
-
       requests
-
         .map(
           createRequestCard
         )
-
         .join("");
 
   }
@@ -1073,8 +1382,7 @@
 
       requests.filter(
         r =>
-          r.status ===
-          "جديد"
+          r.status === "جديد"
       ).length;
 
 
@@ -1084,8 +1392,9 @@
 
       requests.filter(
         r =>
-          r.status ===
-          "قيد التنفيذ"
+          r.status === "قيد التنفيذ" ||
+          r.status === "الفني في الطريق" ||
+          r.status === "بدأ العمل"
       ).length;
 
 
@@ -1095,9 +1404,54 @@
 
       requests.filter(
         r =>
-          r.status ===
-          "مكتمل"
+          r.status === "مكتمل"
       ).length;
+
+  }
+
+
+  /* =========================
+     لون الحالة
+  ========================= */
+
+  function getStatusClass(
+    status
+  ) {
+
+    if (
+      status === "مكتمل"
+    ) {
+
+      return "status-completed";
+
+    }
+
+    if (
+      status === "مرفوض"
+    ) {
+
+      return "status-rejected";
+
+    }
+
+    if (
+      status === "الفني في الطريق"
+    ) {
+
+      return "status-road";
+
+    }
+
+    if (
+      status === "قيد التنفيذ" ||
+      status === "بدأ العمل"
+    ) {
+
+      return "status-working";
+
+    }
+
+    return "";
 
   }
 
@@ -1134,22 +1488,19 @@
           onclick="updateStatus(
             '${request.id}',
             'قيد التنفيذ'
-          )">
-
+          )"
+        >
           قبول الطلب
-
         </button>
-
 
         <button
           class="action reject"
           onclick="updateStatus(
             '${request.id}',
             'مرفوض'
-          )">
-
+          )"
+        >
           رفض الطلب
-
         </button>
 
       `;
@@ -1157,8 +1508,47 @@
     }
 
     else if (
-      status ===
-      "قيد التنفيذ"
+      status === "قيد التنفيذ"
+    ) {
+
+      buttons = `
+
+        <button
+          class="action road"
+          onclick="updateStatus(
+            '${request.id}',
+            'الفني في الطريق'
+          )"
+        >
+          الفني في الطريق
+        </button>
+
+      `;
+
+    }
+
+    else if (
+      status === "الفني في الطريق"
+    ) {
+
+      buttons = `
+
+        <button
+          class="action start-work"
+          onclick="updateStatus(
+            '${request.id}',
+            'بدأ العمل'
+          )"
+        >
+          بدأت العمل
+        </button>
+
+      `;
+
+    }
+
+    else if (
+      status === "بدأ العمل"
     ) {
 
       buttons = `
@@ -1168,10 +1558,9 @@
           onclick="updateStatus(
             '${request.id}',
             'مكتمل'
-          )">
-
+          )"
+        >
           إنهاء الطلب
-
         </button>
 
       `;
@@ -1186,10 +1575,9 @@
 
         <button
           class="action finish"
-          disabled>
-
+          disabled
+        >
           تم إكمال الطلب
-
         </button>
 
       `;
@@ -1204,10 +1592,9 @@
 
         <button
           class="action reject"
-          disabled>
-
+          disabled
+        >
           تم رفض الطلب
-
         </button>
 
       `;
@@ -1230,8 +1617,9 @@
 
           </div>
 
-
-          <div class="status">
+          <div
+            class="status ${getStatusClass(status)}"
+          >
 
             ${escapeHTML(
               status
@@ -1245,100 +1633,59 @@
         <div class="details">
 
           <div class="detail">
-
-            <strong>
-              العميل:
-            </strong>
-
+            <strong>العميل:</strong>
             ${escapeHTML(
-              request.customer_name ||
-              "-"
+              request.customer_name || "-"
             )}
-
           </div>
 
 
           <div class="detail">
-
-            <strong>
-              الهاتف:
-            </strong>
-
+            <strong>الهاتف:</strong>
             ${escapeHTML(
-              request.phone ||
-              "-"
+              request.phone || "-"
             )}
-
           </div>
 
 
           <div class="detail">
-
-            <strong>
-              الخدمة:
-            </strong>
-
+            <strong>الخدمة:</strong>
             ${escapeHTML(
-              request.service_type ||
-              "-"
+              request.service_type || "-"
             )}
-
           </div>
 
 
           <div class="detail">
-
-            <strong>
-              الموقع:
-            </strong>
-
+            <strong>الموقع:</strong>
             ${escapeHTML(
-              request.location ||
-              "-"
+              request.location || "-"
             )}
-
           </div>
 
 
           <div class="detail">
-
-            <strong>
-              التاريخ المفضل:
-            </strong>
-
+            <strong>التاريخ المفضل:</strong>
             ${escapeHTML(
-              request.preferred_date ||
-              "-"
+              request.preferred_date || "-"
             )}
-
           </div>
 
 
           <div class="detail">
-
-            <strong>
-              الأولوية:
-            </strong>
-
+            <strong>الأولوية:</strong>
             ${escapeHTML(
-              request.priority ||
-              "عادي"
+              request.priority || "عادي"
             )}
-
           </div>
 
 
           <div class="detail">
-
-            <strong>
-              وصف المشكلة:
-            </strong>
-
+            <strong>وصف المشكلة:</strong>
             ${escapeHTML(
               request.description ||
               "لا يوجد وصف"
             )}
-
           </div>
 
         </div>
@@ -1385,27 +1732,22 @@
     const {
       data: reviews,
       error: reviewsError
-    } = await supabaseClient
-
-      .from(
-        "technician_reviews"
-      )
-
-      .select(
-        "id,rating,comment,created_at"
-      )
-
-      .eq(
-        "technician_id",
-        currentUser.id
-      )
-
-      .order(
-        "created_at",
-        {
-          ascending: false
-        }
-      );
+    } =
+      await supabaseClient
+        .from("technician_reviews")
+        .select(
+          "id,rating,comment,created_at"
+        )
+        .eq(
+          "technician_id",
+          currentUser.id
+        )
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
 
 
     if (
@@ -1436,8 +1778,6 @@
     const reviewData =
       reviews || [];
 
-
-    /* متوسط التقييم */
 
     let average = 0;
 
@@ -1489,9 +1829,7 @@
     ).textContent =
 
       reviewData.length === 0
-
         ? "لا توجد تقييمات"
-
         : reviewData.length +
           " تقييم";
 
@@ -1503,8 +1841,6 @@
         average
       );
 
-
-    /* مستوى الفني */
 
     const level =
       getTechnicianLevel(
@@ -1524,8 +1860,6 @@
     ).textContent =
       level;
 
-
-    /* آخر التقييمات */
 
     const reviewsList =
       document.getElementById(
@@ -1548,25 +1882,56 @@
 
       `;
 
-      return;
+    } else {
+
+      reviewsList.innerHTML =
+        reviewData
+          .slice(0, 5)
+          .map(
+            createReviewCard
+          )
+          .join("");
 
     }
 
 
-    reviewsList.innerHTML =
+    /*
+      حساب الطلبات المكتملة
+    */
 
-      reviewData
-        .slice(0,5)
-        .map(
-          createReviewCard
+    const {
+      data: completedRequests,
+      error: completedError
+    } =
+      await supabaseClient
+        .from("service_requests")
+        .select("id")
+        .eq(
+          "technician_id",
+          currentUser.id
         )
-        .join("");
+        .eq(
+          "status",
+          "مكتمل"
+        );
+
+
+    if (!completedError) {
+
+      document.getElementById(
+        "completedJobs"
+      ).textContent =
+        (
+          completedRequests || []
+        ).length;
+
+    }
 
   }
 
 
   /* =========================
-     عدد النجوم
+     النجوم
   ========================= */
 
   function createStars(
@@ -1687,7 +2052,6 @@
 
           </div>
 
-
           <div class="review-date">
 
             ${formatDate(
@@ -1697,7 +2061,6 @@
           </div>
 
         </div>
-
 
         <div class="review-comment">
 
@@ -1715,26 +2078,20 @@
 
 
   /* =========================
-     تاريخ التقييم
+     التاريخ
   ========================= */
 
   function formatDate(
     value
   ) {
 
-    if (
-      !value
-    ) {
-
+    if (!value) {
       return "-";
-
     }
 
 
     const date =
-      new Date(
-        value
-      );
+      new Date(value);
 
 
     if (
@@ -1743,9 +2100,7 @@
       )
     ) {
 
-      return String(
-        value
-      );
+      return String(value);
 
     }
 
@@ -1753,12 +2108,9 @@
     return date.toLocaleDateString(
       "ar-JO",
       {
-        year:
-          "numeric",
-        month:
-          "2-digit",
-        day:
-          "2-digit"
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
       }
     );
 
@@ -1783,12 +2135,11 @@
     }
 
 
-    let confirmation;
+    let confirmation = "";
 
 
     if (
-      newStatus ===
-      "قيد التنفيذ"
+      newStatus === "قيد التنفيذ"
     ) {
 
       confirmation =
@@ -1797,8 +2148,7 @@
     }
 
     else if (
-      newStatus ===
-      "مرفوض"
+      newStatus === "مرفوض"
     ) {
 
       confirmation =
@@ -1806,10 +2156,30 @@
 
     }
 
-    else {
+    else if (
+      newStatus === "الفني في الطريق"
+    ) {
 
       confirmation =
-        "هل تريد إنهاء طلب الصيانة؟";
+        "هل أنت في طريقك إلى موقع العميل؟";
+
+    }
+
+    else if (
+      newStatus === "بدأ العمل"
+    ) {
+
+      confirmation =
+        "هل بدأت العمل على الطلب؟";
+
+    }
+
+    else if (
+      newStatus === "مكتمل"
+    ) {
+
+      confirmation =
+        "هل تم إنهاء أعمال الصيانة؟";
 
     }
 
@@ -1831,36 +2201,60 @@
     );
 
 
-    const notification =
+    let notification = "";
 
-      newStatus ===
-      "قيد التنفيذ"
 
-        ? "تم قبول طلب الصيانة من قبل الفني، والطلب الآن قيد التنفيذ."
+    if (
+      newStatus === "قيد التنفيذ"
+    ) {
 
-        : newStatus ===
-          "مكتمل"
+      notification =
+        "تم قبول طلب الصيانة من قبل الفني، والطلب الآن قيد التنفيذ.";
 
-        ? "تم إكمال طلب الصيانة."
+    }
 
-        : newStatus ===
-          "مرفوض"
+    else if (
+      newStatus === "الفني في الطريق"
+    ) {
 
-        ? "تم رفض طلب الصيانة."
+      notification =
+        "الفني في الطريق إلى موقعك.";
 
-        : "";
+    }
+
+    else if (
+      newStatus === "بدأ العمل"
+    ) {
+
+      notification =
+        "بدأ الفني العمل على طلب الصيانة.";
+
+    }
+
+    else if (
+      newStatus === "مكتمل"
+    ) {
+
+      notification =
+        "تم إكمال طلب الصيانة. يمكنك الآن تقييم الفني.";
+
+    }
+
+    else if (
+      newStatus === "مرفوض"
+    ) {
+
+      notification =
+        "تم رفض طلب الصيانة من قبل الفني.";
+
+    }
 
 
     const {
       error
     } =
-
       await supabaseClient
-
-        .from(
-          "service_requests"
-        )
-
+        .from("service_requests")
         .update({
 
           status:
@@ -1873,7 +2267,6 @@
             false
 
         })
-
         .eq(
           "id",
           requestId
@@ -1884,9 +2277,7 @@
       error
     ) {
 
-      console.error(
-        error
-      );
+      console.error(error);
 
       showMessage(
         "تعذر تحديث حالة الطلب: " +
@@ -1900,7 +2291,7 @@
 
 
     showMessage(
-      "تم تحديث الطلب وإرسال الإشعار بنجاح.",
+      "تم تحديث حالة الطلب بنجاح.",
       "success"
     );
 
@@ -1908,14 +2299,13 @@
     await loadRequests();
 
 
-    /*
-      إذا تم إنهاء الطلب،
-      نعيد تحميل التقييمات
-      حتى يتحدث عدد الطلبات
-      والتقييمات مباشرة.
-    */
+    if (
+      newStatus === "مكتمل"
+    ) {
 
-    await loadTechnicianRating();
+      await loadTechnicianRating();
+
+    }
 
   }
 
@@ -1947,18 +2337,16 @@
       await checkTechnician();
 
 
-    if (
-      !allowed
-    ) {
-
+    if (!allowed) {
       return;
-
     }
 
 
     await loadRequests();
 
     await loadTechnicianRating();
+
+    await loadAvailability();
 
   }
 
