@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>انضم كفني | فني برو</title><meta
+name="description"
+content="تقديم طلب للانضمام إلى شبكة الفنيين في فني برو"
 
-  <title>انضم كفني | فني برو</title>
+«»
 
-  <meta name="description" content="تقديم طلب للانضمام إلى شبكة الفنيين في فني برو">
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <style>
     * {
       box-sizing: border-box;
     }
@@ -47,6 +44,11 @@
       background: rgba(255,255,255,.08);
       padding: 10px 16px;
       border-radius: 12px;
+      transition: .2s;
+    }
+
+    .back:hover {
+      background: rgba(255,255,255,.15);
     }
 
     main {
@@ -108,12 +110,19 @@
       padding: 14px;
       font-size: 15px;
       outline: none;
+      transition: .2s;
     }
 
     input:focus,
     select:focus,
     textarea:focus {
       border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56,189,248,.08);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #718096;
     }
 
     textarea {
@@ -131,6 +140,12 @@
       font-size: 17px;
       font-weight: 800;
       cursor: pointer;
+      transition: .2s;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
     }
 
     button:disabled {
@@ -143,7 +158,7 @@
       margin-top: 18px;
       padding: 15px;
       border-radius: 12px;
-      line-height: 1.7;
+      line-height: 1.8;
       white-space: pre-line;
     }
 
@@ -169,7 +184,7 @@
     .loginNotice {
       display: none;
       margin-bottom: 20px;
-      padding: 15px;
+      padding: 17px;
       border-radius: 12px;
       background: rgba(245,158,11,.10);
       border: 1px solid rgba(245,158,11,.35);
@@ -179,12 +194,60 @@
     }
 
     .loginNotice a {
-      color: #38bdf8;
+      display: inline-block;
+      margin-top: 10px;
+      color: #fff;
       font-weight: 800;
       text-decoration: none;
+      background: #0284c7;
+      padding: 10px 18px;
+      border-radius: 10px;
+    }
+
+    .successActions {
+      display: none;
+      margin-top: 12px;
+      gap: 10px;
+    }
+
+    .successActions button,
+    .successActions a {
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 12px;
+      padding: 13px;
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .copyBtn {
+      background: rgba(255,255,255,.10);
+      color: #fff;
+    }
+
+    .homeBtn {
+      background: #0284c7;
+      color: #fff;
+    }
+
+    .statusBox {
+      display: none;
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 12px;
+      background: rgba(59,130,246,.10);
+      border: 1px solid rgba(59,130,246,.3);
+      color: #bfdbfe;
+      line-height: 1.8;
+    }
+
+    .required {
+      color: #f87171;
     }
 
     @media (max-width: 700px) {
+
       .grid {
         grid-template-columns: 1fr;
       }
@@ -200,156 +263,302 @@
       .card {
         padding: 20px;
       }
+
+      header {
+        padding: 15px 4%;
+      }
+
+      .logo {
+        font-size: 21px;
+      }
+
+      .back {
+        padding: 9px 12px;
+        font-size: 14px;
+      }
+
+      .successActions {
+        flex-direction: column;
+      }
     }
-  </style>
-</head>
+  </style></head><body><header>
+  <div class="logo">فني برو</div>  <a class="back" href="index.html">
+    العودة للموقع
+  </a>
+</header><main>  <section class="hero"><h1>انضم إلى شبكة الفنيين</h1>
 
-<body>
+<p>
+  هل أنت فني محترف؟
+  أرسل بياناتك وسيراجع فريق الإدارة طلبك.
+  عند الموافقة سيتم اعتماد حسابك كفني في فني برو.
+</p>
 
-<header>
-  <div class="logo">فني برو</div>
-  <a class="back" href="index.html">العودة للموقع</a>
-</header>
+  </section>  <section class="card"><!-- إشعار تسجيل الدخول -->
+<div id="loginNotice" class="loginNotice">
 
-<main>
+  يجب تسجيل الدخول أولًا حتى يتم ربط طلب الانضمام بحسابك.
 
-  <section class="hero">
-    <h1>انضم إلى شبكة الفنيين</h1>
-    <p>
-      هل أنت فني محترف؟ أرسل بياناتك وسيراجع فريق الإدارة طلبك.
-      عند الموافقة سيتم اعتماد حسابك كفني في فني برو.
-    </p>
-  </section>
+  <br>
 
-  <section class="card">
+  <a href="login.html">
+    تسجيل الدخول
+  </a>
 
-    <div id="loginNotice" class="loginNotice">
-      يجب تسجيل الدخول أولًا حتى يتم ربط طلب الانضمام بحسابك.
-      <br>
-      بعد تسجيل الدخول يمكنك العودة إلى هذه الصفحة وإرسال الطلب.
+</div>
+
+<!-- حالة الطلب السابق -->
+<div id="statusBox" class="statusBox"></div>
+
+<form id="technicianForm">
+
+  <div class="grid">
+
+    <!-- الاسم -->
+    <div class="field">
+
+      <label for="fullName">
+        الاسم الكامل <span class="required">*</span>
+      </label>
+
+      <input
+        id="fullName"
+        type="text"
+        required
+        maxlength="100"
+        placeholder="مثال: أحمد محمد"
+        autocomplete="name"
+      >
+
     </div>
 
-    <form id="technicianForm">
+    <!-- الهاتف -->
+    <div class="field">
 
-      <div class="grid">
+      <label for="phone">
+        رقم الهاتف <span class="required">*</span>
+      </label>
 
-        <div class="field">
-          <label for="fullName">الاسم الكامل *</label>
-          <input
-            id="fullName"
-            type="text"
-            required
-            maxlength="100"
-            placeholder="مثال: أحمد محمد"
-          >
-        </div>
+      <input
+        id="phone"
+        type="tel"
+        required
+        maxlength="10"
+        inputmode="numeric"
+        placeholder="07XXXXXXXX"
+        autocomplete="tel"
+      >
 
-        <div class="field">
-          <label for="phone">رقم الهاتف *</label>
-          <input
-            id="phone"
-            type="tel"
-            required
-            maxlength="10"
-            placeholder="07XXXXXXXX"
-          >
-        </div>
-
-        <div class="field">
-          <label for="serviceType">التخصص *</label>
-
-          <select id="serviceType" required>
-            <option value="">اختر التخصص</option>
-            <option value="تكييف وتبريد">تكييف وتبريد</option>
-            <option value="كهرباء">كهرباء</option>
-            <option value="سباكة">سباكة</option>
-            <option value="صيانة أجهزة منزلية">صيانة أجهزة منزلية</option>
-            <option value="نجارة">نجارة</option>
-            <option value="دهان">دهان</option>
-            <option value="صيانة عامة">صيانة عامة</option>
-            <option value="أخرى">أخرى</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="city">المدينة / المنطقة *</label>
-
-          <input
-            id="city"
-            type="text"
-            required
-            maxlength="100"
-            placeholder="مثال: الكرك"
-          >
-        </div>
-
-        <div class="field">
-          <label for="experience">سنوات الخبرة *</label>
-
-          <input
-            id="experience"
-            type="number"
-            min="0"
-            max="60"
-            required
-            placeholder="مثال: 5"
-          >
-        </div>
-
-        <div class="field">
-          <label for="workType">نوع العمل</label>
-
-          <select id="workType">
-            <option value="دوام كامل">دوام كامل</option>
-            <option value="دوام جزئي">دوام جزئي</option>
-            <option value="حسب الطلب">حسب الطلب</option>
-          </select>
-        </div>
-
-        <div class="field full">
-          <label for="description">الخبرة والمهارات *</label>
-
-          <textarea
-            id="description"
-            required
-            maxlength="2000"
-            placeholder="اكتب خبرتك ومهاراتك والأعمال التي تتقنها..."
-          ></textarea>
-        </div>
-
-        <div class="field full">
-          <label for="notes">ملاحظات إضافية</label>
-
-          <textarea
-            id="notes"
-            maxlength="1000"
-            placeholder="أي معلومات إضافية تريد إرسالها للإدارة..."
-          ></textarea>
-        </div>
-
-        <div class="field full">
-          <button id="submitBtn" type="submit">
-            إرسال طلب الانضمام
-          </button>
-        </div>
-
-      </div>
-
-    </form>
-
-    <div id="successMessage" class="message success"></div>
-    <div id="errorMessage" class="message error"></div>
-
-    <div class="note">
-      إرسال الطلب لا يعني القبول التلقائي.
-      تتم مراجعة بيانات الفني من قبل إدارة فني برو قبل اعتماد الحساب.
     </div>
 
-  </section>
+    <!-- التخصص -->
+    <div class="field">
 
-</main>
+      <label for="serviceType">
+        التخصص <span class="required">*</span>
+      </label>
 
-<script>
+      <select id="serviceType" required>
+
+        <option value="">
+          اختر التخصص
+        </option>
+
+        <option value="تكييف وتبريد">
+          تكييف وتبريد
+        </option>
+
+        <option value="كهرباء">
+          كهرباء
+        </option>
+
+        <option value="سباكة">
+          سباكة
+        </option>
+
+        <option value="صيانة أجهزة منزلية">
+          صيانة أجهزة منزلية
+        </option>
+
+        <option value="نجارة">
+          نجارة
+        </option>
+
+        <option value="دهان">
+          دهان
+        </option>
+
+        <option value="صيانة عامة">
+          صيانة عامة
+        </option>
+
+        <option value="أخرى">
+          أخرى
+        </option>
+
+      </select>
+
+    </div>
+
+    <!-- المدينة -->
+    <div class="field">
+
+      <label for="city">
+        المدينة / المنطقة <span class="required">*</span>
+      </label>
+
+      <input
+        id="city"
+        type="text"
+        required
+        maxlength="100"
+        placeholder="مثال: الكرك"
+      >
+
+    </div>
+
+    <!-- الخبرة -->
+    <div class="field">
+
+      <label for="experience">
+        سنوات الخبرة <span class="required">*</span>
+      </label>
+
+      <input
+        id="experience"
+        type="number"
+        min="0"
+        max="60"
+        required
+        placeholder="مثال: 5"
+        inputmode="numeric"
+      >
+
+    </div>
+
+    <!-- نوع العمل -->
+    <div class="field">
+
+      <label for="workType">
+        نوع العمل
+      </label>
+
+      <select id="workType">
+
+        <option value="دوام كامل">
+          دوام كامل
+        </option>
+
+        <option value="دوام جزئي">
+          دوام جزئي
+        </option>
+
+        <option value="حسب الطلب">
+          حسب الطلب
+        </option>
+
+      </select>
+
+    </div>
+
+    <!-- الخبرة والمهارات -->
+    <div class="field full">
+
+      <label for="description">
+        الخبرة والمهارات <span class="required">*</span>
+      </label>
+
+      <textarea
+        id="description"
+        required
+        maxlength="2000"
+        placeholder="اكتب خبرتك ومهاراتك والأعمال التي تتقنها..."
+      ></textarea>
+
+    </div>
+
+    <!-- ملاحظات -->
+    <div class="field full">
+
+      <label for="notes">
+        ملاحظات إضافية
+      </label>
+
+      <textarea
+        id="notes"
+        maxlength="1000"
+        placeholder="أي معلومات إضافية تريد إرسالها للإدارة..."
+      ></textarea>
+
+    </div>
+
+    <!-- زر الإرسال -->
+    <div class="field full">
+
+      <button
+        id="submitBtn"
+        type="submit"
+      >
+        إرسال طلب الانضمام
+      </button>
+
+    </div>
+
+  </div>
+
+</form>
+
+<!-- رسالة النجاح -->
+<div
+  id="successMessage"
+  class="message success"
+></div>
+
+<!-- أزرار النجاح -->
+<div
+  id="successActions"
+  class="successActions"
+>
+
+  <button
+    id="copyRequestBtn"
+    type="button"
+    class="copyBtn"
+  >
+    نسخ رقم الطلب
+  </button>
+
+  <a
+    href="index.html"
+    class="homeBtn"
+  >
+    العودة للموقع
+  </a>
+
+</div>
+
+<!-- رسالة الخطأ -->
+<div
+  id="errorMessage"
+  class="message error"
+></div>
+
+<div class="note">
+
+  إرسال الطلب لا يعني القبول التلقائي.
+
+  تتم مراجعة بيانات الفني من قبل إدارة فني برو قبل اعتماد الحساب.
+
+  <br>
+
+  بعد قبول الطلب سيتم تحويل حسابك إلى حساب فني ويمكنك استخدام لوحة الفني.
+
+</div>
+
+  </section></main><script>
+
+/* =====================================================
+   إعداد Supabase
+===================================================== */
 
 const SUPABASE_URL =
   "https://yesmnsztcqnhaqrcgpcs.supabase.co";
@@ -363,6 +572,10 @@ const client =
     SUPABASE_KEY
   );
 
+
+/* =====================================================
+   عناصر الصفحة
+===================================================== */
 
 const form =
   document.getElementById("technicianForm");
@@ -379,50 +592,24 @@ const errorMessage =
 const loginNotice =
   document.getElementById("loginNotice");
 
+const statusBox =
+  document.getElementById("statusBox");
+
+const successActions =
+  document.getElementById("successActions");
+
+const copyRequestBtn =
+  document.getElementById("copyRequestBtn");
+
 
 let currentUser = null;
 
-
-/* =========================
-   التحقق من تسجيل الدخول
-========================= */
-
-async function checkLogin() {
-
-  const {
-    data: { user },
-    error
-  } = await client.auth.getUser();
-
-  if (error) {
-    console.error(error);
-    return;
-  }
-
-  currentUser = user || null;
-
-  if (!currentUser) {
-
-    loginNotice.style.display = "block";
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = "يجب تسجيل الدخول أولًا";
-
-  } else {
-
-    loginNotice.style.display = "none";
-
-    submitBtn.disabled = false;
-    submitBtn.textContent = "إرسال طلب الانضمام";
-
-  }
-
-}
+let lastRequestNumber = "";
 
 
-/* =========================
-   الرسائل
-========================= */
+/* =====================================================
+   إظهار الخطأ
+===================================================== */
 
 function showError(message) {
 
@@ -432,8 +619,14 @@ function showError(message) {
 
   successMessage.style.display = "none";
 
+  successActions.style.display = "none";
+
 }
 
+
+/* =====================================================
+   إظهار النجاح
+===================================================== */
 
 function showSuccess(message) {
 
@@ -443,24 +636,44 @@ function showSuccess(message) {
 
   errorMessage.style.display = "none";
 
+  successActions.style.display = "flex";
+
 }
 
 
-/* =========================
+/* =====================================================
+   إخفاء الرسائل
+===================================================== */
+
+function hideMessages() {
+
+  successMessage.style.display = "none";
+
+  errorMessage.style.display = "none";
+
+  successActions.style.display = "none";
+
+}
+
+
+/* =====================================================
    رقم طلب الفني
-========================= */
+===================================================== */
 
 function generateRequestNumber() {
 
   const date = new Date();
 
-  const y = date.getFullYear();
+  const y =
+    date.getFullYear();
 
   const m =
-    String(date.getMonth() + 1).padStart(2, "0");
+    String(date.getMonth() + 1)
+      .padStart(2, "0");
 
   const d =
-    String(date.getDate()).padStart(2, "0");
+    String(date.getDate())
+      .padStart(2, "0");
 
   const random =
     Math.floor(
@@ -473,9 +686,308 @@ function generateRequestNumber() {
 }
 
 
-/* =========================
+/* =====================================================
+   تنظيف رقم الهاتف
+===================================================== */
+
+function cleanPhone(phone) {
+
+  return phone
+    .replace(/\s+/g, "")
+    .replace(/-/g, "");
+
+}
+
+
+/* =====================================================
+   التحقق من الهاتف الأردني
+===================================================== */
+
+function validateJordanPhone(phone) {
+
+  return /^07[0-9]{8}$/.test(phone);
+
+}
+
+
+/* =====================================================
+   تعبئة بيانات الحساب
+===================================================== */
+
+function fillUserData() {
+
+  if (!currentUser) {
+    return;
+  }
+
+  const metadata =
+    currentUser.user_metadata || {};
+
+  const nameInput =
+    document.getElementById("fullName");
+
+  const phoneInput =
+    document.getElementById("phone");
+
+
+  /*
+    نحاول أخذ الاسم من البيانات
+    التي تم تسجيل الحساب بها.
+  */
+
+  const savedName =
+    metadata.full_name ||
+    metadata.name ||
+    metadata.fullName ||
+    "";
+
+
+  /*
+    نحاول أخذ الهاتف.
+  */
+
+  const savedPhone =
+    metadata.phone ||
+    "";
+
+
+  if (
+    savedName &&
+    !nameInput.value
+  ) {
+
+    nameInput.value =
+      savedName;
+
+  }
+
+
+  if (
+    savedPhone &&
+    !phoneInput.value
+  ) {
+
+    phoneInput.value =
+      cleanPhone(savedPhone);
+
+  }
+
+}
+
+
+/* =====================================================
+   فحص وجود طلب سابق
+===================================================== */
+
+async function checkExistingApplication() {
+
+  if (!currentUser) {
+    return;
+  }
+
+
+  try {
+
+    const {
+      data,
+      error
+    } = await client
+      .from("technician_applications")
+      .select(
+        "id,request_number,status,created_at"
+      )
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .order(
+        "created_at",
+        { ascending: false }
+      )
+      .limit(1);
+
+
+    if (error) {
+
+      console.error(
+        "Existing application error:",
+        error
+      );
+
+      /*
+        إذا لم نستطع قراءة الطلبات
+        لا نمنع المستخدم من الإرسال.
+      */
+
+      return;
+
+    }
+
+
+    if (!data || data.length === 0) {
+
+      return;
+
+    }
+
+
+    const application =
+      data[0];
+
+
+    /*
+      الحالات التي تمنع إنشاء طلب جديد.
+    */
+
+    const blockedStatuses = [
+      "جديد",
+      "قيد المراجعة",
+      "مقبول"
+    ];
+
+
+    if (
+      blockedStatuses.includes(
+        application.status
+      )
+    ) {
+
+      statusBox.style.display =
+        "block";
+
+      statusBox.textContent =
+        `لديك طلب فني سابق بالفعل.
+رقم الطلب: ${application.request_number || "غير متوفر"}
+حالة الطلب: ${application.status}
+
+لا تحتاج إلى إرسال طلب جديد حاليًا.`;
+
+      /*
+        إذا كان مقبولًا:
+        الحساب أصبح فنيًا بالفعل.
+      */
+
+      if (
+        application.status === "مقبول"
+      ) {
+
+        submitBtn.disabled = true;
+
+        submitBtn.textContent =
+          "تم قبول طلبك مسبقًا";
+
+      }
+
+    }
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+}
+
+
+/* =====================================================
+   التحقق من تسجيل الدخول
+===================================================== */
+
+async function checkLogin() {
+
+  try {
+
+    const {
+      data,
+      error
+    } = await client.auth.getUser();
+
+
+    if (error) {
+
+      console.error(
+        "Auth error:",
+        error
+      );
+
+      currentUser = null;
+
+    } else {
+
+      currentUser =
+        data?.user || null;
+
+    }
+
+
+    /*
+      المستخدم غير مسجل.
+    */
+
+    if (!currentUser) {
+
+      loginNotice.style.display =
+        "block";
+
+      submitBtn.disabled = true;
+
+      submitBtn.textContent =
+        "يجب تسجيل الدخول أولًا";
+
+      return;
+
+    }
+
+
+    /*
+      المستخدم مسجل.
+    */
+
+    loginNotice.style.display =
+      "none";
+
+    submitBtn.disabled = false;
+
+    submitBtn.textContent =
+      "إرسال طلب الانضمام";
+
+
+    /*
+      تعبئة البيانات إن كانت موجودة.
+    */
+
+    fillUserData();
+
+
+    /*
+      فحص الطلبات السابقة.
+    */
+
+    await checkExistingApplication();
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    currentUser = null;
+
+    loginNotice.style.display =
+      "block";
+
+    submitBtn.disabled = true;
+
+    submitBtn.textContent =
+      "يجب تسجيل الدخول أولًا";
+
+  }
+
+}
+
+
+/* =====================================================
    إرسال الطلب
-========================= */
+===================================================== */
 
 form.addEventListener(
   "submit",
@@ -483,11 +995,13 @@ form.addEventListener(
 
     event.preventDefault();
 
-    errorMessage.style.display = "none";
-    successMessage.style.display = "none";
+
+    hideMessages();
 
 
-    /* التأكد من وجود مستخدم */
+    /* ---------------------------------------------
+       التحقق من المستخدم
+    --------------------------------------------- */
 
     if (!currentUser) {
 
@@ -500,13 +1014,28 @@ form.addEventListener(
     }
 
 
+    /* ---------------------------------------------
+       منع الإرسال المكرر
+    --------------------------------------------- */
+
+    if (submitBtn.disabled) {
+
+      return;
+
+    }
+
+
     submitBtn.disabled = true;
 
     submitBtn.textContent =
-      "جاري إرسال الطلب...";
+      "جاري التحقق من البيانات...";
 
 
     try {
+
+      /* -------------------------------------------
+         قراءة البيانات
+      ------------------------------------------- */
 
       const fullName =
         document
@@ -515,7 +1044,7 @@ form.addEventListener(
           .trim();
 
 
-      const phone =
+      let phone =
         document
           .getElementById("phone")
           .value
@@ -535,12 +1064,10 @@ form.addEventListener(
           .trim();
 
 
-      const experience =
-        Number(
-          document
-            .getElementById("experience")
-            .value
-        );
+      const experienceValue =
+        document
+          .getElementById("experience")
+          .value;
 
 
       const workType =
@@ -563,43 +1090,199 @@ form.addEventListener(
           .trim();
 
 
-      /* التحقق من الهاتف */
+      /* -------------------------------------------
+         تنظيف الهاتف
+      ------------------------------------------- */
 
-      if (!/^07[0-9]{8}$/.test(phone)) {
+      phone =
+        cleanPhone(phone);
+
+
+      /* -------------------------------------------
+         التحقق من الاسم
+      ------------------------------------------- */
+
+      if (!fullName) {
 
         throw new Error(
-          "يرجى إدخال رقم هاتف أردني صحيح مثل 079XXXXXXX"
+          "يرجى إدخال الاسم الكامل."
         );
 
       }
 
 
-      /* التحقق من الحقول */
+      if (fullName.length < 3) {
+
+        throw new Error(
+          "الاسم الكامل يجب أن يحتوي على 3 أحرف على الأقل."
+        );
+
+      }
+
+
+      /* -------------------------------------------
+         التحقق من الهاتف
+      ------------------------------------------- */
+
+      if (!validateJordanPhone(phone)) {
+
+        throw new Error(
+          "يرجى إدخال رقم هاتف أردني صحيح مثل 079XXXXXXX."
+        );
+
+      }
+
+
+      /* -------------------------------------------
+         التحقق من التخصص
+      ------------------------------------------- */
+
+      if (!serviceType) {
+
+        throw new Error(
+          "يرجى اختيار التخصص."
+        );
+
+      }
+
+
+      /* -------------------------------------------
+         التحقق من المدينة
+      ------------------------------------------- */
+
+      if (!city) {
+
+        throw new Error(
+          "يرجى إدخال المدينة أو المنطقة."
+        );
+
+      }
+
+
+      /* -------------------------------------------
+         التحقق من الخبرة
+      ------------------------------------------- */
+
+      const experience =
+        Number(experienceValue);
+
 
       if (
-        !fullName ||
-        !serviceType ||
-        !city ||
-        !description
+        !Number.isFinite(experience) ||
+        experience < 0 ||
+        experience > 60
       ) {
 
         throw new Error(
-          "يرجى تعبئة جميع الحقول المطلوبة."
+          "يرجى إدخال عدد سنوات خبرة صحيح بين 0 و60."
         );
 
       }
 
 
-      /* رقم الطلب */
+      /* -------------------------------------------
+         التحقق من الخبرة والمهارات
+      ------------------------------------------- */
+
+      if (!description) {
+
+        throw new Error(
+          "يرجى كتابة الخبرة والمهارات."
+        );
+
+      }
+
+
+      if (description.length < 10) {
+
+        throw new Error(
+          "يرجى كتابة تفاصيل أكثر عن خبرتك ومهاراتك."
+        );
+
+      }
+
+
+      /* -------------------------------------------
+         فحص طلب سابق قبل الإرسال
+      ------------------------------------------- */
+
+      submitBtn.textContent =
+        "جاري التحقق من الطلبات السابقة...";
+
+
+      const {
+        data: existingApplications,
+        error: existingError
+      } = await client
+        .from("technician_applications")
+        .select(
+          "id,request_number,status"
+        )
+        .eq(
+          "user_id",
+          currentUser.id
+        )
+        .in(
+          "status",
+          [
+            "جديد",
+            "قيد المراجعة",
+            "مقبول"
+          ]
+        )
+        .limit(1);
+
+
+      if (existingError) {
+
+        console.error(
+          "Existing check error:",
+          existingError
+        );
+
+        /*
+          لا نوقف الإرسال إذا كانت
+          المشكلة مجرد صلاحية قراءة.
+        */
+
+      }
+
+
+      if (
+        existingApplications &&
+        existingApplications.length > 0
+      ) {
+
+        const existing =
+          existingApplications[0];
+
+
+        throw new Error(
+          `لديك طلب فني قائم بالفعل.
+رقم الطلب: ${existing.request_number || "غير متوفر"}
+حالة الطلب: ${existing.status}
+
+لا تحتاج إلى إرسال طلب جديد حاليًا.`
+        );
+
+      }
+
+
+      /* -------------------------------------------
+         إنشاء رقم الطلب
+      ------------------------------------------- */
 
       const requestNumber =
         generateRequestNumber();
 
 
-      /* =========================
-         حفظ الطلب
-         مع user_id
-      ========================= */
+      /* -------------------------------------------
+         بدء الإرسال
+      ------------------------------------------- */
+
+      submitBtn.textContent =
+        "جاري إرسال طلبك...";
+
 
       const {
         data,
@@ -608,32 +1291,47 @@ form.addEventListener(
         .from("technician_applications")
         .insert({
 
-          user_id: currentUser.id,
+          user_id:
+            currentUser.id,
 
-          request_number: requestNumber,
+          request_number:
+            requestNumber,
 
-          full_name: fullName,
+          full_name:
+            fullName,
 
-          phone: phone,
+          phone:
+            phone,
 
-          service_type: serviceType,
+          service_type:
+            serviceType,
 
-          city: city,
+          city:
+            city,
 
-          experience_years: experience,
+          experience_years:
+            experience,
 
-          work_type: workType,
+          work_type:
+            workType,
 
-          description: description,
+          description:
+            description,
 
-          notes: notes || null,
+          notes:
+            notes || null,
 
-          status: "جديد"
+          status:
+            "جديد"
 
         })
         .select()
         .single();
 
+
+      /* -------------------------------------------
+         التعامل مع خطأ Supabase
+      ------------------------------------------- */
 
       if (error) {
 
@@ -642,29 +1340,81 @@ form.addEventListener(
           error
         );
 
+
+        /*
+          إذا كان الخطأ بسبب تكرار الطلب
+          نحاول إعطاء رسالة مفهومة.
+        */
+
+        if (
+          error.code === "23505"
+        ) {
+
+          throw new Error(
+            "يوجد طلب فني مسجل بالفعل لهذا الحساب."
+          );
+
+        }
+
+
         throw new Error(
-          "تعذر إرسال الطلب. تأكد من إعداد صلاحيات قاعدة البيانات ثم حاول مرة أخرى."
+          "تعذر إرسال الطلب إلى قاعدة البيانات. تأكد من صلاحيات جدول technician_applications ثم حاول مرة أخرى."
         );
 
       }
 
 
-      /* نجاح */
+      /* -------------------------------------------
+         نجاح الطلب
+      ------------------------------------------- */
+
+      lastRequestNumber =
+        data?.request_number ||
+        requestNumber;
+
 
       form.reset();
 
+
+      /*
+        إعادة تعبئة البيانات الأساسية
+        بعد reset.
+      */
+
+      fillUserData();
+
+
       showSuccess(
         `تم إرسال طلبك بنجاح.
-رقم طلب الانضمام: ${data.request_number}
 
-تم ربط الطلب بحسابك.
-سيتم مراجعة الطلب من الإدارة، وعند قبولك سيتم اعتماد حسابك كفني.`
+رقم طلب الانضمام:
+${lastRequestNumber}
+
+تم ربط الطلب بحسابك بنجاح.
+
+حالة الطلب الحالية: جديد
+
+سيتم مراجعة الطلب من الإدارة، وعند قبولك سيتم اعتماد حسابك كفني في فني برو.`
       );
+
+
+      statusBox.style.display =
+        "none";
+
+
+      submitBtn.disabled = true;
+
+      submitBtn.textContent =
+        "تم إرسال الطلب";
 
 
     } catch (error) {
 
-      console.error(error);
+      console.error(
+        "Submit error:",
+        error
+      );
+
 
       showError(
         error.message ||
@@ -674,9 +1424,18 @@ form.addEventListener(
 
     } finally {
 
-      if (currentUser) {
+      /*
+        إذا لم يتم إرسال الطلب بنجاح
+        نعيد الزر للعمل.
+      */
 
-        submitBtn.disabled = false;
+      if (
+        currentUser &&
+        !lastRequestNumber
+      ) {
+
+        submitBtn.disabled =
+          false;
 
         submitBtn.textContent =
           "إرسال طلب الانضمام";
@@ -689,11 +1448,134 @@ form.addEventListener(
 );
 
 
-/* تشغيل فحص تسجيل الدخول */
+/* =====================================================
+   نسخ رقم الطلب
+===================================================== */
+
+copyRequestBtn.addEventListener(
+  "click",
+  async function() {
+
+    if (!lastRequestNumber) {
+
+      return;
+
+    }
+
+
+    try {
+
+      await navigator.clipboard.writeText(
+        lastRequestNumber
+      );
+
+
+      const oldText =
+        copyRequestBtn.textContent;
+
+
+      copyRequestBtn.textContent =
+        "تم نسخ رقم الطلب";
+
+
+      setTimeout(
+        function() {
+
+          copyRequestBtn.textContent =
+            oldText;
+
+        },
+        2000
+      );
+
+
+    } catch (error) {
+
+      /*
+        طريقة احتياطية للهواتف
+      */
+
+      const temp =
+        document.createElement("input");
+
+      temp.value =
+        lastRequestNumber;
+
+      document.body.appendChild(temp);
+
+      temp.select();
+
+      document.execCommand("copy");
+
+      temp.remove();
+
+
+      copyRequestBtn.textContent =
+        "تم نسخ رقم الطلب";
+
+
+      setTimeout(
+        function() {
+
+          copyRequestBtn.textContent =
+            "نسخ رقم الطلب";
+
+        },
+        2000
+      );
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   مراقبة تسجيل الدخول
+===================================================== */
+
+client.auth.onAuthStateChange(
+  function(event, session) {
+
+    currentUser =
+      session?.user || null;
+
+
+    if (currentUser) {
+
+      loginNotice.style.display =
+        "none";
+
+      submitBtn.disabled =
+        false;
+
+      submitBtn.textContent =
+        "إرسال طلب الانضمام";
+
+      fillUserData();
+
+    } else {
+
+      loginNotice.style.display =
+        "block";
+
+      submitBtn.disabled =
+        true;
+
+      submitBtn.textContent =
+        "يجب تسجيل الدخول أولًا";
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   تشغيل الصفحة
+===================================================== */
 
 checkLogin();
 
-</script>
-
-</body>
+</script></body>
 </html>
