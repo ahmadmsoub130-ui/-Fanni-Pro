@@ -77,6 +77,166 @@
       margin-bottom: 7px;
     }
 
+    /* =========================
+       بطاقة التقييم
+    ========================= */
+
+    .rating-card {
+      background: linear-gradient(
+        135deg,
+        #ffffff,
+        #f7faff
+      );
+
+      padding: 22px;
+      border-radius: 17px;
+      margin-bottom: 20px;
+
+      box-shadow: 0 4px 18px rgba(0,0,0,.07);
+
+      border-right: 5px solid #f59e0b;
+    }
+
+    .rating-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .rating-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #172033;
+    }
+
+    .rating-level {
+      background: #fff7d6;
+      color: #8a5b00;
+      padding: 8px 13px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .rating-main {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .rating-score {
+      text-align: center;
+      padding: 15px;
+      background: #fffaf0;
+      border-radius: 14px;
+    }
+
+    .rating-number {
+      display: block;
+      font-size: 38px;
+      font-weight: bold;
+      color: #d97706;
+      margin-bottom: 5px;
+    }
+
+    .rating-stars {
+      color: #f59e0b;
+      font-size: 22px;
+      letter-spacing: 2px;
+      direction: ltr;
+    }
+
+    .rating-count {
+      display: block;
+      color: #667085;
+      font-size: 12px;
+      margin-top: 7px;
+    }
+
+    .rating-info {
+      display: grid;
+      gap: 10px;
+    }
+
+    .rating-info-item {
+      background: #f8fafc;
+      border: 1px solid #e4e7ec;
+      border-radius: 11px;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .rating-info-label {
+      color: #667085;
+      font-size: 13px;
+    }
+
+    .rating-info-value {
+      font-weight: bold;
+      color: #101828;
+    }
+
+    .reviews-title {
+      margin-top: 20px;
+      margin-bottom: 12px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .reviews-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .review-item {
+      background: #f8fafc;
+      border: 1px solid #e4e7ec;
+      border-radius: 12px;
+      padding: 13px;
+    }
+
+    .review-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 7px;
+    }
+
+    .review-stars {
+      color: #f59e0b;
+      direction: ltr;
+      font-size: 15px;
+    }
+
+    .review-date {
+      color: #98a2b3;
+      font-size: 10px;
+    }
+
+    .review-comment {
+      color: #475467;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .no-reviews {
+      color: #667085;
+      font-size: 12px;
+      background: #f8fafc;
+      padding: 13px;
+      border-radius: 10px;
+    }
+
+    /* =========================
+       الإحصائيات
+    ========================= */
+
     .stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -231,6 +391,7 @@
     }
 
     @media (max-width: 700px) {
+
       .header-inner {
         align-items: flex-start;
         flex-direction: column;
@@ -243,6 +404,15 @@
       .request-card {
         padding: 16px;
       }
+
+      .rating-main {
+        grid-template-columns: 1fr;
+      }
+
+      .rating-card {
+        padding: 17px;
+      }
+
     }
   </style>
 </head>
@@ -250,6 +420,7 @@
 <body>
 
 <header>
+
   <div class="header-inner">
 
     <div class="brand">
@@ -257,48 +428,222 @@
       <p>لوحة تحكم الفني</p>
     </div>
 
-    <button class="logout" onclick="logout()">
+    <button
+      class="logout"
+      onclick="logout()"
+    >
       تسجيل الخروج
     </button>
 
   </div>
+
 </header>
 
 <main>
 
   <div class="welcome">
-    <h2>مرحبًا بك</h2>
+
+    <h2>
+      مرحبًا بك
+    </h2>
+
     <p id="technicianEmail">
       جاري التحقق من الحساب...
     </p>
+
   </div>
+
+
+  <!-- بطاقة التقييم -->
+
+  <div
+    id="ratingCard"
+    class="rating-card"
+    style="display:none"
+  >
+
+    <div class="rating-header">
+
+      <div class="rating-title">
+        تقييمك كفني
+      </div>
+
+      <div
+        id="ratingLevel"
+        class="rating-level"
+      >
+        فني جديد
+      </div>
+
+    </div>
+
+
+    <div class="rating-main">
+
+      <div class="rating-score">
+
+        <span
+          id="averageRating"
+          class="rating-number"
+        >
+          0.0
+        </span>
+
+        <div
+          id="ratingStars"
+          class="rating-stars"
+        >
+          ☆☆☆☆☆
+        </div>
+
+        <span
+          id="ratingCount"
+          class="rating-count"
+        >
+          لا توجد تقييمات
+        </span>
+
+      </div>
+
+
+      <div class="rating-info">
+
+        <div class="rating-info-item">
+
+          <span class="rating-info-label">
+            الطلبات المكتملة
+          </span>
+
+          <span
+            id="completedJobs"
+            class="rating-info-value"
+          >
+            0
+          </span>
+
+        </div>
+
+
+        <div class="rating-info-item">
+
+          <span class="rating-info-label">
+            متوسط التقييم
+          </span>
+
+          <span
+            id="averageRatingText"
+            class="rating-info-value"
+          >
+            0.0 / 5
+          </span>
+
+        </div>
+
+
+        <div class="rating-info-item">
+
+          <span class="rating-info-label">
+            مستوى الفني
+          </span>
+
+          <span
+            id="levelText"
+            class="rating-info-value"
+          >
+            فني جديد
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="reviews-title">
+      آخر تقييمات العملاء
+    </div>
+
+    <div
+      id="reviewsList"
+      class="reviews-list"
+    >
+
+      <div class="no-reviews">
+        جاري تحميل التقييمات...
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- الإحصائيات -->
 
   <div class="stats">
 
     <div class="stat">
-      <span class="stat-number" id="newCount">0</span>
-      <span class="stat-label">طلبات جديدة</span>
+
+      <span
+        class="stat-number"
+        id="newCount"
+      >
+        0
+      </span>
+
+      <span class="stat-label">
+        طلبات جديدة
+      </span>
+
     </div>
 
-    <div class="stat">
-      <span class="stat-number" id="workingCount">0</span>
-      <span class="stat-label">طلبات قيد التنفيذ</span>
-    </div>
 
     <div class="stat">
-      <span class="stat-number" id="finishedCount">0</span>
-      <span class="stat-label">طلبات مكتملة</span>
+
+      <span
+        class="stat-number"
+        id="workingCount"
+      >
+        0
+      </span>
+
+      <span class="stat-label">
+        طلبات قيد التنفيذ
+      </span>
+
+    </div>
+
+
+    <div class="stat">
+
+      <span
+        class="stat-number"
+        id="finishedCount"
+      >
+        0
+      </span>
+
+      <span class="stat-label">
+        طلبات مكتملة
+      </span>
+
     </div>
 
   </div>
 
+
   <div id="message"></div>
+
 
   <h2 class="section-title">
     طلبات الصيانة
   </h2>
 
-  <div id="requests" class="requests">
+
+  <div
+    id="requests"
+    class="requests"
+  >
 
     <div class="empty">
       جاري تحميل الطلبات...
@@ -307,6 +652,7 @@
   </div>
 
 </main>
+
 
 <script>
 
@@ -335,10 +681,15 @@
      الرسائل
   ========================= */
 
-  function showMessage(text, type = "loading") {
+  function showMessage(
+    text,
+    type = "loading"
+  ) {
 
     const box =
-      document.getElementById("message");
+      document.getElementById(
+        "message"
+      );
 
     box.textContent = text;
 
@@ -353,9 +704,14 @@
     if (type !== "loading") {
 
       setTimeout(() => {
-        box.style.display = "none";
+
+        box.style.display =
+          "none";
+
       }, 3500);
+
     }
+
   }
 
 
@@ -369,15 +725,38 @@
       value === null ||
       value === undefined
     ) {
+
       return "";
+
     }
 
     return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+
+      .replace(
+        /</g,
+        "&lt;"
+      )
+
+      .replace(
+        />/g,
+        "&gt;"
+      )
+
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+
+      .replace(
+        /'/g,
+        "&#039;"
+      );
+
   }
 
 
@@ -388,17 +767,26 @@
   async function checkTechnician() {
 
     const {
-      data: { user },
+      data: {
+        user
+      },
       error
-    } = await supabaseClient.auth.getUser();
+    } =
+      await supabaseClient
+        .auth
+        .getUser();
 
 
-    if (error || !user) {
+    if (
+      error ||
+      !user
+    ) {
 
       window.location.href =
         "login.html";
 
       return false;
+
     }
 
 
@@ -410,15 +798,28 @@
       error: roleError
     } =
       await supabaseClient
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", user.id)
+
+        .from(
+          "user_roles"
+        )
+
+        .select(
+          "role"
+        )
+
+        .eq(
+          "user_id",
+          user.id
+        )
+
         .maybeSingle();
 
 
     if (roleError) {
 
-      console.error(roleError);
+      console.error(
+        roleError
+      );
 
       showMessage(
         "تعذر التحقق من صلاحيات الحساب: " +
@@ -427,6 +828,7 @@
       );
 
       return false;
+
     }
 
 
@@ -435,45 +837,67 @@
       document.getElementById(
         "requests"
       ).innerHTML = `
+
         <div class="empty">
+
           لا توجد صلاحية لهذا الحساب.
+
         </div>
+
       `;
 
       return false;
+
     }
 
 
     currentRole =
-      String(roleData.role)
-        .toLowerCase()
-        .trim();
+      String(
+        roleData.role
+      )
+      .toLowerCase()
+      .trim();
 
 
     if (
-      currentRole !== "technician" &&
-      currentRole !== "admin"
+      currentRole !==
+      "technician" &&
+
+      currentRole !==
+      "admin"
     ) {
 
       document.getElementById(
         "requests"
       ).innerHTML = `
+
         <div class="empty">
+
           هذا الحساب ليس لديه
           صلاحية فني أو إدارة.
+
         </div>
+
       `;
 
       return false;
+
     }
 
 
     document.getElementById(
       "technicianEmail"
     ).textContent =
+
       "الحساب: " +
-      (user.email || "المستخدم") +
+
+      (
+        user.email ||
+        "المستخدم"
+      ) +
+
       " — الصلاحية: " +
+
       (
         currentRole === "admin"
           ? "مدير"
@@ -482,6 +906,7 @@
 
 
     return true;
+
   }
 
 
@@ -498,38 +923,65 @@
 
 
     requestsBox.innerHTML = `
+
       <div class="empty">
+
         جاري تحميل الطلبات...
+
       </div>
+
     `;
 
 
     let query;
 
 
-    if (currentRole === "admin") {
+    if (
+      currentRole ===
+      "admin"
+    ) {
 
       query =
+
         supabaseClient
-          .from("service_requests")
+
+          .from(
+            "service_requests"
+          )
+
           .select("*")
-          .order("created_at", {
-            ascending: false
-          });
+
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          );
 
     } else {
 
       query =
+
         supabaseClient
-          .from("service_requests")
+
+          .from(
+            "service_requests"
+          )
+
           .select("*")
+
           .eq(
             "technician_id",
             currentUser.id
           )
-          .order("created_at", {
-            ascending: false
-          });
+
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          );
+
     }
 
 
@@ -541,42 +993,69 @@
 
     if (error) {
 
-      console.error(error);
+      console.error(
+        error
+      );
 
       requestsBox.innerHTML = `
+
         <div class="empty">
+
           حدث خطأ أثناء تحميل الطلبات.
+
           <br><br>
-          ${escapeHTML(error.message)}
+
+          ${escapeHTML(
+            error.message
+          )}
+
         </div>
+
       `;
 
       return;
+
     }
 
 
-    const requests = data || [];
+    const requests =
+      data || [];
 
 
-    updateStats(requests);
+    updateStats(
+      requests
+    );
 
 
-    if (requests.length === 0) {
+    if (
+      requests.length === 0
+    ) {
 
       requestsBox.innerHTML = `
+
         <div class="empty">
+
           لا توجد طلبات صيانة حاليًا.
+
         </div>
+
       `;
 
       return;
+
     }
 
 
     requestsBox.innerHTML =
+
       requests
-        .map(createRequestCard)
+
+        .map(
+          createRequestCard
+        )
+
         .join("");
+
   }
 
 
@@ -584,30 +1063,42 @@
      الإحصائيات
   ========================= */
 
-  function updateStats(requests) {
+  function updateStats(
+    requests
+  ) {
 
     document.getElementById(
       "newCount"
     ).textContent =
+
       requests.filter(
-        r => r.status === "جديد"
+        r =>
+          r.status ===
+          "جديد"
       ).length;
 
 
     document.getElementById(
       "workingCount"
     ).textContent =
+
       requests.filter(
-        r => r.status === "قيد التنفيذ"
+        r =>
+          r.status ===
+          "قيد التنفيذ"
       ).length;
 
 
     document.getElementById(
       "finishedCount"
     ).textContent =
+
       requests.filter(
-        r => r.status === "مكتمل"
+        r =>
+          r.status ===
+          "مكتمل"
       ).length;
+
   }
 
 
@@ -615,7 +1106,9 @@
      بطاقة الطلب
   ========================= */
 
-  function createRequestCard(request) {
+  function createRequestCard(
+    request
+  ) {
 
     const requestNumber =
       request.request_number ||
@@ -630,7 +1123,9 @@
     let buttons = "";
 
 
-    if (status === "جديد") {
+    if (
+      status === "جديد"
+    ) {
 
       buttons = `
 
@@ -659,8 +1154,11 @@
 
       `;
 
-    } else if (
-      status === "قيد التنفيذ"
+    }
+
+    else if (
+      status ===
+      "قيد التنفيذ"
     ) {
 
       buttons = `
@@ -678,7 +1176,9 @@
 
       `;
 
-    } else if (
+    }
+
+    else if (
       status === "مكتمل"
     ) {
 
@@ -694,7 +1194,9 @@
 
       `;
 
-    } else if (
+    }
+
+    else if (
       status === "مرفوض"
     ) {
 
@@ -709,6 +1211,7 @@
         </button>
 
       `;
+
     }
 
 
@@ -719,11 +1222,21 @@
         <div class="request-top">
 
           <div class="request-number">
-            طلب ${escapeHTML(requestNumber)}
+
+            طلب
+            ${escapeHTML(
+              requestNumber
+            )}
+
           </div>
 
+
           <div class="status">
-            ${escapeHTML(status)}
+
+            ${escapeHTML(
+              status
+            )}
+
           </div>
 
         </div>
@@ -732,75 +1245,528 @@
         <div class="details">
 
           <div class="detail">
-            <strong>العميل:</strong>
+
+            <strong>
+              العميل:
+            </strong>
+
             ${escapeHTML(
-              request.customer_name || "-"
+              request.customer_name ||
+              "-"
             )}
+
           </div>
 
 
           <div class="detail">
-            <strong>الهاتف:</strong>
+
+            <strong>
+              الهاتف:
+            </strong>
+
             ${escapeHTML(
-              request.phone || "-"
+              request.phone ||
+              "-"
             )}
+
           </div>
 
 
           <div class="detail">
-            <strong>الخدمة:</strong>
+
+            <strong>
+              الخدمة:
+            </strong>
+
             ${escapeHTML(
-              request.service_type || "-"
+              request.service_type ||
+              "-"
             )}
+
           </div>
 
 
           <div class="detail">
-            <strong>الموقع:</strong>
+
+            <strong>
+              الموقع:
+            </strong>
+
             ${escapeHTML(
-              request.location || "-"
+              request.location ||
+              "-"
             )}
+
           </div>
 
 
           <div class="detail">
-            <strong>التاريخ المفضل:</strong>
+
+            <strong>
+              التاريخ المفضل:
+            </strong>
+
             ${escapeHTML(
-              request.preferred_date || "-"
+              request.preferred_date ||
+              "-"
             )}
+
           </div>
 
 
           <div class="detail">
-            <strong>الأولوية:</strong>
+
+            <strong>
+              الأولوية:
+            </strong>
+
             ${escapeHTML(
-              request.priority || "عادي"
+              request.priority ||
+              "عادي"
             )}
+
           </div>
 
 
           <div class="detail">
-            <strong>وصف المشكلة:</strong>
+
+            <strong>
+              وصف المشكلة:
+            </strong>
+
             ${escapeHTML(
               request.description ||
               "لا يوجد وصف"
             )}
+
           </div>
 
         </div>
 
 
         <div class="buttons">
+
           ${buttons}
+
         </div>
 
       </div>
+
     `;
+
   }
 
 
   /* =========================
-     تحديث حالة الطلب + الإشعار
+     تحميل تقييمات الفني
+  ========================= */
+
+  async function loadTechnicianRating() {
+
+    const ratingCard =
+      document.getElementById(
+        "ratingCard"
+      );
+
+
+    if (
+      !currentUser
+    ) {
+
+      return;
+
+    }
+
+
+    ratingCard.style.display =
+      "block";
+
+
+    const {
+      data: reviews,
+      error: reviewsError
+    } = await supabaseClient
+
+      .from(
+        "technician_reviews"
+      )
+
+      .select(
+        "id,rating,comment,created_at"
+      )
+
+      .eq(
+        "technician_id",
+        currentUser.id
+      )
+
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
+      );
+
+
+    if (
+      reviewsError
+    ) {
+
+      console.error(
+        reviewsError
+      );
+
+      document.getElementById(
+        "reviewsList"
+      ).innerHTML = `
+
+        <div class="no-reviews">
+
+          تعذر تحميل التقييمات.
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    const reviewData =
+      reviews || [];
+
+
+    /* متوسط التقييم */
+
+    let average = 0;
+
+
+    if (
+      reviewData.length > 0
+    ) {
+
+      const total =
+        reviewData.reduce(
+          (
+            sum,
+            review
+          ) =>
+            sum +
+            Number(
+              review.rating
+            ),
+          0
+        );
+
+
+      average =
+        total /
+        reviewData.length;
+
+    }
+
+
+    const averageRounded =
+      average.toFixed(1);
+
+
+    document.getElementById(
+      "averageRating"
+    ).textContent =
+      averageRounded;
+
+
+    document.getElementById(
+      "averageRatingText"
+    ).textContent =
+      averageRounded +
+      " / 5";
+
+
+    document.getElementById(
+      "ratingCount"
+    ).textContent =
+
+      reviewData.length === 0
+
+        ? "لا توجد تقييمات"
+
+        : reviewData.length +
+          " تقييم";
+
+
+    document.getElementById(
+      "ratingStars"
+    ).textContent =
+      createStars(
+        average
+      );
+
+
+    /* مستوى الفني */
+
+    const level =
+      getTechnicianLevel(
+        average,
+        reviewData.length
+      );
+
+
+    document.getElementById(
+      "ratingLevel"
+    ).textContent =
+      level;
+
+
+    document.getElementById(
+      "levelText"
+    ).textContent =
+      level;
+
+
+    /* آخر التقييمات */
+
+    const reviewsList =
+      document.getElementById(
+        "reviewsList"
+      );
+
+
+    if (
+      reviewData.length === 0
+    ) {
+
+      reviewsList.innerHTML = `
+
+        <div class="no-reviews">
+
+          لم تحصل على تقييمات بعد.
+          أكمل طلباتك واطلب من العملاء تقييم الخدمة.
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    reviewsList.innerHTML =
+
+      reviewData
+        .slice(0,5)
+        .map(
+          createReviewCard
+        )
+        .join("");
+
+  }
+
+
+  /* =========================
+     عدد النجوم
+  ========================= */
+
+  function createStars(
+    rating
+  ) {
+
+    const rounded =
+      Math.round(
+        Number(rating)
+      );
+
+
+    let stars = "";
+
+
+    for (
+      let i = 1;
+      i <= 5;
+      i++
+    ) {
+
+      stars +=
+        i <= rounded
+          ? "★"
+          : "☆";
+
+    }
+
+
+    return stars;
+
+  }
+
+
+  /* =========================
+     مستوى الفني
+  ========================= */
+
+  function getTechnicianLevel(
+    average,
+    count
+  ) {
+
+    if (
+      count === 0
+    ) {
+
+      return "فني جديد";
+
+    }
+
+
+    if (
+      average >= 4.7 &&
+      count >= 10
+    ) {
+
+      return "فني ممتاز";
+
+    }
+
+
+    if (
+      average >= 4.3 &&
+      count >= 5
+    ) {
+
+      return "فني مميز";
+
+    }
+
+
+    if (
+      average >= 4 &&
+      count >= 3
+    ) {
+
+      return "فني موثوق";
+
+    }
+
+
+    return "فني نشط";
+
+  }
+
+
+  /* =========================
+     بطاقة التقييم
+  ========================= */
+
+  function createReviewCard(
+    review
+  ) {
+
+    const stars =
+      createStars(
+        Number(
+          review.rating
+        )
+      );
+
+
+    const comment =
+      review.comment ||
+      "لم يكتب العميل تعليقًا.";
+
+
+    return `
+
+      <div class="review-item">
+
+        <div class="review-top">
+
+          <div class="review-stars">
+
+            ${stars}
+
+          </div>
+
+
+          <div class="review-date">
+
+            ${formatDate(
+              review.created_at
+            )}
+
+          </div>
+
+        </div>
+
+
+        <div class="review-comment">
+
+          ${escapeHTML(
+            comment
+          )}
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* =========================
+     تاريخ التقييم
+  ========================= */
+
+  function formatDate(
+    value
+  ) {
+
+    if (
+      !value
+    ) {
+
+      return "-";
+
+    }
+
+
+    const date =
+      new Date(
+        value
+      );
+
+
+    if (
+      Number.isNaN(
+        date.getTime()
+      )
+    ) {
+
+      return String(
+        value
+      );
+
+    }
+
+
+    return date.toLocaleDateString(
+      "ar-JO",
+      {
+        year:
+          "numeric",
+        month:
+          "2-digit",
+        day:
+          "2-digit"
+      }
+    );
+
+  }
+
+
+  /* =========================
+     تحديث حالة الطلب
   ========================= */
 
   async function updateStatus(
@@ -808,8 +1774,12 @@
     newStatus
   ) {
 
-    if (!currentUser) {
+    if (
+      !currentUser
+    ) {
+
       return;
+
     }
 
 
@@ -817,28 +1787,41 @@
 
 
     if (
-      newStatus === "قيد التنفيذ"
+      newStatus ===
+      "قيد التنفيذ"
     ) {
 
       confirmation =
         "هل تريد قبول طلب الصيانة؟";
 
-    } else if (
-      newStatus === "مرفوض"
+    }
+
+    else if (
+      newStatus ===
+      "مرفوض"
     ) {
 
       confirmation =
         "هل تريد رفض طلب الصيانة؟";
 
-    } else {
+    }
+
+    else {
 
       confirmation =
         "هل تريد إنهاء طلب الصيانة؟";
+
     }
 
 
-    if (!confirm(confirmation)) {
+    if (
+      !confirm(
+        confirmation
+      )
+    ) {
+
       return;
+
     }
 
 
@@ -848,39 +1831,62 @@
     );
 
 
-    /* نص الإشعار */
-
     const notification =
-      newStatus === "قيد التنفيذ"
+
+      newStatus ===
+      "قيد التنفيذ"
+
         ? "تم قبول طلب الصيانة من قبل الفني، والطلب الآن قيد التنفيذ."
-        : newStatus === "مكتمل"
+
+        : newStatus ===
+          "مكتمل"
+
         ? "تم إكمال طلب الصيانة."
-        : newStatus === "مرفوض"
+
+        : newStatus ===
+          "مرفوض"
+
         ? "تم رفض طلب الصيانة."
+
         : "";
 
-
-    /* تحديث الطلب */
 
     const {
       error
     } =
+
       await supabaseClient
-        .from("service_requests")
+
+        .from(
+          "service_requests"
+        )
+
         .update({
-          status: newStatus,
-          customer_notification: notification,
-          notification_read: false
+
+          status:
+            newStatus,
+
+          customer_notification:
+            notification,
+
+          notification_read:
+            false
+
         })
+
         .eq(
           "id",
           requestId
         );
 
 
-    if (error) {
+    if (
+      error
+    ) {
 
-      console.error(error);
+      console.error(
+        error
+      );
 
       showMessage(
         "تعذر تحديث حالة الطلب: " +
@@ -889,6 +1895,7 @@
       );
 
       return;
+
     }
 
 
@@ -899,6 +1906,17 @@
 
 
     await loadRequests();
+
+
+    /*
+      إذا تم إنهاء الطلب،
+      نعيد تحميل التقييمات
+      حتى يتحدث عدد الطلبات
+      والتقييمات مباشرة.
+    */
+
+    await loadTechnicianRating();
+
   }
 
 
@@ -908,10 +1926,14 @@
 
   async function logout() {
 
-    await supabaseClient.auth.signOut();
+    await supabaseClient
+      .auth
+      .signOut();
+
 
     window.location.href =
       "login.html";
+
   }
 
 
@@ -925,12 +1947,19 @@
       await checkTechnician();
 
 
-    if (!allowed) {
+    if (
+      !allowed
+    ) {
+
       return;
+
     }
 
 
     await loadRequests();
+
+    await loadTechnicianRating();
+
   }
 
 
