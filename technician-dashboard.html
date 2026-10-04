@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,59 +10,60 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, Tahoma, sans-serif;
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,Tahoma,sans-serif;
 }
 
-body {
-  background: #f4f7fb;
-  color: #172033;
-  min-height: 100vh;
+body{
+  background:#f4f7fb;
+  color:#172033;
+  min-height:100vh;
 }
 
-header {
-  background: linear-gradient(135deg, #071d3a, #0d47a1);
-  color: white;
-  padding: 22px 18px;
-  box-shadow: 0 4px 15px rgba(0,0,0,.12);
+header{
+  background:linear-gradient(135deg,#071d3a,#0d47a1);
+  color:white;
+  padding:22px 18px;
+  box-shadow:0 4px 15px rgba(0,0,0,.12);
 }
 
-.header-inner {
-  max-width: 1100px;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
+.header-inner{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
 }
 
-.brand h1 {
-  font-size: 25px;
-  margin-bottom: 5px;
+.brand h1{
+  font-size:25px;
+  margin-bottom:5px;
 }
 
-.brand p {
-  opacity: .85;
-  font-size: 14px;
+.brand p{
+  opacity:.85;
+  font-size:14px;
 }
 
-.logout {
-  border: 0;
-  background: #fff;
-  color: #0d47a1;
-  padding: 10px 16px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: bold;
+.logout{
+  border:0;
+  background:#fff;
+  color:#0d47a1;
+  padding:10px 16px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
 }
 
-main {
-  max-width: 1100px;
-  margin: 25px auto;
-  padding: 0 15px 40px;
+main{
+  max-width:1100px;
+  margin:25px auto;
+  padding:0 15px 40px;
 }
 
 .welcome,
@@ -69,698 +71,899 @@ main {
 .rating-card,
 .stat,
 .request-card,
-.empty {
-  background: white;
-  box-shadow: 0 3px 15px rgba(0,0,0,.06);
+.empty{
+  background:white;
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
 }
 
-.welcome {
-  padding: 20px;
-  border-radius: 16px;
-  margin-bottom: 20px;
+.welcome{
+  padding:20px;
+  border-radius:16px;
+  margin-bottom:20px;
 }
 
-.welcome h2 {
-  color: #0d47a1;
-  margin-bottom: 7px;
+.welcome h2{
+  color:#0d47a1;
+  margin-bottom:7px;
 }
 
 /* حالة الفني */
 
-.availability-card {
-  padding: 20px;
-  border-radius: 16px;
-  margin-bottom: 20px;
+.availability-card{
+  padding:20px;
+  border-radius:16px;
+  margin-bottom:20px;
 }
 
-.availability-title {
-  font-size: 19px;
-  font-weight: bold;
-  margin-bottom: 8px;
+.availability-title{
+  font-size:19px;
+  font-weight:bold;
+  margin-bottom:8px;
 }
 
-.availability-description {
-  color: #667085;
-  font-size: 13px;
-  margin-bottom: 15px;
-  line-height: 1.7;
+.availability-description{
+  color:#667085;
+  font-size:13px;
+  margin-bottom:15px;
+  line-height:1.7;
 }
 
-.availability-buttons {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+.availability-buttons{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
 }
 
-.availability-btn {
-  border: 0;
-  padding: 11px 18px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: bold;
+.availability-btn{
+  border:0;
+  padding:11px 18px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
 }
 
-.available {
-  background: #dcfae6;
-  color: #067647;
+.available{
+  background:#dcfae6;
+  color:#067647;
 }
 
-.busy {
-  background: #fff4cc;
-  color: #8a5b00;
+.busy{
+  background:#fff4cc;
+  color:#8a5b00;
 }
 
-.unavailable {
-  background: #fee4e2;
-  color: #b42318;
+.unavailable{
+  background:#fee4e2;
+  color:#b42318;
 }
 
-.availability-btn.active {
-  outline: 3px solid rgba(13,71,161,.15);
-  transform: translateY(-1px);
+.availability-btn.active{
+  outline:3px solid rgba(13,71,161,.15);
+  transform:translateY(-1px);
 }
 
-.current-availability {
-  margin-top: 12px;
-  font-size: 13px;
-  font-weight: bold;
-  color: #0d47a1;
+.current-availability{
+  margin-top:12px;
+  font-size:13px;
+  font-weight:bold;
+  color:#0d47a1;
 }
 
 /* التقييم */
 
-.rating-card {
-  background: linear-gradient(135deg,#ffffff,#f7faff);
-  padding: 22px;
-  border-radius: 17px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 18px rgba(0,0,0,.07);
-  border-right: 5px solid #f59e0b;
+.rating-card{
+  background:linear-gradient(135deg,#ffffff,#f7faff);
+  padding:22px;
+  border-radius:17px;
+  margin-bottom:20px;
+  box-shadow:0 4px 18px rgba(0,0,0,.07);
+  border-right:5px solid #f59e0b;
 }
 
-.rating-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 18px;
-  flex-wrap: wrap;
+.rating-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:18px;
+  flex-wrap:wrap;
 }
 
-.rating-title {
-  font-size: 20px;
-  font-weight: bold;
+.rating-title{
+  font-size:20px;
+  font-weight:bold;
 }
 
-.rating-level {
-  background: #fff7d6;
-  color: #8a5b00;
-  padding: 8px 13px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
+.rating-level{
+  background:#fff7d6;
+  color:#8a5b00;
+  padding:8px 13px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
 }
 
-.rating-main {
-  display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 20px;
-  align-items: center;
+.rating-main{
+  display:grid;
+  grid-template-columns:180px 1fr;
+  gap:20px;
+  align-items:center;
 }
 
-.rating-score {
-  text-align: center;
-  padding: 15px;
-  background: #fffaf0;
-  border-radius: 14px;
+.rating-score{
+  text-align:center;
+  padding:15px;
+  background:#fffaf0;
+  border-radius:14px;
 }
 
-.rating-number {
-  display: block;
-  font-size: 38px;
-  font-weight: bold;
-  color: #d97706;
-  margin-bottom: 5px;
+.rating-number{
+  display:block;
+  font-size:38px;
+  font-weight:bold;
+  color:#d97706;
+  margin-bottom:5px;
 }
 
 .rating-stars,
-.review-stars {
-  color: #f59e0b;
-  direction: ltr;
+.review-stars{
+  color:#f59e0b;
+  direction:ltr;
 }
 
-.rating-stars {
-  font-size: 22px;
-  letter-spacing: 2px;
+.rating-stars{
+  font-size:22px;
+  letter-spacing:2px;
 }
 
-.rating-count {
-  display: block;
-  color: #667085;
-  font-size: 12px;
-  margin-top: 7px;
+.rating-count{
+  display:block;
+  color:#667085;
+  font-size:12px;
+  margin-top:7px;
 }
 
-.rating-info {
-  display: grid;
-  gap: 10px;
+.rating-info{
+  display:grid;
+  gap:10px;
 }
 
-.rating-info-item {
-  background: #f8fafc;
-  border: 1px solid #e4e7ec;
-  border-radius: 11px;
-  padding: 12px 14px;
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
+.rating-info-item{
+  background:#f8fafc;
+  border:1px solid #e4e7ec;
+  border-radius:11px;
+  padding:12px 14px;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
 }
 
-.rating-info-label {
-  color: #667085;
-  font-size: 13px;
+.rating-info-label{
+  color:#667085;
+  font-size:13px;
 }
 
-.rating-info-value {
-  font-weight: bold;
-  color: #101828;
+.rating-info-value{
+  font-weight:bold;
+  color:#101828;
 }
 
-.reviews-title {
-  margin-top: 20px;
-  margin-bottom: 12px;
-  font-size: 16px;
-  font-weight: bold;
+.reviews-title{
+  margin-top:20px;
+  margin-bottom:12px;
+  font-size:16px;
+  font-weight:bold;
 }
 
-.reviews-list {
-  display: grid;
-  gap: 10px;
+.reviews-list{
+  display:grid;
+  gap:10px;
 }
 
-.review-item {
-  background: #f8fafc;
-  border: 1px solid #e4e7ec;
-  border-radius: 12px;
-  padding: 13px;
+.review-item{
+  background:#f8fafc;
+  border:1px solid #e4e7ec;
+  border-radius:12px;
+  padding:13px;
 }
 
-.review-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 7px;
+.review-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:7px;
 }
 
-.review-stars {
-  font-size: 15px;
+.review-stars{
+  font-size:15px;
 }
 
-.review-date {
-  color: #98a2b3;
-  font-size: 10px;
+.review-date{
+  color:#98a2b3;
+  font-size:10px;
 }
 
-.review-comment {
-  color: #475467;
-  font-size: 12px;
-  line-height: 1.7;
+.review-comment{
+  color:#475467;
+  font-size:12px;
+  line-height:1.7;
 }
 
-.no-reviews {
-  color: #667085;
-  font-size: 12px;
-  background: #f8fafc;
-  padding: 13px;
-  border-radius: 10px;
+.no-reviews{
+  color:#667085;
+  font-size:12px;
+  background:#f8fafc;
+  padding:13px;
+  border-radius:10px;
 }
 
 /* الإحصائيات */
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 15px;
-  margin-bottom: 25px;
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-bottom:25px;
 }
 
-.stat {
-  padding: 18px;
-  border-radius: 15px;
-  text-align: center;
+.stat{
+  padding:18px;
+  border-radius:15px;
+  text-align:center;
 }
 
-.stat-number {
-  display: block;
-  font-size: 30px;
-  font-weight: bold;
-  color: #0d47a1;
-  margin-bottom: 6px;
+.stat-number{
+  display:block;
+  font-size:30px;
+  font-weight:bold;
+  color:#0d47a1;
+  margin-bottom:6px;
 }
 
-.stat-label {
-  color: #667085;
-  font-size: 14px;
+.stat-label{
+  color:#667085;
+  font-size:14px;
 }
 
-.section-title {
-  margin-bottom: 15px;
-  font-size: 22px;
+.section-title{
+  margin-bottom:15px;
+  font-size:22px;
 }
 
-#message {
-  display: none;
-  padding: 14px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  text-align: center;
-  font-weight: bold;
+#message{
+  display:none;
+  padding:14px;
+  border-radius:10px;
+  margin-bottom:15px;
+  text-align:center;
+  font-weight:bold;
 }
 
-#message.success {
-  background: #e8f7ee;
-  color: #16703b;
+#message.success{
+  background:#e8f7ee;
+  color:#16703b;
 }
 
-#message.error {
-  background: #fdecec;
-  color: #b42318;
+#message.error{
+  background:#fdecec;
+  color:#b42318;
 }
 
-#message.loading {
-  background: #eef4ff;
-  color: #175cd3;
+#message.loading{
+  background:#eef4ff;
+  color:#175cd3;
 }
 
-.requests {
-  display: grid;
-  gap: 18px;
+.requests{
+  display:grid;
+  gap:18px;
 }
 
-.request-card {
-  border-radius: 17px;
-  padding: 20px;
-  border-right: 5px solid #0d47a1;
+.request-card{
+  border-radius:17px;
+  padding:20px;
+  border-right:5px solid #0d47a1;
 }
 
-.request-card.new-request {
-  border-right-color: #f59e0b;
+.request-card.new-request{
+  border-right-color:#f59e0b;
 }
 
-.request-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 15px;
-  flex-wrap: wrap;
+.request-card.price-waiting{
+  border-right-color:#8b5cf6;
 }
 
-.request-number {
-  color: #0d47a1;
-  font-size: 18px;
-  font-weight: bold;
+.request-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  margin-bottom:15px;
+  flex-wrap:wrap;
 }
 
-.status {
-  padding: 6px 11px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: bold;
-  background: #fff4cc;
-  color: #8a5b00;
+.request-number{
+  color:#0d47a1;
+  font-size:18px;
+  font-weight:bold;
 }
 
-.status-road {
-  background: #e0f2fe;
-  color: #0369a1;
+.status{
+  padding:6px 11px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:bold;
+  background:#fff4cc;
+  color:#8a5b00;
 }
 
-.status-working {
-  background: #eef4ff;
-  color: #175cd3;
+.status-road{
+  background:#e0f2fe;
+  color:#0369a1;
 }
 
-.status-completed {
-  background: #dcfae6;
-  color: #067647;
+.status-working{
+  background:#eef4ff;
+  color:#175cd3;
 }
 
-.status-rejected {
-  background: #fee4e2;
-  color: #b42318;
+.status-completed{
+  background:#dcfae6;
+  color:#067647;
 }
 
-.details {
-  display: grid;
-  gap: 9px;
-  margin-bottom: 18px;
+.status-rejected{
+  background:#fee4e2;
+  color:#b42318;
 }
 
-.detail {
-  line-height: 1.6;
-  color: #344054;
+.status-price{
+  background:#f3e8ff;
+  color:#7e22ce;
 }
 
-.detail strong {
-  color: #101828;
+.details{
+  display:grid;
+  gap:9px;
+  margin-bottom:18px;
 }
 
-.match-badge {
-  display: inline-block;
-  background: #ecfdf3;
-  color: #067647;
-  padding: 5px 9px;
-  border-radius: 8px;
-  font-size: 11px;
-  font-weight: bold;
-  margin-top: 4px;
+.detail{
+  line-height:1.6;
+  color:#344054;
 }
 
-.buttons {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+.detail strong{
+  color:#101828;
 }
 
-button.action {
-  border: 0;
-  padding: 11px 17px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 14px;
+.match-badge{
+  display:inline-block;
+  background:#ecfdf3;
+  color:#067647;
+  padding:5px 9px;
+  border-radius:8px;
+  font-size:11px;
+  font-weight:bold;
+  margin-top:4px;
 }
 
-.accept {
-  background: #0d47a1;
-  color: white;
+/* عرض السعر */
+
+.price-box{
+  background:#f8fafc;
+  border:1px solid #e4e7ec;
+  border-radius:14px;
+  padding:16px;
+  margin:15px 0;
 }
 
-.reject {
-  background: #fee4e2;
-  color: #b42318;
+.price-box.pending{
+  background:#faf5ff;
+  border-color:#d8b4fe;
 }
 
-.road {
-  background: #e0f2fe;
-  color: #0369a1;
+.price-box.approved{
+  background:#ecfdf3;
+  border-color:#86efac;
 }
 
-.start-work {
-  background: #eef4ff;
-  color: #175cd3;
+.price-box.rejected{
+  background:#fef2f2;
+  border-color:#fecaca;
 }
 
-.finish {
-  background: #dcfae6;
-  color: #067647;
+.price-title{
+  font-size:16px;
+  font-weight:bold;
+  margin-bottom:12px;
 }
 
-button.action:disabled {
-  opacity: .5;
-  cursor: not-allowed;
+.price-label{
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  color:#344054;
+  margin-bottom:6px;
 }
 
-.empty {
-  padding: 35px 20px;
-  text-align: center;
-  border-radius: 16px;
-  color: #667085;
+.price-input,
+.price-notes{
+  width:100%;
+  border:1px solid #d0d5dd;
+  background:#fff;
+  border-radius:10px;
+  padding:11px;
+  font-size:14px;
+  outline:none;
+  margin-bottom:10px;
 }
 
-@media(max-width:700px) {
+.price-input:focus,
+.price-notes:focus{
+  border-color:#0d47a1;
+}
 
-  .header-inner {
-    align-items: flex-start;
-    flex-direction: column;
+.price-notes{
+  min-height:80px;
+  resize:vertical;
+}
+
+.price-amount{
+  font-size:25px;
+  font-weight:bold;
+  color:#0d47a1;
+  margin-bottom:6px;
+}
+
+.price-status{
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.price-waiting-text{
+  color:#7e22ce;
+}
+
+.price-approved-text{
+  color:#067647;
+}
+
+.price-rejected-text{
+  color:#b42318;
+}
+
+.price-hint{
+  color:#667085;
+  font-size:12px;
+  line-height:1.6;
+  margin-bottom:12px;
+}
+
+.buttons{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+button.action{
+  border:0;
+  padding:11px 17px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:14px;
+}
+
+.accept{
+  background:#0d47a1;
+  color:white;
+}
+
+.reject{
+  background:#fee4e2;
+  color:#b42318;
+}
+
+.road{
+  background:#e0f2fe;
+  color:#0369a1;
+}
+
+.start-work{
+  background:#eef4ff;
+  color:#175cd3;
+}
+
+.finish{
+  background:#dcfae6;
+  color:#067647;
+}
+
+.price-button{
+  background:#7c3aed;
+  color:#fff;
+}
+
+button.action:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.empty{
+  padding:35px 20px;
+  text-align:center;
+  border-radius:16px;
+  color:#667085;
+}
+
+/* إشعار موافقة العميل */
+
+.customer-approved{
+  background:#ecfdf3;
+  color:#067647;
+  padding:12px;
+  border-radius:10px;
+  font-weight:bold;
+  margin:10px 0;
+}
+
+.customer-rejected{
+  background:#fef2f2;
+  color:#b42318;
+  padding:12px;
+  border-radius:10px;
+  font-weight:bold;
+  margin:10px 0;
+}
+
+@media(max-width:700px){
+
+  .header-inner{
+    align-items:flex-start;
+    flex-direction:column;
   }
 
-  .stats {
-    grid-template-columns: 1fr;
+  .stats{
+    grid-template-columns:1fr;
   }
 
-  .request-card {
-    padding: 16px;
+  .request-card{
+    padding:16px;
   }
 
-  .rating-main {
-    grid-template-columns: 1fr;
+  .rating-main{
+    grid-template-columns:1fr;
   }
 
-  .rating-card {
-    padding: 17px;
+  .rating-card{
+    padding:17px;
   }
 
-  .availability-buttons {
-    display: grid;
-    grid-template-columns: 1fr;
+  .availability-buttons{
+    display:grid;
+    grid-template-columns:1fr;
   }
 
-  .availability-btn {
-    width: 100%;
+  .availability-btn{
+    width:100%;
   }
+
+  .buttons{
+    display:grid;
+    grid-template-columns:1fr;
+  }
+
+  button.action{
+    width:100%;
+  }
+
 }
+
 </style>
+
 </head>
 
 <body>
 
 <header>
-  <div class="header-inner">
 
-    <div class="brand">
-      <h1>فني برو</h1>
-      <p>لوحة تحكم الفني</p>
-    </div>
+<div class="header-inner">
 
-    <button class="logout" onclick="logout()">
-      تسجيل الخروج
-    </button>
+<div class="brand">
 
-  </div>
+<h1>
+فني برو
+</h1>
+
+<p>
+لوحة تحكم الفني
+</p>
+
+</div>
+
+<button
+class="logout"
+onclick="logout()">
+
+تسجيل الخروج
+
+</button>
+
+</div>
+
 </header>
+
 
 <main>
 
-  <div class="welcome">
-    <h2>مرحبًا بك</h2>
+<div class="welcome">
 
-    <p id="technicianEmail">
-      جاري التحقق من الحساب...
-    </p>
-  </div>
+<h2>
+مرحبًا بك
+</h2>
 
+<p id="technicianEmail">
+جاري التحقق من الحساب...
+</p>
 
-  <!-- حالة الفني -->
-
-  <div class="availability-card">
-
-    <div class="availability-title">
-      حالة توفر الفني
-    </div>
-
-    <div class="availability-description">
-      عندما تكون "متاح" ستظهر لك الطلبات الجديدة المطابقة لتخصصك.
-      عند اختيار "مشغول" أو "غير متاح" لن تستقبل طلبات جديدة.
-    </div>
-
-    <div class="availability-buttons">
-
-      <button
-        id="availableBtn"
-        class="availability-btn available"
-        onclick="setAvailability('متاح')">
-        متاح
-      </button>
-
-      <button
-        id="busyBtn"
-        class="availability-btn busy"
-        onclick="setAvailability('مشغول')">
-        مشغول
-      </button>
-
-      <button
-        id="unavailableBtn"
-        class="availability-btn unavailable"
-        onclick="setAvailability('غير متاح')">
-        غير متاح
-      </button>
-
-    </div>
-
-    <div
-      id="availabilityText"
-      class="current-availability">
-      جاري معرفة الحالة...
-    </div>
-
-  </div>
+</div>
 
 
-  <!-- التقييم -->
+<!-- حالة الفني -->
 
-  <div
-    id="ratingCard"
-    class="rating-card"
-    style="display:none">
+<div class="availability-card">
 
-    <div class="rating-header">
+<div class="availability-title">
+حالة توفر الفني
+</div>
 
-      <div class="rating-title">
-        تقييمك كفني
-      </div>
+<div class="availability-description">
 
-      <div
-        id="ratingLevel"
-        class="rating-level">
-        فني جديد
-      </div>
+عندما تكون "متاح" ستظهر لك الطلبات الجديدة المطابقة لتخصصك.
+عند اختيار "مشغول" أو "غير متاح" لن تستقبل طلبات جديدة.
 
-    </div>
+</div>
 
-    <div class="rating-main">
+<div class="availability-buttons">
 
-      <div class="rating-score">
+<button
+id="availableBtn"
+class="availability-btn available"
+onclick="setAvailability('متاح')">
 
-        <span
-          id="averageRating"
-          class="rating-number">
-          0.0
-        </span>
+متاح
 
-        <div
-          id="ratingStars"
-          class="rating-stars">
-          ☆☆☆☆☆
-        </div>
+</button>
 
-        <span
-          id="ratingCount"
-          class="rating-count">
-          لا توجد تقييمات
-        </span>
+<button
+id="busyBtn"
+class="availability-btn busy"
+onclick="setAvailability('مشغول')">
 
-      </div>
+مشغول
 
-      <div class="rating-info">
+</button>
 
-        <div class="rating-info-item">
-          <span class="rating-info-label">
-            الطلبات المكتملة
-          </span>
+<button
+id="unavailableBtn"
+class="availability-btn unavailable"
+onclick="setAvailability('غير متاح')">
 
-          <span
-            id="completedJobs"
-            class="rating-info-value">
-            0
-          </span>
-        </div>
+غير متاح
 
-        <div class="rating-info-item">
-          <span class="rating-info-label">
-            متوسط التقييم
-          </span>
+</button>
 
-          <span
-            id="averageRatingText"
-            class="rating-info-value">
-            0.0 / 5
-          </span>
-        </div>
+</div>
 
-        <div class="rating-info-item">
-          <span class="rating-info-label">
-            مستوى الفني
-          </span>
+<div
+id="availabilityText"
+class="current-availability">
 
-          <span
-            id="levelText"
-            class="rating-info-value">
-            فني جديد
-          </span>
-        </div>
+جاري معرفة الحالة...
 
-      </div>
+</div>
 
-    </div>
-
-    <div class="reviews-title">
-      آخر تقييمات العملاء
-    </div>
-
-    <div
-      id="reviewsList"
-      class="reviews-list">
-
-      <div class="no-reviews">
-        جاري تحميل التقييمات...
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 
-  <!-- الإحصائيات -->
+<!-- التقييم -->
 
-  <div class="stats">
+<div
+id="ratingCard"
+class="rating-card"
+style="display:none">
 
-    <div class="stat">
-      <span
-        class="stat-number"
-        id="newCount">
-        0
-      </span>
+<div class="rating-header">
 
-      <span class="stat-label">
-        طلبات جديدة
-      </span>
-    </div>
+<div class="rating-title">
+تقييمك كفني
+</div>
 
-    <div class="stat">
-      <span
-        class="stat-number"
-        id="workingCount">
-        0
-      </span>
+<div
+id="ratingLevel"
+class="rating-level">
 
-      <span class="stat-label">
-        طلبات قيد التنفيذ
-      </span>
-    </div>
+فني جديد
 
-    <div class="stat">
-      <span
-        class="stat-number"
-        id="finishedCount">
-        0
-      </span>
+</div>
 
-      <span class="stat-label">
-        طلبات مكتملة
-      </span>
-    </div>
+</div>
 
-  </div>
+<div class="rating-main">
+
+<div class="rating-score">
+
+<span
+id="averageRating"
+class="rating-number">
+
+0.0
+
+</span>
+
+<div
+id="ratingStars"
+class="rating-stars">
+
+☆☆☆☆☆
+
+</div>
+
+<span
+id="ratingCount"
+class="rating-count">
+
+لا توجد تقييمات
+
+</span>
+
+</div>
+
+<div class="rating-info">
+
+<div class="rating-info-item">
+
+<span class="rating-info-label">
+الطلبات المكتملة
+</span>
+
+<span
+id="completedJobs"
+class="rating-info-value">
+
+0
+
+</span>
+
+</div>
+
+<div class="rating-info-item">
+
+<span class="rating-info-label">
+متوسط التقييم
+</span>
+
+<span
+id="averageRatingText"
+class="rating-info-value">
+
+0.0 / 5
+
+</span>
+
+</div>
+
+<div class="rating-info-item">
+
+<span class="rating-info-label">
+مستوى الفني
+</span>
+
+<span
+id="levelText"
+class="rating-info-value">
+
+فني جديد
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="reviews-title">
+آخر تقييمات العملاء
+</div>
+
+<div
+id="reviewsList"
+class="reviews-list">
+
+<div class="no-reviews">
+جاري تحميل التقييمات...
+</div>
+
+</div>
+
+</div>
 
 
-  <div id="message"></div>
+<!-- الإحصائيات -->
 
-  <h2 class="section-title">
-    طلبات الصيانة
-  </h2>
+<div class="stats">
 
-  <div
-    id="requests"
-    class="requests">
+<div class="stat">
 
-    <div class="empty">
-      جاري تحميل الطلبات...
-    </div>
+<span
+class="stat-number"
+id="newCount">
 
-  </div>
+0
+
+</span>
+
+<span class="stat-label">
+طلبات جديدة
+</span>
+
+</div>
+
+<div class="stat">
+
+<span
+class="stat-number"
+id="workingCount">
+
+0
+
+</span>
+
+<span class="stat-label">
+طلبات قيد التنفيذ
+</span>
+
+</div>
+
+<div class="stat">
+
+<span
+class="stat-number"
+id="finishedCount">
+
+0
+
+</span>
+
+<span class="stat-label">
+طلبات مكتملة
+</span>
+
+</div>
+
+</div>
+
+
+<div id="message"></div>
+
+
+<h2 class="section-title">
+طلبات الصيانة
+</h2>
+
+
+<div
+id="requests"
+class="requests">
+
+<div class="empty">
+جاري تحميل الطلبات...
+</div>
+
+</div>
 
 </main>
 
@@ -772,49 +975,53 @@ button.action:disabled {
 ===================================== */
 
 const SUPABASE_URL =
-  "https://yesmnsztcqnhaqrcgpcs.supabase.co";
+"https://yesmnsztcqnhaqrcgpcs.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_fUX7DXedpKF3OyBpDQ9kAQ_RRQpnIuB";
+"sb_publishable_fUX7DXedpKF3OyBpDQ9kAQ_RRQpnIuB";
 
 const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
 
-let currentUser = null;
-let currentRole = null;
-let technicianData = null;
+let currentUser=null;
+let currentRole=null;
+let technicianData=null;
 
 
 /* =====================================
    الرسائل
 ===================================== */
 
-function showMessage(text, type = "loading") {
+function showMessage(
+text,
+type="loading"
+){
 
-  const box =
-    document.getElementById("message");
+const box=
+document.getElementById("message");
 
-  box.textContent = text;
+box.textContent=text;
 
-  box.className = "";
+box.className="";
 
-  box.id = "message";
+box.id="message";
 
-  box.classList.add(type);
+box.classList.add(type);
 
-  box.style.display = "block";
+box.style.display="block";
 
-  if (type !== "loading") {
+if(type!=="loading"){
 
-    setTimeout(() => {
-      box.style.display = "none";
-    }, 3500);
+setTimeout(()=>{
+box.style.display="none";
+},4000);
 
-  }
+}
+
 }
 
 
@@ -822,21 +1029,22 @@ function showMessage(text, type = "loading") {
    حماية HTML
 ===================================== */
 
-function escapeHTML(value) {
+function escapeHTML(value){
 
-  if (
-    value === null ||
-    value === undefined
-  ) {
-    return "";
-  }
+if(
+value===null ||
+value===undefined
+){
+return "";
+}
 
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
 }
 
 
@@ -844,178 +1052,196 @@ function escapeHTML(value) {
    التحقق من الحساب
 ===================================== */
 
-async function checkTechnician() {
+async function checkTechnician(){
 
-  const {
-    data: {
-      user
-    },
-    error
-  } =
-    await supabaseClient.auth.getUser();
-
-
-  if (
-    error ||
-    !user
-  ) {
-
-    window.location.href =
-      "login.html";
-
-    return false;
-  }
+const {
+data:{
+user
+},
+error
+}=
+await supabaseClient
+.auth
+.getUser();
 
 
-  currentUser = user;
+if(error || !user){
+
+window.location.href="login.html";
+
+return false;
+
+}
 
 
-  const {
-    data: roleData,
-    error: roleError
-  } =
-    await supabaseClient
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", user.id)
-      .maybeSingle();
+currentUser=user;
 
 
-  if (roleError) {
-
-    console.error(roleError);
-
-    showMessage(
-      "تعذر التحقق من صلاحيات الحساب: " +
-      roleError.message,
-      "error"
-    );
-
-    return false;
-  }
-
-
-  if (!roleData) {
-
-    document.getElementById(
-      "requests"
-    ).innerHTML = `
-      <div class="empty">
-        لا توجد صلاحية لهذا الحساب.
-      </div>
-    `;
-
-    return false;
-  }
+const {
+data:roleData,
+error:roleError
+}=
+await supabaseClient
+.from("user_roles")
+.select("role")
+.eq(
+"user_id",
+user.id
+)
+.maybeSingle();
 
 
-  currentRole =
-    String(roleData.role)
-      .toLowerCase()
-      .trim();
+if(roleError){
+
+console.error(roleError);
+
+showMessage(
+"تعذر التحقق من صلاحيات الحساب: "+
+roleError.message,
+"error"
+);
+
+return false;
+
+}
 
 
-  if (
-    currentRole !== "technician" &&
-    currentRole !== "admin"
-  ) {
+if(!roleData){
 
-    document.getElementById(
-      "requests"
-    ).innerHTML = `
-      <div class="empty">
-        هذا الحساب ليس لديه صلاحية فني أو إدارة.
-      </div>
-    `;
+document.getElementById(
+"requests"
+).innerHTML=`
 
-    return false;
-  }
+<div class="empty">
 
+لا توجد صلاحية لهذا الحساب.
 
-  document.getElementById(
-    "technicianEmail"
-  ).textContent =
+</div>
 
-    "الحساب: " +
-    (
-      user.email ||
-      "المستخدم"
-    ) +
-    " — الصلاحية: " +
-    (
-      currentRole === "admin"
-        ? "مدير"
-        : "فني"
-    );
+`;
+
+return false;
+
+}
 
 
-  return true;
+currentRole=
+String(roleData.role)
+.toLowerCase()
+.trim();
+
+
+if(
+currentRole!=="technician" &&
+currentRole!=="admin"
+){
+
+document.getElementById(
+"requests"
+).innerHTML=`
+
+<div class="empty">
+
+هذا الحساب ليس لديه صلاحية فني أو إدارة.
+
+</div>
+
+`;
+
+return false;
+
+}
+
+
+document.getElementById(
+"technicianEmail"
+).textContent=
+
+"الحساب: "+
+(
+user.email ||
+"المستخدم"
+)+
+" — الصلاحية: "+
+(
+currentRole==="admin"
+?"مدير"
+:"فني"
+);
+
+
+return true;
+
 }
 
 
 /* =====================================
-   تحميل بيانات الفني
+   بيانات الفني
 ===================================== */
 
-async function loadTechnicianData() {
+async function loadTechnicianData(){
 
-  if (
-    !currentUser ||
-    currentRole === "admin"
-  ) {
-    return;
-  }
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("technicians")
-      .select("*")
-      .eq(
-        "id",
-        currentUser.id
-      )
-      .maybeSingle();
+if(
+!currentUser ||
+currentRole==="admin"
+){
+return;
+}
 
 
-  if (error) {
-
-    console.error(error);
-
-    showMessage(
-      "تعذر تحميل بيانات الفني: " +
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  if (!data) {
-
-    showMessage(
-      "لم يتم العثور على سجل الفني في جدول technicians.",
-      "error"
-    );
-
-    document.getElementById(
-      "availabilityText"
-    ).textContent =
-      "الحالة الحالية: غير محددة";
-
-    return;
-  }
+const {
+data,
+error
+}=
+await supabaseClient
+.from("technicians")
+.select("*")
+.eq(
+"id",
+currentUser.id
+)
+.maybeSingle();
 
 
-  technicianData = data;
+if(error){
 
-  showAvailability(
-    data.status || "غير متاح"
-  );
+console.error(error);
+
+showMessage(
+"تعذر تحميل بيانات الفني: "+
+error.message,
+"error"
+);
+
+return;
+
+}
+
+
+if(!data){
+
+showMessage(
+"لم يتم العثور على سجل الفني في جدول technicians.",
+"error"
+);
+
+document.getElementById(
+"availabilityText"
+).textContent=
+"الحالة الحالية: غير محددة";
+
+return;
+
+}
+
+
+technicianData=data;
+
+showAvailability(
+data.status ||
+"غير متاح"
+);
+
 }
 
 
@@ -1023,62 +1249,61 @@ async function loadTechnicianData() {
    عرض حالة الفني
 ===================================== */
 
-function showAvailability(status) {
+function showAvailability(status){
 
-  const text =
-    document.getElementById(
-      "availabilityText"
-    );
+const text=
+document.getElementById(
+"availabilityText"
+);
 
-  const availableBtn =
-    document.getElementById(
-      "availableBtn"
-    );
+const availableBtn=
+document.getElementById(
+"availableBtn"
+);
 
-  const busyBtn =
-    document.getElementById(
-      "busyBtn"
-    );
+const busyBtn=
+document.getElementById(
+"busyBtn"
+);
 
-  const unavailableBtn =
-    document.getElementById(
-      "unavailableBtn"
-    );
-
-
-  [
-    availableBtn,
-    busyBtn,
-    unavailableBtn
-  ].forEach(btn => {
-
-    btn.classList.remove("active");
-
-  });
+const unavailableBtn=
+document.getElementById(
+"unavailableBtn"
+);
 
 
-  if (status === "متاح") {
-
-    availableBtn.classList.add("active");
-
-  }
-
-  else if (status === "مشغول") {
-
-    busyBtn.classList.add("active");
-
-  }
-
-  else {
-
-    unavailableBtn.classList.add("active");
-
-  }
+[
+availableBtn,
+busyBtn,
+unavailableBtn
+].forEach(btn=>{
+btn.classList.remove("active");
+});
 
 
-  text.textContent =
-    "الحالة الحالية: " +
-    status;
+if(status==="متاح"){
+
+availableBtn.classList.add("active");
+
+}
+
+else if(status==="مشغول"){
+
+busyBtn.classList.add("active");
+
+}
+
+else{
+
+unavailableBtn.classList.add("active");
+
+}
+
+
+text.textContent=
+"الحالة الحالية: "+
+status;
+
 }
 
 
@@ -1086,77 +1311,84 @@ function showAvailability(status) {
    تغيير حالة الفني
 ===================================== */
 
-async function setAvailability(newStatus) {
+async function setAvailability(
+newStatus
+){
 
-  if (
-    !currentUser ||
-    currentRole === "admin"
-  ) {
-    return;
-  }
-
-
-  if (
-    !confirm(
-      "هل تريد تغيير حالتك إلى: " +
-      newStatus +
-      "؟"
-    )
-  ) {
-    return;
-  }
+if(
+!currentUser ||
+currentRole==="admin"
+){
+return;
+}
 
 
-  showMessage(
-    "جاري تحديث الحالة...",
-    "loading"
-  );
+if(
+!confirm(
+"هل تريد تغيير حالتك إلى: "+
+newStatus+
+"؟"
+)
+){
+return;
+}
 
 
-  const {
-    error
-  } =
-    await supabaseClient
-      .from("technicians")
-      .update({
-        status: newStatus
-      })
-      .eq(
-        "id",
-        currentUser.id
-      );
+showMessage(
+"جاري تحديث الحالة...",
+"loading"
+);
 
 
-  if (error) {
-
-    console.error(error);
-
-    showMessage(
-      "تعذر تحديث حالة الفني: " +
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  if (technicianData) {
-    technicianData.status = newStatus;
-  }
+const {
+error
+}=
+await supabaseClient
+.from("technicians")
+.update({
+status:newStatus
+})
+.eq(
+"id",
+currentUser.id
+);
 
 
-  showAvailability(newStatus);
+if(error){
+
+console.error(error);
+
+showMessage(
+"تعذر تحديث حالة الفني: "+
+error.message,
+"error"
+);
+
+return;
+
+}
 
 
-  showMessage(
-    "تم تحديث حالتك إلى: " +
-    newStatus,
-    "success"
-  );
+if(technicianData){
+technicianData.status=
+newStatus;
+}
 
 
-  await loadRequests();
+showAvailability(
+newStatus
+);
+
+
+showMessage(
+"تم تحديث حالتك إلى: "+
+newStatus,
+"success"
+);
+
+
+await loadRequests();
+
 }
 
 
@@ -1164,297 +1396,318 @@ async function setAvailability(newStatus) {
    تحميل الطلبات
 ===================================== */
 
-async function loadRequests() {
+async function loadRequests(){
 
-  const requestsBox =
-    document.getElementById(
-      "requests"
-    );
+const requestsBox=
+document.getElementById(
+"requests"
+);
 
 
-  requestsBox.innerHTML = `
-    <div class="empty">
-      جاري تحميل الطلبات...
-    </div>
-  `;
+requestsBox.innerHTML=`
 
+<div class="empty">
+جاري تحميل الطلبات...
+</div>
 
-  let requests = [];
+`;
 
 
-  /* ===================================
-     الإدارة ترى كل الطلبات
-  =================================== */
+let requests=[];
 
-  if (
-    currentRole === "admin"
-  ) {
 
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("service_requests")
-        .select("*")
-        .order(
-          "created_at",
-          {
-            ascending: false
-          }
-        );
+/* الإدارة */
 
+if(
+currentRole==="admin"
+){
 
-    if (error) {
+const {
+data,
+error
+}=
+await supabaseClient
+.from("service_requests")
+.select("*")
+.order(
+"created_at",
+{
+ascending:false
+}
+);
 
-      console.error(error);
 
-      requestsBox.innerHTML = `
-        <div class="empty">
-          حدث خطأ أثناء تحميل الطلبات.
-          <br><br>
-          ${escapeHTML(error.message)}
-        </div>
-      `;
+if(error){
 
-      return;
-    }
+console.error(error);
 
+requestsBox.innerHTML=`
 
-    requests =
-      data || [];
+<div class="empty">
 
-  }
-
-
-  /* ===================================
-     الفني
-  =================================== */
-
-  else {
-
-    if (!technicianData) {
-
-      requestsBox.innerHTML = `
-        <div class="empty">
-          لم يتم العثور على بيانات الفني.
-        </div>
-      `;
-
-      return;
-    }
-
+حدث خطأ أثناء تحميل الطلبات.
 
-    const technicianStatus =
-      technicianData.status || "غير متاح";
+<br><br>
 
-    const technicianService =
-      String(
-        technicianData.service_type || ""
-      )
-      .trim();
-
+${escapeHTML(
+error.message
+)}
 
-    /*
-      الطلبات المعيّنة لهذا الفني
-    */
+</div>
 
-    const {
-      data: assignedRequests,
-      error: assignedError
-    } =
-      await supabaseClient
-        .from("service_requests")
-        .select("*")
-        .eq(
-          "technician_id",
-          currentUser.id
-        )
-        .order(
-          "created_at",
-          {
-            ascending: false
-          }
-        );
-
-
-    if (assignedError) {
-
-      console.error(assignedError);
-
-      requestsBox.innerHTML = `
-        <div class="empty">
-          تعذر تحميل الطلبات المعيّنة.
-          <br><br>
-          ${escapeHTML(assignedError.message)}
-        </div>
-      `;
-
-      return;
-    }
-
-
-    requests =
-      assignedRequests || [];
+`;
 
+return;
 
-    /*
-      إذا كان الفني متاحًا،
-      نبحث عن الطلبات الجديدة
-      المطابقة لتخصصه وغير المعيّنة.
-    */
+}
 
-    if (
-      technicianStatus === "متاح" &&
-      technicianService
-    ) {
 
-      const {
-        data: newRequests,
-        error: newRequestsError
-      } =
-        await supabaseClient
-          .from("service_requests")
-          .select("*")
-          .eq(
-            "status",
-            "جديد"
-          )
-          .is(
-            "technician_id",
-            null
-          )
-          .eq(
-            "service_type",
-            technicianService
-          )
-          .order(
-            "created_at",
-            {
-              ascending: false
-            }
-          );
+requests=data||[];
 
+}
 
-      if (newRequestsError) {
 
-        console.error(
-          newRequestsError
-        );
+/* الفني */
 
-      }
+else{
 
-      else {
+if(!technicianData){
 
-        const existingIds =
-          new Set(
-            requests.map(
-              r => r.id
-            )
-          );
+requestsBox.innerHTML=`
 
+<div class="empty">
 
-        (newRequests || [])
-          .forEach(request => {
+لم يتم العثور على بيانات الفني.
 
-            if (
-              !existingIds.has(
-                request.id
-              )
-            ) {
+</div>
 
-              requests.push(
-                request
-              );
+`;
 
-            }
+return;
 
-          });
+}
 
-      }
 
-    }
+const technicianStatus=
+technicianData.status||
+"غير متاح";
 
-  }
 
+const technicianService=
+String(
+technicianData.service_type||""
+)
+.trim();
 
-  requests.sort(
-    (a, b) => {
 
-      const dateA =
-        new Date(
-          a.created_at || 0
-        ).getTime();
+/*
+ الطلبات الخاصة بهذا الفني
+*/
 
-      const dateB =
-        new Date(
-          b.created_at || 0
-        ).getTime();
+const {
+data:assignedRequests,
+error:assignedError
+}=
+await supabaseClient
+.from("service_requests")
+.select("*")
+.eq(
+"technician_id",
+currentUser.id
+)
+.order(
+"created_at",
+{
+ascending:false
+}
+);
 
-      return dateB - dateA;
 
-    }
-  );
+if(assignedError){
 
+console.error(assignedError);
 
-  updateStats(requests);
+requestsBox.innerHTML=`
 
+<div class="empty">
 
-  if (
-    requests.length === 0
-  ) {
+تعذر تحميل الطلبات المعيّنة.
 
-    let message =
-      "لا توجد طلبات صيانة حاليًا.";
+<br><br>
 
+${escapeHTML(
+assignedError.message
+)}
 
-    if (
-      currentRole === "technician" &&
-      technicianData
-    ) {
+</div>
 
-      const status =
-        technicianData.status ||
-        "غير متاح";
+`;
 
+return;
 
-      if (
-        status !== "متاح"
-      ) {
+}
 
-        message =
-          "لا توجد طلبات جديدة لأن حالتك الحالية: " +
-          status +
-          ".";
 
-      }
+requests=
+assignedRequests||[];
 
-      else {
 
-        message =
-          "لا توجد طلبات جديدة مطابقة لتخصصك حاليًا.";
+/*
+ الطلبات الجديدة
+*/
 
-      }
+if(
+technicianStatus==="متاح" &&
+technicianService
+){
 
-    }
+const {
+data:newRequests,
+error:newRequestsError
+}=
+await supabaseClient
+.from("service_requests")
+.select("*")
+.eq(
+"status",
+"جديد"
+)
+.is(
+"technician_id",
+null
+)
+.eq(
+"service_type",
+technicianService
+)
+.order(
+"created_at",
+{
+ascending:false
+}
+);
 
 
-    requestsBox.innerHTML = `
-      <div class="empty">
-        ${escapeHTML(message)}
-      </div>
-    `;
+if(newRequestsError){
 
-    return;
-  }
+console.error(
+newRequestsError
+);
 
+}
 
-  requestsBox.innerHTML =
-    requests
-      .map(
-        createRequestCard
-      )
-      .join("");
+else{
+
+const existingIds=
+new Set(
+requests.map(
+r=>r.id
+)
+);
+
+
+(newRequests||[])
+.forEach(request=>{
+
+if(
+!existingIds.has(
+request.id
+)
+){
+
+requests.push(
+request
+);
+
+}
+
+});
+
+}
+
+}
+
+}
+
+
+requests.sort(
+(a,b)=>{
+
+const dateA=
+new Date(
+a.created_at||0
+).getTime();
+
+const dateB=
+new Date(
+b.created_at||0
+).getTime();
+
+return dateB-dateA;
+
+}
+);
+
+
+updateStats(requests);
+
+
+if(!requests.length){
+
+let message=
+"لا توجد طلبات صيانة حاليًا.";
+
+
+if(
+currentRole==="technician" &&
+technicianData
+){
+
+const status=
+technicianData.status||
+"غير متاح";
+
+
+if(status!=="متاح"){
+
+message=
+"لا توجد طلبات جديدة لأن حالتك الحالية: "+
+status+
+".";
+
+}
+else{
+
+message=
+"لا توجد طلبات جديدة مطابقة لتخصصك حاليًا.";
+
+}
+
+}
+
+
+requestsBox.innerHTML=`
+
+<div class="empty">
+
+${escapeHTML(message)}
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+requestsBox.innerHTML=
+requests
+.map(
+createRequestCard
+)
+.join("");
+
 }
 
 
@@ -1462,38 +1715,38 @@ async function loadRequests() {
    الإحصائيات
 ===================================== */
 
-function updateStats(requests) {
+function updateStats(requests){
 
-  document.getElementById(
-    "newCount"
-  ).textContent =
+document.getElementById(
+"newCount"
+).textContent=
 
-    requests.filter(
-      r =>
-        r.status === "جديد"
-    ).length;
-
-
-  document.getElementById(
-    "workingCount"
-  ).textContent =
-
-    requests.filter(
-      r =>
-        r.status === "قيد التنفيذ" ||
-        r.status === "الفني في الطريق" ||
-        r.status === "بدأ العمل"
-    ).length;
+requests.filter(
+r=>r.status==="جديد"
+).length;
 
 
-  document.getElementById(
-    "finishedCount"
-  ).textContent =
+document.getElementById(
+"workingCount"
+).textContent=
 
-    requests.filter(
-      r =>
-        r.status === "مكتمل"
-    ).length;
+requests.filter(
+r=>
+r.status==="قيد التنفيذ" ||
+r.status==="الفني في الطريق" ||
+r.status==="بدأ العمل" ||
+r.status==="تم تعيين فني"
+).length;
+
+
+document.getElementById(
+"finishedCount"
+).textContent=
+
+requests.filter(
+r=>r.status==="مكتمل"
+).length;
+
 }
 
 
@@ -1501,48 +1754,341 @@ function updateStats(requests) {
    لون الحالة
 ===================================== */
 
-function getStatusClass(status) {
+function getStatusClass(status){
 
-  if (
-    status === "مكتمل"
-  ) {
-    return "status-completed";
-  }
+if(
+status==="مكتمل"
+){
+return "status-completed";
+}
 
-  if (
-    status === "مرفوض"
-  ) {
-    return "status-rejected";
-  }
+if(
+status==="ملغي" ||
+status==="مرفوض"
+){
+return "status-rejected";
+}
 
-  if (
-    status === "الفني في الطريق"
-  ) {
-    return "status-road";
-  }
+if(
+status==="الفني في الطريق"
+){
+return "status-road";
+}
 
-  if (
-    status === "قيد التنفيذ" ||
-    status === "بدأ العمل"
-  ) {
-    return "status-working";
-  }
+if(
+status==="قيد التنفيذ" ||
+status==="بدأ العمل"
+){
+return "status-working";
+}
 
-  return "";
+if(
+status==="تم تعيين فني"
+){
+return "status-price";
+}
+
+return "";
+
 }
 
 
 /* =====================================
-   هل الطلب جديد وغير معيّن؟
+   الطلب الجديد
 ===================================== */
 
-function isAvailableNewRequest(request) {
+function isAvailableNewRequest(
+request
+){
 
-  return (
-    currentRole === "technician" &&
-    request.status === "جديد" &&
-    !request.technician_id
-  );
+return(
+currentRole==="technician" &&
+request.status==="جديد" &&
+!request.technician_id
+);
+
+}
+
+
+/* =====================================
+   هل الفني هو صاحب الطلب؟
+===================================== */
+
+function isMyRequest(request){
+
+return(
+currentRole==="technician" &&
+String(
+request.technician_id
+)===
+String(
+currentUser?.id
+)
+);
+
+}
+
+
+/* =====================================
+   حالة موافقة السعر
+===================================== */
+
+function getPriceApproval(
+request
+){
+
+return String(
+request.customer_approval ||
+""
+)
+.trim()
+.toLowerCase();
+
+}
+
+
+/* =====================================
+   عرض السعر
+===================================== */
+
+function createPriceBox(request){
+
+const approval=
+getPriceApproval(
+request
+);
+
+
+const hasPrice=
+request.estimated_cost !== null &&
+request.estimated_cost !== undefined &&
+request.estimated_cost !== "";
+
+
+if(
+!isMyRequest(request)
+){
+return "";
+}
+
+
+/*
+ لم يرسل الفني سعرًا بعد
+*/
+
+if(!hasPrice){
+
+if(
+request.status==="تم تعيين فني"
+){
+
+return `
+
+<div class="price-box">
+
+<div class="price-title">
+إرسال عرض السعر للعميل
+</div>
+
+<div class="price-hint">
+
+قبل بدء العمل يجب إرسال السعر للعميل وانتظار موافقته.
+
+</div>
+
+<label class="price-label">
+السعر المقترح بالدينار الأردني
+</label>
+
+<input
+id="price-${escapeHTML(request.id)}"
+class="price-input"
+type="number"
+min="0"
+step="0.01"
+placeholder="مثال: 25"
+>
+
+<label class="price-label">
+ملاحظات السعر
+</label>
+
+<textarea
+id="price-notes-${escapeHTML(request.id)}"
+class="price-notes"
+placeholder="مثال: السعر يشمل أجور الصيانة ولا يشمل قطع الغيار..."></textarea>
+
+<button
+class="action price-button"
+onclick="sendPriceOffer('${escapeHTML(request.id)}')">
+
+إرسال عرض السعر
+
+</button>
+
+</div>
+
+`;
+
+}
+
+return "";
+
+}
+
+
+/*
+ السعر موجود والعميل لم يوافق
+*/
+
+if(
+approval==="بانتظار الموافقة" ||
+approval==="" ||
+approval==="pending"
+){
+
+return `
+
+<div class="price-box pending">
+
+<div class="price-title">
+عرض السعر
+</div>
+
+<div class="price-amount">
+
+${escapeHTML(
+request.estimated_cost
+)} دينار
+
+</div>
+
+<div class="price-status price-waiting-text">
+
+بانتظار موافقة العميل
+
+</div>
+
+${
+request.price_notes
+?
+`
+<div class="price-hint">
+${escapeHTML(
+request.price_notes
+)}
+</div>
+`
+:""
+}
+
+<div class="price-hint">
+
+تم إرسال السعر بتاريخ:
+${formatDateTime(
+request.price_updated_at
+)}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/*
+ العميل وافق
+*/
+
+if(
+approval==="موافق" ||
+approval==="approved"
+){
+
+return `
+
+<div class="price-box approved">
+
+<div class="price-title">
+تمت الموافقة على عرض السعر
+</div>
+
+<div class="price-amount">
+
+${escapeHTML(
+request.estimated_cost
+)} دينار
+
+</div>
+
+<div class="price-status price-approved-text">
+
+العميل وافق ويمكنك الآن بدء العمل.
+
+</div>
+
+${
+request.price_notes
+?
+`
+<div class="price-hint">
+${escapeHTML(
+request.price_notes
+)}
+</div>
+`
+:""
+}
+
+</div>
+
+`;
+
+}
+
+
+/*
+ العميل رفض
+*/
+
+if(
+approval==="مرفوض" ||
+approval==="rejected"
+){
+
+return `
+
+<div class="price-box rejected">
+
+<div class="price-title">
+تم رفض عرض السعر
+</div>
+
+<div class="price-amount">
+
+${escapeHTML(
+request.estimated_cost
+)} دينار
+
+</div>
+
+<div class="price-status price-rejected-text">
+
+العميل رفض العرض.
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+return "";
+
 }
 
 
@@ -1550,698 +2096,1065 @@ function isAvailableNewRequest(request) {
    بطاقة الطلب
 ===================================== */
 
-function createRequestCard(request) {
+function createRequestCard(
+request
+){
 
-  const requestNumber =
-    request.request_number ||
-    "بدون رقم";
+const requestNumber=
+request.request_number||
+"بدون رقم";
 
 
-  const status =
-    request.status ||
-    "جديد";
+const status=
+request.status||
+"جديد";
 
 
-  const isNewAvailable =
-    isAvailableNewRequest(request);
+const isNewAvailable=
+isAvailableNewRequest(
+request
+);
 
 
-  let buttons = "";
+const myRequest=
+isMyRequest(
+request
+);
 
 
-  /*
-    الطلب الجديد غير المعيّن
-  */
+const approval=
+getPriceApproval(
+request
+);
 
-  if (isNewAvailable) {
 
-    buttons = `
+let buttons="";
 
-      <button
-        class="action accept"
-        onclick="acceptNewRequest('${escapeHTML(request.id)}')">
-        قبول الطلب
-      </button>
 
-      <button
-        class="action reject"
-        onclick="rejectNewRequest('${escapeHTML(request.id)}')">
-        رفض الطلب
-      </button>
+/*
+ طلب جديد غير معيّن
+*/
 
-    `;
+if(isNewAvailable){
 
-  }
+buttons=`
 
+<button
+class="action accept"
+onclick="acceptNewRequest('${escapeHTML(request.id)}')">
 
-  /*
-    طلب معيّن للفني
-  */
+قبول الطلب
 
-  else if (
-    status === "جديد" &&
-    request.technician_id === currentUser?.id
-  ) {
+</button>
 
-    buttons = `
+<button
+class="action reject"
+onclick="rejectNewRequest('${escapeHTML(request.id)}')">
 
-      <button
-        class="action accept"
-        onclick="updateStatus(
-          '${escapeHTML(request.id)}',
-          'قيد التنفيذ'
-        )">
-        قبول الطلب
-      </button>
+رفض
 
-    `;
+</button>
 
-  }
+`;
 
-  else if (
-    status === "قيد التنفيذ" &&
-    request.technician_id === currentUser?.id
-  ) {
+}
 
-    buttons = `
 
-      <button
-        class="action road"
-        onclick="updateStatus(
-          '${escapeHTML(request.id)}',
-          'الفني في الطريق'
-        )">
-        الفني في الطريق
-      </button>
+/*
+ تم تعيين الفني
+*/
 
-    `;
+else if(
+myRequest &&
+status==="تم تعيين فني"
+){
 
-  }
+buttons=`
 
-  else if (
-    status === "الفني في الطريق" &&
-    request.technician_id === currentUser?.id
-  ) {
+<button
+class="action price-button"
+onclick="focusPrice('${escapeHTML(request.id)}')">
 
-    buttons = `
+إرسال عرض السعر
 
-      <button
-        class="action start-work"
-        onclick="updateStatus(
-          '${escapeHTML(request.id)}',
-          'بدأ العمل'
-        )">
-        بدأت العمل
-      </button>
+</button>
 
-    `;
+`;
 
-  }
+}
 
-  else if (
-    status === "بدأ العمل" &&
-    request.technician_id === currentUser?.id
-  ) {
 
-    buttons = `
+/*
+ السعر موجود بانتظار موافقة العميل
+*/
 
-      <button
-        class="action finish"
-        onclick="updateStatus(
-          '${escapeHTML(request.id)}',
-          'مكتمل'
-        )">
-        إنهاء الطلب
-      </button>
+else if(
+myRequest &&
+approval==="بانتظار الموافقة"
+){
 
-    `;
+buttons=`
 
-  }
+<button
+class="action price-button"
+disabled>
 
-  else if (
-    status === "مكتمل"
-  ) {
+بانتظار موافقة العميل
 
-    buttons = `
+</button>
 
-      <button
-        class="action finish"
-        disabled>
-        تم إكمال الطلب
-      </button>
+`;
 
-    `;
-
-  }
-
-  else if (
-    status === "مرفوض"
-  ) {
+}
 
-    buttons = `
 
-      <button
-        class="action reject"
-        disabled>
-        تم رفض الطلب
-      </button>
+/*
+ العميل وافق
+*/
 
-    `;
+else if(
+myRequest &&
+(
+approval==="موافق" ||
+approval==="approved"
+)
+){
 
-  }
+if(status==="تم تعيين فني"){
 
+buttons=`
 
-  return `
+<button
+class="action road"
+onclick="updateStatus(
+'${escapeHTML(request.id)}',
+'الفني في الطريق'
+)">
 
-    <div class="request-card ${
-      isNewAvailable
-        ? "new-request"
-        : ""
-    }">
+الفني في الطريق
 
-      <div class="request-top">
+</button>
 
-        <div class="request-number">
-          طلب ${escapeHTML(requestNumber)}
-        </div>
+`;
 
-        <div class="status ${getStatusClass(status)}">
-          ${escapeHTML(status)}
-        </div>
+}
 
-      </div>
+else if(
+status==="الفني في الطريق"
+){
 
+buttons=`
 
-      ${
-        isNewAvailable
-          ? `
-            <div class="match-badge">
-              طلب جديد مطابق لتخصصك
-            </div>
-          `
-          : ""
-      }
+<button
+class="action start-work"
+onclick="updateStatus(
+'${escapeHTML(request.id)}',
+'بدأ العمل'
+)">
 
+بدأ العمل
 
-      <div class="details">
+</button>
 
-        <div class="detail">
-          <strong>العميل:</strong>
-          ${escapeHTML(
-            request.customer_name || "-"
-          )}
-        </div>
+`;
 
-        <div class="detail">
-          <strong>الهاتف:</strong>
-          ${escapeHTML(
-            request.phone || "-"
-          )}
-        </div>
+}
 
-        <div class="detail">
-          <strong>الخدمة:</strong>
-          ${escapeHTML(
-            request.service_type || "-"
-          )}
-        </div>
+else if(
+status==="بدأ العمل"
+){
 
-        <div class="detail">
-          <strong>الموقع:</strong>
-          ${escapeHTML(
-            request.location || "-"
-          )}
-        </div>
+buttons=`
 
-        <div class="detail">
-          <strong>التاريخ المفضل:</strong>
-          ${escapeHTML(
-            request.preferred_date || "-"
-          )}
-        </div>
+<button
+class="action finish"
+onclick="updateStatus(
+'${escapeHTML(request.id)}',
+'مكتمل'
+)">
 
-        <div class="detail">
-          <strong>الأولوية:</strong>
-          ${escapeHTML(
-            request.priority || "عادي"
-          )}
-        </div>
+إنهاء الطلب
 
-        <div class="detail">
-          <strong>وصف المشكلة:</strong>
-          ${escapeHTML(
-            request.description ||
-            "لا يوجد وصف"
-          )}
-        </div>
+</button>
 
-      </div>
+`;
 
+}
 
-      <div class="buttons">
-        ${buttons}
-      </div>
+}
 
-    </div>
 
-  `;
+/*
+ طلب مكتمل
+*/
+
+else if(
+myRequest &&
+status==="مكتمل"
+){
+
+buttons=`
+
+<button
+class="action finish"
+disabled>
+
+تم إكمال الطلب
+
+</button>
+
+`;
+
+}
+
+
+/*
+ عرض السعر مرفوض
+*/
+
+else if(
+myRequest &&
+(
+approval==="مرفوض" ||
+approval==="rejected"
+)
+){
+
+buttons=`
+
+<button
+class="action reject"
+disabled>
+
+تم رفض عرض السعر
+
+</button>
+
+`;
+
+}
+
+
+return `
+
+<div class="request-card ${
+isNewAvailable
+?"new-request"
+:""
+} ${
+approval==="بانتظار الموافقة"
+?"price-waiting"
+:""
+}">
+
+
+<div class="request-top">
+
+<div class="request-number">
+
+طلب ${escapeHTML(
+requestNumber
+)}
+
+</div>
+
+<div class="status ${
+getStatusClass(status)
+}">
+
+${escapeHTML(
+status
+)}
+
+</div>
+
+</div>
+
+
+${
+isNewAvailable
+?
+`
+<div class="match-badge">
+طلب جديد مطابق لتخصصك
+</div>
+`
+:""
+}
+
+
+<div class="details">
+
+<div class="detail">
+<strong>العميل:</strong>
+${escapeHTML(
+request.customer_name||"-"
+)}
+</div>
+
+<div class="detail">
+<strong>الهاتف:</strong>
+${escapeHTML(
+request.phone||"-"
+)}
+</div>
+
+<div class="detail">
+<strong>الخدمة:</strong>
+${escapeHTML(
+request.service_type||"-"
+)}
+</div>
+
+<div class="detail">
+<strong>الموقع:</strong>
+${escapeHTML(
+request.location||"-"
+)}
+</div>
+
+<div class="detail">
+<strong>التاريخ المفضل:</strong>
+${escapeHTML(
+request.preferred_date||"-"
+)}
+</div>
+
+<div class="detail">
+<strong>الأولوية:</strong>
+${escapeHTML(
+request.priority||"عادي"
+)}
+</div>
+
+<div class="detail">
+<strong>وصف المشكلة:</strong>
+${escapeHTML(
+request.description||
+"لا يوجد وصف"
+)}
+</div>
+
+</div>
+
+
+${createPriceBox(request)}
+
+
+/*
+ إشعار حالة الموافقة
+*/
+
+${
+myRequest &&
+(
+approval==="موافق" ||
+approval==="approved"
+)
+?
+`
+<div class="customer-approved">
+
+العميل وافق على السعر. يمكنك الآن التوجه للموقع وبدء العمل.
+
+</div>
+`
+:""
+}
+
+
+${
+myRequest &&
+(
+approval==="مرفوض" ||
+approval==="rejected"
+)
+?
+`
+<div class="customer-rejected">
+
+العميل رفض عرض السعر.
+
+</div>
+`
+:""
+}
+
+
+<div class="buttons">
+
+${buttons}
+
+</div>
+
+
+</div>
+
+`;
+
 }
 
 
 /* =====================================
-   قبول طلب جديد
+   التركيز على عرض السعر
 ===================================== */
 
-async function acceptNewRequest(requestId) {
+function focusPrice(requestId){
 
-  if (
-    !currentUser ||
-    currentRole !== "technician"
-  ) {
-    return;
-  }
+const input=
+document.getElementById(
+"price-"+requestId
+);
 
 
-  if (
-    !technicianData
-  ) {
+if(input){
 
-    showMessage(
-      "تعذر العثور على بيانات الفني.",
-      "error"
-    );
+input.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
 
-    return;
-  }
+setTimeout(()=>{
+input.focus();
+},500);
 
-
-  if (
-    technicianData.status !== "متاح"
-  ) {
-
-    showMessage(
-      "يجب أن تكون حالة الفني متاح حتى تستقبل طلبًا جديدًا.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  if (
-    !confirm(
-      "هل تريد قبول هذا الطلب؟"
-    )
-  ) {
-    return;
-  }
-
-
-  showMessage(
-    "جاري حجز الطلب لك...",
-    "loading"
-  );
-
-
-  /*
-    أهم نقطة:
-    نحدث الطلب فقط إذا كان ما زال
-    جديدًا وبدون فني.
-  */
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("service_requests")
-      .update({
-
-        technician_id:
-          currentUser.id,
-
-        status:
-          "قيد التنفيذ",
-
-        customer_notification:
-          "تم قبول طلب الصيانة من قبل الفني، والطلب الآن قيد التنفيذ.",
-
-        notification_read:
-          false
-
-      })
-      .eq(
-        "id",
-        requestId
-      )
-      .eq(
-        "status",
-        "جديد"
-      )
-      .is(
-        "technician_id",
-        null
-      )
-      .select()
-      .maybeSingle();
-
-
-  if (error) {
-
-    console.error(error);
-
-    showMessage(
-      "تعذر قبول الطلب: " +
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  /*
-    إذا لم يرجع صفًا فهذا يعني أن
-    فنيًا آخر أخذه قبلك أو تغيرت حالته.
-  */
-
-  if (!data) {
-
-    showMessage(
-      "هذا الطلب لم يعد متاحًا. ربما تم أخذه من فني آخر.",
-      "error"
-    );
-
-    await loadRequests();
-
-    return;
-  }
-
-
-  /*
-    بعد قبول الطلب يصبح الفني مشغولًا.
-  */
-
-  const {
-    error: busyError
-  } =
-    await supabaseClient
-      .from("technicians")
-      .update({
-        status: "مشغول"
-      })
-      .eq(
-        "id",
-        currentUser.id
-      );
-
-
-  if (
-    !busyError &&
-    technicianData
-  ) {
-
-    technicianData.status =
-      "مشغول";
-
-    showAvailability(
-      "مشغول"
-    );
-
-  }
-
-
-  showMessage(
-    "تم قبول الطلب بنجاح.",
-    "success"
-  );
-
-
-  await loadRequests();
+}
 
 }
 
 
 /* =====================================
-   رفض طلب جديد
+   إرسال عرض السعر
 ===================================== */
 
-async function rejectNewRequest(requestId) {
+async function sendPriceOffer(
+requestId
+){
 
-  if (
-    !currentUser ||
-    currentRole !== "technician"
-  ) {
-    return;
-  }
+if(
+!currentUser ||
+currentRole!=="technician"
+){
 
+return;
 
-  if (
-    !confirm(
-      "هل تريد رفض هذا الطلب؟"
-    )
-  ) {
-    return;
-  }
+}
 
 
-  showMessage(
-    "جاري رفض الطلب...",
-    "loading"
-  );
+const priceInput=
+document.getElementById(
+"price-"+requestId
+);
 
 
-  /*
-    لا نربط الطلب بالفني عند الرفض.
-    فقط نسجل الرفض على مستوى الطلب.
-    
-    ملاحظة:
-    إذا كان الطلب عامًا للفنيين،
-    إبقاؤه "جديد" يسمح لفني آخر برؤيته.
-  */
-
-  showMessage(
-    "تم تجاهل الطلب وسيبقى متاحًا لفني آخر.",
-    "success"
-  );
+const notesInput=
+document.getElementById(
+"price-notes-"+requestId
+);
 
 
-  /*
-    نعيد التحميل فقط.
-  */
+if(!priceInput){
 
-  await loadRequests();
+showMessage(
+"لم يتم العثور على خانة السعر.",
+"error"
+);
+
+return;
+
+}
+
+
+const price=
+Number(
+priceInput.value
+);
+
+
+const notes=
+notesInput
+?
+notesInput.value.trim()
+:"";
+
+
+if(
+!Number.isFinite(price) ||
+price<=0
+){
+
+showMessage(
+"أدخل سعرًا صحيحًا أكبر من صفر.",
+"error"
+);
+
+priceInput.focus();
+
+return;
+
+}
+
+
+if(
+!confirm(
+"إرسال عرض سعر بقيمة "+
+price+
+" دينار للعميل؟"
+)
+){
+
+return;
+
+}
+
+
+showMessage(
+"جاري إرسال عرض السعر...",
+"loading"
+);
+
+
+/*
+ نستخدم فقط الأعمدة الجديدة
+ التي تمت إضافتها:
+ estimated_cost
+ customer_approval
+ price_notes
+ price_updated_at
+*/
+
+const {
+data,
+error
+}=
+await supabaseClient
+.from("service_requests")
+.update({
+
+estimated_cost:
+price,
+
+customer_approval:
+"بانتظار الموافقة",
+
+price_notes:
+notes||null,
+
+price_updated_at:
+new Date().toISOString()
+
+})
+.eq(
+"id",
+requestId
+)
+.eq(
+"technician_id",
+currentUser.id
+)
+.select()
+.maybeSingle();
+
+
+if(error){
+
+console.error(error);
+
+showMessage(
+"تعذر إرسال عرض السعر: "+
+error.message,
+"error"
+);
+
+return;
+
+}
+
+
+if(!data){
+
+showMessage(
+"تعذر إرسال السعر. تأكد أن الطلب ما زال مرتبطًا بك.",
+"error"
+);
+
+return;
+
+}
+
+
+showMessage(
+"تم إرسال عرض السعر للعميل بنجاح.",
+"success"
+);
+
+
+await loadRequests();
+
 }
 
 
 /* =====================================
-   تحديث حالة الطلب
+   قبول الطلب
+===================================== */
+
+async function acceptNewRequest(
+requestId
+){
+
+if(
+!currentUser ||
+currentRole!=="technician"
+){
+return;
+}
+
+
+if(!technicianData){
+
+showMessage(
+"تعذر العثور على بيانات الفني.",
+"error"
+);
+
+return;
+
+}
+
+
+if(
+technicianData.status!=="متاح"
+){
+
+showMessage(
+"يجب أن تكون حالة الفني متاح حتى تستقبل طلبًا جديدًا.",
+"error"
+);
+
+return;
+
+}
+
+
+if(
+!confirm(
+"هل تريد قبول هذا الطلب؟"
+)
+){
+
+return;
+
+}
+
+
+showMessage(
+"جاري حجز الطلب لك...",
+"loading"
+);
+
+
+/*
+ مهم:
+ لا نبدأ التنفيذ مباشرة.
+ الحالة تصبح:
+ تم تعيين فني
+ وبعدها يجب إرسال السعر.
+*/
+
+const {
+data,
+error
+}=
+await supabaseClient
+.from("service_requests")
+.update({
+
+technician_id:
+currentUser.id,
+
+status:
+"تم تعيين فني"
+
+})
+.eq(
+"id",
+requestId
+)
+.eq(
+"status",
+"جديد"
+)
+.is(
+"technician_id",
+null
+)
+.select()
+.maybeSingle();
+
+
+if(error){
+
+console.error(error);
+
+showMessage(
+"تعذر قبول الطلب: "+
+error.message,
+"error"
+);
+
+return;
+
+}
+
+
+if(!data){
+
+showMessage(
+"هذا الطلب لم يعد متاحًا. ربما تم أخذه من فني آخر.",
+"error"
+);
+
+await loadRequests();
+
+return;
+
+}
+
+
+/*
+ الفني يصبح مشغولًا
+*/
+
+const {
+error:busyError
+}=
+await supabaseClient
+.from("technicians")
+.update({
+status:"مشغول"
+})
+.eq(
+"id",
+currentUser.id
+);
+
+
+if(
+!busyError &&
+technicianData
+){
+
+technicianData.status=
+"مشغول";
+
+showAvailability(
+"مشغول"
+);
+
+}
+
+
+showMessage(
+"تم قبول الطلب. أرسل عرض السعر للعميل الآن.",
+"success"
+);
+
+
+await loadRequests();
+
+}
+
+
+/* =====================================
+   رفض / تجاهل الطلب
+===================================== */
+
+async function rejectNewRequest(
+requestId
+){
+
+if(
+!currentUser ||
+currentRole!=="technician"
+){
+return;
+}
+
+
+if(
+!confirm(
+"هل تريد تجاهل هذا الطلب؟"
+)
+){
+return;
+}
+
+
+showMessage(
+"تم تجاهل الطلب.",
+"success"
+);
+
+
+await loadRequests();
+
+}
+
+
+/* =====================================
+   تحديث الحالة
 ===================================== */
 
 async function updateStatus(
-  requestId,
-  newStatus
-) {
+requestId,
+newStatus
+){
 
-  if (
-    !currentUser
-  ) {
-    return;
-  }
+if(!currentUser){
+return;
+}
 
 
-  let confirmation = "";
+/*
+ التحقق من السعر والموافقة
+ قبل أي انتقال للعمل
+*/
 
+if(
+newStatus==="الفني في الطريق" ||
+newStatus==="بدأ العمل" ||
+newStatus==="مكتمل"
+){
 
-  if (
-    newStatus === "قيد التنفيذ"
-  ) {
+const {
+data:request,
+error
+}=
+await supabaseClient
+.from("service_requests")
+.select(
+"status,customer_approval,estimated_cost,technician_id"
+)
+.eq(
+"id",
+requestId
+)
+.eq(
+"technician_id",
+currentUser.id
+)
+.maybeSingle();
 
-    confirmation =
-      "هل تريد قبول طلب الصيانة؟";
 
-  }
+if(error){
 
-  else if (
-    newStatus === "الفني في الطريق"
-  ) {
+showMessage(
+"تعذر التحقق من موافقة العميل: "+
+error.message,
+"error"
+);
 
-    confirmation =
-      "هل أنت في طريقك إلى موقع العميل؟";
+return;
 
-  }
+}
 
-  else if (
-    newStatus === "بدأ العمل"
-  ) {
 
-    confirmation =
-      "هل بدأت العمل على الطلب؟";
+if(!request){
 
-  }
+showMessage(
+"لم يتم العثور على الطلب.",
+"error"
+);
 
-  else if (
-    newStatus === "مكتمل"
-  ) {
+return;
 
-    confirmation =
-      "هل تم إنهاء أعمال الصيانة؟";
+}
 
-  }
 
+const approval=
+getPriceApproval(
+request
+);
 
-  if (
-    !confirm(confirmation)
-  ) {
-    return;
-  }
 
+if(
+request.estimated_cost===null ||
+request.estimated_cost===undefined ||
+request.estimated_cost===""
+){
 
-  showMessage(
-    "جاري تحديث حالة الطلب...",
-    "loading"
-  );
+showMessage(
+"يجب إرسال عرض السعر للعميل أولًا.",
+"error"
+);
 
+return;
 
-  let notification = "";
+}
 
 
-  if (
-    newStatus === "قيد التنفيذ"
-  ) {
+if(
+approval!=="موافق" &&
+approval!=="approved"
+){
 
-    notification =
-      "تم قبول طلب الصيانة من قبل الفني، والطلب الآن قيد التنفيذ.";
+showMessage(
+"لا يمكنك بدء العمل قبل موافقة العميل على السعر.",
+"error"
+);
 
-  }
+return;
 
-  else if (
-    newStatus === "الفني في الطريق"
-  ) {
+}
 
-    notification =
-      "الفني في الطريق إلى موقعك.";
+}
 
-  }
 
-  else if (
-    newStatus === "بدأ العمل"
-  ) {
+let confirmation="";
 
-    notification =
-      "بدأ الفني العمل على طلب الصيانة.";
 
-  }
+if(
+newStatus==="الفني في الطريق"
+){
 
-  else if (
-    newStatus === "مكتمل"
-  ) {
+confirmation=
+"هل أنت في طريقك إلى موقع العميل؟";
 
-    notification =
-      "تم إكمال طلب الصيانة. يمكنك الآن تقييم الفني.";
+}
 
-  }
+else if(
+newStatus==="بدأ العمل"
+){
 
+confirmation=
+"هل بدأت العمل على الطلب؟";
 
-  const {
-    error
-  } =
-    await supabaseClient
-      .from("service_requests")
-      .update({
+}
 
-        status:
-          newStatus,
+else if(
+newStatus==="مكتمل"
+){
 
-        customer_notification:
-          notification,
+confirmation=
+"هل تم إنهاء أعمال الصيانة؟";
 
-        notification_read:
-          false
+}
 
-      })
-      .eq(
-        "id",
-        requestId
-      )
-      .eq(
-        "technician_id",
-        currentUser.id
-      );
 
+if(
+!confirm(confirmation)
+){
 
-  if (error) {
+return;
 
-    console.error(error);
+}
 
-    showMessage(
-      "تعذر تحديث حالة الطلب: " +
-      error.message,
-      "error"
-    );
 
-    return;
-  }
+showMessage(
+"جاري تحديث حالة الطلب...",
+"loading"
+);
 
 
-  /*
-    عند إكمال الطلب:
-    الفني يعود إلى حالة متاح
-    لاستقبال طلب جديد.
-  */
+const {
+error
+}=
+await supabaseClient
+.from("service_requests")
+.update({
 
-  if (
-    newStatus === "مكتمل"
-  ) {
+status:
+newStatus,
 
-    const {
-      error: technicianError
-    } =
-      await supabaseClient
-        .from("technicians")
-        .update({
-          status: "متاح"
-        })
-        .eq(
-          "id",
-          currentUser.id
-        );
+updated_at:
+new Date().toISOString()
 
+})
+.eq(
+"id",
+requestId
+)
+.eq(
+"technician_id",
+currentUser.id
+);
 
-    if (
-      !technicianError
-    ) {
 
-      if (technicianData) {
-        technicianData.status =
-          "متاح";
-      }
+if(error){
 
-      showAvailability(
-        "متاح"
-      );
+console.error(error);
 
-    }
+showMessage(
+"تعذر تحديث حالة الطلب: "+
+error.message,
+"error"
+);
 
-  }
+return;
 
+}
 
-  showMessage(
-    "تم تحديث حالة الطلب بنجاح.",
-    "success"
-  );
 
+/*
+ عند إكمال الطلب:
+ الفني يعود متاح
+*/
 
-  await loadRequests();
+if(
+newStatus==="مكتمل"
+){
 
+const {
+error:technicianError
+}=
+await supabaseClient
+.from("technicians")
+.update({
+status:"متاح"
+})
+.eq(
+"id",
+currentUser.id
+);
 
-  if (
-    newStatus === "مكتمل"
-  ) {
 
-    await loadTechnicianRating();
+if(
+!technicianError
+){
 
-  }
+if(technicianData){
+
+technicianData.status=
+"متاح";
+
+}
+
+showAvailability(
+"متاح"
+);
+
+}
+
+}
+
+
+showMessage(
+"تم تحديث حالة الطلب بنجاح.",
+"success"
+);
+
+
+await loadRequests();
+
+
+if(
+newStatus==="مكتمل"
+){
+
+await loadTechnicianRating();
+
+}
+
 }
 
 
@@ -2249,203 +3162,208 @@ async function updateStatus(
    التقييم
 ===================================== */
 
-async function loadTechnicianRating() {
+async function loadTechnicianRating(){
 
-  const ratingCard =
-    document.getElementById(
-      "ratingCard"
-    );
-
-
-  if (!currentUser) {
-    return;
-  }
+const ratingCard=
+document.getElementById(
+"ratingCard"
+);
 
 
-  ratingCard.style.display =
-    "block";
+if(!currentUser){
+return;
+}
 
 
-  const {
-    data: reviews,
-    error: reviewsError
-  } =
-    await supabaseClient
-      .from("technician_reviews")
-      .select(
-        "id,rating,comment,created_at"
-      )
-      .eq(
-        "technician_id",
-        currentUser.id
-      )
-      .order(
-        "created_at",
-        {
-          ascending: false
-        }
-      );
+ratingCard.style.display=
+"block";
 
 
-  if (reviewsError) {
-
-    console.error(
-      reviewsError
-    );
-
-    document.getElementById(
-      "reviewsList"
-    ).innerHTML = `
-      <div class="no-reviews">
-        تعذر تحميل التقييمات.
-      </div>
-    `;
-
-    return;
-  }
-
-
-  const reviewData =
-    reviews || [];
-
-
-  let average = 0;
+const {
+data:reviews,
+error:reviewsError
+}=
+await supabaseClient
+.from("technician_reviews")
+.select(
+"id,rating,comment,created_at"
+)
+.eq(
+"technician_id",
+currentUser.id
+)
+.order(
+"created_at",
+{
+ascending:false
+}
+);
 
 
-  if (
-    reviewData.length > 0
-  ) {
+if(reviewsError){
 
-    const total =
-      reviewData.reduce(
-        (sum, review) =>
-          sum +
-          Number(
-            review.rating
-          ),
-        0
-      );
+console.error(
+reviewsError
+);
 
+document.getElementById(
+"reviewsList"
+).innerHTML=`
 
-    average =
-      total /
-      reviewData.length;
-  }
+<div class="no-reviews">
 
+تعذر تحميل التقييمات.
 
-  const averageRounded =
-    average.toFixed(1);
+</div>
+
+`;
+
+return;
+
+}
 
 
-  document.getElementById(
-    "averageRating"
-  ).textContent =
-    averageRounded;
+const reviewData=
+reviews||[];
 
 
-  document.getElementById(
-    "averageRatingText"
-  ).textContent =
-    averageRounded +
-    " / 5";
+let average=0;
 
 
-  document.getElementById(
-    "ratingCount"
-  ).textContent =
+if(reviewData.length>0){
 
-    reviewData.length === 0
-      ? "لا توجد تقييمات"
-      : reviewData.length +
-        " تقييم";
+const total=
+reviewData.reduce(
+(sum,review)=>
+sum+
+Number(
+review.rating
+),
+0
+);
 
+average=
+total/
+reviewData.length;
 
-  document.getElementById(
-    "ratingStars"
-  ).textContent =
-    createStars(
-      average
-    );
-
-
-  const level =
-    getTechnicianLevel(
-      average,
-      reviewData.length
-    );
+}
 
 
-  document.getElementById(
-    "ratingLevel"
-  ).textContent =
-    level;
+const averageRounded=
+average.toFixed(1);
 
 
-  document.getElementById(
-    "levelText"
-  ).textContent =
-    level;
+document.getElementById(
+"averageRating"
+).textContent=
+averageRounded;
 
 
-  const reviewsList =
-    document.getElementById(
-      "reviewsList"
-    );
+document.getElementById(
+"averageRatingText"
+).textContent=
+averageRounded+
+" / 5";
 
 
-  if (
-    reviewData.length === 0
-  ) {
+document.getElementById(
+"ratingCount"
+).textContent=
 
-    reviewsList.innerHTML = `
-      <div class="no-reviews">
-        لم تحصل على تقييمات بعد.
-        أكمل طلباتك واطلب من العملاء تقييم الخدمة.
-      </div>
-    `;
-
-  }
-
-  else {
-
-    reviewsList.innerHTML =
-      reviewData
-        .slice(0,5)
-        .map(
-          createReviewCard
-        )
-        .join("");
-
-  }
+reviewData.length===0
+?"لا توجد تقييمات"
+:reviewData.length+
+" تقييم";
 
 
-  const {
-    data: completedRequests,
-    error: completedError
-  } =
-    await supabaseClient
-      .from("service_requests")
-      .select("id")
-      .eq(
-        "technician_id",
-        currentUser.id
-      )
-      .eq(
-        "status",
-        "مكتمل"
-      );
+document.getElementById(
+"ratingStars"
+).textContent=
+createStars(
+average
+);
 
 
-  if (!completedError) {
+const level=
+getTechnicianLevel(
+average,
+reviewData.length
+);
 
-    document.getElementById(
-      "completedJobs"
-    ).textContent =
-      (
-        completedRequests || []
-      ).length;
 
-  }
+document.getElementById(
+"ratingLevel"
+).textContent=
+level;
+
+
+document.getElementById(
+"levelText"
+).textContent=
+level;
+
+
+const reviewsList=
+document.getElementById(
+"reviewsList"
+);
+
+
+if(reviewData.length===0){
+
+reviewsList.innerHTML=`
+
+<div class="no-reviews">
+
+لم تحصل على تقييمات بعد.
+
+</div>
+
+`;
+
+}
+
+else{
+
+reviewsList.innerHTML=
+reviewData
+.slice(0,5)
+.map(
+createReviewCard
+)
+.join("");
+
+}
+
+
+const {
+data:completedRequests,
+error:completedError
+}=
+await supabaseClient
+.from("service_requests")
+.select("id")
+.eq(
+"technician_id",
+currentUser.id
+)
+.eq(
+"status",
+"مكتمل"
+);
+
+
+if(!completedError){
+
+document.getElementById(
+"completedJobs"
+).textContent=
+(
+completedRequests||[]
+).length;
+
+}
+
 }
 
 
@@ -2453,32 +3371,33 @@ async function loadTechnicianRating() {
    النجوم
 ===================================== */
 
-function createStars(rating) {
+function createStars(rating){
 
-  const rounded =
-    Math.round(
-      Number(rating)
-    );
-
-
-  let stars = "";
+const rounded=
+Math.round(
+Number(rating)
+);
 
 
-  for (
-    let i = 1;
-    i <= 5;
-    i++
-  ) {
-
-    stars +=
-      i <= rounded
-        ? "★"
-        : "☆";
-
-  }
+let stars="";
 
 
-  return stars;
+for(
+let i=1;
+i<=5;
+i++
+){
+
+stars+=
+i<=rounded
+?"★"
+:"☆";
+
+}
+
+
+return stars;
+
 }
 
 
@@ -2487,42 +3406,43 @@ function createStars(rating) {
 ===================================== */
 
 function getTechnicianLevel(
-  average,
-  count
-) {
+average,
+count
+){
 
-  if (
-    count === 0
-  ) {
-    return "فني جديد";
-  }
+if(count===0){
+return "فني جديد";
+}
 
+if(
+average>=4.7 &&
+count>=10
+){
 
-  if (
-    average >= 4.7 &&
-    count >= 10
-  ) {
-    return "فني ممتاز";
-  }
+return "فني ممتاز";
 
+}
 
-  if (
-    average >= 4.3 &&
-    count >= 5
-  ) {
-    return "فني مميز";
-  }
+if(
+average>=4.3 &&
+count>=5
+){
 
+return "فني مميز";
 
-  if (
-    average >= 4 &&
-    count >= 3
-  ) {
-    return "فني موثوق";
-  }
+}
 
+if(
+average>=4 &&
+count>=3
+){
 
-  return "فني نشط";
+return "فني موثوق";
+
+}
+
+return "فني نشط";
+
 }
 
 
@@ -2530,44 +3450,57 @@ function getTechnicianLevel(
    بطاقة التقييم
 ===================================== */
 
-function createReviewCard(review) {
+function createReviewCard(
+review
+){
 
-  const stars =
-    createStars(
-      Number(
-        review.rating
-      )
-    );
-
-
-  const comment =
-    review.comment ||
-    "لم يكتب العميل تعليقًا.";
+const stars=
+createStars(
+Number(
+review.rating
+)
+);
 
 
-  return `
-    <div class="review-item">
+const comment=
+review.comment||
+"لم يكتب العميل تعليقًا.";
 
-      <div class="review-top">
 
-        <div class="review-stars">
-          ${stars}
-        </div>
+return `
 
-        <div class="review-date">
-          ${formatDate(
-            review.created_at
-          )}
-        </div>
+<div class="review-item">
 
-      </div>
+<div class="review-top">
 
-      <div class="review-comment">
-        ${escapeHTML(comment)}
-      </div>
+<div class="review-stars">
 
-    </div>
-  `;
+${stars}
+
+</div>
+
+<div class="review-date">
+
+${formatDate(
+review.created_at
+)}
+
+</div>
+
+</div>
+
+<div class="review-comment">
+
+${escapeHTML(
+comment
+)}
+
+</div>
+
+</div>
+
+`;
+
 }
 
 
@@ -2575,34 +3508,73 @@ function createReviewCard(review) {
    التاريخ
 ===================================== */
 
-function formatDate(value) {
+function formatDate(value){
 
-  if (!value) {
-    return "-";
-  }
-
-
-  const date =
-    new Date(value);
+if(!value){
+return "-";
+}
 
 
-  if (
-    Number.isNaN(
-      date.getTime()
-    )
-  ) {
-    return String(value);
-  }
+const date=
+new Date(value);
 
 
-  return date.toLocaleDateString(
-    "ar-JO",
-    {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit"
-    }
-  );
+if(
+Number.isNaN(
+date.getTime()
+)
+){
+
+return String(value);
+
+}
+
+
+return date.toLocaleDateString(
+"ar-JO",
+{
+year:"numeric",
+month:"2-digit",
+day:"2-digit"
+}
+);
+
+}
+
+
+function formatDateTime(value){
+
+if(!value){
+return "-";
+}
+
+
+const date=
+new Date(value);
+
+
+if(
+Number.isNaN(
+date.getTime()
+)
+){
+
+return String(value);
+
+}
+
+
+return date.toLocaleString(
+"ar-JO",
+{
+year:"numeric",
+month:"2-digit",
+day:"2-digit",
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
 }
 
 
@@ -2610,40 +3582,46 @@ function formatDate(value) {
    تسجيل الخروج
 ===================================== */
 
-async function logout() {
+async function logout(){
 
-  await supabaseClient
-    .auth
-    .signOut();
+await supabaseClient
+.auth
+.signOut();
 
 
-  window.location.href =
-    "login.html";
+window.location.href=
+"login.html";
+
+}
+
+
+/* =====================================
+   التشغيل
+===================================== */
+
+async function startDashboard(){
+
+const allowed=
+await checkTechnician();
+
+
+if(!allowed){
+return;
+}
+
+
+await loadTechnicianData();
+
+await loadRequests();
+
+await loadTechnicianRating();
+
 }
 
 
 /* =====================================
    تشغيل الصفحة
 ===================================== */
-
-async function startDashboard() {
-
-  const allowed =
-    await checkTechnician();
-
-
-  if (!allowed) {
-    return;
-  }
-
-
-  await loadTechnicianData();
-
-  await loadRequests();
-
-  await loadTechnicianRating();
-}
-
 
 startDashboard();
 
