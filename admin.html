@@ -332,8 +332,6 @@ opacity:.5;
 cursor:not-allowed
 }
 
-/* زر حذف الطلب الملغي */
-
 .save-actions{
 display:flex;
 gap:10px;
@@ -607,6 +605,175 @@ font-weight:bold
 }
 
 
+/* =====================================================
+   TECHNICIAN RATINGS
+===================================================== */
+
+.ratings-section{
+margin-top:35px
+}
+
+.rating-header-actions{
+display:flex;
+align-items:center;
+gap:10px;
+flex-wrap:wrap
+}
+
+.rating-refresh{
+border:none;
+background:#2563eb;
+color:#fff;
+border-radius:9px;
+padding:9px 14px;
+cursor:pointer;
+font-weight:bold
+}
+
+.rating-summary{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+margin-bottom:18px
+}
+
+.rating-summary-card{
+background:#0b192b;
+border:1px solid #1e334d;
+border-radius:14px;
+padding:15px
+}
+
+.rating-summary-title{
+font-size:11px;
+color:#94a3b8;
+margin-bottom:7px
+}
+
+.rating-summary-number{
+font-size:23px;
+font-weight:bold
+}
+
+.rating-table-wrap{
+overflow-x:auto;
+border-radius:14px
+}
+
+.rating-table{
+width:100%;
+border-collapse:collapse;
+min-width:750px
+}
+
+.rating-table th{
+background:#07111f;
+color:#94a3b8;
+font-size:11px;
+font-weight:bold;
+padding:13px 10px;
+text-align:right;
+border-bottom:1px solid #1e334d
+}
+
+.rating-table td{
+padding:14px 10px;
+border-bottom:1px solid #1e334d;
+font-size:12px;
+color:#e2e8f0;
+vertical-align:middle
+}
+
+.rating-table tr:last-child td{
+border-bottom:none
+}
+
+.rating-table tr:hover{
+background:rgba(37,99,235,.05)
+}
+
+.rank{
+font-size:15px;
+font-weight:bold;
+color:#60a5fa
+}
+
+.tech-name{
+font-weight:bold;
+font-size:13px
+}
+
+.tech-phone{
+font-size:10px;
+color:#64748b;
+margin-top:4px
+}
+
+.stars{
+color:#fbbf24;
+font-size:17px;
+letter-spacing:1px;
+white-space:nowrap
+}
+
+.rating-number{
+font-weight:bold;
+font-size:14px
+}
+
+.rating-muted{
+color:#64748b
+}
+
+.level-badge{
+display:inline-block;
+padding:6px 10px;
+border-radius:999px;
+font-size:10px;
+font-weight:bold;
+background:#1e293b;
+color:#cbd5e1
+}
+
+.level-excellent{
+background:rgba(168,85,247,.15);
+color:#d8b4fe
+}
+
+.level-special{
+background:rgba(59,130,246,.15);
+color:#93c5fd
+}
+
+.level-trusted{
+background:rgba(34,197,94,.15);
+color:#86efac
+}
+
+.level-active{
+background:rgba(245,158,11,.15);
+color:#fcd34d
+}
+
+.level-new{
+background:rgba(100,116,139,.15);
+color:#cbd5e1
+}
+
+.rating-empty{
+text-align:center;
+padding:35px;
+color:#94a3b8;
+background:#0b192b;
+border-radius:14px;
+border:1px dashed #334155
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
 @media(max-width:1000px){
 
 .stats{
@@ -627,6 +794,10 @@ grid-template-columns:1fr 1fr
 
 .application-actions{
 grid-template-columns:1fr 1fr
+}
+
+.rating-summary{
+grid-template-columns:repeat(2,1fr)
 }
 
 }
@@ -715,6 +886,10 @@ flex:1;
 text-align:center
 }
 
+.rating-summary{
+grid-template-columns:1fr 1fr
+}
+
 }
 </style>
 </head>
@@ -744,8 +919,7 @@ text-align:center
 إدارة الفنيين
 </a>
 
-<a href="join-technician.html"
-class="header-btn">
+<a href="join-technician.html" class="header-btn">
 صفحة انضمام الفني
 </a>
 
@@ -775,9 +949,7 @@ class="header-btn">
 </div>
 
 
-<!-- =====================================================
-     STATS
-===================================================== -->
+<!-- STATS -->
 
 <div class="stats">
 
@@ -809,9 +981,7 @@ class="header-btn">
 </div>
 
 
-<!-- =====================================================
-     FILTERS
-===================================================== -->
+<!-- FILTERS -->
 
 <div class="filters">
 
@@ -826,106 +996,40 @@ placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
 
 <select id="serviceFilter" class="filter">
 
-<option value="">
-كل الخدمات
-</option>
-
-<option value="تكييف وتبريد">
-تكييف وتبريد
-</option>
-
-<option value="كهرباء">
-كهرباء
-</option>
-
-<option value="سباكة">
-سباكة
-</option>
-
-<option value="صيانة أجهزة منزلية">
-صيانة أجهزة منزلية
-</option>
-
-<option value="نجارة">
-نجارة
-</option>
-
-<option value="دهان">
-دهان
-</option>
-
-<option value="صيانة عامة">
-صيانة عامة
-</option>
-
-<option value="أخرى">
-أخرى
-</option>
+<option value="">كل الخدمات</option>
+<option value="تكييف وتبريد">تكييف وتبريد</option>
+<option value="كهرباء">كهرباء</option>
+<option value="سباكة">سباكة</option>
+<option value="صيانة أجهزة منزلية">صيانة أجهزة منزلية</option>
+<option value="نجارة">نجارة</option>
+<option value="دهان">دهان</option>
+<option value="صيانة عامة">صيانة عامة</option>
+<option value="أخرى">أخرى</option>
 
 </select>
-
 
 <select id="statusFilter" class="filter">
 
-<option value="">
-كل الحالات
-</option>
-
-<option value="جديد">
-جديد
-</option>
-
-<option value="قيد المراجعة">
-قيد المراجعة
-</option>
-
-<option value="تم تعيين فني">
-تم تعيين فني
-</option>
-
-<option value="الفني في الطريق">
-الفني في الطريق
-</option>
-
-<option value="قيد التنفيذ">
-قيد التنفيذ
-</option>
-
-<option value="بانتظار قطعة/موافقة">
-بانتظار قطعة/موافقة
-</option>
-
-<option value="مكتمل">
-مكتمل
-</option>
-
-<option value="ملغي">
-ملغي
-</option>
+<option value="">كل الحالات</option>
+<option value="جديد">جديد</option>
+<option value="قيد المراجعة">قيد المراجعة</option>
+<option value="تم تعيين فني">تم تعيين فني</option>
+<option value="الفني في الطريق">الفني في الطريق</option>
+<option value="قيد التنفيذ">قيد التنفيذ</option>
+<option value="بانتظار قطعة/موافقة">بانتظار قطعة/موافقة</option>
+<option value="مكتمل">مكتمل</option>
+<option value="ملغي">ملغي</option>
 
 </select>
-
 
 <select id="priorityFilter" class="filter">
 
-<option value="">
-كل الأولويات
-</option>
-
-<option value="عادي">
-عادي
-</option>
-
-<option value="متوسط">
-متوسط
-</option>
-
-<option value="عاجل">
-عاجل
-</option>
+<option value="">كل الأولويات</option>
+<option value="عادي">عادي</option>
+<option value="متوسط">متوسط</option>
+<option value="عاجل">عاجل</option>
 
 </select>
-
 
 <button class="refresh-btn" id="refreshBtn">
 تحديث
@@ -936,9 +1040,7 @@ placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
 </div>
 
 
-<!-- =====================================================
-     CUSTOMER REQUESTS
-===================================================== -->
+<!-- REQUESTS -->
 
 <div class="requests-title">
 
@@ -962,9 +1064,7 @@ placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
 </div>
 
 
-<!-- =====================================================
-     TECHNICIAN APPLICATIONS
-===================================================== -->
+<!-- TECHNICIAN APPLICATIONS -->
 
 <section class="applications-section">
 
@@ -976,13 +1076,11 @@ placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
 طلبات انضمام الفنيين
 </h3>
 
-<span class="application-count"
-id="applicationCount">
+<span class="application-count" id="applicationCount">
 0 طلب
 </span>
 
 </div>
-
 
 <div id="applicationsContainer">
 
@@ -997,15 +1095,138 @@ id="applicationCount">
 </section>
 
 
+<!-- =====================================================
+     TECHNICIAN RATINGS
+===================================================== -->
+
+<section class="ratings-section">
+
+<div class="section-box">
+
+<div class="section-header">
+
+<div>
+
+<h3>
+تقييمات الفنيين
+</h3>
+
+<span class="application-count">
+ترتيب الفنيين حسب تقييم العملاء
+</span>
+
+</div>
+
+<div class="rating-header-actions">
+
+<span
+class="application-count"
+id="ratingCount"
+>
+0 فني
+</span>
+
+<button
+class="rating-refresh"
+id="ratingRefreshBtn"
+>
+تحديث التقييمات
+</button>
+
+</div>
+
+</div>
+
+
+<!-- SUMMARY -->
+
+<div class="rating-summary">
+
+<div class="rating-summary-card">
+
+<div class="rating-summary-title">
+عدد الفنيين
+</div>
+
+<div
+class="rating-summary-number"
+id="totalTechniciansRating"
+>
+0
+</div>
+
+</div>
+
+
+<div class="rating-summary-card">
+
+<div class="rating-summary-title">
+إجمالي التقييمات
+</div>
+
+<div
+class="rating-summary-number"
+id="totalReviewsRating"
+>
+0
+</div>
+
+</div>
+
+
+<div class="rating-summary-card">
+
+<div class="rating-summary-title">
+متوسط تقييم الشبكة
+</div>
+
+<div
+class="rating-summary-number"
+id="networkAverageRating"
+>
+0.0
+</div>
+
+</div>
+
+
+<div class="rating-summary-card">
+
+<div class="rating-summary-title">
+أعلى تقييم
+</div>
+
+<div
+class="rating-summary-number"
+id="highestRating"
+>
+0.0
+</div>
+
+</div>
+
+</div>
+
+
+<div id="ratingsContainer">
+
+<div class="loading">
+جاري تحميل تقييمات الفنيين...
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
 </main>
 
 
-<!-- =====================================================
-     ACCESS DENIED
-===================================================== -->
+<!-- ACCESS DENIED -->
 
-<div id="accessDenied"
-class="access-denied hidden">
+<div id="accessDenied" class="access-denied hidden">
 
 <h2>
 غير مصرح بالدخول
@@ -1049,10 +1270,9 @@ SUPABASE_KEY
 ===================================================== */
 
 let allRequests = [];
-
 let technicians = [];
-
 let technicianApplications = [];
+let technicianReviews = [];
 
 
 /* =====================================================
@@ -1071,6 +1291,9 @@ document.getElementById("requestsContainer");
 const applicationsContainer =
 document.getElementById("applicationsContainer");
 
+const ratingsContainer =
+document.getElementById("ratingsContainer");
+
 const searchInput =
 document.getElementById("searchInput");
 
@@ -1085,6 +1308,9 @@ document.getElementById("priorityFilter");
 
 const refreshBtn =
 document.getElementById("refreshBtn");
+
+const ratingRefreshBtn =
+document.getElementById("ratingRefreshBtn");
 
 const logoutBtn =
 document.getElementById("logoutBtn");
@@ -1116,15 +1342,12 @@ data,
 error
 } = await client.auth.getSession();
 
-
 if(error){
 throw error;
 }
 
-
 const session =
 data?.session;
-
 
 if(!session){
 
@@ -1135,10 +1358,8 @@ return;
 
 }
 
-
 const user =
 session.user;
-
 
 document.getElementById(
 "adminEmail"
@@ -1151,16 +1372,9 @@ const {
 data:roleData,
 error:roleError
 } = await client
-
 .from("user_roles")
-
 .select("role")
-
-.eq(
-"user_id",
-user.id
-)
-
+.eq("user_id",user.id)
 .maybeSingle();
 
 
@@ -1202,7 +1416,9 @@ loadTechnicians(),
 
 loadRequests(),
 
-loadTechnicianApplications()
+loadTechnicianApplications(),
+
+loadTechnicianRatings()
 
 ]);
 
@@ -1257,13 +1473,10 @@ const {
 data,
 error
 } = await client
-
 .from("technicians")
-
 .select(
 "id,full_name,phone,service_type,status"
 )
-
 .order(
 "full_name",
 {
@@ -1284,7 +1497,6 @@ technicians = [];
 return;
 
 }
-
 
 technicians =
 data || [];
@@ -1323,11 +1535,8 @@ const {
 data,
 error
 } = await client
-
 .from("service_requests")
-
 .select("*")
-
 .order(
 "created_at",
 {
@@ -1367,9 +1576,7 @@ return;
 allRequests =
 data || [];
 
-
 updateStatistics();
-
 renderRequests();
 
 }
@@ -1396,11 +1603,8 @@ const {
 data,
 error
 } = await client
-
 .from("technician_applications")
-
 .select("*")
-
 .order(
 "created_at",
 {
@@ -1415,7 +1619,6 @@ console.error(
 "Technician applications:",
 error
 );
-
 
 applicationsContainer.innerHTML = `
 
@@ -1468,6 +1671,580 @@ applicationsContainer.innerHTML = `
 `;
 
 }
+
+}
+
+
+/* =====================================================
+   LOAD TECHNICIAN RATINGS
+===================================================== */
+
+async function loadTechnicianRatings(){
+
+ratingsContainer.innerHTML = `
+
+<div class="loading">
+جاري تحميل تقييمات الفنيين...
+</div>
+
+`;
+
+try{
+
+/*
+   نحمل كل التقييمات.
+   لا نغير جدول technician_reviews.
+*/
+
+const {
+data,
+error
+} = await client
+.from("technician_reviews")
+.select(
+"id,request_id,technician_id,rating,comment,created_at"
+)
+.order(
+"created_at",
+{
+ascending:false
+}
+);
+
+
+if(error){
+
+console.error(
+"Technician reviews:",
+error
+);
+
+ratingsContainer.innerHTML = `
+
+<div class="rating-empty">
+
+<h3>
+تعذر تحميل التقييمات
+</h3>
+
+<p style="margin-top:10px">
+${escapeHtml(error.message)}
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+technicianReviews =
+data || [];
+
+
+renderTechnicianRatings();
+
+
+}catch(error){
+
+console.error(
+"Ratings error:",
+error
+);
+
+ratingsContainer.innerHTML = `
+
+<div class="rating-empty">
+تعذر تحميل تقييمات الفنيين.
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =====================================================
+   RENDER TECHNICIAN RATINGS
+===================================================== */
+
+function renderTechnicianRatings(){
+
+const techniciansList =
+technicians || [];
+
+
+/*
+   نبني إحصائيات كل فني
+*/
+
+const ratingData =
+techniciansList.map(
+technician => {
+
+const reviews =
+technicianReviews.filter(
+review =>
+String(review.technician_id) ===
+String(technician.id)
+);
+
+
+const totalReviews =
+reviews.length;
+
+
+const totalStars =
+reviews.reduce(
+(sum,review) =>
+sum + Number(review.rating || 0),
+0
+);
+
+
+const average =
+totalReviews
+?
+totalStars / totalReviews
+:
+0;
+
+
+const completedJobs =
+allRequests.filter(
+request =>
+String(request.technician_id) ===
+String(technician.id) &&
+request.status === "مكتمل"
+).length;
+
+
+return {
+
+technician,
+
+reviews,
+
+totalReviews,
+
+average,
+
+completedJobs
+
+};
+
+}
+);
+
+
+/*
+   ترتيب:
+   1. الأعلى تقييمًا
+   2. عدد التقييمات
+   3. عدد الطلبات المكتملة
+*/
+
+ratingData.sort(
+(a,b) => {
+
+if(b.average !== a.average){
+
+return b.average - a.average;
+
+}
+
+if(b.totalReviews !== a.totalReviews){
+
+return b.totalReviews - a.totalReviews;
+
+}
+
+return b.completedJobs - a.completedJobs;
+
+}
+);
+
+
+/* إحصائيات عامة */
+
+const totalReviews =
+technicianReviews.length;
+
+
+const totalStars =
+technicianReviews.reduce(
+(sum,review) =>
+sum + Number(review.rating || 0),
+0
+);
+
+
+const networkAverage =
+totalReviews
+?
+totalStars / totalReviews
+:
+0;
+
+
+const highest =
+ratingData.length
+?
+Math.max(
+...ratingData.map(
+item => item.average
+)
+)
+:
+0;
+
+
+document.getElementById(
+"totalTechniciansRating"
+).textContent =
+techniciansList.length;
+
+
+document.getElementById(
+"totalReviewsRating"
+).textContent =
+totalReviews;
+
+
+document.getElementById(
+"networkAverageRating"
+).textContent =
+networkAverage.toFixed(1);
+
+
+document.getElementById(
+"highestRating"
+).textContent =
+highest.toFixed(1);
+
+
+document.getElementById(
+"ratingCount"
+).textContent =
+techniciansList.length +
+" فني";
+
+
+if(!ratingData.length){
+
+ratingsContainer.innerHTML = `
+
+<div class="rating-empty">
+
+لا يوجد فنيون مسجلون حاليًا.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/*
+   الجدول
+*/
+
+ratingsContainer.innerHTML = `
+
+<div class="rating-table-wrap">
+
+<table class="rating-table">
+
+<thead>
+
+<tr>
+
+<th>
+الترتيب
+</th>
+
+<th>
+الفني
+</th>
+
+<th>
+التخصص
+</th>
+
+<th>
+التقييم
+</th>
+
+<th>
+عدد التقييمات
+</th>
+
+<th>
+الطلبات المكتملة
+</th>
+
+<th>
+المستوى
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+${ratingData
+.map(
+(item,index) =>
+technicianRatingRow(
+item,
+index
+)
+)
+.join("")}
+
+</tbody>
+
+</table>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+   TECHNICIAN RATING ROW
+===================================================== */
+
+function technicianRatingRow(
+data,
+index
+){
+
+const technician =
+data.technician;
+
+
+const average =
+data.average;
+
+
+const stars =
+average
+?
+renderStars(average)
+:
+`<span class="rating-muted">لا يوجد</span>`;
+
+
+const level =
+getTechnicianLevel(
+average,
+data.totalReviews
+);
+
+
+return `
+
+<tr>
+
+<td>
+
+<span class="rank">
+#${index + 1}
+</span>
+
+</td>
+
+
+<td>
+
+<div class="tech-name">
+
+${escapeHtml(
+technician.full_name ||
+"فني بدون اسم"
+)}
+
+</div>
+
+<div class="tech-phone">
+
+${escapeHtml(
+technician.phone ||
+""
+)}
+
+</div>
+
+</td>
+
+
+<td>
+
+${escapeHtml(
+technician.service_type ||
+"متعدد التخصصات"
+)}
+
+</td>
+
+
+<td>
+
+<div class="stars">
+${stars}
+</div>
+
+<div style="margin-top:3px">
+
+${
+average
+?
+`<span class="rating-number">${average.toFixed(1)} / 5</span>`
+:
+`<span class="rating-muted">لا يوجد تقييم</span>`
+}
+
+</div>
+
+</td>
+
+
+<td>
+
+${data.totalReviews}
+
+</td>
+
+
+<td>
+
+${data.completedJobs}
+
+</td>
+
+
+<td>
+
+<span class="level-badge ${level.className}">
+
+${level.name}
+
+</span>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+
+/* =====================================================
+   RENDER STARS
+===================================================== */
+
+function renderStars(value){
+
+const rounded =
+Math.round(value);
+
+
+let result = "";
+
+for(
+let i = 1;
+i <= 5;
+i++
+){
+
+result +=
+i <= rounded
+?
+"★"
+:
+"☆";
+
+}
+
+return result;
+
+}
+
+
+/* =====================================================
+   TECHNICIAN LEVEL
+===================================================== */
+
+function getTechnicianLevel(
+average,
+count
+){
+
+if(
+count === 0
+){
+
+return {
+name:"فني جديد",
+className:"level-new"
+};
+
+}
+
+
+if(
+average >= 4.7 &&
+count >= 10
+){
+
+return {
+name:"فني ممتاز",
+className:"level-excellent"
+};
+
+}
+
+
+if(
+average >= 4.3 &&
+count >= 5
+){
+
+return {
+name:"فني مميز",
+className:"level-special"
+};
+
+}
+
+
+if(
+average >= 4 &&
+count >= 3
+){
+
+return {
+name:"فني موثوق",
+className:"level-trusted"
+};
+
+}
+
+
+return {
+name:"فني نشط",
+className:"level-active"
+};
 
 }
 
@@ -1798,11 +2575,8 @@ function applicationStatusOptions(current){
 const options = [
 
 "جديد",
-
 "قيد المراجعة",
-
 "مقبول",
-
 "مرفوض"
 
 ];
@@ -1930,15 +2704,9 @@ new Date().toISOString()
 const {
 error
 } = await client
-
 .from("technician_applications")
-
 .update(updateData)
-
-.eq(
-"id",
-id
-);
+.eq("id",id);
 
 
 if(error){
@@ -1966,7 +2734,6 @@ showToast(
 (error.message || "خطأ غير معروف"),
 true
 );
-
 
 button.disabled = false;
 
@@ -2068,10 +2835,9 @@ refreshBtn.textContent =
 
 
 await loadTechnicians();
-
 await loadRequests();
-
 await loadTechnicianApplications();
+await loadTechnicianRatings();
 
 
 refreshBtn.disabled = false;
@@ -2082,6 +2848,39 @@ refreshBtn.textContent =
 
 showToast(
 "تم تحديث البيانات"
+);
+
+}
+);
+
+
+/* =====================================================
+   RATING REFRESH
+===================================================== */
+
+ratingRefreshBtn.addEventListener(
+"click",
+async function(){
+
+ratingRefreshBtn.disabled = true;
+
+ratingRefreshBtn.textContent =
+"جاري التحديث...";
+
+
+await loadTechnicians();
+await loadRequests();
+await loadTechnicianRatings();
+
+
+ratingRefreshBtn.disabled = false;
+
+ratingRefreshBtn.textContent =
+"تحديث التقييمات";
+
+
+showToast(
+"تم تحديث تقييمات الفنيين"
 );
 
 }
@@ -2219,7 +3018,8 @@ request.preferred_date
 const technician =
 technicians.find(
 item =>
-item.id === request.technician_id
+String(item.id) ===
+String(request.technician_id)
 );
 
 
@@ -2606,7 +3406,7 @@ this
 )"
 >
 
-🗑️ حذف الطلب
+حذف الطلب
 
 </button>
 
@@ -2680,7 +3480,8 @@ technician.id
 )}"
 
 ${
-technician.id === selectedId
+String(technician.id) ===
+String(selectedId)
 ?
 "selected"
 :
@@ -2725,19 +3526,12 @@ function statusOptions(current){
 const options = [
 
 "جديد",
-
 "قيد المراجعة",
-
 "تم تعيين فني",
-
 "الفني في الطريق",
-
 "قيد التنفيذ",
-
 "بانتظار قطعة/موافقة",
-
 "مكتمل",
-
 "ملغي"
 
 ];
@@ -2779,9 +3573,7 @@ function priorityOptions(current){
 const options = [
 
 "عادي",
-
 "متوسط",
-
 "عاجل"
 
 ];
@@ -2895,13 +3687,6 @@ new Date().toISOString()
 };
 
 
-/*
-   ملاحظة:
-   لا نرسل assigned_at هنا حتى لا يفشل الحفظ
-   إذا لم يكن العمود موجودًا في قاعدة البيانات.
-*/
-
-
 if(status === "مكتمل"){
 
 const existing =
@@ -2929,15 +3714,9 @@ null;
 const {
 error
 } = await client
-
 .from("service_requests")
-
 .update(updateData)
-
-.eq(
-"id",
-id
-);
+.eq("id",id);
 
 
 if(error){
@@ -2951,6 +3730,7 @@ showToast(
 
 
 await loadRequests();
+await loadTechnicianRatings();
 
 
 }catch(error){
@@ -3005,11 +3785,6 @@ return;
 }
 
 
-/*
-   حماية إضافية:
-   لا يسمح بالحذف إلا إذا كانت الحالة ملغي
-*/
-
 if(request.status !== "ملغي"){
 
 showToast(
@@ -3033,9 +3808,7 @@ confirm(
 
 
 if(!confirmed){
-
 return;
-
 }
 
 
@@ -3048,30 +3821,16 @@ button.textContent =
 const {
 error
 } = await client
-
 .from("service_requests")
-
 .delete()
-
-.eq(
-"id",
-id
-)
-
-.eq(
-"status",
-"ملغي"
-);
+.eq("id",id)
+.eq("status","ملغي");
 
 
 if(error){
-
 throw error;
-
 }
 
-
-/* إزالة الطلب من القائمة المحلية */
 
 allRequests =
 allRequests.filter(
@@ -3079,11 +3838,9 @@ item => item.id !== id
 );
 
 
-/* تحديث الإحصائيات والواجهة */
-
 updateStatistics();
-
 renderRequests();
+renderTechnicianRatings();
 
 
 showToast(
@@ -3102,7 +3859,7 @@ error
 button.disabled = false;
 
 button.textContent =
-"🗑️ حذف الطلب";
+"حذف الطلب";
 
 
 showToast(
