@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,957 +10,438 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
 
-body{
-font-family:Tahoma,Arial,sans-serif;
-background:
-radial-gradient(circle at top right,rgba(37,99,235,.18),transparent 35%),
-#07111f;
-color:#fff;
-min-height:100vh
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
-button,input,select,textarea{font-family:inherit}
-
-.hidden{display:none!important}
+body{
+  font-family:Arial,Tahoma,sans-serif;
+  background:#07111f;
+  color:#fff;
+  min-height:100vh;
+}
 
 header{
-position:sticky;
-top:0;
-z-index:20;
-background:rgba(7,17,31,.95);
-backdrop-filter:blur(15px);
-border-bottom:1px solid rgba(255,255,255,.08)
+  background:linear-gradient(135deg,#111d35,#182b50);
+  padding:18px;
+  border-bottom:1px solid #263957;
+  position:sticky;
+  top:0;
+  z-index:100;
 }
 
 .header-inner{
-max-width:1400px;
-margin:auto;
-padding:14px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:15px
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
 }
 
-.brand{
-display:flex;
-align-items:center;
-gap:12px
+.logo{
+  font-size:22px;
+  font-weight:bold;
+  color:#5da9ff;
 }
 
-.brand-icon{
-width:45px;
-height:45px;
-border-radius:13px;
-background:linear-gradient(135deg,#2563eb,#7c3aed);
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
-font-size:20px
+.header-buttons{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
 }
 
-.brand h1{font-size:18px}
-.brand span{color:#94a3b8;font-size:12px}
-
-.header-actions{
-display:flex;
-gap:8px;
-flex-wrap:wrap
+button,
+.btn{
+  border:none;
+  border-radius:9px;
+  padding:10px 15px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:bold;
+  text-decoration:none;
+  display:inline-block;
 }
 
-.header-btn{
-border:1px solid #334155;
-background:#0f1d30;
-color:#fff;
-padding:10px 14px;
-border-radius:10px;
-cursor:pointer;
-text-decoration:none;
-font-size:13px
+.btn-primary{
+  background:#287cff;
+  color:#fff;
 }
 
-.header-btn:hover{
-background:#162943
+.btn-success{
+  background:#16a765;
+  color:#fff;
 }
 
-main{
-max-width:1400px;
-margin:auto;
-padding:25px 18px 50px
+.btn-danger{
+  background:#d9363e;
+  color:#fff;
 }
 
-.welcome{margin-bottom:22px}
-
-.welcome h2{
-font-size:27px;
-margin-bottom:6px
+.btn-warning{
+  background:#d99a00;
+  color:#fff;
 }
 
-.welcome p{color:#94a3b8}
-
-.stats{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:14px;
-margin-bottom:22px
+.btn-dark{
+  background:#24344f;
+  color:#fff;
 }
 
-.stat{
-background:#0f1d30;
-border:1px solid #1e334d;
-border-radius:17px;
-padding:18px
+button:disabled{
+  opacity:.5;
+  cursor:not-allowed;
 }
 
-.stat-title{
-color:#94a3b8;
-font-size:12px;
-margin-bottom:8px
-}
-
-.stat-number{
-font-size:27px;
-font-weight:bold
-}
-
-.filters{
-background:#0f1d30;
-border:1px solid #1e334d;
-border-radius:17px;
-padding:16px;
-margin-bottom:20px
-}
-
-.filters-grid{
-display:grid;
-grid-template-columns:2fr 1fr 1fr 1fr auto;
-gap:9px
-}
-
-.filter{
-width:100%;
-padding:12px;
-background:#0b192b;
-color:#fff;
-border:1px solid #263b54;
-border-radius:10px;
-outline:none
-}
-
-.refresh-btn{
-padding:12px 17px;
-border:none;
-border-radius:10px;
-background:#2563eb;
-color:#fff;
-cursor:pointer;
-font-weight:bold
-}
-
-.requests-title{
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin-bottom:14px
-}
-
-.requests-title h3{font-size:20px}
-
-.request-count{
-color:#94a3b8;
-font-size:13px
-}
-
-.requests{
-display:grid;
-gap:15px
-}
-
-.request-card{
-background:#0f1d30;
-border:1px solid #1e334d;
-border-radius:18px;
-padding:19px;
-overflow:hidden
-}
-
-.request-card.new-unassigned{
-border-color:#2563eb;
-box-shadow:0 0 0 1px rgba(37,99,235,.12)
-}
-
-.request-top{
-display:flex;
-align-items:flex-start;
-justify-content:space-between;
-gap:15px;
-margin-bottom:17px
-}
-
-.request-number{
-font-size:18px;
-font-weight:bold;
-color:#60a5fa;
-margin-bottom:5px
-}
-
-.request-date{
-color:#64748b;
-font-size:11px
-}
-
-.badges{
-display:flex;
-flex-wrap:wrap;
-gap:7px
-}
-
-.badge{
-padding:6px 10px;
-border-radius:999px;
-font-size:11px;
-font-weight:bold;
-background:#1e293b;
-color:#cbd5e1
-}
-
-.badge.new{
-background:rgba(59,130,246,.15);
-color:#93c5fd
-}
-
-.badge.progress{
-background:rgba(245,158,11,.15);
-color:#fcd34d
-}
-
-.badge.done{
-background:rgba(34,197,94,.15);
-color:#86efac
-}
-
-.badge.cancelled{
-background:rgba(239,68,68,.15);
-color:#fca5a5
-}
-
-.badge.available{
-background:rgba(34,197,94,.15);
-color:#86efac
-}
-
-.badge.busy{
-background:rgba(245,158,11,.15);
-color:#fcd34d
-}
-
-.badge.unavailable{
-background:rgba(239,68,68,.15);
-color:#fca5a5
-}
-
-.badge.warning{
-background:rgba(234,179,8,.15);
-color:#fde68a
-}
-
-.request-info{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-margin-bottom:16px
-}
-
-.info-box{
-background:#0b192b;
-border-radius:11px;
-padding:12px;
-border:1px solid #172a40
-}
-
-.info-label{
-color:#64748b;
-font-size:10px;
-margin-bottom:4px
-}
-
-.info-value{
-color:#e2e8f0;
-font-size:13px;
-word-break:break-word
-}
-
-.description{
-background:#0b192b;
-padding:13px;
-border-radius:11px;
-margin-bottom:16px;
-color:#cbd5e1;
-font-size:13px;
-line-height:1.7
-}
-
-.controls{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-padding-top:16px;
-border-top:1px solid #1e334d
-}
-
-.control label{
-display:block;
-color:#94a3b8;
-font-size:11px;
-margin-bottom:6px
-}
-
-.control select,
-.control input,
-.control textarea{
-width:100%;
-padding:10px;
-border-radius:9px;
-border:1px solid #263b54;
-background:#0b192b;
-color:#fff;
-outline:none
-}
-
-.control textarea{
-min-height:70px;
-resize:vertical
-}
-
-.save-row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-margin-top:14px
-}
-
-.save-btn{
-border:none;
-background:#16a34a;
-color:#fff;
-border-radius:10px;
-padding:11px 18px;
-cursor:pointer;
-font-weight:bold
-}
-
-.save-btn:disabled{
-opacity:.5;
-cursor:not-allowed
-}
-
-.save-actions{
-display:flex;
-gap:10px;
-align-items:center;
-flex-wrap:wrap
-}
-
-.delete-btn{
-border:none;
-background:#dc2626;
-color:#fff;
-border-radius:10px;
-padding:11px 18px;
-cursor:pointer;
-font-weight:bold
-}
-
-.delete-btn:hover{
-background:#b91c1c
-}
-
-.delete-btn:disabled{
-opacity:.5;
-cursor:not-allowed
-}
-
-.image-link{
-display:inline-block;
-padding:10px 14px;
-border-radius:9px;
-background:#1d4ed8;
-color:#fff;
-text-decoration:none;
-font-size:12px
-}
-
-.technician-status-box{
-margin-bottom:16px;
-background:#0b192b;
-border:1px solid #172a40;
-border-radius:12px;
-padding:13px
-}
-
-.technician-status-title{
-font-size:11px;
-color:#64748b;
-margin-bottom:8px
-}
-
-.technician-status-content{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-flex-wrap:wrap
-}
-
-.technician-status-name{
-font-size:13px;
-font-weight:bold;
-color:#e2e8f0
-}
-
-.technician-status-meta{
-font-size:11px;
-color:#94a3b8;
-margin-top:4px
-}
-
-.tech-status-select option[value="متاح"]{
-color:#86efac
-}
-
-.tech-status-select option[value="مشغول"]{
-color:#fcd34d
-}
-
-.tech-status-select option[value="غير متاح"]{
-color:#fca5a5
-}
-
-.empty{
-background:#0f1d30;
-border:1px dashed #334155;
-padding:45px 20px;
-border-radius:18px;
-text-align:center;
-color:#94a3b8
-}
-
-.loading{
-text-align:center;
-padding:40px;
-color:#94a3b8
-}
-
-.toast{
-position:fixed;
-left:18px;
-bottom:18px;
-z-index:100;
-padding:13px 18px;
-border-radius:10px;
-background:#16a34a;
-color:#fff;
-display:none;
-box-shadow:0 10px 30px rgba(0,0,0,.3)
-}
-
-.toast.error{
-background:#dc2626
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
 }
 
 .access-denied{
-max-width:500px;
-margin:80px auto;
-padding:35px 25px;
-background:#0f1d30;
-border:1px solid #1e334d;
-border-radius:20px;
-text-align:center
+  max-width:600px;
+  margin:80px auto;
+  background:#111d31;
+  border:1px solid #293b5c;
+  border-radius:16px;
+  padding:30px;
+  text-align:center;
 }
 
 .access-denied h2{
-margin-bottom:12px;
-font-size:24px
+  color:#ff6262;
+  margin-bottom:15px;
 }
 
-.access-denied p{
-color:#94a3b8;
-line-height:1.8;
-margin-bottom:20px
+.loading{
+  text-align:center;
+  padding:40px;
+  color:#9db1cf;
 }
 
-.access-denied a{
-display:inline-block;
-background:#2563eb;
-color:#fff;
-padding:11px 18px;
-border-radius:10px;
-text-decoration:none
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:20px;
 }
 
-/* =====================================================
-   TECHNICIAN APPLICATIONS
-===================================================== */
-
-.applications-section{
-margin-top:35px
+.stat{
+  background:#111d31;
+  border:1px solid #293b5c;
+  border-radius:14px;
+  padding:20px;
 }
 
-.section-box{
-background:#0f1d30;
-border:1px solid #1e334d;
-border-radius:18px;
-padding:20px
+.stat-title{
+  color:#91a5c2;
+  font-size:14px;
+  margin-bottom:10px;
 }
 
-.section-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-margin-bottom:18px
+.stat-number{
+  font-size:30px;
+  font-weight:bold;
 }
 
-.section-header h3{
-font-size:20px
+.tabs{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  margin-bottom:20px;
+  padding-bottom:4px;
 }
 
-.application-count{
-font-size:12px;
-color:#94a3b8
+.tab{
+  background:#15233b;
+  color:#b9c8df;
+  white-space:nowrap;
+}
+
+.tab.active{
+  background:#287cff;
+  color:#fff;
+}
+
+.section{
+  display:none;
+}
+
+.section.active{
+  display:block;
+}
+
+.panel{
+  background:#101c2e;
+  border:1px solid #293b5c;
+  border-radius:15px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.panel h2{
+  margin-bottom:18px;
+  font-size:20px;
+}
+
+.filters{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-bottom:20px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  background:#0a1526;
+  color:#fff;
+  border:1px solid #314664;
+  border-radius:8px;
+  padding:11px;
+  font-size:14px;
+  outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:#287cff;
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.requests-grid,
+.technicians-grid,
+.applications-grid,
+.ratings-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
+
+.card{
+  background:#0c1829;
+  border:1px solid #293b5c;
+  border-radius:14px;
+  padding:17px;
+}
+
+.card-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+}
+
+.card-title{
+  font-weight:bold;
+  font-size:17px;
+}
+
+.card-row{
+  display:flex;
+  gap:8px;
+  margin:8px 0;
+  color:#c4d0e3;
+  line-height:1.6;
+}
+
+.card-row strong{
+  color:#fff;
+}
+
+.badge{
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+.badge-new{
+  background:#193b70;
+  color:#74b4ff;
+}
+
+.badge-progress{
+  background:#4d3b0d;
+  color:#ffd45c;
+}
+
+.badge-success{
+  background:#0d482f;
+  color:#55dfa2;
+}
+
+.badge-danger{
+  background:#4d1820;
+  color:#ff747d;
+}
+
+.badge-info{
+  background:#28224c;
+  color:#b49cff;
+}
+
+.card-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:15px;
+}
+
+.form-group{
+  margin-bottom:14px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:7px;
+  color:#aebed4;
+  font-size:13px;
+}
+
+.empty{
+  text-align:center;
+  padding:35px;
+  color:#879ab6;
+  background:#0b1728;
+  border-radius:12px;
+  border:1px dashed #304563;
+  grid-column:1/-1;
 }
 
 .application-card{
-background:#0b192b;
-border:1px solid #1e334d;
-border-radius:16px;
-padding:18px;
-margin-bottom:14px
+  position:relative;
 }
 
-.application-card:last-child{
-margin-bottom:0
+.application-card.accepted{
+  border-color:#16a765;
 }
 
-.application-top{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-gap:15px;
-margin-bottom:15px
+.application-card.rejected{
+  border-color:#d9363e;
 }
 
-.application-number{
-color:#60a5fa;
-font-weight:bold;
-font-size:16px
+.application-status-select{
+  margin-bottom:10px;
 }
 
-.application-date{
-color:#64748b;
-font-size:11px;
-margin-top:5px
+.application-admin-notes{
+  min-height:100px;
 }
 
-.application-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-bottom:15px
+.toast{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  max-width:360px;
+  background:#15243a;
+  border:1px solid #385173;
+  color:#fff;
+  padding:14px 17px;
+  border-radius:10px;
+  box-shadow:0 10px 30px #0008;
+  z-index:9999;
+  display:none;
 }
 
-.application-info{
-background:#07111f;
-border:1px solid #172a40;
-border-radius:10px;
-padding:11px
+.toast.show{
+  display:block;
 }
 
-.application-info .label{
-color:#64748b;
-font-size:10px;
-margin-bottom:5px
+.toast.error{
+  border-color:#d9363e;
 }
 
-.application-info .value{
-font-size:13px;
-color:#e2e8f0;
-word-break:break-word
+.toast.success{
+  border-color:#16a765;
 }
 
-.application-description{
-background:#07111f;
-border-radius:10px;
-padding:13px;
-color:#cbd5e1;
-font-size:13px;
-line-height:1.8;
-margin-bottom:14px
+.review-stars{
+  color:#ffd34d;
+  font-size:18px;
 }
 
-.application-actions{
-display:grid;
-grid-template-columns:1fr 1fr 2fr auto;
-gap:9px;
-align-items:end
-}
-
-.application-actions label{
-display:block;
-font-size:11px;
-color:#94a3b8;
-margin-bottom:6px
-}
-
-.application-actions select,
-.application-actions textarea{
-width:100%;
-padding:10px;
-border-radius:9px;
-border:1px solid #263b54;
-background:#07111f;
-color:#fff;
-outline:none
-}
-
-.application-actions textarea{
-min-height:43px;
-resize:vertical
-}
-
-.application-save{
-border:none;
-background:#2563eb;
-color:#fff;
-border-radius:9px;
-padding:11px 16px;
-cursor:pointer;
-font-weight:bold
-}
-
-.application-save:disabled{
-opacity:.5;
-cursor:not-allowed
-}
-
-.status-new{
-background:rgba(59,130,246,.15);
-color:#93c5fd
-}
-
-.status-review{
-background:rgba(245,158,11,.15);
-color:#fcd34d
-}
-
-.status-accepted{
-background:rgba(34,197,94,.15);
-color:#86efac
-}
-
-.status-rejected{
-background:rgba(239,68,68,.15);
-color:#fca5a5
-}
-
-.application-status{
-display:inline-block;
-padding:6px 10px;
-border-radius:999px;
-font-size:11px;
-font-weight:bold
-}
-
-/* =====================================================
-   TECHNICIAN RATINGS
-===================================================== */
-
-.ratings-section{
-margin-top:35px
-}
-
-.rating-header-actions{
-display:flex;
-align-items:center;
-gap:10px;
-flex-wrap:wrap
-}
-
-.rating-refresh{
-border:none;
-background:#2563eb;
-color:#fff;
-border-radius:9px;
-padding:9px 14px;
-cursor:pointer;
-font-weight:bold
-}
-
-.rating-summary{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:12px;
-margin-bottom:18px
-}
-
-.rating-summary-card{
-background:#0b192b;
-border:1px solid #1e334d;
-border-radius:14px;
-padding:15px
-}
-
-.rating-summary-title{
-font-size:11px;
-color:#94a3b8;
-margin-bottom:7px
-}
-
-.rating-summary-number{
-font-size:23px;
-font-weight:bold
-}
-
-.rating-table-wrap{
-overflow-x:auto;
-border-radius:14px
-}
-
-.rating-table{
-width:100%;
-border-collapse:collapse;
-min-width:750px
-}
-
-.rating-table th{
-background:#07111f;
-color:#94a3b8;
-font-size:11px;
-font-weight:bold;
-padding:13px 10px;
-text-align:right;
-border-bottom:1px solid #1e334d
-}
-
-.rating-table td{
-padding:14px 10px;
-border-bottom:1px solid #1e334d;
-font-size:12px;
-color:#e2e8f0;
-vertical-align:middle
-}
-
-.rating-table tr:last-child td{
-border-bottom:none
-}
-
-.rating-table tr:hover{
-background:rgba(37,99,235,.05)
-}
-
-.rank{
-font-size:15px;
-font-weight:bold;
-color:#60a5fa
-}
-
-.tech-name{
-font-weight:bold;
-font-size:13px
-}
-
-.tech-phone{
-font-size:10px;
-color:#64748b;
-margin-top:4px
-}
-
-.stars{
-color:#fbbf24;
-font-size:17px;
-letter-spacing:1px;
-white-space:nowrap
-}
-
-.rating-number{
-font-weight:bold;
-font-size:14px
-}
-
-.rating-muted{
-color:#64748b
-}
-
-.level-badge{
-display:inline-block;
-padding:6px 10px;
-border-radius:999px;
-font-size:10px;
-font-weight:bold;
-background:#1e293b;
-color:#cbd5e1
-}
-
-.level-excellent{
-background:rgba(168,85,247,.15);
-color:#d8b4fe
-}
-
-.level-special{
-background:rgba(59,130,246,.15);
-color:#93c5fd
-}
-
-.level-trusted{
-background:rgba(34,197,94,.15);
-color:#86efac
-}
-
-.level-active{
-background:rgba(245,158,11,.15);
-color:#fcd34d
-}
-
-.level-new{
-background:rgba(100,116,139,.15);
-color:#cbd5e1
-}
-
-.rating-empty{
-text-align:center;
-padding:35px;
-color:#94a3b8;
-background:#0b192b;
-border-radius:14px;
-border:1px dashed #334155
-}
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media(max-width:1000px){
-
-.stats{
-grid-template-columns:repeat(3,1fr)
-}
-
-.filters-grid{
-grid-template-columns:1fr 1fr
-}
-
-.controls{
-grid-template-columns:1fr 1fr
-}
-
-.application-grid{
-grid-template-columns:1fr 1fr
-}
-
-.application-actions{
-grid-template-columns:1fr 1fr
-}
-
-.rating-summary{
-grid-template-columns:repeat(2,1fr)
-}
-
-}
-
-@media(max-width:650px){
-
-.header-inner{
-padding:12px
-}
-
-.brand h1{
-font-size:16px
-}
-
-.brand span{
-display:none
-}
-
-main{
-padding:20px 12px 40px
-}
+@media(max-width:900px){
 
-.stats{
-grid-template-columns:repeat(2,1fr)
-}
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
 
-.filters-grid{
-grid-template-columns:1fr
-}
+  .filters{
+    grid-template-columns:repeat(2,1fr);
+  }
 
-.request-top{
-flex-direction:column
-}
+  .requests-grid,
+  .technicians-grid,
+  .applications-grid,
+  .ratings-grid{
+    grid-template-columns:1fr;
+  }
 
-.request-info{
-grid-template-columns:1fr
 }
 
-.controls{
-grid-template-columns:1fr
-}
+@media(max-width:600px){
 
-.save-row{
-flex-direction:column;
-align-items:stretch
-}
+  header{
+    padding:13px;
+  }
 
-.save-btn,
-.image-link{
-text-align:center;
-width:100%
-}
+  .header-inner{
+    align-items:flex-start;
+    flex-direction:column;
+  }
 
-.save-actions{
-width:100%;
-flex-direction:column;
-align-items:stretch
-}
+  .container{
+    padding:12px;
+  }
 
-.delete-btn{
-width:100%
-}
+  .stats{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
 
-.welcome h2{
-font-size:22px
-}
+  .stat{
+    padding:14px;
+  }
 
-.application-grid{
-grid-template-columns:1fr
-}
+  .stat-number{
+    font-size:24px;
+  }
 
-.application-top{
-flex-direction:column
-}
+  .filters{
+    grid-template-columns:1fr;
+  }
 
-.application-actions{
-grid-template-columns:1fr
-}
+  .panel{
+    padding:14px;
+  }
 
-.header-actions{
-width:100%
-}
+  .card{
+    padding:14px;
+  }
 
-.header-btn{
-flex:1;
-text-align:center
-}
+  .card-actions button,
+  .card-actions a{
+    width:100%;
+    text-align:center;
+  }
 
-.rating-summary{
-grid-template-columns:1fr 1fr
 }
 
-}
 </style>
+
 </head>
 
 <body>
@@ -968,30 +450,19 @@ grid-template-columns:1fr 1fr
 
 <div class="header-inner">
 
-<div class="brand">
-
-<div class="brand-icon">
-ف
+<div class="logo">
+فني برو | لوحة الإدارة
 </div>
 
-<div>
-<h1>فني برو</h1>
-<span>لوحة إدارة طلبات الصيانة</span>
-</div>
+<div class="header-buttons">
 
-</div>
-
-<div class="header-actions">
-
-<a href="technicians.html" class="header-btn">
-إدارة الفنيين
+<a href="index.html" class="btn btn-dark">
+الموقع
 </a>
 
-<a href="join-technician.html" class="header-btn">
-صفحة انضمام الفني
-</a>
-
-<button class="header-btn" id="logoutBtn">
+<button
+class="btn btn-danger"
+onclick="logout()">
 تسجيل الخروج
 </button>
 
@@ -1001,307 +472,322 @@ grid-template-columns:1fr 1fr
 
 </header>
 
-<main id="mainContent">
 
-<div class="welcome">
+<div id="loading" class="loading">
+جاري التحقق من صلاحيات الإدارة...
+</div>
+
+
+<div id="accessDenied" class="access-denied" style="display:none;">
 
 <h2>
-لوحة التحكم
+غير مسموح
 </h2>
 
-<p id="adminEmail">
-جاري التحقق من صلاحيات الحساب...
+<p id="accessDeniedMessage">
+هذا الحساب ليس لديه صلاحية مدير.
 </p>
 
-</div>
+<br>
 
-<!-- STATS -->
-
-<div class="stats">
-
-<div class="stat">
-<div class="stat-title">كل الطلبات</div>
-<div class="stat-number" id="totalCount">0</div>
-</div>
-
-<div class="stat">
-<div class="stat-title">طلبات جديدة</div>
-<div class="stat-number" id="newCount">0</div>
-</div>
-
-<div class="stat">
-<div class="stat-title">قيد التنفيذ</div>
-<div class="stat-number" id="progressCount">0</div>
-</div>
-
-<div class="stat">
-<div class="stat-title">مكتملة</div>
-<div class="stat-number" id="completedCount">0</div>
-</div>
-
-<div class="stat">
-<div class="stat-title">ملغاة</div>
-<div class="stat-number" id="cancelledCount">0</div>
-</div>
-
-</div>
-
-<!-- FILTERS -->
-
-<div class="filters">
-
-<div class="filters-grid">
-
-<input
-type="search"
-id="searchInput"
-class="filter"
-placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
->
-
-<select id="serviceFilter" class="filter">
-
-<option value="">كل الخدمات</option>
-<option value="تكييف وتبريد">تكييف وتبريد</option>
-<option value="كهرباء">كهرباء</option>
-<option value="سباكة">سباكة</option>
-<option value="صيانة أجهزة منزلية">صيانة أجهزة منزلية</option>
-<option value="نجارة">نجارة</option>
-<option value="دهان">دهان</option>
-<option value="صيانة عامة">صيانة عامة</option>
-<option value="أخرى">أخرى</option>
-
-</select>
-
-<select id="statusFilter" class="filter">
-
-<option value="">كل الحالات</option>
-<option value="جديد">جديد</option>
-<option value="قيد المراجعة">قيد المراجعة</option>
-<option value="تم تعيين فني">تم تعيين فني</option>
-<option value="الفني في الطريق">الفني في الطريق</option>
-<option value="قيد التنفيذ">قيد التنفيذ</option>
-<option value="بدأ العمل">بدأ العمل</option>
-<option value="بانتظار قطعة/موافقة">بانتظار قطعة/موافقة</option>
-<option value="مكتمل">مكتمل</option>
-<option value="ملغي">ملغي</option>
-
-</select>
-
-<select id="priorityFilter" class="filter">
-
-<option value="">كل الأولويات</option>
-<option value="عادي">عادي</option>
-<option value="متوسط">متوسط</option>
-<option value="عاجل">عاجل</option>
-
-</select>
-
-<button class="refresh-btn" id="refreshBtn">
-تحديث
-</button>
-
-</div>
-
-</div>
-
-<!-- REQUESTS -->
-
-<div class="requests-title">
-
-<h3>
-طلبات العملاء
-</h3>
-
-<span class="request-count" id="requestCount">
-0 طلب
-</span>
-
-</div>
-
-<div id="requestsContainer">
-
-<div class="loading">
-جاري تحميل الطلبات...
-</div>
-
-</div>
-
-<!-- TECHNICIAN APPLICATIONS -->
-
-<section class="applications-section">
-
-<div class="section-box">
-
-<div class="section-header">
-
-<h3>
-طلبات انضمام الفنيين
-</h3>
-
-<span class="application-count" id="applicationCount">
-0 طلب
-</span>
-
-</div>
-
-<div id="applicationsContainer">
-
-<div class="loading">
-جاري تحميل طلبات الفنيين...
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- TECHNICIAN RATINGS -->
-
-<section class="ratings-section">
-
-<div class="section-box">
-
-<div class="section-header">
-
-<div>
-
-<h3>
-تقييمات الفنيين
-</h3>
-
-<span class="application-count">
-ترتيب الفنيين حسب تقييم العملاء
-</span>
-
-</div>
-
-<div class="rating-header-actions">
-
-<span
-class="application-count"
-id="ratingCount"
->
-0 فني
-</span>
-
-<button
-class="rating-refresh"
-id="ratingRefreshBtn"
->
-تحديث التقييمات
-</button>
-
-</div>
-
-</div>
-
-<!-- SUMMARY -->
-
-<div class="rating-summary">
-
-<div class="rating-summary-card">
-
-<div class="rating-summary-title">
-عدد الفنيين
-</div>
-
-<div
-class="rating-summary-number"
-id="totalTechniciansRating"
->
-0
-</div>
-
-</div>
-
-<div class="rating-summary-card">
-
-<div class="rating-summary-title">
-إجمالي التقييمات
-</div>
-
-<div
-class="rating-summary-number"
-id="totalReviewsRating"
->
-0
-</div>
-
-</div>
-
-<div class="rating-summary-card">
-
-<div class="rating-summary-title">
-متوسط تقييم الشبكة
-</div>
-
-<div
-class="rating-summary-number"
-id="networkAverageRating"
->
-0.0
-</div>
-
-</div>
-
-<div class="rating-summary-card">
-
-<div class="rating-summary-title">
-أعلى تقييم
-</div>
-
-<div
-class="rating-summary-number"
-id="highestRating"
->
-0.0
-</div>
-
-</div>
-
-</div>
-
-<div id="ratingsContainer">
-
-<div class="loading">
-جاري تحميل تقييمات الفنيين...
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-</main>
-
-<!-- ACCESS DENIED -->
-
-<div id="accessDenied" class="access-denied hidden">
-
-<h2>
-غير مصرح بالدخول
-</h2>
-
-<p>
-هذا الحساب لا يملك صلاحية مدير فني برو.
-</p>
-
-<a href="index.html">
-العودة إلى الموقع
+<a href="login.html" class="btn btn-primary">
+العودة لتسجيل الدخول
 </a>
 
 </div>
 
+
+<main
+id="dashboard"
+class="container"
+style="display:none;">
+
+
+<div class="stats">
+
+<div class="stat">
+<div class="stat-title">
+إجمالي الطلبات
+</div>
+<div id="totalRequests" class="stat-number">
+0
+</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">
+طلبات جديدة
+</div>
+<div id="newRequests" class="stat-number">
+0
+</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">
+قيد التنفيذ
+</div>
+<div id="progressRequests" class="stat-number">
+0
+</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">
+طلبات مكتملة
+</div>
+<div id="completedRequests" class="stat-number">
+0
+</div>
+</div>
+
+</div>
+
+
+<div class="tabs">
+
+<button
+class="tab active"
+onclick="openTab('requests',this)">
+طلبات الصيانة
+</button>
+
+<button
+class="tab"
+onclick="openTab('technicians',this)">
+الفنيون
+</button>
+
+<button
+class="tab"
+onclick="openTab('applications',this)">
+طلبات الفنيين
+</button>
+
+<button
+class="tab"
+onclick="openTab('ratings',this)">
+التقييمات
+</button>
+
+</div>
+
+
+<!-- الطلبات -->
+
+<section
+id="requests"
+class="section active">
+
+<div class="panel">
+
+<h2>
+إدارة طلبات الصيانة
+</h2>
+
+<div class="filters">
+
+<select id="serviceFilter"
+onchange="renderRequests()">
+
+<option value="">
+كل الخدمات
+</option>
+
+<option value="تكييف وتبريد">
+تكييف وتبريد
+</option>
+
+<option value="كهرباء">
+كهرباء
+</option>
+
+<option value="سباكة">
+سباكة
+</option>
+
+<option value="صيانة أجهزة منزلية">
+صيانة أجهزة منزلية
+</option>
+
+<option value="نجارة">
+نجارة
+</option>
+
+<option value="دهان">
+دهان
+</option>
+
+<option value="صيانة عامة">
+صيانة عامة
+</option>
+
+<option value="أخرى">
+أخرى
+</option>
+
+</select>
+
+
+<select id="statusFilter"
+onchange="renderRequests()">
+
+<option value="">
+كل الحالات
+</option>
+
+<option value="جديد">
+جديد
+</option>
+
+<option value="قيد المراجعة">
+قيد المراجعة
+</option>
+
+<option value="تم تعيين فني">
+تم تعيين فني
+</option>
+
+<option value="الفني في الطريق">
+الفني في الطريق
+</option>
+
+<option value="قيد التنفيذ">
+قيد التنفيذ
+</option>
+
+<option value="بدأ العمل">
+بدأ العمل
+</option>
+
+<option value="بانتظار قطعة/موافقة">
+بانتظار قطعة/موافقة
+</option>
+
+<option value="مكتمل">
+مكتمل
+</option>
+
+<option value="ملغي">
+ملغي
+</option>
+
+</select>
+
+
+<select id="priorityFilter"
+onchange="renderRequests()">
+
+<option value="">
+كل الأولويات
+</option>
+
+<option value="عادي">
+عادي
+</option>
+
+<option value="متوسط">
+متوسط
+</option>
+
+<option value="عاجل">
+عاجل
+</option>
+
+</select>
+
+
+<input
+id="requestSearch"
+type="text"
+placeholder="بحث برقم الطلب أو اسم العميل..."
+oninput="renderRequests()">
+
+</div>
+
+<div
+id="requestsGrid"
+class="requests-grid">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- الفنيون -->
+
+<section
+id="technicians"
+class="section">
+
+<div class="panel">
+
+<h2>
+الفنيون
+</h2>
+
+<div
+id="techniciansGrid"
+class="technicians-grid">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- طلبات الفنيين -->
+
+<section
+id="applications"
+class="section">
+
+<div class="panel">
+
+<h2>
+طلبات الانضمام للفنيين
+</h2>
+
+<div
+id="applicationsGrid"
+class="applications-grid">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- التقييمات -->
+
+<section
+id="ratings"
+class="section">
+
+<div class="panel">
+
+<h2>
+تقييمات العملاء
+</h2>
+
+<div
+id="ratingsGrid"
+class="ratings-grid">
+</div>
+
+</div>
+
+</section>
+
+
+</main>
+
+
 <div id="toast" class="toast"></div>
 
-<script>
 
-/* =====================================================
-   SUPABASE
-===================================================== */
+<script>
 
 const SUPABASE_URL =
 "https://yesmnsztcqnhaqrcgpcs.supabase.co";
@@ -1311,3224 +797,1836 @@ const SUPABASE_KEY =
 
 const client =
 window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
-/* =====================================================
-   DATA
-===================================================== */
 
-let allRequests = [];
+let requests = [];
 let technicians = [];
 let technicianApplications = [];
-let technicianReviews = [];
+let technicianRatings = [];
 
-/* =====================================================
-   ELEMENTS
-===================================================== */
 
-const mainContent =
-document.getElementById("mainContent");
+/* =========================
+   أدوات
+========================= */
 
-const accessDenied =
-document.getElementById("accessDenied");
+function escapeHtml(value){
 
-const requestsContainer =
-document.getElementById("requestsContainer");
+  if(value === null || value === undefined){
+    return "";
+  }
 
-const applicationsContainer =
-document.getElementById("applicationsContainer");
-
-const ratingsContainer =
-document.getElementById("ratingsContainer");
-
-const searchInput =
-document.getElementById("searchInput");
-
-const serviceFilter =
-document.getElementById("serviceFilter");
-
-const statusFilter =
-document.getElementById("statusFilter");
-
-const priorityFilter =
-document.getElementById("priorityFilter");
-
-const refreshBtn =
-document.getElementById("refreshBtn");
-
-const ratingRefreshBtn =
-document.getElementById("ratingRefreshBtn");
-
-const logoutBtn =
-document.getElementById("logoutBtn");
-
-const toast =
-document.getElementById("toast");
-
-/* =====================================================
-   START
-===================================================== */
-
-document.addEventListener(
-"DOMContentLoaded",
-checkSession
-);
-
-/* =====================================================
-   SESSION + ADMIN ROLE
-===================================================== */
-
-async function checkSession(){
-
-try{
-
-const {
-data,
-error
-} = await client.auth.getSession();
-
-if(error){
-throw error;
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
-const session =
-data?.session;
 
-if(!session){
+function showToast(message,error=false){
 
-window.location.href =
-"login.html";
+  const toast =
+    document.getElementById("toast");
 
-return;
+  toast.textContent = message;
 
+  toast.className =
+    "toast show " +
+    (error ? "error" : "success");
+
+  setTimeout(()=>{
+    toast.className="toast";
+  },4000);
 }
 
-const user =
-session.user;
 
-document.getElementById(
-"adminEmail"
-).textContent =
-user.email ||
-"حساب الإدارة";
+function statusBadge(status){
 
-const {
-data:roleData,
-error:roleError
-} = await client
-.from("user_roles")
-.select("role")
-.eq("user_id",user.id)
-.maybeSingle();
+  let cls="badge-info";
 
-if(roleError){
+  if(
+    status==="جديد" ||
+    status==="قيد المراجعة"
+  ){
+    cls="badge-new";
+  }
 
-console.error(
-"Role error:",
-roleError
-);
+  if(
+    status==="قيد التنفيذ" ||
+    status==="الفني في الطريق" ||
+    status==="تم تعيين فني" ||
+    status==="بدأ العمل"
+  ){
+    cls="badge-progress";
+  }
 
-showAccessDenied(
-"تعذر التحقق من صلاحيات الحساب."
-);
+  if(status==="مكتمل"){
+    cls="badge-success";
+  }
 
-return;
+  if(status==="ملغي"){
+    cls="badge-danger";
+  }
+
+  return `
+    <span class="badge ${cls}">
+      ${escapeHtml(status || "غير محدد")}
+    </span>
+  `;
+}
+
+
+/* =========================
+   التبويبات
+========================= */
+
+function openTab(id,button){
+
+  document
+    .querySelectorAll(".section")
+    .forEach(section=>{
+      section.classList.remove("active");
+    });
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(tab=>{
+      tab.classList.remove("active");
+    });
+
+  document
+    .getElementById(id)
+    .classList.add("active");
+
+  button.classList.add("active");
 
 }
 
-if(
-!roleData ||
-roleData.role !== "admin"
-){
 
-showAccessDenied(
-"هذا الحساب ليس لديه صلاحية مدير."
-);
+/* =========================
+   تسجيل الخروج
+========================= */
 
-return;
+async function logout(){
 
-}
+  await client.auth.signOut();
 
-/* المدير مصرح له */
-
-await Promise.all([
-
-loadTechnicians(),
-
-loadRequests(),
-
-loadTechnicianApplications(),
-
-loadTechnicianRatings()
-
-]);
-
-}catch(error){
-
-console.error(
-"Session error:",
-error
-);
-
-showAccessDenied(
-"حدث خطأ أثناء التحقق من الحساب."
-);
+  window.location.href="login.html";
 
 }
 
+
+/* =========================
+   التحقق من المدير
+========================= */
+
+async function checkAdmin(){
+
+  try{
+
+    const {
+      data,
+      error
+    } = await client.auth.getSession();
+
+    if(error){
+      throw error;
+    }
+
+    const session =
+      data?.session;
+
+    if(!session){
+
+      showAccessDenied(
+        "يجب تسجيل الدخول أولاً."
+      );
+
+      return false;
+    }
+
+
+    const user =
+      session.user;
+
+
+    const {
+      data:roleData,
+      error:roleError
+    } = await client
+      .from("user_roles")
+      .select("role")
+      .eq("user_id",user.id)
+      .maybeSingle();
+
+
+    if(roleError){
+
+      console.error(roleError);
+
+      showAccessDenied(
+        "حدث خطأ أثناء التحقق من صلاحيات الحساب."
+      );
+
+      return false;
+    }
+
+
+    if(
+      !roleData ||
+      roleData.role !== "admin"
+    ){
+
+      showAccessDenied(
+        "هذا الحساب ليس لديه صلاحية مدير."
+      );
+
+      return false;
+    }
+
+
+    document
+      .getElementById("loading")
+      .style.display="none";
+
+    document
+      .getElementById("dashboard")
+      .style.display="block";
+
+
+    await loadAll();
+
+    return true;
+
+  }catch(error){
+
+    console.error(error);
+
+    showAccessDenied(
+      "تعذر التحقق من الحساب."
+    );
+
+    return false;
+
+  }
+
 }
 
-/* =====================================================
-   ACCESS DENIED
-===================================================== */
 
 function showAccessDenied(message){
 
-mainContent.classList.add(
-"hidden"
-);
+  document
+    .getElementById("loading")
+    .style.display="none";
 
-accessDenied.classList.remove(
-"hidden"
-);
+  document
+    .getElementById("accessDenied")
+    .style.display="block";
 
-accessDenied.querySelector(
-"p"
-).textContent =
-message;
-
-}
-
-/* =====================================================
-   LOAD TECHNICIANS
-===================================================== */
-
-async function loadTechnicians(){
-
-try{
-
-const {
-data,
-error
-} = await client
-.from("technicians")
-.select(
-"id,full_name,phone,service_type,status"
-)
-.order(
-"full_name",
-{
-ascending:true
-}
-);
-
-if(error){
-
-console.warn(
-"Technicians:",
-error.message
-);
-
-technicians = [];
-
-return;
+  document
+    .getElementById("accessDeniedMessage")
+    .textContent=message;
 
 }
 
-technicians =
-data || [];
 
-}catch(error){
+/* =========================
+   تحميل الكل
+========================= */
 
-console.warn(
-"Technicians error:",
-error
-);
+async function loadAll(){
 
-technicians = [];
+  await Promise.all([
+    loadRequests(),
+    loadTechnicians(),
+    loadTechnicianApplications(),
+    loadTechnicianRatings()
+  ]);
+
+  updateStats();
 
 }
 
-}
 
-/* =====================================================
-   LOAD REQUESTS
-===================================================== */
+/* =========================
+   الطلبات
+========================= */
 
 async function loadRequests(){
 
-requestsContainer.innerHTML = `
+  const {
+    data,
+    error
+  } = await client
+    .from("service_requests")
+    .select("*")
+    .order(
+      "created_at",
+      {ascending:false}
+    );
 
-<div class="loading">
-جاري تحميل الطلبات...
-</div>
+  if(error){
 
-`;
+    console.error(error);
 
-const {
-data,
-error
-} = await client
-.from("service_requests")
-.select("*")
-.order(
-"created_at",
-{
-ascending:false
-}
-);
+    showToast(
+      "تعذر تحميل طلبات الصيانة: "+
+      error.message,
+      true
+    );
 
-if(error){
+    return;
+  }
 
-console.error(
-"Requests:",
-error
-);
+  requests=data || [];
 
-requestsContainer.innerHTML = `
+  renderRequests();
 
-<div class="empty">
-
-<h3>
-تعذر تحميل الطلبات
-</h3>
-
-<p style="margin-top:10px">
-${escapeHtml(error.message)}
-</p>
-
-</div>
-
-`;
-
-return;
+  updateStats();
 
 }
 
-allRequests =
-data || [];
 
-updateStatistics();
-renderRequests();
+function updateStats(){
+
+  const total =
+    requests.length;
+
+  const newCount =
+    requests.filter(
+      r=>r.status==="جديد"
+    ).length;
+
+  const progress =
+    requests.filter(
+      r =>
+        [
+          "قيد المراجعة",
+          "تم تعيين فني",
+          "الفني في الطريق",
+          "قيد التنفيذ",
+          "بدأ العمل",
+          "بانتظار قطعة/موافقة"
+        ].includes(r.status)
+    ).length;
+
+  const completed =
+    requests.filter(
+      r=>r.status==="مكتمل"
+    ).length;
+
+
+  document
+    .getElementById("totalRequests")
+    .textContent=total;
+
+  document
+    .getElementById("newRequests")
+    .textContent=newCount;
+
+  document
+    .getElementById("progressRequests")
+    .textContent=progress;
+
+  document
+    .getElementById("completedRequests")
+    .textContent=completed;
 
 }
 
-/* =====================================================
-   LOAD TECHNICIAN APPLICATIONS
-===================================================== */
+
+function renderRequests(){
+
+  const grid =
+    document.getElementById(
+      "requestsGrid"
+    );
+
+  const service =
+    document.getElementById(
+      "serviceFilter"
+    ).value;
+
+  const status =
+    document.getElementById(
+      "statusFilter"
+    ).value;
+
+  const priority =
+    document.getElementById(
+      "priorityFilter"
+    ).value;
+
+  const search =
+    document.getElementById(
+      "requestSearch"
+    ).value
+      .trim()
+      .toLowerCase();
+
+
+  let filtered =
+    requests.filter(request=>{
+
+      if(
+        service &&
+        request.service_type !== service
+      ){
+        return false;
+      }
+
+      if(
+        status &&
+        request.status !== status
+      ){
+        return false;
+      }
+
+      if(
+        priority &&
+        request.priority !== priority
+      ){
+        return false;
+      }
+
+
+      if(search){
+
+        const text = [
+          request.request_number,
+          request.customer_name,
+          request.phone,
+          request.service_type
+        ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+        if(!text.includes(search)){
+          return false;
+        }
+
+      }
+
+      return true;
+
+    });
+
+
+  if(!filtered.length){
+
+    grid.innerHTML=`
+      <div class="empty">
+        لا توجد طلبات مطابقة.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  grid.innerHTML =
+    filtered
+      .map(requestCard)
+      .join("");
+
+}
+
+
+function requestCard(request){
+
+  const assignedTechnician =
+    technicians.find(
+      t =>
+        String(t.id) ===
+        String(request.technician_id)
+    );
+
+
+  return `
+
+  <div class="card">
+
+    <div class="card-header">
+
+      <div class="card-title">
+        ${escapeHtml(
+          request.request_number ||
+          "بدون رقم"
+        )}
+      </div>
+
+      ${statusBadge(request.status)}
+
+    </div>
+
+
+    <div class="card-row">
+      <strong>العميل:</strong>
+      <span>
+        ${escapeHtml(
+          request.customer_name ||
+          "غير متوفر"
+        )}
+      </span>
+    </div>
+
+
+    <div class="card-row">
+      <strong>الهاتف:</strong>
+      <span>
+        ${escapeHtml(
+          request.phone ||
+          "غير متوفر"
+        )}
+      </span>
+    </div>
+
+
+    <div class="card-row">
+      <strong>الخدمة:</strong>
+      <span>
+        ${escapeHtml(
+          request.service_type ||
+          "غير محدد"
+        )}
+      </span>
+    </div>
+
+
+    <div class="card-row">
+      <strong>الموعد:</strong>
+      <span>
+        ${escapeHtml(
+          request.preferred_date ||
+          "غير محدد"
+        )}
+      </span>
+    </div>
+
+
+    <div class="card-row">
+      <strong>الموقع:</strong>
+      <span>
+        ${escapeHtml(
+          request.location ||
+          "غير محدد"
+        )}
+      </span>
+    </div>
+
+
+    <div class="card-row">
+      <strong>الأولوية:</strong>
+      <span>
+        ${escapeHtml(
+          request.priority ||
+          "عادي"
+        )}
+      </span>
+    </div>
+
+
+    <div class="card-row">
+
+      <strong>الفني:</strong>
+
+      <span>
+
+        ${
+          assignedTechnician
+          ? escapeHtml(
+              assignedTechnician.full_name
+            )
+          : "لم يتم التعيين"
+        }
+
+      </span>
+
+    </div>
+
+
+    ${
+      request.description
+      ? `
+        <div class="card-row">
+          <strong>الوصف:</strong>
+          <span>
+            ${escapeHtml(
+              request.description
+            )}
+          </span>
+        </div>
+      `
+      : ""
+    }
+
+
+    <div class="card-actions">
+
+      <select
+        onchange="changeRequestStatus(
+          '${request.id}',
+          this.value
+        )">
+
+        ${requestStatusOptions(
+          request.status
+        )}
+
+      </select>
+
+
+      <select
+        onchange="assignTechnician(
+          '${request.id}',
+          this.value
+        )">
+
+        <option value="">
+          اختيار فني
+        </option>
+
+        ${technicians
+          .filter(
+            t =>
+              t.status !== "موقوف"
+          )
+          .map(t=>`
+
+            <option
+              value="${escapeHtml(t.id)}"
+              ${
+                String(
+                  request.technician_id
+                ) === String(t.id)
+                ? "selected"
+                : ""
+              }>
+
+              ${escapeHtml(
+                t.full_name ||
+                t.phone ||
+                "فني"
+              )}
+
+            </option>
+
+          `)
+          .join("")}
+
+      </select>
+
+
+      ${
+        request.status==="ملغي"
+        ? `
+          <button
+            class="btn btn-danger"
+            onclick="deleteCancelledRequest(
+              '${request.id}'
+            )">
+
+            حذف
+
+          </button>
+        `
+        : ""
+      }
+
+    </div>
+
+  </div>
+
+  `;
+
+}
+
+
+function requestStatusOptions(current){
+
+  const statuses=[
+    "جديد",
+    "قيد المراجعة",
+    "تم تعيين فني",
+    "الفني في الطريق",
+    "قيد التنفيذ",
+    "بدأ العمل",
+    "بانتظار قطعة/موافقة",
+    "مكتمل",
+    "ملغي"
+  ];
+
+  return statuses
+    .map(status=>`
+
+      <option
+        value="${escapeHtml(status)}"
+        ${
+          current===status
+          ? "selected"
+          : ""
+        }>
+
+        ${escapeHtml(status)}
+
+      </option>
+
+    `)
+    .join("");
+
+}
+
+
+/* =========================
+   تغيير حالة الطلب
+========================= */
+
+async function changeRequestStatus(
+  requestId,
+  status
+){
+
+  try{
+
+    const updateData={
+      status:status,
+      updated_at:
+        new Date().toISOString()
+    };
+
+
+    if(status==="مكتمل"){
+
+      updateData.completed_at =
+        new Date().toISOString();
+
+    }
+
+
+    const {
+      error
+    } = await client
+      .from("service_requests")
+      .update(updateData)
+      .eq("id",requestId);
+
+
+    if(error){
+      throw error;
+    }
+
+
+    const request =
+      requests.find(
+        r =>
+          String(r.id) ===
+          String(requestId)
+      );
+
+
+    if(
+      request &&
+      request.technician_id
+    ){
+
+      let technicianStatus =
+        "مشغول";
+
+      if(
+        status==="مكتمل" ||
+        status==="ملغي"
+      ){
+        technicianStatus="متاح";
+      }
+
+
+      await client
+        .from("technicians")
+        .update({
+          status:technicianStatus
+        })
+        .eq(
+          "id",
+          request.technician_id
+        );
+
+    }
+
+
+    showToast(
+      "تم تحديث حالة الطلب."
+    );
+
+    await loadRequests();
+    await loadTechnicians();
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      "فشل تحديث الطلب: "+
+      error.message,
+      true
+    );
+
+  }
+
+}
+
+
+/* =========================
+   تعيين فني
+========================= */
+
+async function assignTechnician(
+  requestId,
+  technicianId
+){
+
+  try{
+
+    const oldRequest =
+      requests.find(
+        r =>
+          String(r.id) ===
+          String(requestId)
+      );
+
+
+    const {
+      error
+    } = await client
+      .from("service_requests")
+      .update({
+        technician_id:
+          technicianId || null,
+
+        status:
+          technicianId
+          ? "تم تعيين فني"
+          : "جديد",
+
+        updated_at:
+          new Date().toISOString()
+      })
+      .eq("id",requestId);
+
+
+    if(error){
+      throw error;
+    }
+
+
+    if(
+      technicianId
+    ){
+
+      await client
+        .from("technicians")
+        .update({
+          status:"مشغول"
+        })
+        .eq(
+          "id",
+          technicianId
+        );
+
+    }
+
+
+    if(
+      oldRequest?.technician_id &&
+      String(
+        oldRequest.technician_id
+      ) !== String(technicianId)
+    ){
+
+      await client
+        .from("technicians")
+        .update({
+          status:"متاح"
+        })
+        .eq(
+          "id",
+          oldRequest.technician_id
+        );
+
+    }
+
+
+    showToast(
+      technicianId
+      ? "تم تعيين الفني."
+      : "تم إلغاء تعيين الفني."
+    );
+
+
+    await loadRequests();
+    await loadTechnicians();
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      "فشل تعيين الفني: "+
+      error.message,
+      true
+    );
+
+  }
+
+}
+
+
+/* =========================
+   الفنيون
+========================= */
+
+async function loadTechnicians(){
+
+  const {
+    data,
+    error
+  } = await client
+    .from("technicians")
+    .select("*")
+    .order(
+      "full_name",
+      {ascending:true}
+    );
+
+
+  if(error){
+
+    console.error(error);
+
+    showToast(
+      "تعذر تحميل الفنيين: "+
+      error.message,
+      true
+    );
+
+    return;
+  }
+
+
+  technicians=data || [];
+
+  renderTechnicians();
+
+}
+
+
+function renderTechnicians(){
+
+  const grid =
+    document.getElementById(
+      "techniciansGrid"
+    );
+
+
+  if(!technicians.length){
+
+    grid.innerHTML=`
+      <div class="empty">
+        لا يوجد فنيون حاليًا.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  grid.innerHTML =
+    technicians
+      .map(technician=>`
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div class="card-title">
+              ${escapeHtml(
+                technician.full_name ||
+                "فني"
+              )}
+            </div>
+
+            ${statusBadge(
+              technician.status ||
+              "متاح"
+            )}
+
+          </div>
+
+
+          <div class="card-row">
+            <strong>الهاتف:</strong>
+            <span>
+              ${escapeHtml(
+                technician.phone ||
+                "غير متوفر"
+              )}
+            </span>
+          </div>
+
+
+          <div class="card-row">
+            <strong>التخصص:</strong>
+            <span>
+              ${escapeHtml(
+                technician.service_type ||
+                "غير محدد"
+              )}
+            </span>
+          </div>
+
+
+          <div class="card-actions">
+
+            <button
+              class="btn ${
+                technician.status==="موقوف"
+                ? "btn-success"
+                : "btn-warning"
+              }"
+              onclick="toggleTechnicianStatus(
+                '${technician.id}',
+                '${
+                  technician.status==="موقوف"
+                  ? "متاح"
+                  : "موقوف"
+                }'
+              )">
+
+              ${
+                technician.status==="موقوف"
+                ? "تفعيل الفني"
+                : "إيقاف الفني"
+              }
+
+            </button>
+
+          </div>
+
+        </div>
+
+      `)
+      .join("");
+
+}
+
+
+async function toggleTechnicianStatus(
+  id,
+  status
+){
+
+  try{
+
+    const {
+      error
+    } = await client
+      .from("technicians")
+      .update({
+        status:status
+      })
+      .eq("id",id);
+
+
+    if(error){
+      throw error;
+    }
+
+
+    showToast(
+      "تم تحديث حالة الفني."
+    );
+
+
+    await loadTechnicians();
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      "فشل تحديث الفني: "+
+      error.message,
+      true
+    );
+
+  }
+
+}
+
+
+/* =========================
+   طلبات الفنيين
+========================= */
 
 async function loadTechnicianApplications(){
 
-applicationsContainer.innerHTML = `
+  const {
+    data,
+    error
+  } = await client
+    .from("technician_applications")
+    .select("*")
+    .order(
+      "created_at",
+      {ascending:false}
+    );
 
-<div class="loading">
-جاري تحميل طلبات الفنيين...
-</div>
 
-`;
+  if(error){
 
-try{
+    console.error(error);
 
-const {
-data,
-error
-} = await client
-.from("technician_applications")
-.select("*")
-.order(
-"created_at",
-{
-ascending:false
-}
-);
+    showToast(
+      "تعذر تحميل طلبات الفنيين: "+
+      error.message,
+      true
+    );
 
-if(error){
+    return;
+  }
 
-console.error(
-"Technician applications:",
-error
-);
 
-applicationsContainer.innerHTML = `
+  technicianApplications =
+    data || [];
 
-<div class="empty">
-
-<h3>
-تعذر تحميل طلبات الفنيين
-</h3>
-
-<p style="margin-top:10px">
-${escapeHtml(error.message)}
-</p>
-
-</div>
-
-`;
-
-return;
+  renderTechnicianApplications();
 
 }
 
-technicianApplications =
-data || [];
-
-document.getElementById(
-"applicationCount"
-).textContent =
-technicianApplications.length +
-" طلب";
-
-renderTechnicianApplications();
-
-}catch(error){
-
-console.error(
-"Applications error:",
-error
-);
-
-applicationsContainer.innerHTML = `
-
-<div class="empty">
-تعذر تحميل طلبات الفنيين.
-</div>
-
-`;
-
-}
-
-}
-
-/* =====================================================
-   LOAD TECHNICIAN RATINGS
-===================================================== */
-
-async function loadTechnicianRatings(){
-
-ratingsContainer.innerHTML = `
-
-<div class="loading">
-جاري تحميل تقييمات الفنيين...
-</div>
-
-`;
-
-try{
-
-const {
-data,
-error
-} = await client
-.from("technician_reviews")
-.select(
-"id,request_id,technician_id,rating,comment,created_at"
-)
-.order(
-"created_at",
-{
-ascending:false
-}
-);
-
-if(error){
-
-console.error(
-"Technician reviews:",
-error
-);
-
-ratingsContainer.innerHTML = `
-
-<div class="rating-empty">
-
-<h3>
-تعذر تحميل التقييمات
-</h3>
-
-<p style="margin-top:10px">
-${escapeHtml(error.message)}
-</p>
-
-</div>
-
-`;
-
-return;
-
-}
-
-technicianReviews =
-data || [];
-
-renderTechnicianRatings();
-
-}catch(error){
-
-console.error(
-"Ratings error:",
-error
-);
-
-ratingsContainer.innerHTML = `
-
-<div class="rating-empty">
-تعذر تحميل تقييمات الفنيين.
-</div>
-
-`;
-
-}
-
-}
-
-/* =====================================================
-   RENDER TECHNICIAN RATINGS
-===================================================== */
-
-function renderTechnicianRatings(){
-
-const techniciansList =
-technicians || [];
-
-const ratingData =
-techniciansList.map(
-technician => {
-
-const reviews =
-technicianReviews.filter(
-review =>
-String(review.technician_id) ===
-String(technician.id)
-);
-
-const totalReviews =
-reviews.length;
-
-const totalStars =
-reviews.reduce(
-(sum,review) =>
-sum + Number(review.rating || 0),
-0
-);
-
-const average =
-totalReviews
-?
-totalStars / totalReviews
-:
-0;
-
-const completedJobs =
-allRequests.filter(
-request =>
-String(request.technician_id) ===
-String(technician.id) &&
-request.status === "مكتمل"
-).length;
-
-return {
-
-technician,
-
-reviews,
-
-totalReviews,
-
-average,
-
-completedJobs
-
-};
-
-}
-);
-
-ratingData.sort(
-(a,b) => {
-
-if(b.average !== a.average){
-
-return b.average - a.average;
-
-}
-
-if(b.totalReviews !== a.totalReviews){
-
-return b.totalReviews - a.totalReviews;
-
-}
-
-return b.completedJobs - a.completedJobs;
-
-}
-);
-
-const totalReviews =
-technicianReviews.length;
-
-const totalStars =
-technicianReviews.reduce(
-(sum,review) =>
-sum + Number(review.rating || 0),
-0
-);
-
-const networkAverage =
-totalReviews
-?
-totalStars / totalReviews
-:
-0;
-
-const highest =
-ratingData.length
-?
-Math.max(
-...ratingData.map(
-item => item.average
-)
-)
-:
-0;
-
-document.getElementById(
-"totalTechniciansRating"
-).textContent =
-techniciansList.length;
-
-document.getElementById(
-"totalReviewsRating"
-).textContent =
-totalReviews;
-
-document.getElementById(
-"networkAverageRating"
-).textContent =
-networkAverage.toFixed(1);
-
-document.getElementById(
-"highestRating"
-).textContent =
-highest.toFixed(1);
-
-document.getElementById(
-"ratingCount"
-).textContent =
-techniciansList.length +
-" فني";
-
-if(!ratingData.length){
-
-ratingsContainer.innerHTML = `
-
-<div class="rating-empty">
-
-لا يوجد فنيون مسجلون حاليًا.
-
-</div>
-
-`;
-
-return;
-
-}
-
-ratingsContainer.innerHTML = `
-
-<div class="rating-table-wrap">
-
-<table class="rating-table">
-
-<thead>
-
-<tr>
-
-<th>الترتيب</th>
-<th>الفني</th>
-<th>التخصص</th>
-<th>الحالة</th>
-<th>التقييم</th>
-<th>عدد التقييمات</th>
-<th>الطلبات المكتملة</th>
-<th>المستوى</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-${ratingData
-.map(
-(item,index) =>
-technicianRatingRow(
-item,
-index
-)
-)
-.join("")}
-
-</tbody>
-
-</table>
-
-</div>
-
-`;
-
-}
-
-/* =====================================================
-   TECHNICIAN RATING ROW
-===================================================== */
-
-function technicianRatingRow(
-data,
-index
-){
-
-const technician =
-data.technician;
-
-const average =
-data.average;
-
-const stars =
-average
-?
-renderStars(average)
-:
-`<span class="rating-muted">لا يوجد</span>`;
-
-const level =
-getTechnicianLevel(
-average,
-data.totalReviews
-);
-
-return `
-
-<tr>
-
-<td>
-
-<span class="rank">
-#${index + 1}
-</span>
-
-</td>
-
-<td>
-
-<div class="tech-name">
-
-${escapeHtml(
-technician.full_name ||
-"فني بدون اسم"
-)}
-
-</div>
-
-<div class="tech-phone">
-
-${escapeHtml(
-technician.phone ||
-""
-)}
-
-</div>
-
-</td>
-
-<td>
-
-${escapeHtml(
-technician.service_type ||
-"متعدد التخصصات"
-)}
-
-</td>
-
-<td>
-
-${renderTechnicianStatusBadge(
-technician.status
-)}
-
-</td>
-
-<td>
-
-<div class="stars">
-${stars}
-</div>
-
-<div style="margin-top:3px">
-
-${
-average
-?
-`<span class="rating-number">${average.toFixed(1)} / 5</span>`
-:
-`<span class="rating-muted">لا يوجد تقييم</span>`
-}
-
-</div>
-
-</td>
-
-<td>
-
-${data.totalReviews}
-
-</td>
-
-<td>
-
-${data.completedJobs}
-
-</td>
-
-<td>
-
-<span class="level-badge ${level.className}">
-
-${level.name}
-
-</span>
-
-</td>
-
-</tr>
-
-`;
-
-}
-
-/* =====================================================
-   RENDER STARS
-===================================================== */
-
-function renderStars(value){
-
-const rounded =
-Math.round(value);
-
-let result = "";
-
-for(
-let i = 1;
-i <= 5;
-i++
-){
-
-result +=
-i <= rounded
-?
-"★"
-:
-"☆";
-
-}
-
-return result;
-
-}
-
-/* =====================================================
-   TECHNICIAN LEVEL
-===================================================== */
-
-function getTechnicianLevel(
-average,
-count
-){
-
-if(
-count === 0
-){
-
-return {
-name:"فني جديد",
-className:"level-new"
-};
-
-}
-
-if(
-average >= 4.7 &&
-count >= 10
-){
-
-return {
-name:"فني ممتاز",
-className:"level-excellent"
-};
-
-}
-
-if(
-average >= 4.3 &&
-count >= 5
-){
-
-return {
-name:"فني مميز",
-className:"level-special"
-};
-
-}
-
-if(
-average >= 4 &&
-count >= 3
-){
-
-return {
-name:"فني موثوق",
-className:"level-trusted"
-};
-
-}
-
-return {
-name:"فني نشط",
-className:"level-active"
-};
-
-}
-
-/* =====================================================
-   TECHNICIAN STATUS BADGE
-===================================================== */
-
-function renderTechnicianStatusBadge(status){
-
-const current =
-status || "غير محدد";
-
-if(current === "متاح"){
-
-return `
-<span class="badge available">
-متاح
-</span>
-`;
-
-}
-
-if(current === "مشغول"){
-
-return `
-<span class="badge busy">
-مشغول
-</span>
-`;
-
-}
-
-if(current === "غير متاح"){
-
-return `
-<span class="badge unavailable">
-غير متاح
-</span>
-`;
-
-}
-
-return `
-<span class="badge">
-${escapeHtml(current)}
-</span>
-`;
-
-}
-
-/* =====================================================
-   RENDER TECHNICIAN APPLICATIONS
-===================================================== */
 
 function renderTechnicianApplications(){
 
-if(!technicianApplications.length){
+  const grid =
+    document.getElementById(
+      "applicationsGrid"
+    );
 
-applicationsContainer.innerHTML = `
 
-<div class="empty">
+  if(!technicianApplications.length){
 
-لا توجد طلبات انضمام فنيين حاليًا.
+    grid.innerHTML=`
+      <div class="empty">
+        لا توجد طلبات انضمام حاليًا.
+      </div>
+    `;
 
-</div>
+    return;
+  }
 
-`;
 
-return;
+  grid.innerHTML =
+    technicianApplications
+      .map(
+        technicianApplicationCard
+      )
+      .join("");
 
 }
 
-applicationsContainer.innerHTML = `
 
-${technicianApplications
-.map(technicianApplicationCard)
-.join("")}
+function technicianApplicationCard(
+  application
+){
 
-`;
+  const status =
+    application.status ||
+    "قيد المراجعة";
+
+
+  let cardClass="";
+
+  if(status==="مقبول"){
+    cardClass="accepted";
+  }
+
+  if(
+    status==="مرفوض"
+  ){
+    cardClass="rejected";
+  }
+
+
+  return `
+
+  <div
+    class="card application-card ${cardClass}"
+    data-application-id="${escapeHtml(
+      application.id
+    )}">
+
+    <div class="card-header">
+
+      <div class="card-title">
+
+        ${escapeHtml(
+          application.full_name ||
+          "فني"
+        )}
+
+      </div>
+
+      ${statusBadge(status)}
+
+    </div>
+
+
+    <div class="card-row">
+      <strong>رقم الطلب:</strong>
+      <span>
+        ${escapeHtml(
+          application.request_number ||
+          "غير موجود"
+        )}
+      </span>
+    </div>
+
+
+    <div class="card-row">
+      <strong>الهاتف:</strong>
+      <span>
+        ${escapeHtml(
+          application.phone ||
+          "غير متوفر"
+        )}
+      </span>
+    </div>
+
+
+    <div class="card-row">
+      <strong>التخصص:</strong>
+      <span>
+        ${escapeHtml(
+          application.service_type ||
+          "غير محدد"
+        )}
+      </span>
+    </div>
+
+
+    <div class="card-row">
+      <strong>المدينة:</strong>
+      <span>
+        ${escapeHtml(
+          application.city ||
+          "غير محددة"
+        )}
+      </span>
+    </div>
+
+
+    <div class="card-row">
+      <strong>سنوات الخبرة:</strong>
+      <span>
+        ${escapeHtml(
+          application.experience_years ??
+          "غير محدد"
+        )}
+      </span>
+    </div>
+
+
+    <div class="card-row">
+      <strong>نوع العمل:</strong>
+      <span>
+        ${escapeHtml(
+          application.work_type ||
+          "غير محدد"
+        )}
+      </span>
+    </div>
+
+
+    ${
+      application.description
+      ? `
+        <div class="card-row">
+          <strong>الوصف:</strong>
+          <span>
+            ${escapeHtml(
+              application.description
+            )}
+          </span>
+        </div>
+      `
+      : ""
+    }
+
+
+    ${
+      application.notes
+      ? `
+        <div class="card-row">
+          <strong>ملاحظات الفني:</strong>
+          <span>
+            ${escapeHtml(
+              application.notes
+            )}
+          </span>
+        </div>
+      `
+      : ""
+    }
+
+
+    ${
+      application.user_id
+      ? `
+        <div class="card-row">
+          <strong>حساب المستخدم:</strong>
+          <span>
+            مرتبط
+          </span>
+        </div>
+      `
+      : `
+        <div class="card-row">
+          <strong>حساب المستخدم:</strong>
+          <span style="color:#ffb84d;">
+            غير مرتبط
+          </span>
+        </div>
+      `
+    }
+
+
+    <div class="form-group">
+
+      <label>
+        حالة الطلب
+      </label>
+
+      <select
+        class="application-status-select">
+
+        <option
+          value="قيد المراجعة"
+          ${
+            status==="قيد المراجعة"
+            ? "selected"
+            : ""
+          }>
+          قيد المراجعة
+        </option>
+
+        <option
+          value="مقبول"
+          ${
+            status==="مقبول"
+            ? "selected"
+            : ""
+          }>
+          مقبول
+        </option>
+
+        <option
+          value="مرفوض"
+          ${
+            status==="مرفوض"
+            ? "selected"
+            : ""
+          }>
+          مرفوض
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        ملاحظة الإدارة
+      </label>
+
+      <textarea
+        class="application-admin-notes"
+        placeholder="اكتب ملاحظة الإدارة...">${escapeHtml(
+          application.admin_notes ||
+          ""
+        )}</textarea>
+
+    </div>
+
+
+    <div class="card-actions">
+
+      <button
+        class="btn btn-primary"
+        onclick="saveTechnicianApplication(
+          '${application.id}',
+          this
+        )">
+
+        حفظ
+
+      </button>
+
+    </div>
+
+  </div>
+
+  `;
 
 }
 
-/* =====================================================
-   TECHNICIAN APPLICATION CARD
-===================================================== */
 
-function technicianApplicationCard(application){
-
-return `
-
-<article
-class="application-card"
-data-application-id="${escapeAttribute(application.id)}"
->
-
-<div class="application-top">
-
-<div>
-
-<div class="application-number">
-
-${escapeHtml(
-application.request_number ||
-"بدون رقم"
-)}
-
-</div>
-
-<div class="application-date">
-
-${formatDate(
-application.created_at
-)}
-
-</div>
-
-</div>
-
-<span class="application-status ${getApplicationStatusClass(application.status)}">
-
-${escapeHtml(
-application.status ||
-"جديد"
-)}
-
-</span>
-
-</div>
-
-<div class="application-grid">
-
-<div class="application-info">
-
-<div class="label">
-الاسم
-</div>
-
-<div class="value">
-
-${escapeHtml(
-application.full_name ||
-"-"
-)}
-
-</div>
-
-</div>
-
-<div class="application-info">
-
-<div class="label">
-الهاتف
-</div>
-
-<div class="value">
-
-${escapeHtml(
-application.phone ||
-"-"
-)}
-
-</div>
-
-</div>
-
-<div class="application-info">
-
-<div class="label">
-التخصص
-</div>
-
-<div class="value">
-
-${escapeHtml(
-application.service_type ||
-"-"
-)}
-
-</div>
-
-</div>
-
-<div class="application-info">
-
-<div class="label">
-المنطقة
-</div>
-
-<div class="value">
-
-${escapeHtml(
-application.city ||
-"-"
-)}
-
-</div>
-
-</div>
-
-<div class="application-info">
-
-<div class="label">
-سنوات الخبرة
-</div>
-
-<div class="value">
-
-${escapeHtml(
-String(
-application.experience_years ??
-0
-)
-)}
-
- سنة
-
-</div>
-
-</div>
-
-<div class="application-info">
-
-<div class="label">
-نوع العمل
-</div>
-
-<div class="value">
-
-${escapeHtml(
-application.work_type ||
-"-"
-)}
-
-</div>
-
-</div>
-
-</div>
-
-<div class="application-description">
-
-<strong>
-الخبرة والمهارات:
-</strong>
-
-<br>
-
-${escapeHtml(
-application.description ||
-"لا يوجد وصف"
-)}
-
-${
-application.notes
-?
-`
-
-<br><br>
-
-<strong>
-ملاحظات المتقدم:
-</strong>
-
-<br>
-
-${escapeHtml(
-application.notes
-)}
-
-`
-:
-""
-}
-
-</div>
-
-<div class="application-actions">
-
-<div>
-
-<label>
-الحالة
-</label>
-
-<select
-class="application-status-select"
->
-
-${applicationStatusOptions(
-application.status
-)}
-
-</select>
-
-</div>
-
-<div>
-
-<label>
-ملاحظة الإدارة
-</label>
-
-<textarea
-class="application-admin-notes"
-placeholder="اكتب ملاحظتك..."
->${escapeHtml(
-application.admin_notes ||
-""
-)}</textarea>
-
-</div>
-
-<div>
-
-<label>
-معلومات التواصل / قرار الإدارة
-</label>
-
-<textarea
-class="application-contact-notes"
-placeholder="مثال: تم التواصل مع الفني..."
->${escapeHtml(
-application.contact_notes ||
-""
-)}</textarea>
-
-</div>
-
-<button
-class="application-save"
-onclick="saveTechnicianApplication(
-'${escapeAttribute(application.id)}',
-this
-)"
->
-
-حفظ
-
-</button>
-
-</div>
-
-</article>
-
-`;
-
-}
-
-/* =====================================================
-   APPLICATION STATUS OPTIONS
-===================================================== */
-
-function applicationStatusOptions(current){
-
-const options = [
-
-"جديد",
-"قيد المراجعة",
-"مقبول",
-"مرفوض"
-
-];
-
-return options.map(
-option => `
-
-<option
-value="${escapeAttribute(option)}"
-${
-(current || "جديد") === option
-?
-"selected"
-:
-""
-}
->
-
-${escapeHtml(option)}
-
-</option>
-
-`
-).join("");
-
-}
-
-/* =====================================================
-   APPLICATION STATUS CLASS
-===================================================== */
-
-function getApplicationStatusClass(status){
-
-if(status === "مقبول"){
-return "status-accepted";
-}
-
-if(status === "مرفوض"){
-return "status-rejected";
-}
-
-if(status === "قيد المراجعة"){
-return "status-review";
-}
-
-return "status-new";
-
-}
-
-/* =====================================================
-   SAVE TECHNICIAN APPLICATION
-===================================================== */
+/* =========================
+   قبول / حفظ الفني
+========================= */
 
 window.saveTechnicianApplication =
 async function(id,button){
 
-try{
+  try{
 
-const card =
-document.querySelector(
-`.application-card[data-application-id="${CSS.escape(id)}"]`
-);
+    const card =
+      document.querySelector(
+        `.application-card[data-application-id="${CSS.escape(id)}"]`
+      );
 
-if(!card){
-return;
-}
 
-const status =
-card.querySelector(
-".application-status-select"
-).value;
+    if(!card){
+      return;
+    }
 
-const adminNotes =
-card.querySelector(
-".application-admin-notes"
-).value.trim();
 
-const contactNotes =
-card.querySelector(
-".application-contact-notes"
-).value.trim();
+    const status =
+      card.querySelector(
+        ".application-status-select"
+      ).value;
 
-button.disabled = true;
 
-button.textContent =
-"جاري الحفظ...";
+    const adminNotes =
+      card.querySelector(
+        ".application-admin-notes"
+      ).value.trim();
 
-const {
-data:userData
-} = await client.auth.getUser();
 
-const updateData = {
+    button.disabled=true;
+    button.textContent=
+      "جاري الحفظ...";
 
-status:
-status,
 
-admin_notes:
-adminNotes || null,
+    const {
+      data:userData,
+      error:userError
+    } = await client.auth.getUser();
 
-contact_notes:
-contactNotes || null,
 
-reviewed_by:
-userData?.user?.id || null,
+    if(userError){
+      throw userError;
+    }
 
-reviewed_at:
-new Date().toISOString(),
 
-updated_at:
-new Date().toISOString()
+    const adminUserId =
+      userData?.user?.id ||
+      null;
+
+
+    /*
+      تحديث طلب الفني
+    */
+
+    const updateData={
+
+      status:status,
+
+      admin_notes:
+        adminNotes || null,
+
+      reviewed_by:
+        adminUserId,
+
+      reviewed_at:
+        new Date().toISOString(),
+
+      updated_at:
+        new Date().toISOString()
+
+    };
+
+
+    const {
+      error
+    } = await client
+      .from("technician_applications")
+      .update(updateData)
+      .eq("id",id);
+
+
+    if(error){
+      throw error;
+    }
+
+
+    /*
+      إذا تم قبول الفني
+    */
+
+    if(status==="مقبول"){
+
+      const application =
+        technicianApplications.find(
+          item =>
+            String(item.id) ===
+            String(id)
+        );
+
+
+      if(!application){
+        throw new Error(
+          "لم يتم العثور على بيانات طلب الفني."
+        );
+      }
+
+
+      const technicianUserId =
+        application.user_id ||
+        null;
+
+
+      /*
+        لا يوجد user_id
+      */
+
+      if(!technicianUserId){
+
+        showToast(
+          "تم حفظ القبول، لكن الفني غير مرتبط بحساب مستخدم. أضف user_id إلى طلب الفني لتمكينه من دخول لوحة الفني.",
+          true
+        );
+
+
+        await loadTechnicianApplications();
+
+
+        button.disabled=false;
+        button.textContent="حفظ";
+
+
+        return;
+      }
+
+
+      /*
+        إضافة صلاحية technician
+      */
+
+      const {
+        error:roleError
+      } = await client
+        .from("user_roles")
+        .upsert(
+
+          {
+            user_id:
+              technicianUserId,
+
+            role:
+              "technician"
+          },
+
+          {
+            onConflict:
+              "user_id"
+          }
+
+        );
+
+
+      if(roleError){
+        throw roleError;
+      }
+
+
+      /*
+        إنشاء سجل الفني
+      */
+
+      const technicianData={
+
+        id:
+          technicianUserId,
+
+        full_name:
+          application.full_name ||
+          null,
+
+        phone:
+          application.phone ||
+          null,
+
+        service_type:
+          application.service_type ||
+          null,
+
+        status:
+          "متاح"
+
+      };
+
+
+      const {
+        error:technicianError
+      } = await client
+        .from("technicians")
+        .upsert(
+          technicianData,
+          {
+            onConflict:"id"
+          }
+        );
+
+
+      if(technicianError){
+        throw technicianError;
+      }
+
+
+      showToast(
+        "تم قبول الفني وتفعيل حسابه بنجاح."
+      );
+
+    }else{
+
+      showToast(
+        "تم تحديث طلب الفني."
+      );
+
+    }
+
+
+    await loadTechnicians();
+    await loadTechnicianApplications();
+    await loadRequests();
+    await loadTechnicianRatings();
+
+
+  }catch(error){
+
+    console.error(
+      "Save technician application error:",
+      error
+    );
+
+
+    showToast(
+      "فشل الحفظ: "+
+      (
+        error.message ||
+        "خطأ غير معروف"
+      ),
+      true
+    );
+
+
+    button.disabled=false;
+    button.textContent="حفظ";
+
+  }
 
 };
 
-const {
-error
-} = await client
-.from("technician_applications")
-.update(updateData)
-.eq("id",id);
 
-if(error){
-throw error;
-}
+/* =========================
+   التقييمات
+========================= */
 
-/*
-   إذا تم قبول الطلب من هذه اللوحة،
-   ننشئ/نحدّث صلاحية الفني وسجله بنفس
-   نظام technician-applications الحالي.
-*/
+async function loadTechnicianRatings(){
 
-if(status === "مقبول"){
+  const {
+    data,
+    error
+  } = await client
+    .from("technician_reviews")
+    .select("*")
+    .order(
+      "created_at",
+      {ascending:false}
+    );
 
-const application =
-technicianApplications.find(
-item =>
-String(item.id) ===
-String(id)
-);
 
-if(application){
+  if(error){
 
-if(!application.user_id){
+    console.error(error);
 
-throw new Error(
-"لا يمكن قبول الفني لأن user_id غير موجود في طلب الانضمام."
-);
+    technicianRatings=[];
 
-}
+    renderTechnicianRatings();
 
-const {
-error:roleError
-} = await client
-.from("user_roles")
-.upsert(
-{
-user_id:application.user_id,
-role:"technician"
-},
-{
-onConflict:"user_id"
-}
-);
+    return;
+  }
 
-if(roleError){
-throw roleError;
-}
 
-const {
-error:technicianError
-} = await client
-.from("technicians")
-.upsert(
-{
-id:application.user_id,
-full_name:application.full_name || null,
-phone:application.phone || null,
-service_type:application.service_type || null,
-status:"متاح",
-notes:application.notes || null
-},
-{
-onConflict:"id"
-}
-);
+  technicianRatings =
+    data || [];
 
-if(technicianError){
-throw technicianError;
-}
+  renderTechnicianRatings();
 
 }
 
-}
 
-showToast(
-status === "مقبول"
-?
-"تم قبول الفني وتفعيله بنجاح"
-:
-"تم تحديث طلب الفني"
-);
+function renderTechnicianRatings(){
 
-await loadTechnicians();
-await loadTechnicianApplications();
-await loadRequests();
-await loadTechnicianRatings();
+  const grid =
+    document.getElementById(
+      "ratingsGrid"
+    );
 
-}catch(error){
 
-console.error(
-"Save application error:",
-error
-);
+  if(!technicianRatings.length){
 
-showToast(
-"فشل الحفظ: " +
-(error.message || "خطأ غير معروف"),
-true
-);
+    grid.innerHTML=`
+      <div class="empty">
+        لا توجد تقييمات حاليًا.
+      </div>
+    `;
 
-button.disabled = false;
+    return;
+  }
 
-button.textContent =
-"حفظ";
 
-}
+  grid.innerHTML =
+    technicianRatings
+      .map(review=>{
 
-};
+        const stars =
+          Math.max(
+            0,
+            Math.min(
+              5,
+              Number(review.rating) || 0
+            )
+          );
 
-/* =====================================================
-   STATISTICS
-===================================================== */
 
-function updateStatistics(){
+        return `
 
-document.getElementById(
-"totalCount"
-).textContent =
-allRequests.length;
+        <div class="card">
 
-document.getElementById(
-"newCount"
-).textContent =
-allRequests.filter(
-r => r.status === "جديد"
-).length;
+          <div class="card-header">
 
-document.getElementById(
-"progressCount"
-).textContent =
-allRequests.filter(
-r =>
-r.status === "قيد التنفيذ" ||
-r.status === "الفني في الطريق" ||
-r.status === "بدأ العمل" ||
-r.status === "تم تعيين فني" ||
-r.status === "قيد المراجعة" ||
-r.status === "بانتظار قطعة/موافقة"
-).length;
+            <div class="card-title">
+              تقييم فني
+            </div>
 
-document.getElementById(
-"completedCount"
-).textContent =
-allRequests.filter(
-r => r.status === "مكتمل"
-).length;
+            <div class="review-stars">
+              ${"★".repeat(stars)}
+              ${"☆".repeat(5-stars)}
+            </div>
 
-document.getElementById(
-"cancelledCount"
-).textContent =
-allRequests.filter(
-r => r.status === "ملغي"
-).length;
+          </div>
 
-}
 
-/* =====================================================
-   FILTER EVENTS
-===================================================== */
+          <div class="card-row">
+            <strong>التقييم:</strong>
+            <span>
+              ${stars}/5
+            </span>
+          </div>
 
-searchInput.addEventListener(
-"input",
-renderRequests
-);
 
-serviceFilter.addEventListener(
-"change",
-renderRequests
-);
+          ${
+            review.comment
+            ? `
+              <div class="card-row">
+                <strong>التعليق:</strong>
+                <span>
+                  ${escapeHtml(
+                    review.comment
+                  )}
+                </span>
+              </div>
+            `
+            : ""
+          }
 
-statusFilter.addEventListener(
-"change",
-renderRequests
-);
+        </div>
 
-priorityFilter.addEventListener(
-"change",
-renderRequests
-);
+        `;
 
-/* =====================================================
-   REFRESH
-===================================================== */
-
-refreshBtn.addEventListener(
-"click",
-async function(){
-
-refreshBtn.disabled = true;
-
-refreshBtn.textContent =
-"جاري التحديث...";
-
-await loadTechnicians();
-await loadRequests();
-await loadTechnicianApplications();
-await loadTechnicianRatings();
-
-refreshBtn.disabled = false;
-
-refreshBtn.textContent =
-"تحديث";
-
-showToast(
-"تم تحديث البيانات"
-);
-
-}
-);
-
-/* =====================================================
-   RATING REFRESH
-===================================================== */
-
-ratingRefreshBtn.addEventListener(
-"click",
-async function(){
-
-ratingRefreshBtn.disabled = true;
-
-ratingRefreshBtn.textContent =
-"جاري التحديث...";
-
-await loadTechnicians();
-await loadRequests();
-await loadTechnicianRatings();
-
-ratingRefreshBtn.disabled = false;
-
-ratingRefreshBtn.textContent =
-"تحديث التقييمات";
-
-showToast(
-"تم تحديث تقييمات الفنيين"
-);
-
-}
-);
-
-/* =====================================================
-   FILTER REQUESTS
-===================================================== */
-
-function getFilteredRequests(){
-
-const search =
-searchInput.value
-.trim()
-.toLowerCase();
-
-const service =
-serviceFilter.value;
-
-const status =
-statusFilter.value;
-
-const priority =
-priorityFilter.value;
-
-return allRequests.filter(
-request => {
-
-const searchable = [
-
-request.request_number,
-request.customer_name,
-request.phone,
-request.location,
-request.service_type
-
-]
-.filter(Boolean)
-.join(" ")
-.toLowerCase();
-
-return (
-
-(!search ||
-searchable.includes(search))
-
-&&
-
-(!service ||
-request.service_type === service)
-
-&&
-
-(!status ||
-request.status === status)
-
-&&
-
-(!priority ||
-request.priority === priority)
-
-);
-
-}
-);
+      })
+      .join("");
 
 }
 
-/* =====================================================
-   RENDER REQUESTS
-===================================================== */
 
-function renderRequests(){
+/* =========================
+   حذف طلب ملغي
+========================= */
 
-const requests =
-getFilteredRequests();
-
-document.getElementById(
-"requestCount"
-).textContent =
-requests.length + " طلب";
-
-if(!requests.length){
-
-requestsContainer.innerHTML = `
-
-<div class="empty">
-لا توجد طلبات مطابقة.
-</div>
-
-`;
-
-return;
-
-}
-
-requestsContainer.innerHTML = `
-
-<div class="requests">
-
-${requests
-.map(requestCard)
-.join("")}
-
-</div>
-
-`;
-
-}
-
-/* =====================================================
-   REQUEST CARD
-===================================================== */
-
-function requestCard(request){
-
-const preferred =
-request.preferred_date
-?
-formatDateOnly(
-request.preferred_date
-)
-:
-"غير محدد";
-
-const technician =
-technicians.find(
-item =>
-String(item.id) ===
-String(request.technician_id)
-);
-
-const technicianName =
-technician
-?
-technician.full_name
-:
-"لم يتم تعيين فني";
-
-const isNewUnassigned =
-request.status === "جديد" &&
-!request.technician_id;
-
-return `
-
-<article
-class="request-card ${isNewUnassigned ? "new-unassigned" : ""}"
-data-id="${escapeAttribute(request.id)}"
->
-
-<div class="request-top">
-
-<div>
-
-<div class="request-number">
-
-${escapeHtml(
-request.request_number ||
-"بدون رقم"
-)}
-
-</div>
-
-<div class="request-date">
-
-${formatDate(
-request.created_at
-)}
-
-</div>
-
-</div>
-
-<div class="badges">
-
-<span class="badge ${getStatusClass(request.status)}">
-
-${escapeHtml(
-request.status ||
-"غير محدد"
-)}
-
-</span>
-
-<span class="badge">
-
-${escapeHtml(
-request.priority ||
-"عادي"
-)}
-
-</span>
-
-${
-isNewUnassigned
-?
-`
-<span class="badge warning">
-بانتظار تعيين فني
-</span>
-`
-:
-""
-}
-
-</div>
-
-</div>
-
-<div class="request-info">
-
-<div class="info-box">
-
-<div class="info-label">
-العميل
-</div>
-
-<div class="info-value">
-
-${escapeHtml(
-request.customer_name ||
-"-"
-)}
-
-</div>
-
-</div>
-
-<div class="info-box">
-
-<div class="info-label">
-الهاتف
-</div>
-
-<div class="info-value">
-
-${escapeHtml(
-request.phone ||
-"-"
-)}
-
-</div>
-
-</div>
-
-<div class="info-box">
-
-<div class="info-label">
-الخدمة
-</div>
-
-<div class="info-value">
-
-${escapeHtml(
-request.service_type ||
-"-"
-)}
-
-</div>
-
-</div>
-
-<div class="info-box">
-
-<div class="info-label">
-الموعد
-</div>
-
-<div class="info-value">
-
-${preferred}
-
-</div>
-
-</div>
-
-<div class="info-box">
-
-<div class="info-label">
-الموقع
-</div>
-
-<div class="info-value">
-
-${escapeHtml(
-request.location ||
-"-"
-)}
-
-</div>
-
-</div>
-
-<div class="info-box">
-
-<div class="info-label">
-الفني الحالي
-</div>
-
-<div class="info-value">
-
-${escapeHtml(
-technicianName
-)}
-
-${
-technician
-?
-`
-<div class="technician-status-meta">
-التخصص: ${escapeHtml(technician.service_type || "متعدد التخصصات")}
-</div>
-
-<div style="margin-top:6px">
-${renderTechnicianStatusBadge(technician.status)}
-</div>
-`
-:
-`
-<div class="technician-status-meta">
-لا يوجد فني معين
-</div>
-`
-}
-
-</div>
-
-</div>
-
-<div class="description">
-
-<strong>
-وصف المشكلة:
-</strong>
-
-<br>
-
-${escapeHtml(
-request.description ||
-"لا يوجد وصف"
-)}
-
-</div>
-
-${
-request.image_url
-?
-`
-
-<div style="margin-bottom:16px">
-
-<a
-href="${escapeAttribute(
-request.image_url
-)}"
-target="_blank"
-rel="noopener noreferrer"
-class="image-link"
->
-
-عرض صورة العطل
-
-</a>
-
-</div>
-
-`
-:
-""
-}
-
-<div class="controls">
-
-<div class="control">
-
-<label>
-حالة الطلب
-</label>
-
-<select class="request-status">
-
-${statusOptions(
-request.status
-)}
-
-</select>
-
-</div>
-
-<div class="control">
-
-<label>
-الأولوية
-</label>
-
-<select class="request-priority">
-
-${priorityOptions(
-request.priority
-)}
-
-</select>
-
-</div>
-
-<div class="control">
-
-<label>
-تعيين الفني
-</label>
-
-<select
-class="technician-select"
-onchange="previewTechnicianChange(this)"
->
-
-${technicianOptions(
-request.technician_id,
-request.service_type
-)}
-
-</select>
-
-</div>
-
-<div class="control">
-
-<label>
-ملاحظات الإدارة
-</label>
-
-<textarea
-class="admin-notes"
-placeholder="ملاحظات الإدارة..."
->${escapeHtml(
-request.admin_notes ||
-""
-)}</textarea>
-
-</div>
-
-<div class="control">
-
-<label>
-ملاحظات الفني
-</label>
-
-<textarea
-class="technician-notes"
-placeholder="ملاحظات الفني..."
->${escapeHtml(
-request.technician_notes ||
-""
-)}</textarea>
-
-</div>
-
-<div class="control">
-
-<label>
-تاريخ الإنجاز
-</label>
-
-<input
-type="text"
-value="${
-request.completed_at
-?
-formatDate(
-request.completed_at
-)
-:
-"لم يكتمل بعد"
-}"
-disabled
->
-
-</div>
-
-</div>
-
-<div class="technician-status-box">
-
-<div class="technician-status-title">
-حالة الفني بالنسبة للطلب
-</div>
-
-<div class="technician-status-content">
-
-<div>
-
-<div class="technician-status-name">
-
-${
-technician
-?
-escapeHtml(
-technician.full_name || "فني"
-)
-:
-"لم يتم تعيين فني"
-}
-
-</div>
-
-<div class="technician-status-meta">
-
-${
-technician
-?
-(
-"حالة الفني الحالية: " +
-(technician.status || "غير محددة")
-)
-:
-"يمكنك تعيين فني متاح من القائمة أعلاه"
-}
-
-</div>
-
-</div>
-
-<div>
-
-${
-technician
-?
-renderTechnicianStatusBadge(
-technician.status
-)
-:
-`
-<span class="badge">
-بدون فني
-</span>
-`
-}
-
-</div>
-
-</div>
-
-</div>
-
-<div class="save-row">
-
-<span
-style="color:#64748b;font-size:11px"
->
-
-${
-request.updated_at
-?
-"آخر تحديث: " +
-formatDate(
-request.updated_at
-)
-:
-"لم يتم التحديث"
-}
-
-</span>
-
-<div class="save-actions">
-
-<button
-class="save-btn"
-onclick="saveRequest(
-'${escapeAttribute(request.id)}',
-this
-)"
->
-
-حفظ التعديلات
-
-</button>
-
-${
-request.status === "ملغي"
-?
-`
-
-<button
-class="delete-btn"
-onclick="deleteCancelledRequest(
-'${escapeAttribute(request.id)}',
-this
-)"
->
-
-حذف الطلب
-
-</button>
-
-`
-:
-""
-}
-
-</div>
-
-</div>
-
-</article>
-
-`;
-
-}
-
-/* =====================================================
-   PREVIEW TECHNICIAN CHANGE
-===================================================== */
-
-window.previewTechnicianChange =
-function(select){
-
-const selectedId =
-select.value;
-
-const card =
-select.closest(".request-card");
-
-if(!card){
-return;
-}
-
-const statusBox =
-card.querySelector(
-".technician-status-box"
-);
-
-if(!statusBox){
-return;
-}
-
-if(!selectedId){
-
-statusBox.innerHTML = `
-
-<div class="technician-status-title">
-حالة الفني بالنسبة للطلب
-</div>
-
-<div class="technician-status-content">
-
-<div>
-
-<div class="technician-status-name">
-لم يتم تعيين فني
-</div>
-
-<div class="technician-status-meta">
-سيتم إزالة الفني الحالي عند الحفظ.
-</div>
-
-</div>
-
-<span class="badge">
-بدون فني
-</span>
-
-</div>
-
-`;
-
-return;
-
-}
-
-const technician =
-technicians.find(
-item =>
-String(item.id) ===
-String(selectedId)
-);
-
-if(!technician){
-return;
-}
-
-statusBox.innerHTML = `
-
-<div class="technician-status-title">
-الفني المحدد
-</div>
-
-<div class="technician-status-content">
-
-<div>
-
-<div class="technician-status-name">
-${escapeHtml(
-technician.full_name || "فني"
-)}
-</div>
-
-<div class="technician-status-meta">
-التخصص:
-${escapeHtml(
-technician.service_type || "متعدد التخصصات"
-)}
-</div>
-
-</div>
-
-${renderTechnicianStatusBadge(
-technician.status
-)}
-
-</div>
-
-`;
-
-};
-
-/* =====================================================
-   TECHNICIAN OPTIONS
-===================================================== */
-
-function technicianOptions(
-selectedId,
-service
+async function deleteCancelledRequest(
+  requestId
 ){
 
-let html = `
+  const confirmed =
+    confirm(
+      "هل أنت متأكد من حذف طلب الصيانة الملغي؟"
+    );
 
-<option value="">
--- بدون فني --
-</option>
 
-`;
+  if(!confirmed){
+    return;
+  }
 
-const currentTechnician =
-technicians.find(
-technician =>
-String(technician.id) ===
-String(selectedId)
-);
 
-/*
-   الفني الحالي يبقى ظاهرًا حتى لو أصبح مشغولًا
-   أو غير متاح، حتى لا يختفي من الطلب.
-*/
+  try{
 
-let matching =
-technicians.filter(
-technician => {
+    const {
+      error
+    } = await client
+      .from("service_requests")
+      .delete()
+      .eq("id",requestId);
 
-const isCurrent =
-String(technician.id) ===
-String(selectedId);
 
-const serviceMatches =
-!service ||
-technician.service_type === service ||
-technician.service_type === "متعدد التخصصات";
+    if(error){
+      throw error;
+    }
 
-if(isCurrent){
-return true;
-}
 
-/*
-   لتعيين طلب جديد:
-   يجب أن يكون الفني متاحًا
-   والتخصص مطابقًا.
-*/
+    showToast(
+      "تم حذف الطلب."
+    );
 
-return (
-technician.status === "متاح" &&
-serviceMatches
-);
 
-}
-);
+    await loadRequests();
 
-/*
-   ترتيب:
-   الفني الحالي أولًا
-   ثم الفنيون المتاحون.
-*/
+  }catch(error){
 
-matching.sort(
-(a,b) => {
+    console.error(error);
 
-const aCurrent =
-String(a.id) ===
-String(selectedId);
+    showToast(
+      "فشل حذف الطلب: "+
+      error.message,
+      true
+    );
 
-const bCurrent =
-String(b.id) ===
-String(selectedId);
-
-if(aCurrent && !bCurrent){
-return -1;
-}
-
-if(!aCurrent && bCurrent){
-return 1;
-}
-
-return (
-a.full_name || ""
-).localeCompare(
-b.full_name || "",
-"ar"
-);
-
-}
-);
-
-matching.forEach(
-technician => {
-
-const isCurrent =
-String(technician.id) ===
-String(selectedId);
-
-let label =
-technician.full_name ||
-"فني بدون اسم";
-
-if(technician.service_type){
-
-label +=
-" — " +
-technician.service_type;
+  }
 
 }
 
-if(technician.status){
 
-label +=
-" [" +
-technician.status +
-"]";
+/* =========================
+   تشغيل الصفحة
+========================= */
 
-}
-
-html += `
-
-<option
-
-value="${escapeAttribute(
-technician.id
-)}"
-
-${
-isCurrent
-?
-"selected"
-:
-""
-}
-
->
-
-${escapeHtml(label)}
-
-</option>
-
-`;
-
-});
-
-/*
-   إذا كان هناك فني حالي غير موجود في قائمة
-   الفنيين المتاحين، نضمن ظهوره.
-*/
-
-if(
-selectedId &&
-currentTechnician &&
-!matching.some(
-item =>
-String(item.id) ===
-String(selectedId)
-)
-){
-
-let label =
-currentTechnician.full_name ||
-"الفني الحالي";
-
-if(currentTechnician.service_type){
-
-label +=
-" — " +
-currentTechnician.service_type;
-
-}
-
-if(currentTechnician.status){
-
-label +=
-" [" +
-currentTechnician.status +
-"]";
-
-}
-
-html += `
-
-<option
-value="${escapeAttribute(
-currentTechnician.id
-)}"
-selected
->
-
-${escapeHtml(label)}
-
-</option>
-
-`;
-
-}
-
-return html;
-
-}
-
-/* =====================================================
-   STATUS OPTIONS
-===================================================== */
-
-function statusOptions(current){
-
-const options = [
-
-"جديد",
-"قيد المراجعة",
-"تم تعيين فني",
-"الفني في الطريق",
-"قيد التنفيذ",
-"بدأ العمل",
-"بانتظار قطعة/موافقة",
-"مكتمل",
-"ملغي"
-
-];
-
-return options.map(
-option => `
-
-<option
-value="${escapeAttribute(
-option
-)}"
-
-${
-current === option
-?
-"selected"
-:
-""
-}
->
-
-${escapeHtml(option)}
-
-</option>
-
-`
-).join("");
-
-}
-
-/* =====================================================
-   PRIORITY OPTIONS
-===================================================== */
-
-function priorityOptions(current){
-
-const options = [
-
-"عادي",
-"متوسط",
-"عاجل"
-
-];
-
-return options.map(
-option => `
-
-<option
-
-value="${escapeAttribute(
-option
-)}"
-
-${
-(current || "عادي") === option
-?
-"selected"
-:
-""
-}
-
->
-
-${escapeHtml(option)}
-
-</option>
-
-`
-).join("");
-
-}
-
-/* =====================================================
-   SAVE REQUEST
-===================================================== */
-
-window.saveRequest =
-async function(id,button){
-
-try{
-
-const card =
-document.querySelector(
-`.request-card[data-id="${CSS.escape(id)}"]`
-);
-
-if(!card){
-return;
-}
-
-const existing =
-allRequests.find(
-r => r.id === id
-);
-
-if(!existing){
-
-throw new Error(
-"الطلب غير موجود."
-);
-
-}
-
-let status =
-card.querySelector(
-".request-status"
-).value;
-
-const priority =
-card.querySelector(
-".request-priority"
-).value;
-
-const technicianId =
-card.querySelector(
-".technician-select"
-).value;
-
-const adminNotes =
-card.querySelector(
-".admin-notes"
-).value.trim();
-
-const technicianNotes =
-card.querySelector(
-".technician-notes"
-).value.trim();
-
-const previousTechnicianId =
-existing.technician_id || null;
-
-const selectedTechnician =
-technicianId
-?
-technicians.find(
-item =>
-String(item.id) ===
-String(technicianId)
-)
-:
-null;
-
-/*
-   إذا تم تعيين فني على طلب جديد
-   ولم يحدد المدير حالة أخرى،
-   نحول الحالة تلقائيًا إلى "تم تعيين فني".
-*/
-
-if(
-technicianId &&
-!previousTechnicianId &&
-existing.status === "جديد" &&
-status === "جديد"
-){
-
-status =
-"تم تعيين فني";
-
-}
-
-/*
-   إذا تم إزالة الفني من طلب كانت حالته
-   "تم تعيين فني"، نعيدها إلى "جديد".
-*/
-
-if(
-!technicianId &&
-previousTechnicianId &&
-(
-existing.status === "تم تعيين فني" ||
-status === "تم تعيين فني"
-)
-){
-
-status =
-"جديد";
-
-}
-
-/*
-   لا نسمح للمدير بتعيين فني غير متاح
-   لطلب جديد، إلا إذا كان هو الفني الحالي أصلًا.
-*/
-
-if(
-selectedTechnician &&
-String(selectedTechnician.id) !==
-String(previousTechnicianId)
-&&
-selectedTechnician.status !== "متاح"
-){
-
-throw new Error(
-"لا يمكن تعيين فني غير متاح. اختر فنيًا حالته متاح."
-);
-
-}
-
-button.disabled = true;
-
-button.textContent =
-"جاري الحفظ...";
-
-const updateData = {
-
-status:
-status,
-
-priority:
-priority,
-
-technician_id:
-technicianId || null,
-
-admin_notes:
-adminNotes || null,
-
-technician_notes:
-technicianNotes || null,
-
-updated_at:
-new Date().toISOString()
-
-};
-
-if(status === "مكتمل"){
-
-updateData.completed_at =
-existing.completed_at
-?
-existing.completed_at
-:
-new Date().toISOString();
-
-}else{
-
-updateData.completed_at =
-null;
-
-}
-
-/*
-   حفظ الطلب أولًا.
-*/
-
-const {
-error
-} = await client
-.from("service_requests")
-.update(updateData)
-.eq("id",id);
-
-if(error){
-throw error;
-}
-
-/*
-   تحديث حالة الفني حسب الطلب.
-   نستخدم technicians.status الموجود حاليًا.
-   لا نستخدم availability.
-*/
-
-if(
-technicianId &&
-selectedTechnician &&
-String(technicianId) !==
-String(previousTechnicianId)
-){
-
-/*
-   إذا تم تعيين فني جديد:
-   يصبح مشغولًا.
-*/
-
-const {
-error:techError
-} = await client
-.from("technicians")
-.update({
-status:"مشغول"
-})
-.eq("id",technicianId);
-
-if(techError){
-
-console.warn(
-"Technician status update:",
-techError
-);
-
-}
-
-}
-
-/*
-   إذا اكتمل الطلب:
-   الفني يصبح متاحًا.
-*/
-
-if(
-status === "مكتمل" &&
-technicianId
-){
-
-const {
-error:techError
-} = await client
-.from("technicians")
-.update({
-status:"متاح"
-})
-.eq("id",technicianId);
-
-if(techError){
-
-console.warn(
-"Technician completion status:",
-techError
-);
-
-}
-
-}
-
-/*
-   إذا أزيل الفني:
-   لا نغير حالة الفني السابق تلقائيًا
-   لأن قد يكون لديه طلب آخر.
-*/
-
-showToast(
-"تم حفظ التعديلات بنجاح"
-);
-
-await loadTechnicians();
-await loadRequests();
-await loadTechnicianRatings();
-
-}catch(error){
-
-console.error(
-"Save request error:",
-error
-);
-
-showToast(
-"فشل الحفظ: " +
-(error.message || "خطأ غير معروف"),
-true
-);
-
-button.disabled = false;
-
-button.textContent =
-"حفظ التعديلات";
-
-}
-
-};
-
-/* =====================================================
-   DELETE CANCELLED REQUEST
-===================================================== */
-
-window.deleteCancelledRequest =
-async function(id,button){
-
-try{
-
-const request =
-allRequests.find(
-item => item.id === id
-);
-
-if(!request){
-
-showToast(
-"الطلب غير موجود",
-true
-);
-
-return;
-
-}
-
-if(request.status !== "ملغي"){
-
-showToast(
-"لا يمكن حذف طلب غير ملغي",
-true
-);
-
-return;
-
-}
-
-const confirmed =
-confirm(
-"هل أنت متأكد من حذف هذا الطلب نهائيًا؟\n\n" +
-"رقم الطلب: " +
-(request.request_number || "بدون رقم") +
-"\n\n" +
-"هذا الإجراء لا يمكن التراجع عنه."
-);
-
-if(!confirmed){
-return;
-}
-
-button.disabled = true;
-
-button.textContent =
-"جاري الحذف...";
-
-const {
-error
-} = await client
-.from("service_requests")
-.delete()
-.eq("id",id)
-.eq("status","ملغي");
-
-if(error){
-throw error;
-}
-
-allRequests =
-allRequests.filter(
-item => item.id !== id
-);
-
-updateStatistics();
-renderRequests();
-renderTechnicianRatings();
-
-showToast(
-"تم حذف الطلب الملغي بنجاح"
-);
-
-}catch(error){
-
-console.error(
-"Delete request error:",
-error
-);
-
-button.disabled = false;
-
-button.textContent =
-"حذف الطلب";
-
-showToast(
-"فشل حذف الطلب: " +
-(error.message || "خطأ غير معروف"),
-true
-);
-
-}
-
-};
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-logoutBtn.addEventListener(
-"click",
-async function(){
-
-await client.auth.signOut();
-
-window.location.href =
-"login.html";
-
-}
-);
-
-/* =====================================================
-   AUTH STATE
-===================================================== */
-
-client.auth.onAuthStateChange(
-(event,session) => {
-
-if(
-event === "SIGNED_OUT" ||
-!session
-){
-
-window.location.href =
-"login.html";
-
-}
-
-}
-);
-
-/* =====================================================
-   DATE
-===================================================== */
-
-function formatDate(value){
-
-if(!value){
-return "-";
-}
-
-const date =
-new Date(value);
-
-if(
-Number.isNaN(
-date.getTime()
-)
-){
-
-return String(value);
-
-}
-
-return date.toLocaleString(
-"ar-JO",
-{
-year:"numeric",
-month:"2-digit",
-day:"2-digit",
-hour:"2-digit",
-minute:"2-digit"
-}
-);
-
-}
-
-function formatDateOnly(value){
-
-if(!value){
-return "-";
-}
-
-try{
-
-return new Date(
-value + "T00:00:00"
-)
-.toLocaleDateString(
-"ar-JO",
-{
-year:"numeric",
-month:"2-digit",
-day:"2-digit"
-}
-);
-
-}catch{
-
-return value;
-
-}
-
-}
-
-/* =====================================================
-   STATUS COLOR
-===================================================== */
-
-function getStatusClass(status){
-
-if(
-status === "جديد"
-){
-
-return "new";
-
-}
-
-if(
-status === "مكتمل"
-){
-
-return "done";
-
-}
-
-if(
-status === "ملغي"
-){
-
-return "cancelled";
-
-}
-
-return "progress";
-
-}
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
-
-function escapeHtml(value){
-
-if(
-value === null ||
-value === undefined
-){
-
-return "";
-
-}
-
-return String(value)
-
-.replaceAll(
-"&",
-"&amp;"
-)
-
-.replaceAll(
-"<",
-"&lt;"
-)
-
-.replaceAll(
-">",
-"&gt;"
-)
-
-.replaceAll(
-'"',
-"&quot;"
-)
-
-.replaceAll(
-"'",
-"&#039;"
-);
-
-}
-
-function escapeAttribute(value){
-
-return escapeHtml(value);
-
-}
-
-/* =====================================================
-   TOAST
-===================================================== */
-
-function showToast(
-message,
-error=false
-){
-
-toast.textContent =
-message;
-
-toast.className =
-error
-?
-"toast error"
-:
-"toast";
-
-toast.style.display =
-"block";
-
-clearTimeout(
-window.toastTimer
-);
-
-window.toastTimer =
-setTimeout(
-function(){
-
-toast.style.display =
-"none";
-
-},
-3500
-);
-
-}
+checkAdmin();
 
 </script>
 
