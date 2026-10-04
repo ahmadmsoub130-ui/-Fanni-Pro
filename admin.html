@@ -186,6 +186,11 @@ padding:19px;
 overflow:hidden
 }
 
+.request-card.new-unassigned{
+border-color:#2563eb;
+box-shadow:0 0 0 1px rgba(37,99,235,.12)
+}
+
 .request-top{
 display:flex;
 align-items:flex-start;
@@ -239,6 +244,26 @@ color:#86efac
 .badge.cancelled{
 background:rgba(239,68,68,.15);
 color:#fca5a5
+}
+
+.badge.available{
+background:rgba(34,197,94,.15);
+color:#86efac
+}
+
+.badge.busy{
+background:rgba(245,158,11,.15);
+color:#fcd34d
+}
+
+.badge.unavailable{
+background:rgba(239,68,68,.15);
+color:#fca5a5
+}
+
+.badge.warning{
+background:rgba(234,179,8,.15);
+color:#fde68a
 }
 
 .request-info{
@@ -368,6 +393,52 @@ text-decoration:none;
 font-size:12px
 }
 
+.technician-status-box{
+margin-bottom:16px;
+background:#0b192b;
+border:1px solid #172a40;
+border-radius:12px;
+padding:13px
+}
+
+.technician-status-title{
+font-size:11px;
+color:#64748b;
+margin-bottom:8px
+}
+
+.technician-status-content{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+flex-wrap:wrap
+}
+
+.technician-status-name{
+font-size:13px;
+font-weight:bold;
+color:#e2e8f0
+}
+
+.technician-status-meta{
+font-size:11px;
+color:#94a3b8;
+margin-top:4px
+}
+
+.tech-status-select option[value="متاح"]{
+color:#86efac
+}
+
+.tech-status-select option[value="مشغول"]{
+color:#fcd34d
+}
+
+.tech-status-select option[value="غير متاح"]{
+color:#fca5a5
+}
+
 .empty{
 background:#0f1d30;
 border:1px dashed #334155;
@@ -429,7 +500,6 @@ padding:11px 18px;
 border-radius:10px;
 text-decoration:none
 }
-
 
 /* =====================================================
    TECHNICIAN APPLICATIONS
@@ -604,7 +674,6 @@ font-size:11px;
 font-weight:bold
 }
 
-
 /* =====================================================
    TECHNICIAN RATINGS
 ===================================================== */
@@ -769,7 +838,6 @@ border-radius:14px;
 border:1px dashed #334155
 }
 
-
 /* =====================================================
    RESPONSIVE
 ===================================================== */
@@ -933,7 +1001,6 @@ grid-template-columns:1fr 1fr
 
 </header>
 
-
 <main id="mainContent">
 
 <div class="welcome">
@@ -947,7 +1014,6 @@ grid-template-columns:1fr 1fr
 </p>
 
 </div>
-
 
 <!-- STATS -->
 
@@ -979,7 +1045,6 @@ grid-template-columns:1fr 1fr
 </div>
 
 </div>
-
 
 <!-- FILTERS -->
 
@@ -1016,6 +1081,7 @@ placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
 <option value="تم تعيين فني">تم تعيين فني</option>
 <option value="الفني في الطريق">الفني في الطريق</option>
 <option value="قيد التنفيذ">قيد التنفيذ</option>
+<option value="بدأ العمل">بدأ العمل</option>
 <option value="بانتظار قطعة/موافقة">بانتظار قطعة/موافقة</option>
 <option value="مكتمل">مكتمل</option>
 <option value="ملغي">ملغي</option>
@@ -1039,7 +1105,6 @@ placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
 
 </div>
 
-
 <!-- REQUESTS -->
 
 <div class="requests-title">
@@ -1054,7 +1119,6 @@ placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
 
 </div>
 
-
 <div id="requestsContainer">
 
 <div class="loading">
@@ -1062,7 +1126,6 @@ placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
 </div>
 
 </div>
-
 
 <!-- TECHNICIAN APPLICATIONS -->
 
@@ -1094,10 +1157,7 @@ placeholder="بحث برقم الطلب أو الاسم أو الهاتف..."
 
 </section>
 
-
-<!-- =====================================================
-     TECHNICIAN RATINGS
-===================================================== -->
+<!-- TECHNICIAN RATINGS -->
 
 <section class="ratings-section">
 
@@ -1137,7 +1197,6 @@ id="ratingRefreshBtn"
 
 </div>
 
-
 <!-- SUMMARY -->
 
 <div class="rating-summary">
@@ -1157,7 +1216,6 @@ id="totalTechniciansRating"
 
 </div>
 
-
 <div class="rating-summary-card">
 
 <div class="rating-summary-title">
@@ -1173,7 +1231,6 @@ id="totalReviewsRating"
 
 </div>
 
-
 <div class="rating-summary-card">
 
 <div class="rating-summary-title">
@@ -1188,7 +1245,6 @@ id="networkAverageRating"
 </div>
 
 </div>
-
 
 <div class="rating-summary-card">
 
@@ -1207,7 +1263,6 @@ id="highestRating"
 
 </div>
 
-
 <div id="ratingsContainer">
 
 <div class="loading">
@@ -1220,9 +1275,7 @@ id="highestRating"
 
 </section>
 
-
 </main>
-
 
 <!-- ACCESS DENIED -->
 
@@ -1242,9 +1295,7 @@ id="highestRating"
 
 </div>
 
-
 <div id="toast" class="toast"></div>
-
 
 <script>
 
@@ -1264,7 +1315,6 @@ SUPABASE_URL,
 SUPABASE_KEY
 );
 
-
 /* =====================================================
    DATA
 ===================================================== */
@@ -1273,7 +1323,6 @@ let allRequests = [];
 let technicians = [];
 let technicianApplications = [];
 let technicianReviews = [];
-
 
 /* =====================================================
    ELEMENTS
@@ -1318,7 +1367,6 @@ document.getElementById("logoutBtn");
 const toast =
 document.getElementById("toast");
 
-
 /* =====================================================
    START
 ===================================================== */
@@ -1327,7 +1375,6 @@ document.addEventListener(
 "DOMContentLoaded",
 checkSession
 );
-
 
 /* =====================================================
    SESSION + ADMIN ROLE
@@ -1367,7 +1414,6 @@ document.getElementById(
 user.email ||
 "حساب الإدارة";
 
-
 const {
 data:roleData,
 error:roleError
@@ -1376,7 +1422,6 @@ error:roleError
 .select("role")
 .eq("user_id",user.id)
 .maybeSingle();
-
 
 if(roleError){
 
@@ -1393,7 +1438,6 @@ return;
 
 }
 
-
 if(
 !roleData ||
 roleData.role !== "admin"
@@ -1406,7 +1450,6 @@ showAccessDenied(
 return;
 
 }
-
 
 /* المدير مصرح له */
 
@@ -1422,7 +1465,6 @@ loadTechnicianRatings()
 
 ]);
 
-
 }catch(error){
 
 console.error(
@@ -1437,7 +1479,6 @@ showAccessDenied(
 }
 
 }
-
 
 /* =====================================================
    ACCESS DENIED
@@ -1459,7 +1500,6 @@ accessDenied.querySelector(
 message;
 
 }
-
 
 /* =====================================================
    LOAD TECHNICIANS
@@ -1484,7 +1524,6 @@ ascending:true
 }
 );
 
-
 if(error){
 
 console.warn(
@@ -1501,7 +1540,6 @@ return;
 technicians =
 data || [];
 
-
 }catch(error){
 
 console.warn(
@@ -1514,7 +1552,6 @@ technicians = [];
 }
 
 }
-
 
 /* =====================================================
    LOAD REQUESTS
@@ -1530,7 +1567,6 @@ requestsContainer.innerHTML = `
 
 `;
 
-
 const {
 data,
 error
@@ -1543,7 +1579,6 @@ error
 ascending:false
 }
 );
-
 
 if(error){
 
@@ -1572,7 +1607,6 @@ return;
 
 }
 
-
 allRequests =
 data || [];
 
@@ -1580,7 +1614,6 @@ updateStatistics();
 renderRequests();
 
 }
-
 
 /* =====================================================
    LOAD TECHNICIAN APPLICATIONS
@@ -1596,7 +1629,6 @@ applicationsContainer.innerHTML = `
 
 `;
 
-
 try{
 
 const {
@@ -1611,7 +1643,6 @@ error
 ascending:false
 }
 );
-
 
 if(error){
 
@@ -1640,10 +1671,8 @@ return;
 
 }
 
-
 technicianApplications =
 data || [];
-
 
 document.getElementById(
 "applicationCount"
@@ -1651,9 +1680,7 @@ document.getElementById(
 technicianApplications.length +
 " طلب";
 
-
 renderTechnicianApplications();
-
 
 }catch(error){
 
@@ -1674,7 +1701,6 @@ applicationsContainer.innerHTML = `
 
 }
 
-
 /* =====================================================
    LOAD TECHNICIAN RATINGS
 ===================================================== */
@@ -1691,11 +1717,6 @@ ratingsContainer.innerHTML = `
 
 try{
 
-/*
-   نحمل كل التقييمات.
-   لا نغير جدول technician_reviews.
-*/
-
 const {
 data,
 error
@@ -1710,7 +1731,6 @@ error
 ascending:false
 }
 );
-
 
 if(error){
 
@@ -1739,13 +1759,10 @@ return;
 
 }
 
-
 technicianReviews =
 data || [];
 
-
 renderTechnicianRatings();
-
 
 }catch(error){
 
@@ -1766,7 +1783,6 @@ ratingsContainer.innerHTML = `
 
 }
 
-
 /* =====================================================
    RENDER TECHNICIAN RATINGS
 ===================================================== */
@@ -1775,11 +1791,6 @@ function renderTechnicianRatings(){
 
 const techniciansList =
 technicians || [];
-
-
-/*
-   نبني إحصائيات كل فني
-*/
 
 const ratingData =
 techniciansList.map(
@@ -1792,10 +1803,8 @@ String(review.technician_id) ===
 String(technician.id)
 );
 
-
 const totalReviews =
 reviews.length;
-
 
 const totalStars =
 reviews.reduce(
@@ -1804,14 +1813,12 @@ sum + Number(review.rating || 0),
 0
 );
 
-
 const average =
 totalReviews
 ?
 totalStars / totalReviews
 :
 0;
-
 
 const completedJobs =
 allRequests.filter(
@@ -1820,7 +1827,6 @@ String(request.technician_id) ===
 String(technician.id) &&
 request.status === "مكتمل"
 ).length;
-
 
 return {
 
@@ -1838,14 +1844,6 @@ completedJobs
 
 }
 );
-
-
-/*
-   ترتيب:
-   1. الأعلى تقييمًا
-   2. عدد التقييمات
-   3. عدد الطلبات المكتملة
-*/
 
 ratingData.sort(
 (a,b) => {
@@ -1867,12 +1865,8 @@ return b.completedJobs - a.completedJobs;
 }
 );
 
-
-/* إحصائيات عامة */
-
 const totalReviews =
 technicianReviews.length;
-
 
 const totalStars =
 technicianReviews.reduce(
@@ -1881,14 +1875,12 @@ sum + Number(review.rating || 0),
 0
 );
 
-
 const networkAverage =
 totalReviews
 ?
 totalStars / totalReviews
 :
 0;
-
 
 const highest =
 ratingData.length
@@ -1901,37 +1893,31 @@ item => item.average
 :
 0;
 
-
 document.getElementById(
 "totalTechniciansRating"
 ).textContent =
 techniciansList.length;
-
 
 document.getElementById(
 "totalReviewsRating"
 ).textContent =
 totalReviews;
 
-
 document.getElementById(
 "networkAverageRating"
 ).textContent =
 networkAverage.toFixed(1);
-
 
 document.getElementById(
 "highestRating"
 ).textContent =
 highest.toFixed(1);
 
-
 document.getElementById(
 "ratingCount"
 ).textContent =
 techniciansList.length +
 " فني";
-
 
 if(!ratingData.length){
 
@@ -1949,11 +1935,6 @@ return;
 
 }
 
-
-/*
-   الجدول
-*/
-
 ratingsContainer.innerHTML = `
 
 <div class="rating-table-wrap">
@@ -1964,33 +1945,14 @@ ratingsContainer.innerHTML = `
 
 <tr>
 
-<th>
-الترتيب
-</th>
-
-<th>
-الفني
-</th>
-
-<th>
-التخصص
-</th>
-
-<th>
-التقييم
-</th>
-
-<th>
-عدد التقييمات
-</th>
-
-<th>
-الطلبات المكتملة
-</th>
-
-<th>
-المستوى
-</th>
+<th>الترتيب</th>
+<th>الفني</th>
+<th>التخصص</th>
+<th>الحالة</th>
+<th>التقييم</th>
+<th>عدد التقييمات</th>
+<th>الطلبات المكتملة</th>
+<th>المستوى</th>
 
 </tr>
 
@@ -2018,7 +1980,6 @@ index
 
 }
 
-
 /* =====================================================
    TECHNICIAN RATING ROW
 ===================================================== */
@@ -2031,10 +1992,8 @@ index
 const technician =
 data.technician;
 
-
 const average =
 data.average;
-
 
 const stars =
 average
@@ -2043,13 +2002,11 @@ renderStars(average)
 :
 `<span class="rating-muted">لا يوجد</span>`;
 
-
 const level =
 getTechnicianLevel(
 average,
 data.totalReviews
 );
-
 
 return `
 
@@ -2062,7 +2019,6 @@ return `
 </span>
 
 </td>
-
 
 <td>
 
@@ -2086,7 +2042,6 @@ technician.phone ||
 
 </td>
 
-
 <td>
 
 ${escapeHtml(
@@ -2096,6 +2051,13 @@ technician.service_type ||
 
 </td>
 
+<td>
+
+${renderTechnicianStatusBadge(
+technician.status
+)}
+
+</td>
 
 <td>
 
@@ -2117,20 +2079,17 @@ average
 
 </td>
 
-
 <td>
 
 ${data.totalReviews}
 
 </td>
 
-
 <td>
 
 ${data.completedJobs}
 
 </td>
-
 
 <td>
 
@@ -2148,7 +2107,6 @@ ${level.name}
 
 }
 
-
 /* =====================================================
    RENDER STARS
 ===================================================== */
@@ -2157,7 +2115,6 @@ function renderStars(value){
 
 const rounded =
 Math.round(value);
-
 
 let result = "";
 
@@ -2180,7 +2137,6 @@ return result;
 
 }
 
-
 /* =====================================================
    TECHNICIAN LEVEL
 ===================================================== */
@@ -2201,7 +2157,6 @@ className:"level-new"
 
 }
 
-
 if(
 average >= 4.7 &&
 count >= 10
@@ -2213,7 +2168,6 @@ className:"level-excellent"
 };
 
 }
-
 
 if(
 average >= 4.3 &&
@@ -2227,7 +2181,6 @@ className:"level-special"
 
 }
 
-
 if(
 average >= 4 &&
 count >= 3
@@ -2240,7 +2193,6 @@ className:"level-trusted"
 
 }
 
-
 return {
 name:"فني نشط",
 className:"level-active"
@@ -2248,6 +2200,52 @@ className:"level-active"
 
 }
 
+/* =====================================================
+   TECHNICIAN STATUS BADGE
+===================================================== */
+
+function renderTechnicianStatusBadge(status){
+
+const current =
+status || "غير محدد";
+
+if(current === "متاح"){
+
+return `
+<span class="badge available">
+متاح
+</span>
+`;
+
+}
+
+if(current === "مشغول"){
+
+return `
+<span class="badge busy">
+مشغول
+</span>
+`;
+
+}
+
+if(current === "غير متاح"){
+
+return `
+<span class="badge unavailable">
+غير متاح
+</span>
+`;
+
+}
+
+return `
+<span class="badge">
+${escapeHtml(current)}
+</span>
+`;
+
+}
 
 /* =====================================================
    RENDER TECHNICIAN APPLICATIONS
@@ -2271,7 +2269,6 @@ return;
 
 }
 
-
 applicationsContainer.innerHTML = `
 
 ${technicianApplications
@@ -2281,7 +2278,6 @@ ${technicianApplications
 `;
 
 }
-
 
 /* =====================================================
    TECHNICIAN APPLICATION CARD
@@ -2319,7 +2315,6 @@ application.created_at
 
 </div>
 
-
 <span class="application-status ${getApplicationStatusClass(application.status)}">
 
 ${escapeHtml(
@@ -2331,9 +2326,7 @@ application.status ||
 
 </div>
 
-
 <div class="application-grid">
-
 
 <div class="application-info">
 
@@ -2352,7 +2345,6 @@ application.full_name ||
 
 </div>
 
-
 <div class="application-info">
 
 <div class="label">
@@ -2369,7 +2361,6 @@ application.phone ||
 </div>
 
 </div>
-
 
 <div class="application-info">
 
@@ -2388,7 +2379,6 @@ application.service_type ||
 
 </div>
 
-
 <div class="application-info">
 
 <div class="label">
@@ -2405,7 +2395,6 @@ application.city ||
 </div>
 
 </div>
-
 
 <div class="application-info">
 
@@ -2428,7 +2417,6 @@ application.experience_years ??
 
 </div>
 
-
 <div class="application-info">
 
 <div class="label">
@@ -2446,9 +2434,7 @@ application.work_type ||
 
 </div>
 
-
 </div>
-
 
 <div class="application-description">
 
@@ -2487,9 +2473,7 @@ application.notes
 
 </div>
 
-
 <div class="application-actions">
-
 
 <div>
 
@@ -2509,7 +2493,6 @@ application.status
 
 </div>
 
-
 <div>
 
 <label>
@@ -2525,7 +2508,6 @@ application.admin_notes ||
 )}</textarea>
 
 </div>
-
 
 <div>
 
@@ -2543,7 +2525,6 @@ application.contact_notes ||
 
 </div>
 
-
 <button
 class="application-save"
 onclick="saveTechnicianApplication(
@@ -2556,7 +2537,6 @@ this
 
 </button>
 
-
 </div>
 
 </article>
@@ -2564,7 +2544,6 @@ this
 `;
 
 }
-
 
 /* =====================================================
    APPLICATION STATUS OPTIONS
@@ -2580,7 +2559,6 @@ const options = [
 "مرفوض"
 
 ];
-
 
 return options.map(
 option => `
@@ -2605,7 +2583,6 @@ ${escapeHtml(option)}
 
 }
 
-
 /* =====================================================
    APPLICATION STATUS CLASS
 ===================================================== */
@@ -2628,7 +2605,6 @@ return "status-new";
 
 }
 
-
 /* =====================================================
    SAVE TECHNICIAN APPLICATION
 ===================================================== */
@@ -2643,40 +2619,33 @@ document.querySelector(
 `.application-card[data-application-id="${CSS.escape(id)}"]`
 );
 
-
 if(!card){
 return;
 }
-
 
 const status =
 card.querySelector(
 ".application-status-select"
 ).value;
 
-
 const adminNotes =
 card.querySelector(
 ".application-admin-notes"
 ).value.trim();
-
 
 const contactNotes =
 card.querySelector(
 ".application-contact-notes"
 ).value.trim();
 
-
 button.disabled = true;
 
 button.textContent =
 "جاري الحفظ...";
 
-
 const {
 data:userData
 } = await client.auth.getUser();
-
 
 const updateData = {
 
@@ -2700,7 +2669,6 @@ new Date().toISOString()
 
 };
 
-
 const {
 error
 } = await client
@@ -2708,19 +2676,91 @@ error
 .update(updateData)
 .eq("id",id);
 
-
 if(error){
 throw error;
 }
 
+/*
+   إذا تم قبول الطلب من هذه اللوحة،
+   ننشئ/نحدّث صلاحية الفني وسجله بنفس
+   نظام technician-applications الحالي.
+*/
+
+if(status === "مقبول"){
+
+const application =
+technicianApplications.find(
+item =>
+String(item.id) ===
+String(id)
+);
+
+if(application){
+
+if(!application.user_id){
+
+throw new Error(
+"لا يمكن قبول الفني لأن user_id غير موجود في طلب الانضمام."
+);
+
+}
+
+const {
+error:roleError
+} = await client
+.from("user_roles")
+.upsert(
+{
+user_id:application.user_id,
+role:"technician"
+},
+{
+onConflict:"user_id"
+}
+);
+
+if(roleError){
+throw roleError;
+}
+
+const {
+error:technicianError
+} = await client
+.from("technicians")
+.upsert(
+{
+id:application.user_id,
+full_name:application.full_name || null,
+phone:application.phone || null,
+service_type:application.service_type || null,
+status:"متاح",
+notes:application.notes || null
+},
+{
+onConflict:"id"
+}
+);
+
+if(technicianError){
+throw technicianError;
+}
+
+}
+
+}
 
 showToast(
+status === "مقبول"
+?
+"تم قبول الفني وتفعيله بنجاح"
+:
 "تم تحديث طلب الفني"
 );
 
-
+await loadTechnicians();
 await loadTechnicianApplications();
-
+await loadRequests();
+await loadTechnicianRatings();
 
 }catch(error){
 
@@ -2744,7 +2784,6 @@ button.textContent =
 
 };
 
-
 /* =====================================================
    STATISTICS
 ===================================================== */
@@ -2756,14 +2795,12 @@ document.getElementById(
 ).textContent =
 allRequests.length;
 
-
 document.getElementById(
 "newCount"
 ).textContent =
 allRequests.filter(
 r => r.status === "جديد"
 ).length;
-
 
 document.getElementById(
 "progressCount"
@@ -2772,10 +2809,11 @@ allRequests.filter(
 r =>
 r.status === "قيد التنفيذ" ||
 r.status === "الفني في الطريق" ||
+r.status === "بدأ العمل" ||
 r.status === "تم تعيين فني" ||
-r.status === "قيد المراجعة"
+r.status === "قيد المراجعة" ||
+r.status === "بانتظار قطعة/موافقة"
 ).length;
-
 
 document.getElementById(
 "completedCount"
@@ -2783,7 +2821,6 @@ document.getElementById(
 allRequests.filter(
 r => r.status === "مكتمل"
 ).length;
-
 
 document.getElementById(
 "cancelledCount"
@@ -2793,7 +2830,6 @@ r => r.status === "ملغي"
 ).length;
 
 }
-
 
 /* =====================================================
    FILTER EVENTS
@@ -2819,7 +2855,6 @@ priorityFilter.addEventListener(
 renderRequests
 );
 
-
 /* =====================================================
    REFRESH
 ===================================================== */
@@ -2833,18 +2868,15 @@ refreshBtn.disabled = true;
 refreshBtn.textContent =
 "جاري التحديث...";
 
-
 await loadTechnicians();
 await loadRequests();
 await loadTechnicianApplications();
 await loadTechnicianRatings();
 
-
 refreshBtn.disabled = false;
 
 refreshBtn.textContent =
 "تحديث";
-
 
 showToast(
 "تم تحديث البيانات"
@@ -2852,7 +2884,6 @@ showToast(
 
 }
 );
-
 
 /* =====================================================
    RATING REFRESH
@@ -2867,17 +2898,14 @@ ratingRefreshBtn.disabled = true;
 ratingRefreshBtn.textContent =
 "جاري التحديث...";
 
-
 await loadTechnicians();
 await loadRequests();
 await loadTechnicianRatings();
-
 
 ratingRefreshBtn.disabled = false;
 
 ratingRefreshBtn.textContent =
 "تحديث التقييمات";
-
 
 showToast(
 "تم تحديث تقييمات الفنيين"
@@ -2885,7 +2913,6 @@ showToast(
 
 }
 );
-
 
 /* =====================================================
    FILTER REQUESTS
@@ -2907,7 +2934,6 @@ statusFilter.value;
 const priority =
 priorityFilter.value;
 
-
 return allRequests.filter(
 request => {
 
@@ -2923,7 +2949,6 @@ request.service_type
 .filter(Boolean)
 .join(" ")
 .toLowerCase();
-
 
 return (
 
@@ -2952,7 +2977,6 @@ request.priority === priority)
 
 }
 
-
 /* =====================================================
    RENDER REQUESTS
 ===================================================== */
@@ -2962,12 +2986,10 @@ function renderRequests(){
 const requests =
 getFilteredRequests();
 
-
 document.getElementById(
 "requestCount"
 ).textContent =
 requests.length + " طلب";
-
 
 if(!requests.length){
 
@@ -2983,7 +3005,6 @@ return;
 
 }
 
-
 requestsContainer.innerHTML = `
 
 <div class="requests">
@@ -2997,7 +3018,6 @@ ${requests
 `;
 
 }
-
 
 /* =====================================================
    REQUEST CARD
@@ -3014,14 +3034,12 @@ request.preferred_date
 :
 "غير محدد";
 
-
 const technician =
 technicians.find(
 item =>
 String(item.id) ===
 String(request.technician_id)
 );
-
 
 const technicianName =
 technician
@@ -3030,14 +3048,16 @@ technician.full_name
 :
 "لم يتم تعيين فني";
 
+const isNewUnassigned =
+request.status === "جديد" &&
+!request.technician_id;
 
 return `
 
 <article
-class="request-card"
+class="request-card ${isNewUnassigned ? "new-unassigned" : ""}"
 data-id="${escapeAttribute(request.id)}"
 >
-
 
 <div class="request-top">
 
@@ -3062,7 +3082,6 @@ request.created_at
 
 </div>
 
-
 <div class="badges">
 
 <span class="badge ${getStatusClass(request.status)}">
@@ -3074,7 +3093,6 @@ request.status ||
 
 </span>
 
-
 <span class="badge">
 
 ${escapeHtml(
@@ -3084,13 +3102,23 @@ request.priority ||
 
 </span>
 
-</div>
+${
+isNewUnassigned
+?
+`
+<span class="badge warning">
+بانتظار تعيين فني
+</span>
+`
+:
+""
+}
 
 </div>
 
+</div>
 
 <div class="request-info">
-
 
 <div class="info-box">
 
@@ -3109,7 +3137,6 @@ request.customer_name ||
 
 </div>
 
-
 <div class="info-box">
 
 <div class="info-label">
@@ -3126,7 +3153,6 @@ request.phone ||
 </div>
 
 </div>
-
 
 <div class="info-box">
 
@@ -3145,7 +3171,6 @@ request.service_type ||
 
 </div>
 
-
 <div class="info-box">
 
 <div class="info-label">
@@ -3159,7 +3184,6 @@ ${preferred}
 </div>
 
 </div>
-
 
 <div class="info-box">
 
@@ -3178,7 +3202,6 @@ request.location ||
 
 </div>
 
-
 <div class="info-box">
 
 <div class="info-label">
@@ -3191,13 +3214,29 @@ ${escapeHtml(
 technicianName
 )}
 
+${
+technician
+?
+`
+<div class="technician-status-meta">
+التخصص: ${escapeHtml(technician.service_type || "متعدد التخصصات")}
+</div>
+
+<div style="margin-top:6px">
+${renderTechnicianStatusBadge(technician.status)}
+</div>
+`
+:
+`
+<div class="technician-status-meta">
+لا يوجد فني معين
+</div>
+`
+}
+
 </div>
 
 </div>
-
-
-</div>
-
 
 <div class="description">
 
@@ -3213,7 +3252,6 @@ request.description ||
 )}
 
 </div>
-
 
 ${
 request.image_url
@@ -3242,9 +3280,7 @@ class="image-link"
 ""
 }
 
-
 <div class="controls">
-
 
 <div class="control">
 
@@ -3262,7 +3298,6 @@ request.status
 
 </div>
 
-
 <div class="control">
 
 <label>
@@ -3279,14 +3314,16 @@ request.priority
 
 </div>
 
-
 <div class="control">
 
 <label>
 تعيين الفني
 </label>
 
-<select class="technician-select">
+<select
+class="technician-select"
+onchange="previewTechnicianChange(this)"
+>
 
 ${technicianOptions(
 request.technician_id,
@@ -3296,7 +3333,6 @@ request.service_type
 </select>
 
 </div>
-
 
 <div class="control">
 
@@ -3314,7 +3350,6 @@ request.admin_notes ||
 
 </div>
 
-
 <div class="control">
 
 <label>
@@ -3330,7 +3365,6 @@ request.technician_notes ||
 )}</textarea>
 
 </div>
-
 
 <div class="control">
 
@@ -3354,9 +3388,70 @@ disabled
 
 </div>
 
+</div>
+
+<div class="technician-status-box">
+
+<div class="technician-status-title">
+حالة الفني بالنسبة للطلب
+</div>
+
+<div class="technician-status-content">
+
+<div>
+
+<div class="technician-status-name">
+
+${
+technician
+?
+escapeHtml(
+technician.full_name || "فني"
+)
+:
+"لم يتم تعيين فني"
+}
 
 </div>
 
+<div class="technician-status-meta">
+
+${
+technician
+?
+(
+"حالة الفني الحالية: " +
+(technician.status || "غير محددة")
+)
+:
+"يمكنك تعيين فني متاح من القائمة أعلاه"
+}
+
+</div>
+
+</div>
+
+<div>
+
+${
+technician
+?
+renderTechnicianStatusBadge(
+technician.status
+)
+:
+`
+<span class="badge">
+بدون فني
+</span>
+`
+}
+
+</div>
+
+</div>
+
+</div>
 
 <div class="save-row">
 
@@ -3377,7 +3472,6 @@ request.updated_at
 
 </span>
 
-
 <div class="save-actions">
 
 <button
@@ -3391,7 +3485,6 @@ this
 حفظ التعديلات
 
 </button>
-
 
 ${
 request.status === "ملغي"
@@ -3419,13 +3512,117 @@ this
 
 </div>
 
-
 </article>
 
 `;
 
 }
 
+/* =====================================================
+   PREVIEW TECHNICIAN CHANGE
+===================================================== */
+
+window.previewTechnicianChange =
+function(select){
+
+const selectedId =
+select.value;
+
+const card =
+select.closest(".request-card");
+
+if(!card){
+return;
+}
+
+const statusBox =
+card.querySelector(
+".technician-status-box"
+);
+
+if(!statusBox){
+return;
+}
+
+if(!selectedId){
+
+statusBox.innerHTML = `
+
+<div class="technician-status-title">
+حالة الفني بالنسبة للطلب
+</div>
+
+<div class="technician-status-content">
+
+<div>
+
+<div class="technician-status-name">
+لم يتم تعيين فني
+</div>
+
+<div class="technician-status-meta">
+سيتم إزالة الفني الحالي عند الحفظ.
+</div>
+
+</div>
+
+<span class="badge">
+بدون فني
+</span>
+
+</div>
+
+`;
+
+return;
+
+}
+
+const technician =
+technicians.find(
+item =>
+String(item.id) ===
+String(selectedId)
+);
+
+if(!technician){
+return;
+}
+
+statusBox.innerHTML = `
+
+<div class="technician-status-title">
+الفني المحدد
+</div>
+
+<div class="technician-status-content">
+
+<div>
+
+<div class="technician-status-name">
+${escapeHtml(
+technician.full_name || "فني"
+)}
+</div>
+
+<div class="technician-status-meta">
+التخصص:
+${escapeHtml(
+technician.service_type || "متعدد التخصصات"
+)}
+</div>
+
+</div>
+
+${renderTechnicianStatusBadge(
+technician.status
+)}
+
+</div>
+
+`;
+
+};
 
 /* =====================================================
    TECHNICIAN OPTIONS
@@ -3444,32 +3641,111 @@ let html = `
 
 `;
 
+const currentTechnician =
+technicians.find(
+technician =>
+String(technician.id) ===
+String(selectedId)
+);
 
-const matching =
+/*
+   الفني الحالي يبقى ظاهرًا حتى لو أصبح مشغولًا
+   أو غير متاح، حتى لا يختفي من الطلب.
+*/
+
+let matching =
 technicians.filter(
 technician => {
 
-if(!service){
+const isCurrent =
+String(technician.id) ===
+String(selectedId);
+
+const serviceMatches =
+!service ||
+technician.service_type === service ||
+technician.service_type === "متعدد التخصصات";
+
+if(isCurrent){
 return true;
 }
 
+/*
+   لتعيين طلب جديد:
+   يجب أن يكون الفني متاحًا
+   والتخصص مطابقًا.
+*/
 
 return (
-
-technician.service_type === service ||
-
-technician.service_type === "متعدد التخصصات" ||
-
-technician.status === "متاح"
-
+technician.status === "متاح" &&
+serviceMatches
 );
 
 }
 );
 
+/*
+   ترتيب:
+   الفني الحالي أولًا
+   ثم الفنيون المتاحون.
+*/
+
+matching.sort(
+(a,b) => {
+
+const aCurrent =
+String(a.id) ===
+String(selectedId);
+
+const bCurrent =
+String(b.id) ===
+String(selectedId);
+
+if(aCurrent && !bCurrent){
+return -1;
+}
+
+if(!aCurrent && bCurrent){
+return 1;
+}
+
+return (
+a.full_name || ""
+).localeCompare(
+b.full_name || "",
+"ar"
+);
+
+}
+);
 
 matching.forEach(
 technician => {
+
+const isCurrent =
+String(technician.id) ===
+String(selectedId);
+
+let label =
+technician.full_name ||
+"فني بدون اسم";
+
+if(technician.service_type){
+
+label +=
+" — " +
+technician.service_type;
+
+}
+
+if(technician.status){
+
+label +=
+" [" +
+technician.status +
+"]";
+
+}
 
 html += `
 
@@ -3480,8 +3756,7 @@ technician.id
 )}"
 
 ${
-String(technician.id) ===
-String(selectedId)
+isCurrent
 ?
 "selected"
 :
@@ -3490,20 +3765,7 @@ String(selectedId)
 
 >
 
-${escapeHtml(
-technician.full_name
-)}
-
-${
-technician.service_type
-?
-" — " +
-escapeHtml(
-technician.service_type
-)
-:
-""
-}
+${escapeHtml(label)}
 
 </option>
 
@@ -3511,11 +3773,62 @@ technician.service_type
 
 });
 
+/*
+   إذا كان هناك فني حالي غير موجود في قائمة
+   الفنيين المتاحين، نضمن ظهوره.
+*/
+
+if(
+selectedId &&
+currentTechnician &&
+!matching.some(
+item =>
+String(item.id) ===
+String(selectedId)
+)
+){
+
+let label =
+currentTechnician.full_name ||
+"الفني الحالي";
+
+if(currentTechnician.service_type){
+
+label +=
+" — " +
+currentTechnician.service_type;
+
+}
+
+if(currentTechnician.status){
+
+label +=
+" [" +
+currentTechnician.status +
+"]";
+
+}
+
+html += `
+
+<option
+value="${escapeAttribute(
+currentTechnician.id
+)}"
+selected
+>
+
+${escapeHtml(label)}
+
+</option>
+
+`;
+
+}
 
 return html;
 
 }
-
 
 /* =====================================================
    STATUS OPTIONS
@@ -3530,12 +3843,12 @@ const options = [
 "تم تعيين فني",
 "الفني في الطريق",
 "قيد التنفيذ",
+"بدأ العمل",
 "بانتظار قطعة/موافقة",
 "مكتمل",
 "ملغي"
 
 ];
-
 
 return options.map(
 option => `
@@ -3563,7 +3876,6 @@ ${escapeHtml(option)}
 
 }
 
-
 /* =====================================================
    PRIORITY OPTIONS
 ===================================================== */
@@ -3577,7 +3889,6 @@ const options = [
 "عاجل"
 
 ];
-
 
 return options.map(
 option => `
@@ -3607,7 +3918,6 @@ ${escapeHtml(option)}
 
 }
 
-
 /* =====================================================
    SAVE REQUEST
 ===================================================== */
@@ -3622,47 +3932,122 @@ document.querySelector(
 `.request-card[data-id="${CSS.escape(id)}"]`
 );
 
-
 if(!card){
 return;
 }
 
+const existing =
+allRequests.find(
+r => r.id === id
+);
 
-const status =
+if(!existing){
+
+throw new Error(
+"الطلب غير موجود."
+);
+
+}
+
+let status =
 card.querySelector(
 ".request-status"
 ).value;
-
 
 const priority =
 card.querySelector(
 ".request-priority"
 ).value;
 
-
 const technicianId =
 card.querySelector(
 ".technician-select"
 ).value;
-
 
 const adminNotes =
 card.querySelector(
 ".admin-notes"
 ).value.trim();
 
-
 const technicianNotes =
 card.querySelector(
 ".technician-notes"
 ).value.trim();
 
+const previousTechnicianId =
+existing.technician_id || null;
+
+const selectedTechnician =
+technicianId
+?
+technicians.find(
+item =>
+String(item.id) ===
+String(technicianId)
+)
+:
+null;
+
+/*
+   إذا تم تعيين فني على طلب جديد
+   ولم يحدد المدير حالة أخرى،
+   نحول الحالة تلقائيًا إلى "تم تعيين فني".
+*/
+
+if(
+technicianId &&
+!previousTechnicianId &&
+existing.status === "جديد" &&
+status === "جديد"
+){
+
+status =
+"تم تعيين فني";
+
+}
+
+/*
+   إذا تم إزالة الفني من طلب كانت حالته
+   "تم تعيين فني"، نعيدها إلى "جديد".
+*/
+
+if(
+!technicianId &&
+previousTechnicianId &&
+(
+existing.status === "تم تعيين فني" ||
+status === "تم تعيين فني"
+)
+){
+
+status =
+"جديد";
+
+}
+
+/*
+   لا نسمح للمدير بتعيين فني غير متاح
+   لطلب جديد، إلا إذا كان هو الفني الحالي أصلًا.
+*/
+
+if(
+selectedTechnician &&
+String(selectedTechnician.id) !==
+String(previousTechnicianId)
+&&
+selectedTechnician.status !== "متاح"
+){
+
+throw new Error(
+"لا يمكن تعيين فني غير متاح. اختر فنيًا حالته متاح."
+);
+
+}
 
 button.disabled = true;
 
 button.textContent =
 "جاري الحفظ...";
-
 
 const updateData = {
 
@@ -3686,17 +4071,9 @@ new Date().toISOString()
 
 };
 
-
 if(status === "مكتمل"){
 
-const existing =
-allRequests.find(
-r => r.id === id
-);
-
-
 updateData.completed_at =
-existing &&
 existing.completed_at
 ?
 existing.completed_at
@@ -3710,6 +4087,9 @@ null;
 
 }
 
+/*
+   حفظ الطلب أولًا.
+*/
 
 const {
 error
@@ -3718,20 +4098,91 @@ error
 .update(updateData)
 .eq("id",id);
 
-
 if(error){
 throw error;
 }
 
+/*
+   تحديث حالة الفني حسب الطلب.
+   نستخدم technicians.status الموجود حاليًا.
+   لا نستخدم availability.
+*/
+
+if(
+technicianId &&
+selectedTechnician &&
+String(technicianId) !==
+String(previousTechnicianId)
+){
+
+/*
+   إذا تم تعيين فني جديد:
+   يصبح مشغولًا.
+*/
+
+const {
+error:techError
+} = await client
+.from("technicians")
+.update({
+status:"مشغول"
+})
+.eq("id",technicianId);
+
+if(techError){
+
+console.warn(
+"Technician status update:",
+techError
+);
+
+}
+
+}
+
+/*
+   إذا اكتمل الطلب:
+   الفني يصبح متاحًا.
+*/
+
+if(
+status === "مكتمل" &&
+technicianId
+){
+
+const {
+error:techError
+} = await client
+.from("technicians")
+.update({
+status:"متاح"
+})
+.eq("id",technicianId);
+
+if(techError){
+
+console.warn(
+"Technician completion status:",
+techError
+);
+
+}
+
+}
+
+/*
+   إذا أزيل الفني:
+   لا نغير حالة الفني السابق تلقائيًا
+   لأن قد يكون لديه طلب آخر.
+*/
 
 showToast(
 "تم حفظ التعديلات بنجاح"
 );
 
-
+await loadTechnicians();
 await loadRequests();
 await loadTechnicianRatings();
-
 
 }catch(error){
 
@@ -3740,13 +4191,11 @@ console.error(
 error
 );
 
-
 showToast(
 "فشل الحفظ: " +
 (error.message || "خطأ غير معروف"),
 true
 );
-
 
 button.disabled = false;
 
@@ -3756,7 +4205,6 @@ button.textContent =
 }
 
 };
-
 
 /* =====================================================
    DELETE CANCELLED REQUEST
@@ -3772,7 +4220,6 @@ allRequests.find(
 item => item.id === id
 );
 
-
 if(!request){
 
 showToast(
@@ -3783,7 +4230,6 @@ true
 return;
 
 }
-
 
 if(request.status !== "ملغي"){
 
@@ -3796,7 +4242,6 @@ return;
 
 }
 
-
 const confirmed =
 confirm(
 "هل أنت متأكد من حذف هذا الطلب نهائيًا؟\n\n" +
@@ -3806,17 +4251,14 @@ confirm(
 "هذا الإجراء لا يمكن التراجع عنه."
 );
 
-
 if(!confirmed){
 return;
 }
-
 
 button.disabled = true;
 
 button.textContent =
 "جاري الحذف...";
-
 
 const {
 error
@@ -3826,27 +4268,22 @@ error
 .eq("id",id)
 .eq("status","ملغي");
 
-
 if(error){
 throw error;
 }
-
 
 allRequests =
 allRequests.filter(
 item => item.id !== id
 );
 
-
 updateStatistics();
 renderRequests();
 renderTechnicianRatings();
 
-
 showToast(
 "تم حذف الطلب الملغي بنجاح"
 );
-
 
 }catch(error){
 
@@ -3855,12 +4292,10 @@ console.error(
 error
 );
 
-
 button.disabled = false;
 
 button.textContent =
 "حذف الطلب";
-
 
 showToast(
 "فشل حذف الطلب: " +
@@ -3871,7 +4306,6 @@ true
 }
 
 };
-
 
 /* =====================================================
    LOGOUT
@@ -3888,7 +4322,6 @@ window.location.href =
 
 }
 );
-
 
 /* =====================================================
    AUTH STATE
@@ -3910,7 +4343,6 @@ window.location.href =
 }
 );
 
-
 /* =====================================================
    DATE
 ===================================================== */
@@ -3921,10 +4353,8 @@ if(!value){
 return "-";
 }
 
-
 const date =
 new Date(value);
-
 
 if(
 Number.isNaN(
@@ -3935,7 +4365,6 @@ date.getTime()
 return String(value);
 
 }
-
 
 return date.toLocaleString(
 "ar-JO",
@@ -3950,13 +4379,11 @@ minute:"2-digit"
 
 }
 
-
 function formatDateOnly(value){
 
 if(!value){
 return "-";
 }
-
 
 try{
 
@@ -3980,7 +4407,6 @@ return value;
 
 }
 
-
 /* =====================================================
    STATUS COLOR
 ===================================================== */
@@ -3995,7 +4421,6 @@ return "new";
 
 }
 
-
 if(
 status === "مكتمل"
 ){
@@ -4003,7 +4428,6 @@ status === "مكتمل"
 return "done";
 
 }
-
 
 if(
 status === "ملغي"
@@ -4013,11 +4437,9 @@ return "cancelled";
 
 }
 
-
 return "progress";
 
 }
-
 
 /* =====================================================
    ESCAPE HTML
@@ -4033,7 +4455,6 @@ value === undefined
 return "";
 
 }
-
 
 return String(value)
 
@@ -4064,13 +4485,11 @@ return String(value)
 
 }
 
-
 function escapeAttribute(value){
 
 return escapeHtml(value);
 
 }
-
 
 /* =====================================================
    TOAST
@@ -4084,7 +4503,6 @@ error=false
 toast.textContent =
 message;
 
-
 toast.className =
 error
 ?
@@ -4092,15 +4510,12 @@ error
 :
 "toast";
 
-
 toast.style.display =
 "block";
-
 
 clearTimeout(
 window.toastTimer
 );
-
 
 window.toastTimer =
 setTimeout(
