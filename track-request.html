@@ -143,7 +143,6 @@ border:1px solid rgba(59,130,246,.3);
 color:#93c5fd
 }
 
-/* إشعار العميل */
 .notification{
 display:none;
 margin-bottom:18px;
@@ -171,7 +170,6 @@ line-height:1.8;
 color:#e2e8f0
 }
 
-/* زر واتساب */
 .whatsapp-btn{
 display:block;
 width:100%;
@@ -381,6 +379,130 @@ text-decoration:none;
 font-size:12px
 }
 
+/* التقييم */
+
+.review-box{
+display:none;
+margin-top:20px;
+padding:20px;
+border-radius:17px;
+background:
+linear-gradient(
+135deg,
+rgba(245,158,11,.10),
+rgba(37,99,235,.08)
+);
+border:1px solid rgba(245,158,11,.25);
+text-align:center
+}
+
+.review-title{
+font-size:18px;
+font-weight:bold;
+margin-bottom:7px
+}
+
+.review-description{
+font-size:12px;
+color:#94a3b8;
+line-height:1.7;
+margin-bottom:15px
+}
+
+.stars{
+display:flex;
+justify-content:center;
+gap:7px;
+direction:ltr;
+margin-bottom:16px
+}
+
+.star{
+border:0;
+background:none;
+font-size:38px;
+line-height:1;
+color:#475569;
+cursor:pointer;
+transition:.15s;
+padding:2px
+}
+
+.star:hover{
+transform:scale(1.1)
+}
+
+.star.selected{
+color:#fbbf24
+}
+
+.rating-text{
+font-size:12px;
+color:#fcd34d;
+min-height:18px;
+margin-bottom:12px
+}
+
+.review-textarea{
+width:100%;
+min-height:95px;
+resize:vertical;
+padding:13px;
+border-radius:12px;
+border:1px solid #263b54;
+background:#0b192b;
+color:#fff;
+font-family:inherit;
+font-size:13px;
+outline:none;
+margin-bottom:12px
+}
+
+.review-textarea:focus{
+border-color:#3b82f6
+}
+
+.review-submit{
+width:100%;
+padding:14px;
+border:0;
+border-radius:12px;
+background:#f59e0b;
+color:#111827;
+font-weight:bold;
+font-size:14px;
+cursor:pointer
+}
+
+.review-submit:disabled{
+opacity:.6;
+cursor:not-allowed
+}
+
+.review-success{
+display:none;
+margin-top:12px;
+padding:12px;
+border-radius:10px;
+background:rgba(34,197,94,.12);
+border:1px solid rgba(34,197,94,.25);
+color:#86efac;
+font-size:12px;
+line-height:1.7
+}
+
+.review-error{
+display:none;
+margin-top:12px;
+padding:12px;
+border-radius:10px;
+background:rgba(239,68,68,.12);
+border:1px solid rgba(239,68,68,.25);
+color:#fca5a5;
+font-size:12px;
+line-height:1.7
+}
+
 .home-link{
 display:block;
 text-align:center;
@@ -430,6 +552,10 @@ flex-direction:column
 
 .info-grid{
 grid-template-columns:1fr
+}
+
+.star{
+font-size:34px
 }
 
 }
@@ -494,8 +620,6 @@ class="result"
 >
 
 <div class="card">
-
-<!-- إشعار العميل -->
 
 <div
 id="notificationBox"
@@ -568,8 +692,6 @@ id="resultStatus"
 
 </div>
 
-<!-- زر واتساب للعميل -->
-
 <a
 id="whatsappCustomer"
 class="whatsapp-btn"
@@ -606,6 +728,67 @@ id="technicianName"
 >
 -
 </div>
+
+</div>
+
+<!-- تقييم الفني -->
+
+<div
+id="reviewBox"
+class="review-box"
+>
+
+<div class="review-title">
+قيّم تجربتك مع الفني
+</div>
+
+<div class="review-description">
+تم إكمال طلبك بنجاح. ساعدنا بتقييم الخدمة والفني الذي قام بالعمل.
+</div>
+
+<div
+id="stars"
+class="stars"
+>
+
+<button class="star" data-rating="1" type="button">★</button>
+<button class="star" data-rating="2" type="button">★</button>
+<button class="star" data-rating="3" type="button">★</button>
+<button class="star" data-rating="4" type="button">★</button>
+<button class="star" data-rating="5" type="button">★</button>
+
+</div>
+
+<div
+id="ratingText"
+class="rating-text"
+>
+اختر تقييمك
+</div>
+
+<textarea
+id="reviewComment"
+class="review-textarea"
+placeholder="اكتب تعليقك عن الخدمة (اختياري)"
+></textarea>
+
+<button
+id="submitReview"
+class="review-submit"
+type="button"
+>
+إرسال التقييم
+</button>
+
+<div
+id="reviewSuccess"
+class="review-success"
+></div>
+
+<div
+id="reviewError"
+class="review-error"
+></div>
 
 </div>
 
@@ -687,6 +870,10 @@ const statusList = [
 "مكتمل"
 ];
 
+let currentRequest = null;
+let currentTechnicianId = null;
+let selectedRating = 0;
+
 searchBtn.addEventListener(
 "click",
 searchRequest
@@ -703,6 +890,229 @@ searchRequest();
 }
 );
 
+/* اختيار النجوم */
+
+document
+.querySelectorAll(".star")
+.forEach(
+star => {
+
+star.addEventListener(
+"click",
+function(){
+
+selectedRating =
+Number(this.dataset.rating);
+
+updateStars();
+
+}
+);
+
+}
+);
+
+function updateStars(){
+
+document
+.querySelectorAll(".star")
+.forEach(
+star => {
+
+const rating =
+Number(star.dataset.rating);
+
+if(rating <= selectedRating){
+
+star.classList.add("selected");
+
+}else{
+
+star.classList.remove("selected");
+
+}
+
+}
+);
+
+const texts = {
+1:"سيئ",
+2:"يحتاج إلى تحسين",
+3:"جيد",
+4:"جيد جدًا",
+5:"ممتاز"
+};
+
+document.getElementById(
+"ratingText"
+).textContent =
+texts[selectedRating] || "اختر تقييمك";
+
+}
+
+/* إرسال التقييم */
+
+document
+.getElementById("submitReview")
+.addEventListener(
+"click",
+submitReview
+);
+
+async function submitReview(){
+
+const successBox =
+document.getElementById("reviewSuccess");
+
+const errorBox =
+document.getElementById("reviewError");
+
+successBox.style.display = "none";
+errorBox.style.display = "none";
+
+if(!currentRequest){
+
+return;
+
+}
+
+if(!currentTechnicianId){
+
+showReviewError(
+"لا يمكن إرسال التقييم لأن الفني غير محدد لهذا الطلب."
+);
+
+return;
+
+}
+
+if(selectedRating < 1){
+
+showReviewError(
+"اختر عدد النجوم أولاً."
+);
+
+return;
+
+}
+
+const submitButton =
+document.getElementById("submitReview");
+
+submitButton.disabled = true;
+submitButton.textContent =
+"جاري إرسال التقييم...";
+
+const comment =
+document
+.getElementById("reviewComment")
+.value
+.trim();
+
+try{
+
+const {
+error
+} = await client
+.from("technician_reviews")
+.insert({
+
+request_id:
+currentRequest.id,
+
+technician_id:
+currentTechnicianId,
+
+rating:
+selectedRating,
+
+comment:
+comment || null
+
+});
+
+if(error){
+
+console.error(error);
+
+if(
+error.code === "23505"
+){
+
+showReviewError(
+"تم تقييم هذا الطلب مسبقًا."
+);
+
+}else{
+
+showReviewError(
+"تعذر إرسال التقييم. حاول مرة أخرى."
+);
+
+}
+
+return;
+
+}
+
+successBox.textContent =
+"تم إرسال تقييمك بنجاح. شكرًا لمساعدتنا على تحسين الخدمة.";
+
+successBox.style.display =
+"block";
+
+document
+.getElementById("reviewComment")
+.disabled = true;
+
+document
+.querySelectorAll(".star")
+.forEach(
+star => star.disabled = true
+);
+
+submitButton.style.display =
+"none";
+
+}catch(error){
+
+console.error(error);
+
+showReviewError(
+"حدث خطأ أثناء إرسال التقييم."
+);
+
+}finally{
+
+submitButton.disabled = false;
+
+if(
+submitButton.style.display !== "none"
+){
+
+submitButton.textContent =
+"إرسال التقييم";
+
+}
+
+}
+
+}
+
+function showReviewError(text){
+
+const box =
+document.getElementById(
+"reviewError"
+);
+
+box.textContent = text;
+box.style.display = "block";
+
+}
+
+/* البحث */
+
 async function searchRequest(){
 
 const number =
@@ -713,6 +1123,8 @@ input.value
 hideMessage();
 
 result.style.display = "none";
+
+resetReview();
 
 if(!number){
 
@@ -851,6 +1263,10 @@ technicianName
 
 result.style.display = "block";
 
+currentRequest = request;
+currentTechnicianId =
+request.technician_id || null;
+
 /* إشعار العميل */
 
 const notificationBox =
@@ -921,7 +1337,7 @@ document.getElementById(
 ).textContent =
 request.location || "-";
 
-/* تجهيز رسالة واتساب */
+/* واتساب */
 
 const whatsappCustomer =
 document.getElementById(
@@ -960,6 +1376,8 @@ request.updated_at,
 request.completed_at
 );
 
+/* الفني */
+
 const technicianBox =
 document.getElementById(
 "technicianBox"
@@ -981,6 +1399,34 @@ technicianBox.style.display =
 "none";
 
 }
+
+/* التقييم */
+
+const reviewBox =
+document.getElementById(
+"reviewBox"
+);
+
+if(
+request.status === "مكتمل" &&
+request.technician_id
+){
+
+reviewBox.style.display =
+"block";
+
+checkExistingReview(
+request.id
+);
+
+}else{
+
+reviewBox.style.display =
+"none";
+
+}
+
+/* الملاحظات */
 
 const notes = [
 request.admin_notes,
@@ -1011,6 +1457,8 @@ notesBox.style.display =
 
 }
 
+/* الصورة */
+
 const imageLink =
 document.getElementById(
 "imageLink"
@@ -1039,6 +1487,171 @@ block:"start"
 });
 },
 100
+);
+
+}
+
+/* فحص هل تم تقييم الطلب */
+
+async function checkExistingReview(
+requestId
+){
+
+try{
+
+const {
+data,
+error
+} = await client
+.from("technician_reviews")
+.select("id,rating,comment")
+.eq("request_id",requestId)
+.maybeSingle();
+
+if(error){
+
+console.error(
+"Review check error:",
+error
+);
+
+return;
+
+}
+
+if(data){
+
+showAlreadyReviewed(
+data.rating
+);
+
+}
+
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+
+function showAlreadyReviewed(
+rating
+){
+
+const reviewBox =
+document.getElementById(
+"reviewBox"
+);
+
+reviewBox.style.display =
+"block";
+
+document.querySelector(
+".review-title"
+).textContent =
+"شكرًا لتقييمك";
+
+document.querySelector(
+".review-description"
+).textContent =
+"تم تسجيل تقييمك لهذا الطلب مسبقًا.";
+
+document.querySelector(
+"#submitReview"
+).style.display =
+"none";
+
+document.querySelector(
+"#reviewComment"
+).style.display =
+"none";
+
+selectedRating =
+rating;
+
+updateStars();
+
+document
+.querySelectorAll(".star")
+.forEach(
+star => star.disabled = true
+);
+
+document.getElementById(
+"ratingText"
+).textContent =
+"تقييمك: " + rating + " من 5";
+
+}
+
+function resetReview(){
+
+currentRequest = null;
+currentTechnicianId = null;
+selectedRating = 0;
+
+const reviewBox =
+document.getElementById(
+"reviewBox"
+);
+
+reviewBox.style.display =
+"none";
+
+document.getElementById(
+"reviewComment"
+).value = "";
+
+document.getElementById(
+"reviewComment"
+).disabled = false;
+
+document.getElementById(
+"reviewComment"
+).style.display =
+"block";
+
+document.getElementById(
+"submitReview"
+).style.display =
+"block";
+
+document.getElementById(
+"submitReview"
+).disabled = false;
+
+document.getElementById(
+"submitReview"
+).textContent =
+"إرسال التقييم";
+
+document.getElementById(
+"reviewSuccess"
+).style.display =
+"none";
+
+document.getElementById(
+"reviewError"
+).style.display =
+"none";
+
+document.querySelector(
+".review-title"
+).textContent =
+"قيّم تجربتك مع الفني";
+
+document.querySelector(
+".review-description"
+).textContent =
+"تم إكمال طلبك بنجاح. ساعدنا بتقييم الخدمة والفني الذي قام بالعمل.";
+
+updateStars();
+
+document
+.querySelectorAll(".star")
+.forEach(
+star => star.disabled = false
 );
 
 }
